@@ -1,0 +1,16 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# BIRD data (large, download separately)
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
