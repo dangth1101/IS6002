@@ -24,6 +24,10 @@ _Avoid_: hint, context, knowledge
 The share of Questions whose Predicted SQL returns the same result as the Ground-truth SQL when both are run.
 _Avoid_: accuracy, score
 
+**Subset**:
+The fixed list of dev Questions that the batch eval and the app's dev picker both use, so every run scores the same Questions.
+_Avoid_: sample, test set
+
 **Scored run**:
 Running a BIRD dev Question, which has Ground-truth SQL, so the result gets an EX verdict.
 
