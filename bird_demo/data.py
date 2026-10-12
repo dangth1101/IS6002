@@ -45,6 +45,12 @@ def load_subset() -> list[dict]:
     return read_json(SUBSET_PATH)
 
 
+def load_subset_questions() -> list[dict]:
+    """The Subset's dev.json records (text, Evidence, Ground-truth SQL), in subset.json order."""
+    dev = {q["question_id"]: q for q in load_dev()}
+    return [dev[entry["question_id"]] for entry in load_subset()]
+
+
 def load_revised() -> list[dict]:
     """BIRD's Nov 2025 revision of the same Questions. A filter for make_subset.py only."""
     return read_json(REVISED_DIR / "dev.json")

@@ -270,6 +270,7 @@ See [`mockup/`](mockup/) for the look. Where the mockup and this text disagree, 
 - Every click calls the LLM live (`complete`, no cache).
 - Tables show at most the first 1,000 rows with "showing 1,000 of N" when there are more, with column headers from the cursor.
 - An LLM call that fails after retries shows `st.error` with the message. No Verdict, nothing scored.
+- Run on "Type your own" with an empty Question shows a warning and calls nothing. (Run isn't disabled instead: Streamlit only commits a text box on blur, so the first click would be swallowed.)
 - No Failure cause anywhere in the app.
 
 Done when:

@@ -11,7 +11,7 @@ import csv
 
 from openai import OpenAIError
 
-from bird_demo.data import ROOT, db_path, load_dev, load_subset
+from bird_demo.data import ROOT, db_path, load_subset_questions
 from bird_demo.llm import cached_complete, default_model
 from bird_demo.prompt import build_prompt, extract_sql
 from bird_demo.scoring import Verdict, score
@@ -31,8 +31,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     models = args.model or [default_model()]
-    dev = {q["question_id"]: q for q in load_dev()}
-    questions = [dev[entry["question_id"]] for entry in load_subset()]
+    questions = load_subset_questions()
 
     total = len(models) * len(EVIDENCE_SETTINGS) * len(questions)
     runs: list[dict] = []
