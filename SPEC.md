@@ -46,6 +46,7 @@ bird_demo/
   prompt.py    build_prompt(), extract_sql()
   runner.py    read-only SQLite run, 30 s deadline
   scoring.py   Verdict + set-equality match
+  report.py    batch report tables + failures to label
 app.py                     Streamlit, thin
 scripts/make_subset.py     thin
 scripts/batch_eval.py      thin
@@ -333,7 +334,7 @@ Fixed paths under `results/`, overwritten every run, written with stdlib `csv`:
 
 - `results/runs.csv`: one row per run. Columns `question_id, db_id, difficulty, model, evidence, verdict, predicted_sql, error`.
 - `results/report.md`: the printed output above.
-- `results/failures_to_label.csv`: only the `openai/gpt-3.5-turbo` with-Evidence runs whose Verdict is Mismatch, SQL error or Timeout. Columns `question_id, question, evidence, ground_truth_sql, predicted_sql, verdict, failure_cause, note`, the last two empty. Only written when that model is in the run.
+- `results/failures_to_label.csv`: only the `openai/gpt-3.5-turbo` with-Evidence runs whose Verdict is Mismatch, SQL error or Timeout. Columns `question_id, question, evidence, ground_truth_sql, predicted_sql, verdict, failure_cause, note`, the last two empty. Only written when that model is in the run. Otherwise a leftover file from an earlier run is deleted, so `results/` never mixes two runs.
 - The script never reads or writes `results/labels.csv` (section 10).
 - The committed `results/` must come from one run with both models. Never merge older runs.
 
