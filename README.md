@@ -60,9 +60,12 @@ Needs [uv](https://docs.astral.sh/uv/). Python 3.12 is pinned.
 uv sync
 uv run pytest                            # no network, no data/ needed
 uv run python scripts/make_subset.py     # once; rewrites subset.json
+uv run python scripts/batch_eval.py --model openai/gpt-3.5-turbo --model openai/gpt-4.1
 ```
 
 `subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
+
+The batch runs every Subset Question with Evidence off and on for each `--model` (default `LLM_MODEL`) and writes one row per run to `results/runs.csv`. Replies are cached in `.cache/llm/`, so a rerun makes no LLM calls; `--no-cache` calls again.
 
 ## LLM connection
 
