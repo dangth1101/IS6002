@@ -1,4 +1,5 @@
-"""The demo screen. Pick a Subset Question (Scored run) and see its Verdict.
+"""The demo screen. Pick a Subset Question (Scored run) and see its Verdict, or
+type your own Question (Unscored run) and see its SQL and rows.
 
     uv run streamlit run app.py
 
@@ -10,13 +11,19 @@ See SPEC.md section 8; mockup/ shows the look.
 import streamlit as st
 from openai import OpenAIError
 
-from bird_demo.data import db_path, load_subset_questions
+from bird_demo.data import DB_IDS, db_path, load_subset_questions
 from bird_demo.llm import MAX_TOKENS, Reply, complete, default_model
 from bird_demo.prompt import build_prompt, extract_sql
-from bird_demo.runner import Rows, SqlError, Timeout
+from bird_demo.runner import RunResult, Rows, SqlError, Timeout, run
 from bird_demo.scoring import ScoredRun, Verdict, score
 
 MAX_ROWS_SHOWN = 1_000
+
+# What a typed Evidence line looks like for each database.
+EVIDENCE_PLACEHOLDERS = {
+    "superhero": "tall refers to height_cm > 200",
+    "toxicology": "carcinogenic refers to label = '+'",
+}
 
 # The banner's one-line reason when scoring gave no note. SQL error and
 # Timeout always come with one (SQLite's message, the deadline).
@@ -55,14 +62,15 @@ def show_rows(result: Rows) -> None:
     st.dataframe({n: [row[i] for row in shown] for i, n in enumerate(names)}, hide_index=True)
 
 
-def show_predicted(scored: ScoredRun, predicted_sql: str | None, reply: Reply) -> None:
+def show_predicted(predicted_sql: str | None, reply: Reply, result: RunResult | None) -> None:
+    """The Predicted SQL and its rows or error, or the raw reply when there was no SQL to run."""
     st.subheader("Predicted SQL")
     if predicted_sql is None:
-        st.caption("Raw reply (no SQL found)")
+        st.caption("No SQL found in the reply")
         st.code(reply.text, language=None, wrap_lines=True)
         return
     st.code(predicted_sql, language="sql", wrap_lines=True)
-    match scored.predicted:
+    match result:
         case SqlError(message=message):
             st.caption(f"Error: {message}")
         case Timeout(timeout_s=timeout_s):
@@ -81,13 +89,25 @@ def show_banner(scored: ScoredRun, reply: Reply) -> None:
     banner(f"**EX = {int(is_match)} · {scored.verdict}**  \n{reason}")
 
 
-def scored_run(q: dict, use_evidence: bool, model: str) -> None:
-    prompt = build_prompt(q["db_id"], q["question"], q["evidence"] if use_evidence else None)
+def show_prompt(prompt: str) -> None:
+    with st.expander("Prompt sent to the LLM"):
+        st.code(prompt, language=None, wrap_lines=True)
+
+
+def ask_llm(prompt: str, model: str) -> Reply | None:
+    """One live LLM call. None (after showing the error) when it still fails after retries."""
     try:
         with st.spinner(f"Asking {model}…"):
-            reply = complete(prompt, model)
+            return complete(prompt, model)
     except OpenAIError as e:
-        st.error(f"The LLM call failed after retries, so nothing was scored.  \n{e}")
+        st.error(f"The LLM call failed after retries, so nothing was run.  \n{e}")
+        return None
+
+
+def scored_run(q: dict, use_evidence: bool, model: str) -> None:
+    prompt = build_prompt(q["db_id"], q["question"], q["evidence"] if use_evidence else None)
+    reply = ask_llm(prompt, model)
+    if reply is None:
         return
     predicted_sql = extract_sql(reply)
     with st.spinner("Running both SQLs…"):
@@ -98,16 +118,31 @@ def scored_run(q: dict, use_evidence: bool, model: str) -> None:
         left, right, _ = st.columns([1, 1, 2])
         left.metric("Rows only in Predicted", scored.only_in_predicted)
         right.metric("Rows only in Ground-truth", scored.only_in_ground_truth)
-    with st.expander("Prompt sent to the LLM"):
-        st.code(prompt, language=None, wrap_lines=True)
+    show_prompt(prompt)
 
     left, right = st.columns(2)
     with left:
-        show_predicted(scored, predicted_sql, reply)
+        show_predicted(predicted_sql, reply, scored.predicted)
     with right:
         st.subheader("Ground-truth SQL")
         st.code(q["SQL"], language="sql", wrap_lines=True)
         show_rows(scored.ground_truth)
+
+
+def unscored_run(db_id: str, question: str, evidence: str | None, model: str) -> None:
+    prompt = build_prompt(db_id, question, evidence)
+    reply = ask_llm(prompt, model)
+    if reply is None:
+        return
+    predicted_sql = extract_sql(reply)
+    result = None
+    if predicted_sql is not None:
+        with st.spinner("Running the Predicted SQL…"):
+            result = run(db_path(db_id), predicted_sql)
+
+    st.info("No Ground-truth SQL, so no EX verdict.")
+    show_prompt(prompt)
+    show_predicted(predicted_sql, reply, result)
 
 
 def main() -> None:
@@ -127,11 +162,19 @@ def main() -> None:
         st.caption(f"Evidence: {q['evidence']}")
         use_evidence = st.toggle("Use Evidence", value=True)
     with tab_type:
-        st.info("Typing your own Question isn't built yet.")
+        db_id = st.selectbox("Database", DB_IDS)
+        question = st.text_area("Question", height=80).strip()
+        evidence = st.text_input("Evidence (optional)", placeholder=EVIDENCE_PLACEHOLDERS[db_id]).strip()
 
-    if st.button("Run", type="primary", disabled=bool(tab_type.open)):
+    # Output belongs to the rerun the Run click started, so switching tabs clears it.
+    if st.button("Run", type="primary"):
         st.divider()
-        scored_run(q, use_evidence, model)
+        if not tab_type.open:
+            scored_run(q, use_evidence, model)
+        elif not question:
+            st.warning("Type a Question first.")
+        else:
+            unscored_run(db_id, question, evidence or None, model)
 
 
 try:
