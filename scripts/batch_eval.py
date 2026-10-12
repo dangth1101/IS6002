@@ -26,7 +26,7 @@ RUNS_COLUMNS = ["question_id", "db_id", "difficulty", "model", "evidence", "verd
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0] if __doc__ else None)
     parser.add_argument("--model", action="append", help="model id, repeatable (default: LLM_MODEL)")
     parser.add_argument("--no-cache", action="store_true", help="call the LLM again and overwrite cached replies")
     return parser.parse_args()
