@@ -195,7 +195,7 @@ Decided in: [What prompt the demo sends](https://github.com/dangth1101/IS6002/is
 
 One runner for the Predicted SQL, the Ground-truth SQL, the app and the batch.
 
-- Open with `sqlite3.connect(f"file:{path}?mode=ro", uri=True)`. Read-only is the safety line: BIRD's official script opens read-write, so a Predicted `DROP TABLE` would stick.
+- Open with `sqlite3.connect(Path(path).resolve().as_uri() + "?mode=ro", uri=True)` (same as `f"file:{path}?mode=ro"`, but escapes spaces and `?` in the path). Read-only is the safety line: BIRD's official script opens read-write, so a Predicted `DROP TABLE` would stick.
 - One statement only. `cursor.execute` already rejects more than one, and that comes back as an SQL error.
 - `TIMEOUT_S = 30`, one constant, applied to each query on its own. The runner takes it as a parameter, `run(db_path, sql, timeout_s=TIMEOUT_S)`, so tests can pass a short one.
 - The deadline covers `execute` and `fetchall` together. SQLite does most of its work while rows are fetched.

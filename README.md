@@ -52,6 +52,18 @@ Notes:
 - The description CSVs start with a BOM and have multi-line values. Read them with a CSV parser and `encoding="utf-8-sig"`.
 - Data license: CC BY-SA 4.0.
 
+## Set up and run
+
+Needs [uv](https://docs.astral.sh/uv/). Python 3.12 is pinned.
+
+```sh
+uv sync
+uv run pytest                            # no network, no data/ needed
+uv run python scripts/make_subset.py     # once; rewrites subset.json
+```
+
+`subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
+
 ## LLM connection
 
 Copy `.env.example` to `.env` and fill in `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`.

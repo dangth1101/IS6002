@@ -1,0 +1,252 @@
+[
+  {
+    "question_id": 717,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 720,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 725,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 732,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 733,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 746,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 754,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 755,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 784,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 788,
+    "db_id": "superhero",
+    "difficulty": "challenging"
+  },
+  {
+    "question_id": 791,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 796,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 797,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 799,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 807,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 809,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 816,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 820,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 823,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 824,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 827,
+    "db_id": "superhero",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 829,
+    "db_id": "superhero",
+    "difficulty": "challenging"
+  },
+  {
+    "question_id": 831,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 839,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 844,
+    "db_id": "superhero",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 201,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 210,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 217,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 219,
+    "db_id": "toxicology",
+    "difficulty": "challenging"
+  },
+  {
+    "question_id": 221,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 222,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 232,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 233,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 235,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 238,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 242,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 243,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 247,
+    "db_id": "toxicology",
+    "difficulty": "challenging"
+  },
+  {
+    "question_id": 254,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 261,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 266,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 267,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 269,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 279,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 283,
+    "db_id": "toxicology",
+    "difficulty": "moderate"
+  },
+  {
+    "question_id": 293,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 297,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 305,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 312,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  },
+  {
+    "question_id": 324,
+    "db_id": "toxicology",
+    "difficulty": "simple"
+  }
+]
