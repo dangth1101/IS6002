@@ -7,7 +7,8 @@ from bird_demo.llm import Reply
 
 # A fence left open (the model just stopped) runs to the end of the reply.
 FENCE = re.compile(r"```[^\n]*\n(.*?)(?:```|\Z)", re.DOTALL)
-STARTS_LIKE_SQL = re.compile(r"(SELECT|WITH)\b", re.IGNORECASE)
+# Leading SQL comments are skipped: models often write their step-by-step notes as comments.
+STARTS_LIKE_SQL = re.compile(r"(?:\s*(?:--[^\n]*|/\*.*?\*/))*\s*(SELECT|WITH)\b", re.IGNORECASE | re.DOTALL)
 
 # Copied from BIRD's code, typo "understading" and the trailing space included.
 # Left out on purpose: the final "SELECT " line, which primed a completions model.

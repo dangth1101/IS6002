@@ -179,7 +179,7 @@ Nothing else: no sample rows, no column descriptions, no format instruction.
 2. If the reply has fenced code blocks, take the **last** one, whatever its language tag (```` ```sql ````, ```` ```SQLite ````, bare ```` ``` ````).
 3. Otherwise take the whole reply.
 4. Trim whitespace and one trailing `;`.
-5. If it doesn't start with `SELECT` or `WITH` (case-insensitive), return `None`.
+5. If it doesn't start with `SELECT` or `WITH` (case-insensitive) after any leading `--` or `/* */` comments, return `None`. Models often write their step-by-step notes as SQL comments before the query.
 
 `None` means the Verdict "No SQL in reply". This check catches bad extraction. It isn't a security measure; the read-only connection is.
 
@@ -360,7 +360,7 @@ Decided in: [Does the demo label why a run failed](https://github.com/dangth1101
 
 pytest, under `tests/`. Temp or in-memory SQLite only, `complete` stubbed, never touches `data/`, no live LLM calls, no app tests.
 
-- `extract_sql`: last fence wins; bare fence; fence tagged `SQLite`; no fence; trailing `;` trimmed; lowercase `select` accepted; prose returns `None`; `finish_reason == "length"` returns `None`.
+- `extract_sql`: last fence wins; bare fence; fence tagged `SQLite`; no fence; trailing `;` trimmed; lowercase `select` accepted; leading SQL comments accepted; prose returns `None`; `finish_reason == "length"` returns `None`.
 - `build_prompt`: snapshot of both templates against a tiny two-table schema, typo and trailing space included.
 - scoring: set equality; row order ignored; duplicates ignored; different column count is Mismatch with the note; `1` vs `'1'` is Mismatch.
 - runner: a write (`DELETE`) on the read-only connection is an SQL error; a recursive CTE that never ends is a Timeout (pass `timeout_s=0.5`); two statements is an SQL error, not a crash.

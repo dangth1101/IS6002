@@ -35,6 +35,12 @@ def test_prose_without_sql_is_no_sql():
     assert extract_sql(reply("I can't answer that from these tables.")) is None
 
 
+def test_sql_that_opens_with_comments_is_accepted():
+    text = "-- Step 1: find the hero\n/* then count */\nSELECT count(*) FROM hero"
+
+    assert extract_sql(reply(text)) == text
+
+
 def test_cut_off_reply_is_no_sql_even_if_it_looks_like_sql():
     assert extract_sql(reply("SELECT name FROM hero WHERE height_cm >", finish_reason="length")) is None
 
