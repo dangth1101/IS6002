@@ -12,5 +12,8 @@ __pycache__/
 .venv/
 .streamlit/secrets.toml
 
+# LLM reply cache
+.cache/
+
 # OS
 .DS_Store

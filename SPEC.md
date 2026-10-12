@@ -179,7 +179,7 @@ Nothing else: no sample rows, no column descriptions, no format instruction.
 2. If the reply has fenced code blocks, take the **last** one, whatever its language tag (```` ```sql ````, ```` ```SQLite ````, bare ```` ``` ````).
 3. Otherwise take the whole reply.
 4. Trim whitespace and one trailing `;`.
-5. If it doesn't start with `SELECT` or `WITH` (case-insensitive), return `None`.
+5. If it doesn't start with `SELECT` or `WITH` (case-insensitive) after any leading `--` or `/* */` comments, return `None`. Models often write their step-by-step notes as SQL comments before the query.
 
 `None` means the Verdict "No SQL in reply". This check catches bad extraction. It isn't a security measure; the read-only connection is.
 
@@ -195,7 +195,7 @@ Decided in: [What prompt the demo sends](https://github.com/dangth1101/IS6002/is
 
 One runner for the Predicted SQL, the Ground-truth SQL, the app and the batch.
 
-- Open with `sqlite3.connect(f"file:{path}?mode=ro", uri=True)`. Read-only is the safety line: BIRD's official script opens read-write, so a Predicted `DROP TABLE` would stick.
+- Open with `sqlite3.connect(Path(path).resolve().as_uri() + "?mode=ro", uri=True)` (same as `f"file:{path}?mode=ro"`, but escapes spaces and `?` in the path). Read-only is the safety line: BIRD's official script opens read-write, so a Predicted `DROP TABLE` would stick.
 - One statement only. `cursor.execute` already rejects more than one, and that comes back as an SQL error.
 - `TIMEOUT_S = 30`, one constant, applied to each query on its own. The runner takes it as a parameter, `run(db_path, sql, timeout_s=TIMEOUT_S)`, so tests can pass a short one.
 - The deadline covers `execute` and `fetchall` together. SQLite does most of its work while rows are fetched.
@@ -360,7 +360,7 @@ Decided in: [Does the demo label why a run failed](https://github.com/dangth1101
 
 pytest, under `tests/`. Temp or in-memory SQLite only, `complete` stubbed, never touches `data/`, no live LLM calls, no app tests.
 
-- `extract_sql`: last fence wins; bare fence; fence tagged `SQLite`; no fence; trailing `;` trimmed; lowercase `select` accepted; prose returns `None`; `finish_reason == "length"` returns `None`.
+- `extract_sql`: last fence wins; bare fence; fence tagged `SQLite`; no fence; trailing `;` trimmed; lowercase `select` accepted; leading SQL comments accepted; prose returns `None`; `finish_reason == "length"` returns `None`.
 - `build_prompt`: snapshot of both templates against a tiny two-table schema, typo and trailing space included.
 - scoring: set equality; row order ignored; duplicates ignored; different column count is Mismatch with the note; `1` vs `'1'` is Mismatch.
 - runner: a write (`DELETE`) on the read-only connection is an SQL error; a recursive CTE that never ends is a Timeout (pass `timeout_s=0.5`); two statements is an SQL error, not a crash.

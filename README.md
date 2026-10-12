@@ -52,6 +52,21 @@ Notes:
 - The description CSVs start with a BOM and have multi-line values. Read them with a CSV parser and `encoding="utf-8-sig"`.
 - Data license: CC BY-SA 4.0.
 
+## Set up and run
+
+Needs [uv](https://docs.astral.sh/uv/). Python 3.12 is pinned.
+
+```sh
+uv sync
+uv run pytest                            # no network, no data/ needed
+uv run python scripts/make_subset.py     # once; rewrites subset.json
+uv run python scripts/batch_eval.py --model openai/gpt-3.5-turbo --model openai/gpt-4.1
+```
+
+`subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
+
+The batch runs every Subset Question with Evidence off and on for each `--model` (default `LLM_MODEL`) and writes one row per run to `results/runs.csv`. Replies are cached in `.cache/llm/`, so a rerun makes no LLM calls; `--no-cache` calls again.
+
 ## LLM connection
 
 Copy `.env.example` to `.env` and fill in `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`.
