@@ -69,7 +69,7 @@ The app lets you pick a Subset Question, asks the LLM live on every Run, and sho
 
 `subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
 
-The batch runs every Subset Question with Evidence off and on for each `--model` (default `LLM_MODEL`) and writes one row per run to `results/runs.csv`. Replies are cached in `.cache/llm/`, so a rerun makes no LLM calls; `--no-cache` calls again.
+The batch runs every Subset Question with Evidence off and on for each `--model` (default `LLM_MODEL`). It writes one row per run to `results/runs.csv`, prints the report next to the paper's numbers and saves it as `results/report.md`. With `openai/gpt-3.5-turbo` in the run it also writes `results/failures_to_label.csv` for labelling by hand (SPEC.md section 10). Replies are cached in `.cache/llm/`, so a rerun makes no LLM calls; `--no-cache` calls again.
 
 ## LLM connection
 

@@ -46,6 +46,7 @@ bird_demo/
   prompt.py    build_prompt(), extract_sql()
   runner.py    read-only SQLite run, 30 s deadline
   scoring.py   Verdict + set-equality match
+  report.py    batch report tables + failures to label
 app.py                     Streamlit, thin
 scripts/make_subset.py     thin
 scripts/batch_eval.py      thin
@@ -333,7 +334,7 @@ Fixed paths under `results/`, overwritten every run, written with stdlib `csv`:
 
 - `results/runs.csv`: one row per run. Columns `question_id, db_id, difficulty, model, evidence, verdict, predicted_sql, error`.
 - `results/report.md`: the printed output above.
-- `results/failures_to_label.csv`: only the `openai/gpt-3.5-turbo` with-Evidence runs whose Verdict is Mismatch, SQL error or Timeout. Columns `question_id, question, evidence, ground_truth_sql, predicted_sql, verdict, failure_cause, note`, the last two empty. Only written when that model is in the run.
+- `results/failures_to_label.csv`: only the `openai/gpt-3.5-turbo` with-Evidence runs whose Verdict is Mismatch, SQL error or Timeout. Columns `question_id, question, evidence, ground_truth_sql, predicted_sql, verdict, failure_cause, note`, the last two empty. Only written when that model is in the run. Otherwise a leftover file from an earlier run is deleted, so `results/` never mixes two runs.
 - The script never reads or writes `results/labels.csv` (section 10).
 - The committed `results/` must come from one run with both models. Never merge older runs.
 
@@ -366,6 +367,7 @@ pytest, under `tests/`. Temp or in-memory SQLite only, `complete` stubbed, never
 - scoring: set equality; row order ignored; duplicates ignored; different column count is Mismatch with the note; `1` vs `'1'` is Mismatch.
 - runner: a write (`DELETE`) on the read-only connection is an SQL error; a recursive CTE that never ends is a Timeout (pass `timeout_s=0.5`); two statements is an SQL error, not a crash.
 - `cached_complete`: the second call with the same arguments doesn't call the stub; `refresh=True` calls it again and rewrites the file.
+- report: Table A next to the paper, gpt-4.1 as a loose reference and other models with no paper row, only the models passed, Table B by difficulty with the paper column only on gpt-3.5-turbo, the Verdict table, the caveat header first, and the failures to label.
 
 Done when:
 
