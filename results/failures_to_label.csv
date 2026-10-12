@@ -1,0 +1,115 @@
+question_id,question,evidence,ground_truth_sql,predicted_sql,verdict,failure_cause,note
+720,Please list the full names of all the superheroes with over 15 super powers.,15 super powers refers to COUNT(full_name) > 15,SELECT DISTINCT T1.full_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id GROUP BY T1.full_name HAVING COUNT(T2.power_id) > 15,"SELECT superhero.full_name
+FROM superhero
+JOIN hero_power ON superhero.id = hero_power.hero_id
+GROUP BY superhero.id
+HAVING COUNT(hero_power.power_id) > 15",Mismatch,,
+788,How many percent of female heroes were published by Marvel Comics?,"percent = MULTIPLY(DIVIDE(SUM(gender = 'Female' WHERE publisher_name = 'Marvel Comics'), COUNT(publisher_name = 'Marvel Comics')), 100); female heroes refers to gender = 'Female'; Marvel Comics refers to publisher_name = 'Marvel Comics';",SELECT CAST(COUNT(CASE WHEN T2.publisher_name = 'Marvel Comics' THEN 1 ELSE NULL END) AS REAL) * 100 / COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN gender AS T3 ON T1.gender_id = T3.id WHERE T3.gender = 'Female',"SELECT 
+    (COUNT(DISTINCT superhero.id) * 100) / 
+    (SELECT COUNT(DISTINCT superhero.id) 
+     FROM superhero 
+     JOIN gender ON superhero.gender_id = gender.id 
+     JOIN publisher ON superhero.publisher_id = publisher.id 
+     WHERE gender.gender = 'Female' AND publisher.publisher_name = 'Marvel Comics') AS percent_female_heroes_published_by_marvel_comics
+FROM superhero
+JOIN gender ON superhero.gender_id = gender.id
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE gender.gender = 'Female' AND publisher.publisher_name = 'Marvel Comics'",Mismatch,,
+791,Calculate the average height for each superhero.,"average = DIVIDE(SUM(height_cm), COUNT(all heros));",SELECT CAST(SUM(height_cm) AS REAL) / COUNT(id) FROM superhero,"SELECT superhero.superhero_name, AVG(superhero.height_cm) AS average_height
+FROM superhero
+GROUP BY superhero.superhero_name",Mismatch,,
+799,How many superheroes didn't have any publisher?,didn't have any publisher refers to publisher.id = 1;,SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id WHERE T2.id = 1,"SELECT COUNT(*) 
+FROM superhero 
+WHERE publisher_id IS NULL",Mismatch,,
+829,Which publisher created more superheroes: DC or Marvel Comics? Find the difference in the number of superheroes.,"DC refers to publisher_name = 'DC Comics'; Marvel Comics refers to publisher_name = 'Marvel Comics'; difference = SUBTRACT(SUM(publisher_name = 'DC Comics'), SUM(publisher_name = 'Marvel Comics'));",SELECT SUM(CASE WHEN T2.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - SUM(CASE WHEN T2.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id,"SELECT
+    publisher_name,
+    COUNT(*) AS total_superheroes
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+GROUP BY publisher_name",Mismatch,,
+839,"In superheroes with weight less than 100, list the full name of the superheroes with brown eyes.",weight less than 100 refers to weight_kg < 100,SELECT T1.full_name FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T1.weight_kg < 100 AND T2.colour = 'Brown',"SELECT s.full_name
+FROM superhero s
+JOIN colour ec ON s.eye_colour_id = ec.id
+WHERE s.weight_kg < 100
+AND ec.colour = 'brown'",Mismatch,,
+201,What is the percentage of carbon in double-bond molecules?,"carbon refers to element = 'c'; double-bond molecules refers to bond_type = '='; percentage = DIVIDE(SUM(element = 'c'), COUNT(atom_id))",SELECT CAST(COUNT(DISTINCT CASE WHEN T1.element = 'c' THEN T1.atom_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T1.atom_id) FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '=',"SELECT 
+    DIVIDE(SUM(CASE WHEN a.element = 'c' THEN 1 ELSE 0 END), COUNT(a.atom_id)) AS percentage
+FROM 
+    atom a
+JOIN 
+    bond b ON a.molecule_id = b.molecule_id
+WHERE 
+    b.bond_type = '='",SQL error,,
+217,Identify all the atoms that are connected to the atoms of the TR181 molecule.,TR181 molecule refers to molecule_id = 'TR181',"SELECT T2.atom_id, T2.atom_id2 FROM atom AS T1 INNER JOIN connected AS T2 ON T2.atom_id = T1.atom_id WHERE T1.molecule_id = 'TR181'","SELECT DISTINCT c.atom_id
+FROM connected c
+JOIN atom a ON c.atom_id2 = a.atom_id
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE m.molecule_id = 'TR181'",Mismatch,,
+219,What is the percentage of carcinogenic molecules in triple type bonds?,"label = '+' mean molecules are carcinogenic; triple bond refers to bond_type = '#'; percentage = DIVIDE(SUM(bond_type = '#') * 100, COUNT(bond_id)) as percent where label = '+'",SELECT CAST(COUNT(DISTINCT CASE WHEN T2.label = '+' THEN T2.molecule_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T2.molecule_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_type = '#',"SELECT DIVIDE(SUM(CASE WHEN m.label = '+' THEN 1 ELSE 0 END) * 100, COUNT(b.bond_id)) as percent
+FROM bond b
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE b.bond_type = '#'",SQL error,,
+221,What are the atoms that are bonded in the molecule TR001 with the bond ID of TR001_2_6?,TR001 is the molecule id; TR001_2_6 is the bond id,"SELECT SUBSTR(T.bond_id, 1, 7) AS atom_id1 , T.molecule_id || SUBSTR(T.bond_id, 8, 2) AS atom_id2 FROM bond AS T WHERE T.molecule_id = 'TR001' AND T.bond_id = 'TR001_2_6'","SELECT a1.atom_id, a2.atom_id
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE m.molecule_id = 'TR001' AND b.bond_id = 'TR001_2_6'",Mismatch,,
+222,What is the difference between the number of molecules that are carcinogenic and those that are not?,"label = '+' means molecules are carcinogenic; label = '-' means molecules are non-carcinogenic; difference = SUBTRACT(SUM(label = '+'), SUM(label = '-'))",SELECT COUNT(CASE WHEN T.label = '+' THEN T.molecule_id ELSE NULL END) - COUNT(CASE WHEN T.label = '-' THEN T.molecule_id ELSE NULL END) AS diff_car_notcar FROM molecule t,"SELECT 
+    SUM(CASE WHEN label = '+' THEN 1 ELSE 0 END) AS carcinogenic_count,
+    SUM(CASE WHEN label = '-' THEN 1 ELSE 0 END) AS non_carcinogenic_count,
+    SUM(CASE WHEN label = '+' THEN 1 ELSE -1 END) AS difference
+FROM molecule",Mismatch,,
+232,Please list top three molecules that have single bonds between two atoms and are not carcinogenic in alphabetical order.,label = '-' means molecules are not carcinogenic; single type bond refers to bond_type = '-'; list top three molecules refers to return molecule_id and order by molecule_id;,SELECT DISTINCT T2.molecule_id FROM bond AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.bond_type = '-' AND T2.label = '-' ORDER BY T2.molecule_id LIMIT 3,"SELECT molecule_id
+FROM molecule
+WHERE molecule_id IN (
+    SELECT DISTINCT m1.molecule_id
+    FROM connected c
+    JOIN bond b ON c.bond_id = b.bond_id
+    JOIN molecule m1 ON b.molecule_id = m1.molecule_id
+    JOIN molecule m2 ON c.atom_id = m2.molecule_id
+    JOIN molecule m3 ON c.atom_id2 = m3.molecule_id
+    WHERE b.bond_type = '-' AND m1.label = '-'
+)
+ORDER BY molecule_id
+LIMIT 3",Mismatch,,
+243,What are the bonds that have phosphorus and nitrogen as their atom elements?,have phosphorus as atom elements refers to element = 'p'; have nitrogen as atom elements refers to element = 'n',SELECT T2.bond_id FROM atom AS T1 INNER JOIN connected AS T2 ON T1.atom_id = T2.atom_id WHERE T2.bond_id IN ( SELECT T3.bond_id FROM connected AS T3 INNER JOIN atom AS T4 ON T3.atom_id = T4.atom_id WHERE T4.element = 'p' ) AND T1.element = 'n',"SELECT b.*
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE (a1.element = 'p' OR a2.element = 'p')
+AND (a1.element = 'n' OR a2.element = 'n')",Mismatch,,
+247,List all the elements of atoms that can not bond with any other atoms., atoms cannot bond with other atoms means atom_id NOT in connected table;,SELECT DISTINCT T.element FROM atom AS T WHERE T.element NOT IN ( SELECT DISTINCT T1.element FROM atom AS T1 INNER JOIN connected AS T2 ON T1.atom_id = T2.atom_id ),"SELECT DISTINCT element
+FROM atom
+WHERE atom_id NOT IN (SELECT atom_id FROM connected)",Mismatch,,
+254,What percentage of bonds have the most common combination of atoms' elements?,"DIVIDE(COUNT(bond_id), COUNT(atom_id where MAX(COUNT(atom_id)) ))",SELECT CAST((SELECT COUNT(T1.atom_id) FROM connected AS T1 INNER JOIN bond AS T2 ON T1.bond_id = T2.bond_id GROUP BY T2.bond_type ORDER BY COUNT(T2.bond_id) DESC LIMIT 1 ) AS REAL) * 100 / ( SELECT COUNT(atom_id) FROM connected ),"SELECT 
+    (COUNT(b.bond_id) * 100.0) / 
+    (SELECT COUNT(a.atom_id) 
+     FROM atom a 
+     WHERE a.element = (
+         SELECT a2.element 
+         FROM atom a2 
+         GROUP BY a2.element 
+         ORDER BY COUNT(a2.atom_id) DESC 
+         LIMIT 1
+     )
+    ) AS percentage
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a ON c.atom_id = a.atom_id
+WHERE a.element = (
+    SELECT a2.element 
+    FROM atom a2 
+    GROUP BY a2.element 
+    ORDER BY COUNT(a2.atom_id) DESC 
+    LIMIT 1
+)",Mismatch,,
+267,List down the bond type for molecules from molecule id TR000 to TR050.,double bond refers to bond_type = ' = '; single bond refers to bond_type = '-'; triple bond refers to bond_type = '#';,"SELECT T2.molecule_id, T2.bond_type FROM molecule AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.molecule_id BETWEEN 'TR000' AND 'TR050'","SELECT bond_type
+FROM bond
+WHERE molecule_id IN (SELECT molecule_id FROM molecule WHERE molecule_id BETWEEN 'TR000' AND 'TR050')",Mismatch,,
+324,Find the percentage of atoms with single bond.,"single bond refers to bond_type = '-'; percentage = DIVIDE(SUM(bond_type = '-'), COUNT(bond_id)) as percentage",SELECT CAST(COUNT(CASE WHEN T.bond_type = '-' THEN T.bond_id ELSE NULL END) AS REAL) * 100 / COUNT(T.bond_id) FROM bond t,"SELECT (COUNT(DISTINCT a.atom_id) * 100.0 / (SELECT COUNT(DISTINCT a2.atom_id) FROM atom a2 INNER JOIN bond b ON a2.molecule_id = b.molecule_id WHERE b.bond_type = '-')) AS percentage
+FROM atom a
+INNER JOIN bond b ON a.molecule_id = b.molecule_id
+WHERE b.bond_type = '-'",Mismatch,,

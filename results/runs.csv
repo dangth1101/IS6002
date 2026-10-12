@@ -1,0 +1,1261 @@
+question_id,db_id,difficulty,model,evidence,verdict,predicted_sql,error
+717,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT sp.power_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE s.superhero_name = '3-D Man'",
+720,superhero,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT superhero.full_name
+FROM superhero
+JOIN hero_power ON superhero.id = hero_power.hero_id
+GROUP BY superhero.id
+HAVING COUNT(hero_power.power_id) > 15",
+725,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT COUNT(*) 
+FROM superhero 
+WHERE publisher_id = (SELECT id FROM publisher WHERE publisher_name = 'Marvel Comics')",
+732,superhero,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE superhero.id = (
+    SELECT id
+    FROM superhero
+    ORDER BY weight_kg DESC
+    LIMIT 1
+)",
+733,superhero,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(*) 
+FROM superhero 
+JOIN colour ON superhero.eye_colour_id = colour.id 
+JOIN publisher ON superhero.publisher_id = publisher.id 
+WHERE colour.colour = 'gold' 
+AND publisher.publisher_name = 'Marvel Comics'",
+746,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT AVG(attribute_value) AS average_attribute_value
+FROM hero_attribute",
+754,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT sp.power_name
+FROM superpower sp
+JOIN hero_power hp ON sp.id = hp.power_id
+WHERE hp.hero_id = 56",
+755,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT superhero.full_name
+FROM superhero
+JOIN race ON superhero.race_id = race.id
+WHERE race.race = 'Demi-God'",
+784,superhero,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT full_name
+FROM superhero
+WHERE id IN (SELECT hero_id
+             FROM hero_attribute
+             WHERE attribute_id = (SELECT id
+                                   FROM attribute
+                                   WHERE attribute_name = 'vampire'))",
+788,superhero,challenging,openai/gpt-3.5-turbo,off,Mismatch,"SELECT 
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM superhero WHERE gender_id = (SELECT id FROM gender WHERE gender = 'Female')) AS percentage_female_heroes_published_by_marvel
+FROM superhero
+WHERE gender_id = (SELECT id FROM gender WHERE gender = 'Female') 
+AND publisher_id = (SELECT id FROM publisher WHERE publisher_name = 'Marvel Comics')",
+791,superhero,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT superhero.superhero_name, AVG(superhero.height_cm) AS average_height
+FROM superhero
+GROUP BY superhero.superhero_name",
+796,superhero,moderate,openai/gpt-3.5-turbo,off,Match,"SELECT attribute.attribute_name, hero_attribute.attribute_value
+FROM superhero
+JOIN hero_attribute ON superhero.id = hero_attribute.hero_id
+JOIN attribute ON hero_attribute.attribute_id = attribute.id
+WHERE superhero.superhero_name = '3-D Man'",
+797,superhero,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT superhero_name
+FROM superhero
+WHERE eye_colour_id = (SELECT id FROM colour WHERE colour = 'blue')
+AND hair_colour_id = (SELECT id FROM colour WHERE colour = 'brown')",
+799,superhero,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(*) 
+FROM superhero 
+WHERE publisher_id IS NULL",
+807,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT sp.power_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE s.full_name = 'Helen Parr'",
+809,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE superhero.id = 38",
+816,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT superhero.superhero_name
+FROM superhero
+JOIN hero_attribute ON superhero.id = hero_attribute.hero_id
+WHERE hero_attribute.attribute_value BETWEEN 75 AND 80",
+820,superhero,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT superhero.superhero_name, hero_attribute.attribute_value
+FROM superhero
+JOIN hero_attribute ON superhero.id = hero_attribute.hero_id
+JOIN attribute ON hero_attribute.attribute_id = attribute.id
+WHERE superhero.superhero_name = 'Hulk'
+AND attribute.attribute_name = 'Strength'",
+823,superhero,moderate,openai/gpt-3.5-turbo,off,Match,"SELECT COUNT(*) 
+FROM superhero 
+WHERE gender_id = (SELECT id FROM gender WHERE gender = 'Female') 
+AND publisher_id = (SELECT id FROM publisher WHERE publisher_name = 'Marvel Comics')",
+824,superhero,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT superhero.superhero_name
+FROM superhero
+JOIN hero_power ON superhero.id = hero_power.hero_id
+JOIN superpower ON hero_power.power_id = superpower.id
+WHERE superpower.power_name = 'control wind'
+ORDER BY superhero.superhero_name ASC",
+827,superhero,moderate,openai/gpt-3.5-turbo,off,Match,"SELECT AVG(height_cm)
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+JOIN race ON superhero.race_id = race.id
+WHERE publisher.publisher_name = 'Dark Horse Comics'
+AND race.race != 'Human'",
+829,superhero,challenging,openai/gpt-3.5-turbo,off,Mismatch,"SELECT publisher_name, COUNT(*) AS num_superheroes
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+GROUP BY publisher_name
+HAVING publisher_name = 'DC Comics' OR publisher_name = 'Marvel Comics'",
+831,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT c.colour
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.superhero_name = 'Abomination'",
+839,superhero,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT full_name
+FROM superhero
+WHERE weight_kg < 100
+AND eye_colour_id = (SELECT id FROM colour WHERE colour = 'brown')",
+844,superhero,simple,openai/gpt-3.5-turbo,off,Match,"SELECT colour.colour
+FROM superhero
+JOIN colour ON superhero.eye_colour_id = colour.id
+WHERE superhero.superhero_name = 'Blackwulf'",
+201,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"WITH double_bond_molecules AS (
+    SELECT DISTINCT m.molecule_id
+    FROM bond b
+    JOIN molecule m ON b.molecule_id = m.molecule_id
+    WHERE b.bond_type = 'double'
+),
+carbon_atoms_count AS (
+    SELECT m.molecule_id, COUNT(a.atom_id) AS carbon_count
+    FROM atom a
+    JOIN double_bond_molecules m ON a.molecule_id = m.molecule_id
+    WHERE a.element = 'carbon'
+    GROUP BY m.molecule_id
+)
+SELECT 
+    SUM(carbon_count) AS total_carbon_count,
+    COUNT(a.atom_id) AS total_atom_count,
+    (SUM(carbon_count) * 100.0 / COUNT(a.atom_id)) AS percentage_carbon
+FROM carbon_atoms_count c
+JOIN atom a ON c.molecule_id = a.molecule_id",
+210,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT a1.atom_id, a2.atom_id
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+WHERE b.bond_type = 'single'",
+217,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT DISTINCT c.atom_id
+FROM connected c
+JOIN atom a ON c.atom_id2 = a.atom_id
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE m.label = 'TR181'",
+219,toxicology,challenging,openai/gpt-3.5-turbo,off,No SQL in reply,,
+221,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT a1.atom_id, a2.atom_id
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE m.label = 'TR001' AND b.bond_id = 'TR001_2_6'",
+222,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT
+    SUM(CASE WHEN m.label = 'carcinogenic' THEN 1 ELSE 0 END) AS carcinogenic_molecules,
+    SUM(CASE WHEN m.label != 'carcinogenic' THEN 1 ELSE 0 END) AS non_carcinogenic_molecules
+FROM molecule m",
+232,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT m.label
+FROM molecule m
+JOIN bond b ON m.molecule_id = b.molecule_id
+JOIN connected c ON b.bond_id = c.bond_id
+WHERE b.bond_type = 'single'
+AND m.label NOT IN (
+    SELECT m2.label
+    FROM molecule m2
+    WHERE m2.label IN (
+        SELECT m3.label
+        FROM molecule m3
+        JOIN bond b2 ON m3.molecule_id = b2.molecule_id
+        JOIN connected c2 ON b2.bond_id = c2.bond_id
+        JOIN atom a ON c2.atom_id = a.atom_id
+        JOIN atom a2 ON c2.atom_id2 = a2.atom_id
+        WHERE a.element = 'C' AND a2.element = 'C'
+    )
+)
+ORDER BY m.label
+LIMIT 3",
+233,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT bond_id, bond_type
+FROM bond
+WHERE molecule_id = 'TR006'
+ORDER BY bond_type
+LIMIT 2",
+235,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(DISTINCT m.molecule_id) 
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE m.label = 'carcinogenic' AND a.element = 'bromine'",
+238,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(DISTINCT molecule_id) 
+FROM bond 
+WHERE bond_type = 'triple'",
+242,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT DISTINCT m.molecule_id
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE a.atom_id BETWEEN '21' AND '25'
+AND m.label = 'carcinogenic'",
+243,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT b.*
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE (a1.element = 'phosphorus' AND a2.element = 'nitrogen')
+   OR (a1.element = 'nitrogen' AND a2.element = 'phosphorus')",
+247,toxicology,challenging,openai/gpt-3.5-turbo,off,Mismatch,"SELECT DISTINCT element
+FROM atom
+WHERE atom_id NOT IN (
+    SELECT atom_id
+    FROM connected
+)",
+254,toxicology,moderate,openai/gpt-3.5-turbo,off,Timeout,"WITH most_common_elements AS (
+  SELECT a1.element, a2.element
+  FROM atom a1
+  JOIN connected c ON a1.atom_id = c.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+  GROUP BY a1.element, a2.element
+  ORDER BY COUNT(*) DESC
+  LIMIT 1
+)
+SELECT (COUNT(*) * 100.0) / (SELECT COUNT(*) FROM bond) as percentage
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN most_common_elements mce ON a1.element = mce.element AND a2.element = mce.element",ran past 30 s
+261,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT bond_id
+FROM bond
+WHERE molecule_id IN (
+    SELECT molecule_id
+    FROM molecule
+    WHERE label = 'carcinogenic'
+)",
+266,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(DISTINCT m.molecule_id) AS total_carcinogenic_molecules
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+JOIN bond b ON m.molecule_id = b.molecule_id
+WHERE a.element = 'carcinogenic' OR b.bond_type = 'carcinogenic'
+AND m.molecule_id BETWEEN 'TR000' AND 'TR030'",
+267,toxicology,moderate,openai/gpt-3.5-turbo,off,Mismatch,"SELECT bond.bond_type
+FROM bond
+JOIN molecule ON bond.molecule_id = molecule.molecule_id
+WHERE molecule.molecule_id BETWEEN 'TR000' AND 'TR050'",
+269,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(bond.bond_id) 
+FROM bond 
+JOIN atom ON bond.molecule_id = atom.molecule_id 
+WHERE atom.element = 'iodine'",
+279,toxicology,simple,openai/gpt-3.5-turbo,off,Match,"SELECT label
+FROM molecule
+WHERE molecule_id = (
+    SELECT molecule_id
+    FROM bond
+    WHERE bond_id = 'TR001_10_11'
+)",
+283,toxicology,moderate,openai/gpt-3.5-turbo,off,No SQL in reply,,
+293,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT COUNT(*)
+FROM atom
+WHERE molecule_id = (SELECT molecule_id FROM molecule WHERE label = 'carcinogenic compounds')",
+297,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT atom_id
+FROM atom
+WHERE element = 'carbon'
+AND atom_id NOT IN (
+  SELECT atom_id
+  FROM connected
+  WHERE bond_id IN (
+    SELECT bond_id
+    FROM bond
+    WHERE molecule_id IN (
+      SELECT molecule_id
+      FROM molecule
+      WHERE label = 'carcinogenic'
+    )
+  )
+)",
+305,toxicology,simple,openai/gpt-3.5-turbo,off,Mismatch,"SELECT b.bond_id, c.atom_id, c.atom_id2
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+WHERE b.bond_type = 'single'",
+312,toxicology,simple,openai/gpt-3.5-turbo,off,No SQL in reply,,
+324,toxicology,simple,openai/gpt-3.5-turbo,off,No SQL in reply,,
+717,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT sp.power_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE s.superhero_name = '3-D Man'",
+720,superhero,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT superhero.full_name
+FROM superhero
+JOIN hero_power ON superhero.id = hero_power.hero_id
+GROUP BY superhero.id
+HAVING COUNT(hero_power.power_id) > 15",
+725,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(*) 
+FROM superhero 
+JOIN publisher ON superhero.publisher_id = publisher.id 
+WHERE publisher.publisher_name = 'Marvel Comics'",
+732,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+JOIN hero_attribute ON superhero.id = hero_attribute.hero_id
+JOIN attribute ON hero_attribute.attribute_id = attribute.id
+WHERE attribute.attribute_name = 'Speed'
+ORDER BY hero_attribute.attribute_value
+LIMIT 1",
+733,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(*) 
+FROM superhero 
+JOIN colour ON superhero.eye_colour_id = colour.id 
+JOIN publisher ON superhero.publisher_id = publisher.id 
+WHERE colour.colour = 'Gold' 
+AND publisher.publisher_name = 'Marvel Comics'",
+746,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT AVG(attribute_value) AS average_attribute_value
+FROM hero_attribute",
+754,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT sp.power_name
+FROM superpower sp
+JOIN hero_power hp ON sp.id = hp.power_id
+WHERE hp.hero_id = 56",
+755,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT superhero.full_name
+FROM superhero
+JOIN race ON superhero.race_id = race.id
+WHERE race.race = 'Demi-God'",
+784,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT superhero.full_name
+FROM superhero
+JOIN race ON superhero.race_id = race.id
+WHERE race.race = 'Vampire'",
+788,superhero,challenging,openai/gpt-3.5-turbo,on,Mismatch,"SELECT 
+    (COUNT(DISTINCT superhero.id) * 100) / 
+    (SELECT COUNT(DISTINCT superhero.id) 
+     FROM superhero 
+     JOIN gender ON superhero.gender_id = gender.id 
+     JOIN publisher ON superhero.publisher_id = publisher.id 
+     WHERE gender.gender = 'Female' AND publisher.publisher_name = 'Marvel Comics') AS percent_female_heroes_published_by_marvel_comics
+FROM superhero
+JOIN gender ON superhero.gender_id = gender.id
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE gender.gender = 'Female' AND publisher.publisher_name = 'Marvel Comics'",
+791,superhero,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT superhero.superhero_name, AVG(superhero.height_cm) AS average_height
+FROM superhero
+GROUP BY superhero.superhero_name",
+796,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT attribute.attribute_name, hero_attribute.attribute_value
+FROM superhero
+JOIN hero_attribute ON superhero.id = hero_attribute.hero_id
+JOIN attribute ON hero_attribute.attribute_id = attribute.id
+WHERE superhero.superhero_name = '3-D Man'",
+797,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT superhero.superhero_name
+FROM superhero
+JOIN colour AS eye_colour ON superhero.eye_colour_id = eye_colour.id
+JOIN colour AS hair_colour ON superhero.hair_colour_id = hair_colour.id
+WHERE eye_colour.colour = 'Blue' AND hair_colour.colour = 'Brown'",
+799,superhero,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT COUNT(*) 
+FROM superhero 
+WHERE publisher_id IS NULL",
+807,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT sp.power_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE s.full_name = 'Helen Parr'",
+809,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE superhero.id = 38",
+816,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT s.superhero_name
+FROM superhero s
+JOIN hero_attribute ha ON s.id = ha.hero_id
+JOIN attribute a ON ha.attribute_id = a.id
+WHERE ha.attribute_value BETWEEN 75 AND 80",
+820,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT ha.attribute_value
+FROM hero_attribute ha
+JOIN superhero s ON ha.hero_id = s.id
+JOIN attribute a ON ha.attribute_id = a.id
+WHERE s.superhero_name = 'Hulk'
+AND a.attribute_name = 'Strength'",
+823,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(*) 
+FROM superhero 
+WHERE gender_id = (SELECT id FROM gender WHERE gender = 'Female') 
+AND publisher_id = (SELECT id FROM publisher WHERE publisher_name = 'Marvel Comics')",
+824,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT superhero.superhero_name
+FROM superhero
+JOIN hero_power ON superhero.id = hero_power.hero_id
+JOIN superpower ON hero_power.power_id = superpower.id
+WHERE superpower.power_name = 'Wind Control'
+ORDER BY superhero.superhero_name ASC",
+827,superhero,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT AVG(height_cm) AS average_height
+FROM superhero
+JOIN race ON superhero.race_id = race.id
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE race.race <> 'Human' AND publisher.publisher_name = 'Dark Horse Comics'",
+829,superhero,challenging,openai/gpt-3.5-turbo,on,Mismatch,"SELECT
+    publisher_name,
+    COUNT(*) AS total_superheroes
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+GROUP BY publisher_name",
+831,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT colour.colour
+FROM superhero
+JOIN colour ON superhero.eye_colour_id = colour.id
+WHERE superhero.superhero_name = 'Abomination'",
+839,superhero,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT s.full_name
+FROM superhero s
+JOIN colour ec ON s.eye_colour_id = ec.id
+WHERE s.weight_kg < 100
+AND ec.colour = 'brown'",
+844,superhero,simple,openai/gpt-3.5-turbo,on,Match,"SELECT c.colour
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.superhero_name = 'Blackwulf'",
+201,toxicology,moderate,openai/gpt-3.5-turbo,on,SQL error,"SELECT 
+    DIVIDE(SUM(CASE WHEN a.element = 'c' THEN 1 ELSE 0 END), COUNT(a.atom_id)) AS percentage
+FROM 
+    atom a
+JOIN 
+    bond b ON a.molecule_id = b.molecule_id
+WHERE 
+    b.bond_type = '='",no such function: DIVIDE
+210,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT a.atom_id, c.atom_id2
+FROM atom a
+JOIN connected c ON a.atom_id = c.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+WHERE b.bond_type = '-'",
+217,toxicology,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT DISTINCT c.atom_id
+FROM connected c
+JOIN atom a ON c.atom_id2 = a.atom_id
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE m.molecule_id = 'TR181'",
+219,toxicology,challenging,openai/gpt-3.5-turbo,on,SQL error,"SELECT DIVIDE(SUM(CASE WHEN m.label = '+' THEN 1 ELSE 0 END) * 100, COUNT(b.bond_id)) as percent
+FROM bond b
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE b.bond_type = '#'",no such function: DIVIDE
+221,toxicology,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT a1.atom_id, a2.atom_id
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE m.molecule_id = 'TR001' AND b.bond_id = 'TR001_2_6'",
+222,toxicology,moderate,openai/gpt-3.5-turbo,on,Mismatch,"SELECT 
+    SUM(CASE WHEN label = '+' THEN 1 ELSE 0 END) AS carcinogenic_count,
+    SUM(CASE WHEN label = '-' THEN 1 ELSE 0 END) AS non_carcinogenic_count,
+    SUM(CASE WHEN label = '+' THEN 1 ELSE -1 END) AS difference
+FROM molecule",
+232,toxicology,moderate,openai/gpt-3.5-turbo,on,Mismatch,"SELECT molecule_id
+FROM molecule
+WHERE molecule_id IN (
+    SELECT DISTINCT m1.molecule_id
+    FROM connected c
+    JOIN bond b ON c.bond_id = b.bond_id
+    JOIN molecule m1 ON b.molecule_id = m1.molecule_id
+    JOIN molecule m2 ON c.atom_id = m2.molecule_id
+    JOIN molecule m3 ON c.atom_id2 = m3.molecule_id
+    WHERE b.bond_type = '-' AND m1.label = '-'
+)
+ORDER BY molecule_id
+LIMIT 3",
+233,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT bond_id
+FROM bond
+WHERE molecule_id = 'TR006'
+ORDER BY bond_id
+LIMIT 2",
+235,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(DISTINCT m.molecule_id)
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE m.label = '+'
+AND a.element = 'br'",
+238,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(DISTINCT molecule_id)
+FROM bond
+WHERE bond_type = '#'",
+242,toxicology,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT DISTINCT m.molecule_id
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE SUBSTR(a.atom_id, 7, 2) BETWEEN '21' AND '25'
+AND m.label = '+'",
+243,toxicology,moderate,openai/gpt-3.5-turbo,on,Mismatch,"SELECT b.*
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE (a1.element = 'p' OR a2.element = 'p')
+AND (a1.element = 'n' OR a2.element = 'n')",
+247,toxicology,challenging,openai/gpt-3.5-turbo,on,Mismatch,"SELECT DISTINCT element
+FROM atom
+WHERE atom_id NOT IN (SELECT atom_id FROM connected)",
+254,toxicology,moderate,openai/gpt-3.5-turbo,on,Mismatch,"SELECT 
+    (COUNT(b.bond_id) * 100.0) / 
+    (SELECT COUNT(a.atom_id) 
+     FROM atom a 
+     WHERE a.element = (
+         SELECT a2.element 
+         FROM atom a2 
+         GROUP BY a2.element 
+         ORDER BY COUNT(a2.atom_id) DESC 
+         LIMIT 1
+     )
+    ) AS percentage
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a ON c.atom_id = a.atom_id
+WHERE a.element = (
+    SELECT a2.element 
+    FROM atom a2 
+    GROUP BY a2.element 
+    ORDER BY COUNT(a2.atom_id) DESC 
+    LIMIT 1
+)",
+261,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT bond_id
+FROM bond
+WHERE molecule_id IN (
+    SELECT molecule_id
+    FROM molecule
+    WHERE label = '+'
+)",
+266,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(DISTINCT m.molecule_id) AS total_carcinogenic_molecules
+FROM molecule m
+WHERE m.label = '+'
+AND m.molecule_id BETWEEN 'TR000' AND 'TR030'",
+267,toxicology,moderate,openai/gpt-3.5-turbo,on,Mismatch,"SELECT bond_type
+FROM bond
+WHERE molecule_id IN (SELECT molecule_id FROM molecule WHERE molecule_id BETWEEN 'TR000' AND 'TR050')",
+269,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(bond.bond_id)
+FROM bond
+JOIN molecule ON bond.molecule_id = molecule.molecule_id
+JOIN atom ON atom.molecule_id = molecule.molecule_id
+WHERE atom.element = 'i'",
+279,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT label
+FROM molecule
+WHERE molecule_id = (
+    SELECT molecule_id
+    FROM bond
+    WHERE bond_id = 'TR001_10_11'
+)",
+283,toxicology,moderate,openai/gpt-3.5-turbo,on,Match,"SELECT m.label
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE a.element = 'ca'",
+293,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT COUNT(*) 
+FROM atom 
+WHERE molecule_id IN (SELECT molecule_id FROM molecule WHERE label = '+')",
+297,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT a.atom_id
+FROM atom a
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE a.element = 'c' AND m.label = '-'",
+305,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT b.bond_id, c.atom_id, c.atom_id2
+FROM bond b
+JOIN connected c ON b.bond_id = c.bond_id
+WHERE b.bond_type = '-'",
+312,toxicology,simple,openai/gpt-3.5-turbo,on,Match,"SELECT label
+FROM molecule
+WHERE molecule_id = (
+    SELECT molecule_id
+    FROM bond
+    WHERE bond_id = 'TR001_2_4'
+)",
+324,toxicology,simple,openai/gpt-3.5-turbo,on,Mismatch,"SELECT (COUNT(DISTINCT a.atom_id) * 100.0 / (SELECT COUNT(DISTINCT a2.atom_id) FROM atom a2 INNER JOIN bond b ON a2.molecule_id = b.molecule_id WHERE b.bond_type = '-')) AS percentage
+FROM atom a
+INNER JOIN bond b ON a.molecule_id = b.molecule_id
+WHERE b.bond_type = '-'",
+717,superhero,simple,openai/gpt-4.1,off,Match,"SELECT sp.power_name
+FROM superhero sh
+JOIN hero_power hp ON sh.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE sh.superhero_name = '3-D Man'",
+720,superhero,simple,openai/gpt-4.1,off,Mismatch,"SELECT s.full_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+GROUP BY s.id, s.full_name
+HAVING COUNT(hp.power_id) > 15",
+725,superhero,simple,openai/gpt-4.1,off,Match,"SELECT COUNT(*) AS marvel_superhero_count
+FROM superhero s
+JOIN publisher p ON s.publisher_id = p.id
+WHERE p.publisher_name = 'Marvel Comics'",
+732,superhero,moderate,openai/gpt-4.1,off,Match,"SELECT DISTINCT p.publisher_name
+FROM superhero s
+JOIN publisher p ON s.publisher_id = p.id
+JOIN hero_attribute ha ON s.id = ha.hero_id
+JOIN attribute a ON ha.attribute_id = a.id
+WHERE a.attribute_name = 'Speed'
+  AND ha.attribute_value = (
+      SELECT MIN(ha2.attribute_value)
+      FROM hero_attribute ha2
+      JOIN attribute a2 ON ha2.attribute_id = a2.id
+      WHERE a2.attribute_name = 'Speed'
+  )",
+733,superhero,moderate,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(*) AS gold_eyed_marvel_superheroes
+FROM superhero
+JOIN colour AS eye_colour ON superhero.eye_colour_id = eye_colour.id
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE eye_colour.colour = 'gold'
+  AND publisher.publisher_name = 'Marvel Comics'",
+746,superhero,simple,openai/gpt-4.1,off,Match,"SELECT AVG(attribute_value) AS avg_attribute_value
+FROM hero_attribute",
+754,superhero,simple,openai/gpt-4.1,off,Match,"SELECT sp.power_name
+FROM hero_power hp
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE hp.hero_id = 56",
+755,superhero,simple,openai/gpt-4.1,off,Match,"SELECT s.full_name
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+WHERE r.race = 'Demi-God'
+AND s.full_name IS NOT NULL
+LIMIT 5",
+784,superhero,simple,openai/gpt-4.1,off,Match,"SELECT s.full_name
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+WHERE r.race = 'Vampire'",
+788,superhero,challenging,openai/gpt-4.1,off,Match,"SELECT
+    100.0 * COUNT(CASE WHEN p.publisher_name = 'Marvel Comics' THEN 1 END) / COUNT(*) AS percent_female_marvel
+FROM
+    superhero s
+    JOIN gender g ON s.gender_id = g.id
+    JOIN publisher p ON s.publisher_id = p.id
+WHERE
+    g.gender = 'Female'
+    AND s.publisher_id IS NOT NULL",
+791,superhero,simple,openai/gpt-4.1,off,Mismatch,"SELECT
+    AVG(height_cm) AS average_height
+FROM
+    superhero",
+796,superhero,moderate,openai/gpt-4.1,off,Match,"SELECT 
+    a.attribute_name,
+    ha.attribute_value
+FROM 
+    superhero s
+JOIN 
+    hero_attribute ha ON s.id = ha.hero_id
+JOIN 
+    attribute a ON ha.attribute_id = a.id
+WHERE 
+    s.superhero_name = '3-D Man'",
+797,superhero,moderate,openai/gpt-4.1,off,Mismatch,"SELECT s.superhero_name, s.full_name
+FROM superhero s
+JOIN colour eye ON s.eye_colour_id = eye.id
+JOIN colour hair ON s.hair_colour_id = hair.id
+WHERE eye.colour = 'Blue'
+  AND hair.colour = 'Brown'",
+799,superhero,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(*) AS superheroes_without_publisher
+FROM superhero
+WHERE publisher_id IS NULL",
+807,superhero,simple,openai/gpt-4.1,off,Match,"SELECT sp.power_name
+FROM superhero sh
+JOIN hero_power hp ON sh.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE sh.full_name = 'Helen Parr'",
+809,superhero,simple,openai/gpt-4.1,off,Match,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE superhero.id = 38",
+816,superhero,simple,openai/gpt-4.1,off,Match,"SELECT DISTINCT s.superhero_name
+FROM superhero s
+JOIN hero_attribute ha ON s.id = ha.hero_id
+WHERE ha.attribute_value BETWEEN 75 AND 80",
+820,superhero,moderate,openai/gpt-4.1,off,Match,"SELECT ha.attribute_value AS hulk_strength
+FROM superhero s
+JOIN hero_attribute ha ON s.id = ha.hero_id
+JOIN attribute a ON ha.attribute_id = a.id
+WHERE s.superhero_name = 'Hulk'
+  AND a.attribute_name = 'Strength'",
+823,superhero,moderate,openai/gpt-4.1,off,Match,"SELECT COUNT(*) AS female_marvel_superheroes
+FROM superhero s
+JOIN gender g ON s.gender_id = g.id
+JOIN publisher p ON s.publisher_id = p.id
+WHERE g.gender = 'Female'
+  AND p.publisher_name = 'Marvel Comics'",
+824,superhero,moderate,openai/gpt-4.1,off,No SQL in reply,,
+827,superhero,moderate,openai/gpt-4.1,off,Match,"SELECT AVG(s.height_cm) AS avg_height_nonhuman_darkhorse
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+JOIN publisher p ON s.publisher_id = p.id
+WHERE r.race <> 'Human'
+  AND p.publisher_name = 'Dark Horse Comics'
+  AND s.height_cm IS NOT NULL",
+829,superhero,challenging,openai/gpt-4.1,off,Mismatch,"SELECT
+    SUM(CASE WHEN p.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS marvel_count,
+    SUM(CASE WHEN p.publisher_name = 'DC' THEN 1 ELSE 0 END) AS dc_count,
+    ABS(SUM(CASE WHEN p.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) -
+        SUM(CASE WHEN p.publisher_name = 'DC' THEN 1 ELSE 0 END)) AS difference,
+    CASE
+        WHEN SUM(CASE WHEN p.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) >
+             SUM(CASE WHEN p.publisher_name = 'DC' THEN 1 ELSE 0 END)
+        THEN 'Marvel Comics'
+        ELSE 'DC'
+    END AS publisher_with_more_heroes
+FROM superhero s
+JOIN publisher p ON s.publisher_id = p.id
+WHERE p.publisher_name IN ('DC', 'Marvel Comics')",
+831,superhero,simple,openai/gpt-4.1,off,Match,"SELECT c.colour
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.superhero_name = 'Abomination'",
+839,superhero,simple,openai/gpt-4.1,off,Mismatch,"SELECT s.full_name
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.weight_kg < 100
+  AND c.colour = 'brown'",
+844,superhero,simple,openai/gpt-4.1,off,Match,"SELECT c.colour AS eye_colour
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.superhero_name = 'Blackwulf'",
+201,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"WITH double_bond_molecules AS (
+    SELECT DISTINCT molecule_id
+    FROM bond
+    WHERE bond_type = 'double'
+),
+atoms_in_double_bond_molecules AS (
+    SELECT a.*
+    FROM atom a
+    JOIN double_bond_molecules dbm ON a.molecule_id = dbm.molecule_id
+)
+SELECT
+    100.0 * SUM(CASE WHEN element = 'C' THEN 1 ELSE 0 END) / COUNT(*) AS percent_carbon
+FROM atoms_in_double_bond_molecules",
+210,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT
+  c.atom_id,
+  a1.element AS atom1_element,
+  c.atom_id2,
+  a2.element AS atom2_element
+FROM
+  connected c
+  JOIN bond b ON c.bond_id = b.bond_id
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE
+  b.bond_type = 'single'",
+217,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT DISTINCT connected_atom_id
+FROM (
+    SELECT c.atom_id2 AS connected_atom_id
+    FROM connected c
+    JOIN atom a ON c.atom_id = a.atom_id
+    WHERE a.molecule_id = 'TR181'
+    UNION
+    SELECT c.atom_id AS connected_atom_id
+    FROM connected c
+    JOIN atom a ON c.atom_id2 = a.atom_id
+    WHERE a.molecule_id = 'TR181'
+)
+WHERE connected_atom_id NOT IN (
+    SELECT atom_id FROM atom WHERE molecule_id = 'TR181'
+)",
+219,toxicology,challenging,openai/gpt-4.1,off,Mismatch,"SELECT
+  100.0 * SUM(CASE WHEN m.label = 'carcinogenic' THEN 1 ELSE 0 END) / COUNT(*) AS carcinogenic_percentage
+FROM (
+  SELECT DISTINCT molecule_id
+  FROM bond
+  WHERE bond_type = 'triple'
+) tb
+JOIN molecule m ON tb.molecule_id = m.molecule_id",
+221,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT
+  c.atom_id AS atom1,
+  c.atom_id2 AS atom2
+FROM
+  connected c
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE
+  c.bond_id = 'TR001_2_6'
+  AND a1.molecule_id = 'TR001'
+  AND a2.molecule_id = 'TR001'",
+222,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT
+  (SELECT COUNT(*) FROM molecule WHERE label = 'carcinogenic')
+  -
+  (SELECT COUNT(*) FROM molecule WHERE label != 'carcinogenic' OR label IS NULL)
+  AS difference",
+232,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT DISTINCT m.molecule_id, m.label
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+JOIN connected c ON a.atom_id = c.atom_id
+JOIN bond b ON c.bond_id = b.bond_id
+WHERE b.bond_type = 'single'
+  AND (m.label IS NULL OR m.label NOT LIKE '%carcinogenic%')
+ORDER BY m.label ASC
+LIMIT 3",
+233,toxicology,simple,openai/gpt-4.1,off,Match,"SELECT bond_id
+FROM bond
+WHERE molecule_id = 'TR006'
+ORDER BY bond_id ASC
+LIMIT 2",
+235,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(DISTINCT m.molecule_id) AS num_carcinogenic_bromine_molecules
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE m.label LIKE '%carcinogenic%'
+  AND a.element = 'Br'",
+238,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(DISTINCT molecule_id) AS num_molecules_with_triple_bond
+FROM bond
+WHERE bond_type = 'triple'",
+242,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT DISTINCT m.molecule_id
+FROM atom a
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE a.atom_id BETWEEN '21' AND '25'
+  AND m.label = 'carcinogenic'",
+243,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT c.bond_id, c.atom_id AS atom1, a1.element AS element1, c.atom_id2 AS atom2, a2.element AS element2
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE (
+    (a1.element = 'phosphorus' AND a2.element = 'nitrogen')
+    OR
+    (a1.element = 'nitrogen' AND a2.element = 'phosphorus')
+)",
+247,toxicology,challenging,openai/gpt-4.1,off,Mismatch,"SELECT DISTINCT a.element
+FROM atom a
+WHERE a.atom_id NOT IN (
+    SELECT atom_id FROM connected
+    UNION
+    SELECT atom_id2 FROM connected
+)",
+254,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"WITH element_pairs AS (
+  SELECT
+    c.bond_id,
+    -- Get the elements for both atoms
+    a1.element AS element1,
+    a2.element AS element2,
+    -- Sort the elements so (C,H) and (H,C) are treated the same
+    CASE WHEN a1.element < a2.element THEN a1.element ELSE a2.element END AS elem_a,
+    CASE WHEN a1.element < a2.element THEN a2.element ELSE a1.element END AS elem_b
+  FROM connected c
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+  WHERE c.bond_id IS NOT NULL
+),
+pair_counts AS (
+  SELECT
+    elem_a,
+    elem_b,
+    COUNT(*) AS pair_count
+  FROM element_pairs
+  GROUP BY elem_a, elem_b
+),
+most_common AS (
+  SELECT
+    elem_a,
+    elem_b,
+    pair_count
+  FROM pair_counts
+  ORDER BY pair_count DESC
+  LIMIT 1
+),
+total_bonds AS (
+  SELECT COUNT(DISTINCT bond_id) AS total
+  FROM connected
+  WHERE bond_id IS NOT NULL
+)
+SELECT
+  m.elem_a,
+  m.elem_b,
+  m.pair_count,
+  t.total,
+  ROUND(100.0 * m.pair_count / t.total, 2) AS percentage
+FROM most_common m, total_bonds t",
+261,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT bond.bond_id
+FROM bond
+JOIN molecule ON bond.molecule_id = molecule.molecule_id
+WHERE molecule.label LIKE '%carcinogenic%'",
+266,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(*) AS total_carcinogenic
+FROM molecule
+WHERE molecule_id BETWEEN 'TR000' AND 'TR030'
+  AND label = 'carcinogenic'",
+267,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT molecule_id, bond_type
+FROM bond
+WHERE molecule_id >= 'TR000' AND molecule_id <= 'TR050'",
+269,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(DISTINCT bond_id) AS num_bonds_with_iodine
+FROM connected
+WHERE atom_id IN (SELECT atom_id FROM atom WHERE element = 'iodine')
+   OR atom_id2 IN (SELECT atom_id FROM atom WHERE element = 'iodine')",
+279,toxicology,simple,openai/gpt-4.1,off,Match,"SELECT m.label
+FROM bond b
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE b.bond_id = 'TR001_10_11'",
+283,toxicology,moderate,openai/gpt-4.1,off,Mismatch,"SELECT DISTINCT m.molecule_id, m.label
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE a.element = 'Ca'",
+293,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT COUNT(*) AS atom_count
+FROM atom
+WHERE molecule_id IN (
+    SELECT molecule_id
+    FROM molecule
+    WHERE label = 'carcinogenic compounds'
+)",
+297,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT atom_id
+FROM atom
+WHERE element = 'carbon'
+  AND (molecule_id IS NULL OR molecule_id NOT IN (
+    SELECT molecule_id FROM molecule WHERE label = 'carcinogenic'
+  ))",
+305,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT
+  b.bond_id,
+  a1.atom_id AS atom1_id,
+  a1.element AS atom1_element,
+  a2.atom_id AS atom2_id,
+  a2.element AS atom2_element,
+  m.molecule_id,
+  m.label AS molecule_label
+FROM
+  bond b
+JOIN connected c ON b.bond_id = c.bond_id
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE
+  b.bond_type = 'single'",
+312,toxicology,simple,openai/gpt-4.1,off,Match,"SELECT m.label
+FROM bond b
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE b.bond_id = 'TR001_2_4'",
+324,toxicology,simple,openai/gpt-4.1,off,Mismatch,"SELECT 
+  100.0 * (
+    SELECT COUNT(*) FROM (
+      SELECT DISTINCT c.atom_id
+      FROM connected c
+      JOIN bond b ON c.bond_id = b.bond_id
+      WHERE b.bond_type = 'single'
+      UNION
+      SELECT DISTINCT c.atom_id2
+      FROM connected c
+      JOIN bond b ON c.bond_id = b.bond_id
+      WHERE b.bond_type = 'single'
+    )
+  ) / (SELECT COUNT(*) FROM atom) AS percentage_single_bond_atoms",
+717,superhero,simple,openai/gpt-4.1,on,Match,"SELECT sp.power_name
+FROM superhero sh
+JOIN hero_power hp ON sh.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE sh.superhero_name = '3-D Man'",
+720,superhero,simple,openai/gpt-4.1,on,Mismatch,"SELECT s.full_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+GROUP BY s.id, s.full_name
+HAVING COUNT(hp.power_id) > 15",
+725,superhero,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS marvel_superhero_count
+FROM superhero s
+JOIN publisher p ON s.publisher_id = p.id
+WHERE p.publisher_name = 'Marvel Comics'",
+732,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT p.publisher_name
+FROM publisher p
+JOIN superhero s ON s.publisher_id = p.id
+WHERE s.id = (
+    SELECT ha.hero_id
+    FROM hero_attribute ha
+    WHERE ha.attribute_id = (
+        SELECT id FROM attribute WHERE attribute_name = 'Speed'
+    )
+    AND ha.attribute_value = (
+        SELECT MIN(attribute_value)
+        FROM hero_attribute
+        WHERE attribute_id = (
+            SELECT id FROM attribute WHERE attribute_name = 'Speed'
+        )
+    )
+    LIMIT 1
+)",
+733,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS gold_eyed_marvel_superheroes
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+JOIN publisher p ON s.publisher_id = p.id
+WHERE c.colour = 'Gold'
+  AND p.publisher_name = 'Marvel Comics'",
+746,superhero,simple,openai/gpt-4.1,on,Match,"SELECT AVG(attribute_value) AS avg_attribute_value
+FROM hero_attribute",
+754,superhero,simple,openai/gpt-4.1,on,Match,"SELECT sp.power_name
+FROM hero_power hp
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE hp.hero_id = 56",
+755,superhero,simple,openai/gpt-4.1,on,Match,"SELECT s.full_name
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+WHERE r.race = 'Demi-God'
+AND s.full_name IS NOT NULL
+LIMIT 5",
+784,superhero,simple,openai/gpt-4.1,on,Match,"SELECT s.full_name
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+WHERE r.race = 'Vampire'",
+788,superhero,challenging,openai/gpt-4.1,on,Mismatch,"SELECT 
+    100.0 * COUNT(CASE WHEN gender.gender = 'Female' THEN 1 END) / COUNT(*) AS percent_female_heroes
+FROM 
+    superhero
+    JOIN publisher ON superhero.publisher_id = publisher.id
+    JOIN gender ON superhero.gender_id = gender.id
+WHERE 
+    publisher.publisher_name = 'Marvel Comics'",
+791,superhero,simple,openai/gpt-4.1,on,Mismatch,"SELECT
+    id,
+    superhero_name,
+    height_cm AS average_height
+FROM
+    superhero",
+796,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT 
+    a.attribute_name, 
+    ha.attribute_value
+FROM 
+    superhero s
+JOIN 
+    hero_attribute ha ON s.id = ha.hero_id
+JOIN 
+    attribute a ON ha.attribute_id = a.id
+WHERE 
+    s.superhero_name = '3-D Man'",
+797,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT s.superhero_name
+FROM superhero s
+JOIN colour eye ON s.eye_colour_id = eye.id
+JOIN colour hair ON s.hair_colour_id = hair.id
+WHERE eye.colour = 'Blue'
+  AND hair.colour = 'Brown'",
+799,superhero,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS superheroes_without_publisher
+FROM superhero
+WHERE publisher_id = 1",
+807,superhero,simple,openai/gpt-4.1,on,Match,"SELECT sp.power_name
+FROM superhero sh
+JOIN hero_power hp ON sh.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE sh.full_name = 'Helen Parr'",
+809,superhero,simple,openai/gpt-4.1,on,Match,"SELECT publisher.publisher_name
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE superhero.id = 38",
+816,superhero,simple,openai/gpt-4.1,on,Match,"SELECT DISTINCT s.superhero_name
+FROM superhero s
+JOIN hero_attribute ha ON s.id = ha.hero_id
+WHERE ha.attribute_value BETWEEN 75 AND 80",
+820,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT ha.attribute_value
+FROM superhero s
+JOIN hero_attribute ha ON s.id = ha.hero_id
+JOIN attribute a ON ha.attribute_id = a.id
+WHERE s.superhero_name = 'Hulk'
+  AND a.attribute_name = 'Strength'",
+823,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS female_marvel_superheroes
+FROM superhero
+JOIN gender ON superhero.gender_id = gender.id
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE gender.gender = 'Female'
+  AND publisher.publisher_name = 'Marvel Comics'",
+824,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT s.superhero_name
+FROM superhero s
+JOIN hero_power hp ON s.id = hp.hero_id
+JOIN superpower sp ON hp.power_id = sp.id
+WHERE sp.power_name = 'Wind Control'
+ORDER BY s.superhero_name ASC",
+827,superhero,moderate,openai/gpt-4.1,on,Match,"SELECT AVG(s.height_cm) AS avg_nonhuman_height
+FROM superhero s
+JOIN race r ON s.race_id = r.id
+JOIN publisher p ON s.publisher_id = p.id
+WHERE r.race <> 'Human'
+  AND p.publisher_name = 'Dark Horse Comics'",
+829,superhero,challenging,openai/gpt-4.1,on,Mismatch,"SELECT
+    publisher.publisher_name,
+    COUNT(*) AS superhero_count
+FROM superhero
+JOIN publisher ON superhero.publisher_id = publisher.id
+WHERE publisher.publisher_name IN ('DC Comics', 'Marvel Comics')
+GROUP BY publisher.publisher_name",
+831,superhero,simple,openai/gpt-4.1,on,Match,"SELECT c.colour
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE s.superhero_name = 'Abomination'",
+839,superhero,simple,openai/gpt-4.1,on,Mismatch,"SELECT s.full_name
+FROM superhero s
+JOIN colour c ON s.eye_colour_id = c.id
+WHERE c.colour = 'brown'
+  AND s.weight_kg < 100",
+844,superhero,simple,openai/gpt-4.1,on,Match,"SELECT colour.colour AS eye_colour
+FROM superhero
+JOIN colour ON superhero.eye_colour_id = colour.id
+WHERE superhero.superhero_name = 'Blackwulf'",
+201,toxicology,moderate,openai/gpt-4.1,on,Mismatch,"SELECT 
+  1.0 * SUM(element = 'c') / COUNT(atom_id) AS percentage_carbon
+FROM atom
+WHERE molecule_id IN (
+  SELECT DISTINCT molecule_id
+  FROM bond
+  WHERE bond_type = '='
+)",
+210,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT
+  c.atom_id,
+  c.atom_id2
+FROM
+  connected c
+  JOIN bond b ON c.bond_id = b.bond_id
+WHERE
+  b.bond_type = '-'",
+217,toxicology,simple,openai/gpt-4.1,on,Mismatch,"SELECT DISTINCT
+    CASE
+        WHEN c.atom_id IN (SELECT atom_id FROM atom WHERE molecule_id = 'TR181')
+            THEN c.atom_id2
+        ELSE c.atom_id
+    END AS connected_atom_id
+FROM
+    connected c
+WHERE
+    (c.atom_id IN (SELECT atom_id FROM atom WHERE molecule_id = 'TR181')
+     OR
+     c.atom_id2 IN (SELECT atom_id FROM atom WHERE molecule_id = 'TR181'))
+    AND
+    CASE
+        WHEN c.atom_id IN (SELECT atom_id FROM atom WHERE molecule_id = 'TR181')
+            THEN c.atom_id2
+        ELSE c.atom_id
+    END NOT IN (SELECT atom_id FROM atom WHERE molecule_id = 'TR181')",
+219,toxicology,challenging,openai/gpt-4.1,on,Mismatch,"SELECT
+  100.0 * SUM(CASE WHEN b.bond_type = '#' THEN 1 ELSE 0 END) / COUNT(*) AS percent_triple_bonds
+FROM bond b
+JOIN molecule m ON b.molecule_id = m.molecule_id
+WHERE m.label = '+'",
+221,toxicology,simple,openai/gpt-4.1,on,Mismatch,"SELECT
+  c.atom_id,
+  a1.element AS atom1_element,
+  c.atom_id2,
+  a2.element AS atom2_element
+FROM
+  connected c
+  JOIN bond b ON c.bond_id = b.bond_id
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE
+  c.bond_id = 'TR001_2_6'
+  AND b.molecule_id = 'TR001'",
+222,toxicology,moderate,openai/gpt-4.1,on,Match,"SELECT
+  SUM(label = '+') - SUM(label = '-') AS difference
+FROM
+  molecule",
+232,toxicology,moderate,openai/gpt-4.1,on,Match,"SELECT DISTINCT m.molecule_id
+FROM molecule m
+JOIN bond b ON m.molecule_id = b.molecule_id
+JOIN connected c ON b.bond_id = c.bond_id
+WHERE m.label = '-'
+  AND b.bond_type = '-'
+ORDER BY m.molecule_id
+LIMIT 3",
+233,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT bond_id
+FROM bond
+WHERE molecule_id = 'TR006'
+ORDER BY bond_id ASC
+LIMIT 2",
+235,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(DISTINCT m.molecule_id) AS carcinogenic_bromine_molecules
+FROM molecule m
+JOIN atom a ON m.molecule_id = a.molecule_id
+WHERE m.label = '+'
+  AND LOWER(a.element) = 'br'",
+238,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(DISTINCT molecule_id) AS num_molecules_with_triple_bond
+FROM bond
+WHERE bond_type = '#'",
+242,toxicology,moderate,openai/gpt-4.1,on,Match,"SELECT DISTINCT m.molecule_id
+FROM atom a
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE SUBSTR(a.atom_id, 7, 2) BETWEEN '21' AND '25'
+  AND m.label = '+'",
+243,toxicology,moderate,openai/gpt-4.1,on,Match,"SELECT DISTINCT c.bond_id
+FROM connected c
+JOIN atom a1 ON c.atom_id = a1.atom_id
+JOIN atom a2 ON c.atom_id2 = a2.atom_id
+WHERE (a1.element = 'p' AND a2.element = 'n')
+   OR (a1.element = 'n' AND a2.element = 'p')",
+247,toxicology,challenging,openai/gpt-4.1,on,Mismatch,"SELECT element
+FROM atom
+WHERE atom_id NOT IN (
+    SELECT atom_id FROM connected
+    UNION
+    SELECT atom_id2 FROM connected
+)",
+254,toxicology,moderate,openai/gpt-4.1,on,Mismatch,"WITH bond_elements AS (
+  SELECT
+    c.bond_id,
+    -- Sort elements alphabetically for uniqueness
+    CASE WHEN a1.element < a2.element THEN a1.element ELSE a2.element END AS element1,
+    CASE WHEN a1.element < a2.element THEN a2.element ELSE a1.element END AS element2
+  FROM connected c
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+  WHERE c.bond_id IS NOT NULL
+),
+element_combinations AS (
+  SELECT
+    element1,
+    element2,
+    COUNT(*) AS combo_count
+  FROM bond_elements
+  GROUP BY element1, element2
+),
+most_common_combo AS (
+  SELECT
+    element1,
+    element2,
+    combo_count
+  FROM element_combinations
+  ORDER BY combo_count DESC
+  LIMIT 1
+),
+total_bonds AS (
+  SELECT COUNT(DISTINCT bond_id) AS total_bonds FROM bond
+)
+SELECT
+  (mc.combo_count * 100.0) / tb.total_bonds AS percentage_most_common_combo
+FROM most_common_combo mc, total_bonds tb",
+261,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT bond.bond_id
+FROM bond
+JOIN molecule ON bond.molecule_id = molecule.molecule_id
+WHERE molecule.label = '+'",
+266,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS total_carcinogenic_molecules
+FROM molecule
+WHERE molecule_id >= 'TR000'
+  AND molecule_id <= 'TR030'
+  AND label = '+'",
+267,toxicology,moderate,openai/gpt-4.1,on,Mismatch,"SELECT molecule_id, bond_type
+FROM bond
+WHERE molecule_id BETWEEN 'TR000' AND 'TR050'",
+269,toxicology,simple,openai/gpt-4.1,on,Mismatch,"SELECT COUNT(DISTINCT bond_id) AS num_bond_id_with_iodine
+FROM connected
+WHERE atom_id IN (SELECT atom_id FROM atom WHERE element = 'i')
+   OR atom_id2 IN (SELECT atom_id FROM atom WHERE element = 'i')",
+279,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT label
+FROM molecule
+WHERE molecule_id = (
+    SELECT molecule_id
+    FROM bond
+    WHERE bond_id = 'TR001_10_11'
+)",
+283,toxicology,moderate,openai/gpt-4.1,on,Mismatch,"SELECT DISTINCT m.molecule_id, m.label
+FROM atom a
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE a.element = 'ca'",
+293,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT COUNT(*) AS atom_count
+FROM atom
+WHERE molecule_id IN (
+    SELECT molecule_id
+    FROM molecule
+    WHERE label = '+'
+)",
+297,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT a.atom_id
+FROM atom a
+JOIN molecule m ON a.molecule_id = m.molecule_id
+WHERE a.element = 'c'
+  AND m.label = '-'",
+305,toxicology,simple,openai/gpt-4.1,on,Mismatch,"SELECT
+  b.bond_id,
+  a1.atom_id AS atom1_id,
+  a2.atom_id AS atom2_id,
+  m.molecule_id,
+  m.label AS molecule_label
+FROM
+  bond b
+  JOIN connected c ON b.bond_id = c.bond_id
+  JOIN atom a1 ON c.atom_id = a1.atom_id
+  JOIN atom a2 ON c.atom_id2 = a2.atom_id
+  JOIN molecule m ON a1.molecule_id = m.molecule_id
+WHERE
+  b.bond_type = '-'",
+312,toxicology,simple,openai/gpt-4.1,on,Match,"SELECT label
+FROM molecule
+WHERE molecule_id = (
+    SELECT molecule_id
+    FROM bond
+    WHERE bond_id = 'TR001_2_4'
+)",
+324,toxicology,simple,openai/gpt-4.1,on,Mismatch,"SELECT 
+  ROUND(
+    100.0 * (
+      SELECT COUNT(DISTINCT a.atom_id)
+      FROM atom a
+      WHERE EXISTS (
+        SELECT 1
+        FROM connected c
+        JOIN bond b ON c.bond_id = b.bond_id
+        WHERE (c.atom_id = a.atom_id OR c.atom_id2 = a.atom_id)
+          AND b.bond_type = '-'
+      )
+    ) 
+    / 
+    (SELECT COUNT(*) FROM atom)
+  , 2) AS percentage_of_atoms_with_single_bond",
