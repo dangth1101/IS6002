@@ -1,6 +1,4 @@
-from bird_demo.report import failures_to_label, render_report
-
-GPT35 = "openai/gpt-3.5-turbo"
+from bird_demo.report import GPT_3_5 as GPT35, failures_to_label, render_report
 
 
 def run(question_id, model, evidence, verdict, difficulty="simple", db_id="superhero", predicted_sql="SELECT 1", error=""):

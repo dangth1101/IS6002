@@ -1,7 +1,7 @@
 """The batch report: our EX next to the paper's dev numbers.
 
-Pure functions over the runs.csv rows, so the report always adds up from
-runs.csv. See SPEC.md section 9.
+Pure functions over the batch's run rows, the same rows it writes to
+runs.csv, so the report always adds up from runs.csv. See SPEC.md section 9.
 """
 
 from dataclasses import dataclass

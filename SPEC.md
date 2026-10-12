@@ -367,6 +367,7 @@ pytest, under `tests/`. Temp or in-memory SQLite only, `complete` stubbed, never
 - scoring: set equality; row order ignored; duplicates ignored; different column count is Mismatch with the note; `1` vs `'1'` is Mismatch.
 - runner: a write (`DELETE`) on the read-only connection is an SQL error; a recursive CTE that never ends is a Timeout (pass `timeout_s=0.5`); two statements is an SQL error, not a crash.
 - `cached_complete`: the second call with the same arguments doesn't call the stub; `refresh=True` calls it again and rewrites the file.
+- report: Table A next to the paper, gpt-4.1 as a loose reference and other models with no paper row, only the models passed, Table B by difficulty with the paper column only on gpt-3.5-turbo, the Verdict table, the caveat header first, and the failures to label.
 
 Done when:
 
