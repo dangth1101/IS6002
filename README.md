@@ -4,7 +4,8 @@ A small demo based on the BIRD paper (Li et al., NeurIPS 2023, `075280-1835open.
 
 - Terms: `CONTEXT.md`
 - Plan and decisions: the [Wayfinder map](https://github.com/dangth1101/IS6002/issues/1)
-- Screen design: `mockup/`
+- Build spec: `SPEC.md`
+- `mockup/` and `prototype/` are design references for the screen, not shipped code
 
 ## Get the data
 
@@ -60,8 +61,11 @@ Needs [uv](https://docs.astral.sh/uv/). Python 3.12 is pinned.
 uv sync
 uv run pytest                            # no network, no data/ needed
 uv run python scripts/make_subset.py     # once; rewrites subset.json
+uv run streamlit run app.py
 uv run python scripts/batch_eval.py --model openai/gpt-3.5-turbo --model openai/gpt-4.1
 ```
+
+The app lets you pick a Subset Question, asks the LLM live on every Run, and shows the Verdict with both SQLs and their rows.
 
 `subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
 
