@@ -67,6 +67,27 @@ uv run python scripts/batch_eval.py --model openai/gpt-3.5-turbo --model openai/
 
 The app lets you pick a Subset Question, asks the LLM live on every Run, and shows the Verdict with both SQLs and their rows.
 
+### BIRD-VN-Robust-50 review/demo page
+
+The benchmark review page is available from Streamlit's page navigation. It shows Development groups Q0–Q10, draft Intent Card fields, candidate SQL, and saved offline evaluation artifacts. It never calls an LLM. Candidate SQL may be run against the frozen snapshots only by the explicit validation script, after independent Python expected outputs have been saved; a match is not human approval.
+
+```sh
+uv run python scripts/compile_bird_vn_drafts.py
+uv run python scripts/validate_bird_vn_drafts.py
+uv run python scripts/prepare_bird_vn_expectations.py
+uv run python scripts/run_bird_vn_ground_truth_validation.py
+uv run python scripts/benchmark_offline_smoke.py
+uv run streamlit run app.py
+```
+
+Saved model outputs can be evaluated offline without calling a provider:
+
+```sh
+uv run python scripts/benchmark_eval.py --registry benchmark_data/release/dataset.json --predictions benchmark_data/predictions.json --output benchmark_data/runs/final_run.json
+```
+
+The evaluation command requires a reviewed release registry and saved model outputs. The frozen snapshots reject execution of draft canonical SQL until independent expected outputs and human validation are recorded. `benchmark_offline_smoke.py` uses temporary synthetic databases and mock SQL; its 100% score is only a pipeline check, never empirical model performance.
+
 `subset.json` is committed, so you only rerun the Subset script to check it. It needs both `dev.json` files and gives a byte-identical file every time.
 
 The batch runs every Subset Question with Evidence off and on for each `--model` (default `LLM_MODEL`). It writes one row per run to `results/runs.csv`, prints the report next to the paper's numbers and saves it as `results/report.md`. With `openai/gpt-3.5-turbo` in the run it also writes `results/failures_to_label.csv` for labelling by hand (SPEC.md section 10). Replies are cached in `.cache/llm/`, so a rerun makes no LLM calls; `--no-cache` calls again.

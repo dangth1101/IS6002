@@ -1,0 +1,3312 @@
+[
+  {
+    "group_id": "ERP-EF-01",
+    "intent_card_hash": "4bda56b9c857ad730d5a44796478ac30db898f6ce44451b227e4c08d87216ddb",
+    "canonical_sql_hash": "097997734e6d4349acd27f1f2cd40ac65ba41f02adf2d382bd5c9b1bf0e9ce33",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "sql_sha256": "097997734e6d4349acd27f1f2cd40ac65ba41f02adf2d382bd5c9b1bf0e9ce33",
+      "actual_rows_sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1",
+      "status": "VALIDATED_BY_AUTOMATION"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:erp_ef_01",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-EF-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "48 confirmed/12 draft/12 cancelled; đối chiếu draft/cancelled không lọt"
+    ],
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+  },
+  {
+    "group_id": "ERP-EF-02",
+    "intent_card_hash": "d934ae83d090e4f916e3227b67e47a9c05f4949b7e48495f9162dd83dae156a3",
+    "canonical_sql_hash": "e8fbb087acc94debfd6eb88d4a019020b2e6bb1d73492fde624705240816deae",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-EF-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Tất cả 72 `created_at` khác ngày `order_date`; rep NULL trên 6 confirmed; test biên ngày đầu/cuối"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-EF-03",
+    "intent_card_hash": "c6f51c660d8d74323eba68192e015d40afaf8117920c557c40d962f52ebdce9b",
+    "canonical_sql_hash": "9f6baabd641c53d8bd6d59576f6406cb87297fded324c62dbe31c7e39a0e8ea2",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-EF-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "12 products, 1 NULL category; fixture phân biệt NULL với category hợp lệ"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-EF-04",
+    "intent_card_hash": "1090cf18d473fd803df9ef5b6293366a4896a5254e8f9a1abad91af529bb86d5",
+    "canonical_sql_hash": "5fd88b142c9952d2e49c8bdf437c6b7c57d2e8b00de8f85c23029ea02a1173c3",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-EF-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-EF-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Snapshot deliveries chỉ tới 2025-06; cần positive collision Q4 order >100m, và Q4 order vừa dưới ngưỡng để bắt lỗi threshold"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-AG-01",
+    "intent_card_hash": "4a9e0e9efff7f8abe66d9713e3589cbe3d9ccdc85a0011714cc64c5cb63ac436",
+    "canonical_sql_hash": "c70a4efd0bdf9bab464d7b12dc3bf61f64e97727dfe80888a5b7ff38e5e2338d",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-AG-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "24 customers, 3 segments × 8; test COUNT(*) vs distinct bằng duplicate join fixture"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-AG-02",
+    "intent_card_hash": "a4666d186e9f439e3f20ae51329667c9dfbd23dc9bb80809298683bfd89f4ea4",
+    "canonical_sql_hash": "1fdaac0ebf428048a7bfc3fdf76e5784ba2fa2530252228e40a1d82e3a4c216e",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-AG-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Validator: order value 592,736,375; 33 zero-net lines; boundary fixture và draft/cancelled đối chứng"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-AG-03",
+    "intent_card_hash": "666890b0aebe22d6606417151296d47e2118de8a1ca5dc11994b95c4bffc80d1",
+    "canonical_sql_hash": "9311be77392cdd0b12d5d99776b03893345f1c5f0f4c353add73caa51ee8ae23",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-AG-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "72 orders, 33 zero-net lines; fixture phân biệt AVG(line) với AVG(order totals)"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-AG-04",
+    "intent_card_hash": "572ff06fc092decb0cb58029bbc4c8150848b5405dc120c662f2f4e01c43e0be",
+    "canonical_sql_hash": "91245e1571c0b547d267154ab87b512c2f5fe6add44395476c2b125fd9446e4c",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-AG-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-AG-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "44 tx: 36 posted captures, 6 pending captures, 2 posted refunds; fixture multi-tx/fanout, zero-net và pending"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-GB-01",
+    "intent_card_hash": "e6fad0050df751e8450430b356383484b95c1c77915ae621cf433c2657b62f32",
+    "canonical_sql_hash": "666ee3aacbc0b6d4efdba695856ad285050c448b22242905f6e5b0cf5e4864e1",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-GB-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Counts 48/12/12; test không lọc nhầm status"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-GB-02",
+    "intent_card_hash": "f40a0af7d4ca4d8a75d8c4fe86696ac72ad41f20b26d100ce296254644420951",
+    "canonical_sql_hash": "1c04de0c0b42841d6809539c8bbc7e0e3e41b55ad1ea74f1a77a3e01273ce005",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-GB-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "4 customer không confirmed order; fixture duplicate order lines để bắt fan-out"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-GB-03",
+    "intent_card_hash": "253597009537933bf4c801b800dc2e37fa442fc7bcccd16cc4b4bb2325337042",
+    "canonical_sql_hash": "e42a9c6fcb6ffd9ec8b30329f098f7f6eb194ecb94695013c98cff4af97cc3be",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "14d3bd25e062c2bc1a7a41408bc38b50469b6f5872f0fc6733910eec0fccc0d2"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "sql_sha256": "e42a9c6fcb6ffd9ec8b30329f098f7f6eb194ecb94695013c98cff4af97cc3be",
+      "actual_rows_sha256": "14d3bd25e062c2bc1a7a41408bc38b50469b6f5872f0fc6733910eec0fccc0d2",
+      "status": "VALIDATED_BY_AUTOMATION"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:erp_gb_03",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-GB-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Rep counts include NULL=6; tie rep1/3=9; fixture FK consistency"
+    ],
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+  },
+  {
+    "group_id": "ERP-GB-04",
+    "intent_card_hash": "37f14f49bbcc8afe439066faed3b92cb0341398769197c11c9345f403ed52365",
+    "canonical_sql_hash": "35948f86a7ff413791b5e074b29b1fd278da7e6aab6041e8402948eb5dd792fe",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-GB-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-GB-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Delivered timestamps Apr–Jun; cần UTC-midnight/local boundary fixture và non-delivered control"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-RK-01",
+    "intent_card_hash": "32e3b99d64924a05136c179d3bc5bb7381fee0c9d64916252f6b3c446fbe6e55",
+    "canonical_sql_hash": "d7a63098a307237e1c2a2b98ea237e89408cb014fd6209c066d9e970024ee1a8",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-RK-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Revenue data present; verify kth-place tie using fixture, current snapshot tie evidence not asserted"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-RK-02",
+    "intent_card_hash": "9a444370a1e750a293485c63862061002a3950e3fab2cb45b7991c4412fe748f",
+    "canonical_sql_hash": "bda2d6617ebe3bc5d4c8b1ee66a65ddeeca3718928acfd6a63f15d22d9e76e6c",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "sql_sha256": "bda2d6617ebe3bc5d4c8b1ee66a65ddeeca3718928acfd6a63f15d22d9e76e6c",
+      "actual_rows_sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:erp_rk_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-RK-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "12 products/units; fixture equal metrics at k boundary and SKU sold in distinct units"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  },
+  {
+    "group_id": "ERP-RK-03",
+    "intent_card_hash": "fdbd40e23f1fc7fb2a7d80373b31f52c24d8e4f7e40c31d910f333ec80ff34a3",
+    "canonical_sql_hash": "356cb2ed24d2bbdd934f8ca6dff1c76ea81e429244830f3ece9909a739380764",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-RK-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-RK-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "2 posted refunds; fixture two equal maxima and pending tx decoy"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-JN-01",
+    "intent_card_hash": "4b9d03f36fff19760acc4a13fa9a779d11cae8b7451c2101cf8ac329edfbe3d3",
+    "canonical_sql_hash": "7f91d8607667e2cc1e08262a7fe55f47211a91192436401e2fe399ddb931ea8b",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-JN-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "4 no-confirmed customers; test LEFT vs INNER and count child PK"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-JN-02",
+    "intent_card_hash": "51ae85a27425742a71ef9a1d56087632df81e908ae8e9bda58ff161f19a73172",
+    "canonical_sql_hash": "913fa870cf54bc6e886e098a28f0d80a1b9be20629d9b05763e3c48f74948031",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "sql_sha256": "913fa870cf54bc6e886e098a28f0d80a1b9be20629d9b05763e3c48f74948031",
+      "actual_rows_sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:erp_jn_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-JN-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "216 lines, max 4/order; test line uniqueness, product join and order status"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  },
+  {
+    "group_id": "ERP-JN-03",
+    "intent_card_hash": "f4e7538f90dde18f494a05b4a1d6e1c99e4e876b3d79bafb105bb0604a60e63a",
+    "canonical_sql_hash": "cfd1f9d78120c7fa78a0a1998ab8c7003c9fcacc44f7cb7c833b285058330809",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-JN-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "27 delivered shipments; need fixture order with multiple lines and multiple tx to demonstrate no overcount"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-JN-04",
+    "intent_card_hash": "e7c9601ded76719abb3b7048c6b6d31418bb147db1c37c23196e9c03b9ddf735",
+    "canonical_sql_hash": "32513239fe5f1628bfc61bee456cd8df16618c4b2a1175873443e0757aa4777b",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-JN-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-JN-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "4 returns (2 received,2 rejected); fixture partial purchased qty, rejected, and duplicate product lines"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-TM-01",
+    "intent_card_hash": "237bd5e940652759c047c37a219491b25d143fce6f1a2313bd01850efeadd521",
+    "canonical_sql_hash": "576ffd44010559984fdc0912195ca517348b9a7ca489c1aeccca8f34e5937d27",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-TM-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "72 order dates span 2024–2026 and all created_at differ; verify exclusive end"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-TM-02",
+    "intent_card_hash": "fefa9122cbd759600c7350988b218b560b6789dbfc8f9c7513a904e81b0764b2",
+    "canonical_sql_hash": "c983094d533483295ff17b11a8807529974d417d868d7cfba0d75497dd94246f",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "e5e7432d4f0c002977a1e19df49fe3853b84f9cd759966c38177aaa9c2fa5eb3"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "sql_sha256": "c983094d533483295ff17b11a8807529974d417d868d7cfba0d75497dd94246f",
+      "actual_rows_sha256": "e5e7432d4f0c002977a1e19df49fe3853b84f9cd759966c38177aaa9c2fa5eb3",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:erp_tm_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-TM-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-TM-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "27 delivered; fixture UTC instants immediately before/at local midnight; validate not use order_date"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  },
+  {
+    "group_id": "ERP-NA-01",
+    "intent_card_hash": "da931977a7edc10c32dd6a3661ebeea6faaad9612a027c3f74a4a0091d1e66d3",
+    "canonical_sql_hash": "3f6daca73951416b9b51ce63e78a84801a01dbabdfb139e80247b14e49c8d5c7",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-NA-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "4 customers without confirmed order; positive-order collision fixture"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-NA-02",
+    "intent_card_hash": "ceef70df5025cc7add4b59e00783e8fa2116f9694b53f6485bebeb7a8e3292b4",
+    "canonical_sql_hash": "6812fce1d749f3f9b9cc1bbe5b8ce6993d73e9c4acff04200b3aea3beefca9ce",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-NA-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-NA-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "12 orders with no posted cash; need fixture with capture/refund net zero and pending-only"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-CD-01",
+    "intent_card_hash": "f9bdd87538740e9582bfd0a9e76283b26a810a19c39415be445c3cc6b8686983",
+    "canonical_sql_hash": "a9bf817b7a5183b7018ddfb7d3e74ca7210a064fbc1bf8acfdc2153317aae590",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-CD-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Current totals differ 592.7m vs 352.9m; fixture dates crossing year boundaries"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "ERP-CD-02",
+    "intent_card_hash": "87a145d355f6a4e55d76eb03a95064f8bea7d6fff320fe8e9a18abb642a0db5e",
+    "canonical_sql_hash": "a4e2a4a55617db69860c2418201b8490e277cd1d959d276f9a1eadd151aceeca",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "ERP-CD-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "ERP-CD-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Posted capture/refund present; fixture same method mixed types, pending decoy"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-EF-01",
+    "intent_card_hash": "daecd223f2893f85003b41fcbf90239640d9fde02e25ce5f3e06576feead1efa",
+    "canonical_sql_hash": "8ac8ca29797b69c58bd3c44aebc8b6d02002f7c9998f24a6f230ee9a1bc513bd",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "b71998570ef1b20ffc96e2efc2b345ad446408ea677b90f33612d7d078597855"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "sql_sha256": "8ac8ca29797b69c58bd3c44aebc8b6d02002f7c9998f24a6f230ee9a1bc513bd",
+      "actual_rows_sha256": "b71998570ef1b20ffc96e2efc2b345ad446408ea677b90f33612d7d078597855",
+      "status": "VALIDATED_BY_AUTOMATION"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:wms_ef_01",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-EF-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "46 docs include posted/draft/cancelled; ensure only posted returned"
+    ],
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+  },
+  {
+    "group_id": "WMS-EF-02",
+    "intent_card_hash": "c83aab6b8dfed768b5961407ca5d3cc286ac82268f5da41775b99c200cc6ee7d",
+    "canonical_sql_hash": "e5c05664d2af48226176eb5c629ae9ad1bf45838dd070517a493345759be22d1",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "072570fa27d717eaa30a92196742c3c301033f450fc21f115a73282adba03646"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "sql_sha256": "e5c05664d2af48226176eb5c629ae9ad1bf45838dd070517a493345759be22d1",
+      "actual_rows_sha256": "072570fa27d717eaa30a92196742c3c301033f450fc21f115a73282adba03646",
+      "status": "VALIDATED_BY_AUTOMATION"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:wms_ef_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-EF-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "18 products, 6 each EA/KG/L; NULL-category fixture"
+    ],
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+  },
+  {
+    "group_id": "WMS-EF-03",
+    "intent_card_hash": "4854ba64c05b04e3e3d39bd38ac5e62e52fe649b7f9ad497e26e94ecb8ac2878",
+    "canonical_sql_hash": "d7d75b1d8baeb477715ebcc983bea68474ef3fb88c9bffe998d938a6728aede5",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-EF-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "90 movements, 8 locations; fixture same SKU/location with opposite movements"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-EF-04",
+    "intent_card_hash": "d7ed913bdcfcc7d315f8831364ba995467005112f75567eabfd79dbb38af76a1",
+    "canonical_sql_hash": "2e98a977c077250a91bcd189732e6f3bfae4af85aff3201842167b060cece974",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-EF-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-EF-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Two QUARANTINE locations, no quarantine movements; requires positive quarantine movement fixture plus zero/inactive location controls"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-AG-01",
+    "intent_card_hash": "11c576750537d8a9723f492af7b55c217b731ee526c2204c9eac76f15ba8ddf6",
+    "canonical_sql_hash": "a83f398e91c5ea7ce73cdc130044edac635101fdc2e87648d20e17d2a7be8bad",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-AG-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "6 posted receipts +1 draft; test multi-line document distinctness"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-AG-02",
+    "intent_card_hash": "e368d092a7365ab4c8b98e9662a6490b880fdaa2f98098166d7268db18d79f19",
+    "canonical_sql_hash": "15c899004f9dc172ff3f07d52020748f88cd1f377f1541aabc0771d981ece2b2",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "sql_sha256": "15c899004f9dc172ff3f07d52020748f88cd1f377f1541aabc0771d981ece2b2",
+      "actual_rows_sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:wms_ag_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-AG-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "20 posted shipments; fixture adjustment/transfer negative decoy"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  },
+  {
+    "group_id": "WMS-AG-03",
+    "intent_card_hash": "56d317d4267d3fee74ad3cdfe21f8b09aecfcca1935cf8c97f4b0c01b884ad5b",
+    "canonical_sql_hash": "7f939abb284e9b6d0a2c0c5798692136edd84c34523c76d63b02850837ca54e8",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-AG-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Snapshot validator has 36 positive balances, no zero-with-history; needs zero-history and no-history fixtures"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-AG-04",
+    "intent_card_hash": "3aceda0ae7c68a19c1c13296e92593c256bf3432c6c0100f01ded65ae4af3878",
+    "canonical_sql_hash": "12093451f7b9b21b78c21d899b6c59a277554aaa4e067c8d44ae1c6c831406a4",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-AG-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-AG-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Current 36 positive balances; fixture fractional mean where rounded comparison changes classification"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-GB-01",
+    "intent_card_hash": "eef16d879a29e5e88a6b039fa035519cbb5bf7ddc85fb830933d95f989952af2",
+    "canonical_sql_hash": "7bb58688246f592b9c6cbe5f96034513ad29effcce9f1bf307bd493d64dd2302",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-GB-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "46 docs; ensure count distinct document IDs"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-GB-02",
+    "intent_card_hash": "063cf5ca41ee0f5da0cd9eecedee229287a7f694b692f40ae95371b49d362cd1",
+    "canonical_sql_hash": "347d0e7c0e55565e2adde6474ccc07042176521bf021cbda8a01fe7cad821aee",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-GB-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "57 positive/33 negative; fixture cancelling legs and multi-unit cohort"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-GB-03",
+    "intent_card_hash": "1d2df2025f1fcb7fb281b1d5aaa4aa48758ae1c1c804c3789e07a60cd8d02dca",
+    "canonical_sql_hash": "02419e784ba86bc7c3e5bb894e8dc811aabe78e2b53fcd78957cfed838ff4980",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-GB-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "supplier1=5, supplier2=1, supplier3/4=0; fixture receipt with several lines"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-GB-04",
+    "intent_card_hash": "302247eafc2cf8822d9f634cd0a0b599472954c02a2049b9d04a8c68a7d89b03",
+    "canonical_sql_hash": "36007f312c1be023bff98d62d0e76201cdd9e98189eb4c18077f88e52d91a3c5",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-GB-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-GB-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "2 warehouses; fixture transfer and duplicate leg controls; same timestamp batch order"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-RK-01",
+    "intent_card_hash": "415a609d2f1c75a7bffa8bc1bce473b64bf895bed1e8f357ef60abe72f3df7b5",
+    "canonical_sql_hash": "84df2043b036ea507559e076b62b9614f9f62396a4e43780ef3fe8972f382cfd",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-RK-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "WH-SG EA products 13 and 16 tie at 500000; fixture verifies tie inclusion and units"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-RK-02",
+    "intent_card_hash": "ebe38fbb410878db3c779b4aa88db7c479990ccadd997a0017b73ce9425180a3",
+    "canonical_sql_hash": "e7e80ea2038ffca7d7e2f530de168142c5fdf2065a5a5a19d037668619ad2e2b",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-RK-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Current supplier counts 5,1,0,0; tie fixture at cutoff"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-RK-03",
+    "intent_card_hash": "506969a85764d9806cfaccb063c15026fa3c16c5e946a8aa55c3a936f5e60874",
+    "canonical_sql_hash": "8db10679164a613676df7dc45656d139a87bfcc9efe6230b7d57cda01d4eaa74",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-RK-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-RK-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Snapshot has no picking/quarantine movements; fixture creates tie at third location and zero balance with history"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-JN-01",
+    "intent_card_hash": "e3b55c0d7cc293ad91737726970a2093f828c2d7852b4a65172c37816bbe9585",
+    "canonical_sql_hash": "c8ee37a78f572da8af1d8bdf52a41e14e8f1bd6db67faaafdd945964d7f9dc5b",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-JN-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "6 posted receipts; validate supplier join and no line multiplication"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-JN-02",
+    "intent_card_hash": "52e6469bcf4507d557a30197fc2ef6cb6750eac0d407b8f3dd2168143ac5229a",
+    "canonical_sql_hash": "e481ed183b4d0e9a136aab1888ac94bd3a6cf39408786947cef9e964ae8ab0e7",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-JN-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "80 lines total; fixture multi-line receipt and movement-vs-plan mismatch"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-JN-03",
+    "intent_card_hash": "112db7110b2df437abbf2bb6548ba91b66dc6a6b91021adcaa31d4bb0c0b8f23",
+    "canonical_sql_hash": "d7a3e9cc5e78649ae76d6007510d11565870d94d2309a47aaa8e61ee1130c9de",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-JN-03-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-03-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "90 movement records; fixture transfer opposite legs, same timestamp and same values valid"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-JN-04",
+    "intent_card_hash": "b265483fc9985846c18dad7d217405531b9cbd80c24bf9010dfbb699f830fa6b",
+    "canonical_sql_hash": "62c3d9d8e94999f9a191eb27f17948f3533944fb9bd22fac0daf9c7222070942",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "10994e2e360377ba13dc6e405662b6ecc8e3348095687adae1f6bc9f70bb37ea"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "sql_sha256": "62c3d9d8e94999f9a191eb27f17948f3533944fb9bd22fac0daf9c7222070942",
+      "actual_rows_sha256": "10994e2e360377ba13dc6e405662b6ecc8e3348095687adae1f6bc9f70bb37ea",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:wms_jn_04",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-JN-04-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-JN-04-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "12 posted transfers; fixture duplicate-looking legitimate leg and corrupted missing/duplicate pair in validator-only case"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  },
+  {
+    "group_id": "WMS-TM-01",
+    "intent_card_hash": "b1bb0471c12553cb8ff6cde10ad0fcdf6a18acf4050fcbf6cd62096106b4912c",
+    "canonical_sql_hash": "fec0dabb2c5a76f362a69dfbf1aa35974e7c94b4dceb5f1ef2a5b0303224f6bc",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-TM-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "business_date range through 2025-01-31; fixture with later posted_at and Jan business_date"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-TM-02",
+    "intent_card_hash": "503dc9cef496690349cda7384983a79c6bb91b2261c4c86cc6be70b278df6d4d",
+    "canonical_sql_hash": "1d64162e4365748b4f9482e4313ce204352739828aa86f710a4036f8707a2529",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-TM-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-TM-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "4 docs share timestamp; `posted_seq` differentiates; test instant at cutoff and paired transfer atomicity"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-NA-01",
+    "intent_card_hash": "ddc0f65b4ff479ec6dd85d686c7f401758d8d8b23e652b7495191c691525bea7",
+    "canonical_sql_hash": "0a87321fcb061641ecab19e76f0592f050dfc363e88b37d935b46df5698a45a2",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-NA-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "No picking locations have movement in snapshot; test that anti-join is scoped by location, and add a fixture with one picking movement to detect false positives"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-NA-02",
+    "intent_card_hash": "897e45ebe7c16c0147a296f6852b5c74a3043ee9d4aae910f3a8344107fbf332",
+    "canonical_sql_hash": "a691c92d5025ae06b7ffc3756f4d751c85582f4fa44bf36d7b92e21a91901f82",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-NA-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-NA-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "Current snapshot has no zero-with-history and no picking/QTN movement; needs two fixtures; related to NA01/AG03"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-CD-01",
+    "intent_card_hash": "8858b8517ac29950f95e8842424a15470a44b57c7d95cc92904498fb33655c13",
+    "canonical_sql_hash": "46c8eb30e4f177fe58e2ec92499c8800ad61e255e663a1722bc2875eaea9b056",
+    "expected_outputs": null,
+    "expected_outputs_derived_before_sql": false,
+    "execution_evidence": null,
+    "alternative_check": null,
+    "ground_truth_status": "BLOCKED",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-CD-01-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-01-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "20 posted shipments; fixture same SKU receipt/adjustment and non-posted shipment"
+    ],
+    "machine_validation_status": "BLOCKED",
+    "blocker": "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
+  },
+  {
+    "group_id": "WMS-CD-02",
+    "intent_card_hash": "b757d12827dd908368bf64a1db5e8d7cedda03a4defd37cc75daf0963ed9ef91",
+    "canonical_sql_hash": "f55f560716806e47bb58cdcb086138ba1fd9db3b4a5780444cea3de1fe410277",
+    "expected_outputs": {
+      "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
+      "sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92"
+    },
+    "expected_outputs_derived_before_sql": true,
+    "execution_evidence": {
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "sql_sha256": "f55f560716806e47bb58cdcb086138ba1fd9db3b4a5780444cea3de1fe410277",
+      "actual_rows_sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    "alternative_check": {
+      "type": "PYTHON_ORACLE",
+      "id": "bird_vn_benchmark.intent_oracles:wms_cd_02",
+      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+    },
+    "ground_truth_status": "NEEDS_HUMAN_REVIEW",
+    "human_review": "NEEDS_HUMAN_REVIEW",
+    "question_reviews": [
+      {
+        "question_id": "WMS-CD-02-Q01",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q02",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q03",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q04",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q05",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q06",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q07",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q08",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q09",
+        "status": "NEEDS_HUMAN_REVIEW"
+      },
+      {
+        "question_id": "WMS-CD-02-Q10",
+        "status": "NEEDS_HUMAN_REVIEW"
+      }
+    ],
+    "provenance": {
+      "source": "docs\\benchmark\\intent_cards\\INTENT_CARDS_DRAFT.md",
+      "compiler": "scripts/compile_bird_vn_drafts.py",
+      "sql_source": "draft SQL mapping in compiler",
+      "llm_api_used": false
+    },
+    "issues": [
+      "80 lines/90 movements; fixture 1 doc multiple lines/movement legs with differing totals"
+    ],
+    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+  }
+]

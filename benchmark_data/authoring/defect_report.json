@@ -1,0 +1,375 @@
+{
+  "snapshot_immutable": true,
+  "open_defect_count": 41,
+  "defects": [
+    {
+      "intent_id": "ERP-EF-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "`sales_orders.order_date`, `sales_rep_id`; toàn bộ 72 `created_at` khác `order_date`; 6 confirmed thiếu rep",
+      "gap": "Fixture đúng boundary 01/01 và exclusive end",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-EF-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "27 delivered shipment chỉ tới 2025-06; không có cohort delivery Q4/2025",
+      "gap": "Positive Q4 delivered order >100m, below-threshold Q4 order, and delivery-time boundaries",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-AG-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "24 customers, 3 segment × 8",
+      "gap": "Duplicate join fixture để phân biệt COUNT(*) và COUNT DISTINCT",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-AG-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "confirmed order lines; 33 zero-net lines; total order value 592,736,375 VND",
+      "gap": "Boundary line/date fixture; xác nhận discount/null behavior từ schema",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-AG-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "72 orders, 33 zero-net lines",
+      "gap": "Fixture chứng minh AVG(line) khác AVG(order total), và empty cohort",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-AG-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "44 tx: 36 posted captures, 6 pending captures, 2 posted refunds",
+      "gap": "Nhiều payment/order + zero-net + local time boundary để bắt fan-out",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-GB-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "4 customer không có confirmed order; order lines 216",
+      "gap": "Multi-line orders chống fan-out khi tổng hợp amount",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-GB-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Delivered events Apr–Jun 2025; local month conversion",
+      "gap": "UTC instant đổi tháng local và month-with-no-rows",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-RK-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Delivered orders/revenue hiện diện",
+      "gap": "Tie đúng cutoff top-5 chưa chứng minh bởi evidence hiện tại",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-RK-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Products có EA/KG/L và order lines",
+      "gap": "Tie tại top-3, SKU khác unit và zero sold",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-RK-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Posted captures/refunds, payment/customer links",
+      "gap": "Equal maxima, pending decoy, no-cash customer fixture",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-JN-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "216 lines, orders and products connected",
+      "gap": "Data corruption/duplicate line test chỉ ở validator; verify status/date exclusion",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-JN-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "27 delivered; lines/customer/product path",
+      "gap": "Multi-payment/order case để phát hiện fan-out; expected group checks",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-JN-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "4 returns, 2 received + 2 rejected; return-line/order links",
+      "gap": "Same SKU multiple lines, full RECEIVED quantity, quantity upper bound",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-TM-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "`order_date` from 2024-12-16 to 2026-02-28",
+      "gap": "Exact `[start,end)` boundary",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-TM-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "27 delivered timestamps Apr–Jun",
+      "gap": "UTC-to-local midnight instants and NULL event control",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-NA-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "4 customers without confirmed order",
+      "gap": "Ensure draft/cancelled-only customer not mistaken for confirmed",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-NA-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "12 orders without posted cash; pending capture records exist",
+      "gap": "Posted capture/refund net-zero order fixture",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-CD-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Validation totals: order value 592,736,375 vs recognized revenue 352,856,000 VND",
+      "gap": "Fixture crossing order date and delivery date periods to expose common-date filter",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "ERP-CD-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Posted capture/refund and pending transactions; method columns present",
+      "gap": "One method with both capture/refund + pending decoy; confirm no synthetic missing-method rows",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-EF-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "90 movements, 8 locations, posted events",
+      "gap": "Same SKU/location opposite legs and cutoff",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-EF-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "2 QUARANTINE locations; no quarantine movements",
+      "gap": "Positive quarantine collision + zero-balance and inactive-location controls; required before use",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-AG-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "6 posted receipts and 1 draft receipt",
+      "gap": "Multi-line receipt to detect inflated COUNT",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-AG-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "20 posted shipments; positive and negative movements",
+      "gap": "Same SKU adjustment/transfer decoys; unit selection",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-AG-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "On-hand validator reports 36 positive product-location balances; no zero-with-history",
+      "gap": "Zero-with-history and no-history location; confirm AVG inclusion denominator",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-AG-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Schema supports balances by product-location; current positive balances",
+      "gap": "Fractional rational mean fixture; zero/history vs no-history",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-GB-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "46 documents with multiple statuses",
+      "gap": "Ensure count document PK vs rows",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-GB-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "57 positive and 33 negative movement rows; types and units varied",
+      "gap": "Net-zero same group, avoid adding different units",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-GB-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Supplier receipt counts 5,1,0,0",
+      "gap": "Multi-line docs to catch line-counting",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-GB-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "2 warehouses, movements with transfers",
+      "gap": "Same timestamp `posted_seq`, transfer legs, multi-location rollup and unit split",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-RK-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Supplier posted receipt counts 5,1,0,0",
+      "gap": "Tie at top-3 boundary",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-RK-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "8 locations; current picking/quarantine have no movement",
+      "gap": "Third-place tie, zero-with-history; clarify eligibility of STORAGE only",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-JN-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "80 document lines and product FK path",
+      "gap": "Fixture planned quantity deliberately differs from posted movement",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-JN-03",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "90 movements with location and warehouse links",
+      "gap": "Transfer paired legs and aggregation without unit/fanout issues",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-JN-04",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "12 posted transfers; two-leg identity rules in validator",
+      "gap": "Duplicate-looking legitimate leg and validator-only corrupted pair cases",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-TM-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "business_date range 2024-11-02..2025-01-31",
+      "gap": "business_date differs from posted_at at boundary",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-TM-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "UTC event timestamps Jan–Mar 2025; 4 documents share timestamp with posted_seq",
+      "gap": "Exact cutoff and atomic transfer batch evidence",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-NA-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "Products exist; no movement at PICKING locations",
+      "gap": "Add a picking movement collision to prove location scope; confirm active-location filter",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-NA-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "No zero-with-history balances; all 36 recorded balances positive",
+      "gap": "Add zero-with-history and no-history pair; otherwise cannot validate distinction",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-CD-01",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "20 posted shipments + other movement types",
+      "gap": "Same product/unit with shipment and non-shipment; pending/cancelled decoy",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "intent_id": "WMS-CD-02",
+      "status": "OPEN",
+      "coverage_status": "NEEDS FIXTURE",
+      "snapshot_evidence": "80 lines, 90 movement rows; document type/status and source links",
+      "gap": "Multi-line/multi-movement document to detect JOIN multiplication",
+      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
+      "human_review": "NEEDS_HUMAN_REVIEW"
+    }
+  ]
+}

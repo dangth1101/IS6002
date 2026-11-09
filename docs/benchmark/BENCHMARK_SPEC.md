@@ -8,7 +8,7 @@
 | DBMS | SQLite |
 | Quy mô đề xuất | 550 Questions; 50 Semantic Groups/Intent; 50 canonical SQL |
 | Split đề xuất | Development: 10 groups/110 Questions; Final: 40 groups/440 Questions |
-| Phạm vi tài liệu | Bước 1; chưa tạo câu hỏi, database, seed data hay SQL benchmark |
+| Phạm vi tài liệu | Đặc tả Bước 1; Bước 2B đã tạo physical DB/seed; chưa có benchmark Questions hoặc canonical SQL |
 
 Đây vẫn là đặc tả Draft, chưa phải benchmark đã được triển khai hoặc phát hành. Benchmark Owner đã phê duyệt D1–D7, D10 và D11 ngày 2026-11-09; D8, D9, D12–D14 còn PROPOSED. Các ví dụ nghiệp vụ chỉ minh họa cách làm, không phải item của benchmark.
 
@@ -112,7 +112,7 @@ Một Semantic Group biểu diễn một intent nghiệp vụ và chứa 11 Ques
 | Conditional/derived metric | 4 | 2 | 2 | CASE và metric nghiệp vụ |
 | **Tổng** | **50** | **25** | **25** | 1 intent/group, 11 questions/group, 1 SQL/group |
 
-Đề xuất complexity 16 Simple, 24 Moderate, 10 Challenging (tăng gấp đôi quota Draft trước). Gán theo joins, subquery/CTE, tầng aggregation, conditional/time logic và schema linking; không dựa vào độ dài câu. Quota phải được khóa trước khi viết 550 Questions.
+Complexity được phân bổ đều theo database: ERP Sales 8 Simple / 12 Moderate / 5 Challenging; WMS Inventory 8 / 12 / 5 (tổng 16/24/10). Gán theo joins, subquery/CTE, tầng aggregation, conditional/time logic và schema linking; không dựa vào độ dài câu. Mỗi intent vẫn cần rubric-level justification trước khi viết Questions.
 
 ## 7. Quy trình tạo và kiểm duyệt Question
 
@@ -337,14 +337,14 @@ D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09
 | D1 | 10 Development groups/110 Questions; 40 Final groups/440 Questions; chia ở cấp group/near-duplicate cluster | APPROVED | Benchmark Owner | 2026-11-09 | Tránh rò rỉ wording cùng intent; mọi Q0–Q10 trong group ở cùng split và near-duplicate clusters phải được kiểm tra trước khi khóa split. |
 | D2 | 25 ERP groups + 25 WMS groups; mỗi split cân bằng 5/5 Dev và 20/20 Final | APPROVED | Benchmark Owner | 2026-11-09 | Cân bằng hai domain trong toàn tập và trong từng split để giảm nguy cơ kết quả bị chi phối bởi một database. |
 | D3 | Synthetic deterministic, không PII thật; public data nếu license/provenance rõ | APPROVED | Benchmark Owner | 2026-11-09 | Ưu tiên dữ liệu tổng hợp xác định để tái lập; chỉ dùng nguồn công khai bổ sung khi license và provenance được ghi lại. |
-| D4 | Định hướng: hai SQLite DB; glossary/data dictionary/business rules phải được kiểm tra và chốt trước annotation | APPROVED (định hướng) | Benchmark Owner | 2026-11-09 | Phê duyệt phạm vi hai DB và nguyên tắc xác minh tài liệu nghiệp vụ trước annotation. Business Rules và Glossary chi tiết chưa được phê duyệt; cần được kiểm tra trong Bước 2A. |
+| D4 | Định hướng hai SQLite DB; Business Rules/Glossary được kiểm tra trong Bước 2A | APPROVED (định hướng) | Benchmark Owner | 2026-11-09 | Sau đó, các synthetic rules R-01…R-11 được xác nhận riêng cho logic design ngày 2026-11-09; không phải chuẩn ngành. |
 | D5 | Schema context/Evidence giống nhau cho mọi 11 Questions trong group | APPROVED | Benchmark Owner | 2026-11-09 | Giữ dữ liệu và thông tin nền giống nhau giữa Q0–Q10 trong cùng group để cô lập wording variation. |
-| D6 | Empty-result intents có chủ đích; quota 2–3 trên 50 | APPROVED | Benchmark Owner | 2026-11-09 | Cho phép kiểm tra trường hợp kết quả rỗng nhưng giới hạn số lượng; từng intent cần fixture/counterexample kiểm tra false match. |
-| D7 | BIRD-compatible set EX và set-based RSS; EX_bag diagnostic; primary EX không chấm row order | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận set-based comparator chính và EX_bag diagnostic; row order không tính vào EX chính. Ranking/ties vẫn phải có quy tắc và test cases trong protocol. |
+| D6 | Chính xác 2 empty-result intents: 1 ERP và 1 WMS | APPROVED | Benchmark Owner | 2026-11-09 | Giữ một trường hợp empty có chủ đích cho mỗi database; mỗi intent cần fixture/counterexample kiểm tra false match. |
+| D7 | BIRD-compatible set EX; EX_bag là diagnostic; EX không kiểm tra row order. Mỗi ranking Intent Card chốt deterministic tie-break hoặc include all ties | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận set-based comparator chính; semantics ties được định nghĩa theo intent và cần test riêng. |
 | D8 | Timeout khởi điểm 30 giây/query, đo trên snapshot rồi freeze; cùng resource limits cho mọi câu | PROPOSED | — | — | Source hiện dùng 30s; workload mới cần đo. |
 | D9 | Ưu tiên 3 replicates nếu đủ nguồn lực; nếu không single-shot. Paired theo replicate, báo từng run và mean/range/SD | PROPOSED | — | — | Không gộp SQL outputs hoặc chọn replicate cao nhất. |
 | D10 | Một Benchmark Owner thực hiện single-human validation; AI/Codex hỗ trợ critique/oracle; công khai không có independent human annotation | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận quy trình một người; AI/Codex chỉ hỗ trợ kiểm tra kỹ thuật, không được tính là annotator độc lập hay double-blind review; công bố common-method bias. |
-| D11 | Competency quota §6 (8/8/8/6/8/4/4/4), complexity 16/24/10; mỗi group 3 Lexical, 3 Syntactic, 2 Reordering, 2 Mixed | APPROVED | Benchmark Owner | 2026-11-09 | Khóa coverage competency, complexity và taxonomy biến thể trước authoring; mọi biến thể vẫn phải qua semantic-slot review. |
+| D11 | Competency quota §6 (8/8/8/6/8/4/4/4); complexity ERP 8/12/5, WMS 8/12/5; mỗi group 3 Lexical, 3 Syntactic, 2 Reordering, 2 Mixed | APPROVED | Benchmark Owner | 2026-11-09 | Khóa coverage theo database, competency và taxonomy trước authoring; mọi biến thể vẫn phải qua semantic-slot review. |
 | D12 | 0.x pilot; Final giữ kín khi khả thi, nếu không ghi exposure/leakage | PROPOSED | — | — | Chốt release/access trước tune/final evaluation. |
 | D13 | Bootstrap/statistics cluster theo 50 groups; infra retry tối đa 2 sau initial; missingness/denominators công bố | PROPOSED | — | — | 550 câu và 500 pairs lồng trong groups; suy luận exploratory. |
 | D14 | Gọi là pilot, không tuyên bố “first” hoặc novelty tuyệt đối | PROPOSED | — | — | Cần literature review trước novelty claim. |
@@ -400,11 +400,11 @@ D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09
 | LLM judge bias | Tự củng cố lỗi model | Judge chỉ triage; quyết định cuối do người. |
 | Infra failures bị tính sai | Denominator thiên lệch | Phân loại infra_error; retry cố định, báo missingness. |
 
-## 18. Điều kiện để bắt đầu Bước 2A
+## 18. Trạng thái Bước 2A và điều kiện cho các bước tiếp theo
 
-D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9, D12, D13 và D14 vẫn PROPOSED và không cản trở việc bắt đầu Bước 2A. Có thể bắt đầu Bước 2A để kiểm tra Business Rules/Glossary chi tiết, xác định Domain Owner hoặc nguồn nghiệp vụ thay thế, rà soát date/time/currency/NULL rules, và phát triển thiết kế schema theo định hướng hai SQLite DB đã duyệt.
+D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9, D12, D13 và D14 vẫn PROPOSED. Thiết kế logic Bước 2A được nghiệm thu riêng ngày 2026-11-09 theo phạm vi đã ghi tại [STEP_2A_REVIEW.md](database_design/STEP_2A_REVIEW.md). Complexity quota đã chốt là ERP 8/12/5 và WMS 8/12/5; empty-result quota chính xác 2 (mỗi DB một intent).
 
-D4 chỉ duyệt định hướng thiết kế; không xem bất kỳ Business Rules hoặc Glossary chi tiết nào là đã xác nhận. Bước 2A cần ghi nguồn, giả định, bất đồng và kết quả rà soát trước khi freeze schema/data. D8/D9/D13 phải được chốt trước evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty. Lần cập nhật này không tạo Questions, database, seed hay SQL benchmark.
+D4 ban đầu chỉ duyệt định hướng hai database. Sau đó Benchmark Owner xác nhận riêng các synthetic rules R-01…R-11 cho thiết kế logic; chúng không phải chuẩn ERP/WMS phổ quát. Thiết kế logic Bước 2A được nghiệm thu ngày 2026-11-09. Benchmark Owner xác nhận riêng việc nghiệm thu Bước 2B trong yêu cầu Autonomous Benchmark Implementation ngày 2026-11-09; snapshot hashes và validation evidence tại [physical database README](physical_database/README.md). Intent Cards, 50 SQL candidates và 550 wording drafts hiện được quản lý tại `docs/benchmark/intent_cards/` và `benchmark_data/authoring/`; tất cả chờ human review, không phải release. D8/D9/D13 phải được chốt trước official evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty.
 ## Phụ lục A. Phân loại phương pháp
 
 - **Kế thừa BIRD:** database-grounded task, schema/data context, Evidence khi cần, kiểm tra SQL validity và text/knowledge/SQL alignment, execution-based EX.

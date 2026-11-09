@@ -1,0 +1,137 @@
+{
+  "suite": "BIRD-VN physical database fixtures",
+  "command": [
+    "D:\\HuyLieu\\UIT\\Môn học\\Hệ cơ sở dữ liệu tiên tiến\\Project\\IS6002\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp=D:\\HuyLieu\\UIT\\Môn học\\Hệ cơ sở dữ liệu tiên tiến\\Project\\IS6002\\benchmark_data\\physical\\.fixture_test_tmp",
+    "--junitxml=D:\\HuyLieu\\UIT\\Môn học\\Hệ cơ sở dữ liệu tiên tiến\\Project\\IS6002\\benchmark_data\\physical\\fixture_test_results.xml",
+    "-q",
+    "tests/test_benchmark_physical.py"
+  ],
+  "finished_at_utc": "2026-11-09T08:44:17+00:00",
+  "python": "3.12.6",
+  "process_exit_code": 0,
+  "status": "PASS",
+  "passed": 16,
+  "failed": 0,
+  "skipped": 0,
+  "tests": [
+    {
+      "name": "test_valid_seed_passes_all_invariants[erp_sales]",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.16,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_valid_seed_passes_all_invariants[wms_inventory]",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.058,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_same_seed_produces_identical_database_bytes",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.085,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_repeated_valid_business_movements_keep_distinct_identity",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.052,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_refund_above_captured_prefix_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.055,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_return_quantity_over_sold_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.073,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_transfer_missing_leg_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.049,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_duplicate_source_leg_identity_is_rejected_by_schema",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.044,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_negative_stock_prefix_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.048,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_bad_timezone_format_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.051,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_aggregate_overflow_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.057,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_foreign_key_violation_is_detected_and_connections_enable_fk",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.058,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_incorrect_status_fails",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.049,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_category_parent_cycle_fails[erp_sales]",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.059,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_category_parent_cycle_fails[wms_inventory]",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.052,
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "test_database_check_rejects_amount_over_cap",
+      "classname": "tests.test_benchmark_physical",
+      "duration_seconds": 0.048,
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "stdout": "................                                                         [100%]\n16 passed in 1.03s\n",
+  "stderr": ""
+}

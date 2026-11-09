@@ -1,0 +1,138 @@
+{
+  "validator_version": "0.1.0",
+  "domain": "wms_inventory",
+  "database_path": "D:\\HuyLieu\\UIT\\Môn học\\Hệ cơ sở dữ liệu tiên tiến\\Project\\IS6002\\benchmark_data\\physical\\wms_inventory.sqlite",
+  "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+  "environment": {
+    "python": "3.12.6",
+    "sqlite": "3.45.3",
+    "platform": "Windows-11-10.0.26320-SP0"
+  },
+  "status": "PASS",
+  "invariants_passed": 10,
+  "invariants_failed": 0,
+  "checks": [
+    {
+      "invariant_id": "DB-FK-001",
+      "description": "Foreign key enforcement enabled and referential integrity clean",
+      "status": "PASS",
+      "records_checked": 260,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {
+        "pragma_foreign_keys": 1,
+        "foreign_key_violations": 0,
+        "rows_in_fk_checked_tables": 260
+      }
+    },
+    {
+      "invariant_id": "DB-TIME-001",
+      "description": "All timestamps and business dates use valid canonical formats",
+      "status": "PASS",
+      "records_checked": 226,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {}
+    },
+    {
+      "invariant_id": "WMS-CATEGORY-001",
+      "description": "Category hierarchy contains no cycles",
+      "status": "PASS",
+      "records_checked": 4,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {}
+    },
+    {
+      "invariant_id": "WMS-DOC-001",
+      "description": "Document type/status, posting state and lifecycle",
+      "status": "PASS",
+      "records_checked": 46,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {}
+    },
+    {
+      "invariant_id": "WMS-MOV-001",
+      "description": "Movement direction, line totals and transfer pair invariants",
+      "status": "PASS",
+      "records_checked": 80,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {}
+    },
+    {
+      "invariant_id": "WMS-SEQ-001",
+      "description": "Every posted document has a unique batch sequence",
+      "status": "PASS",
+      "records_checked": 44,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {
+        "posted_documents": 44,
+        "same_timestamp_batches": 3
+      }
+    },
+    {
+      "invariant_id": "WMS-CAPS-001",
+      "description": "Movement caps and signed 64-bit aggregate bounds",
+      "status": "PASS",
+      "records_checked": 90,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {
+        "movements": 90,
+        "aggregate_absolute_milli": 19020596,
+        "signed_64_bit_max": 9223372036854775807
+      }
+    },
+    {
+      "invariant_id": "WMS-ID-001",
+      "description": "Stable source/leg identities are unique",
+      "status": "PASS",
+      "records_checked": 90,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {}
+    },
+    {
+      "invariant_id": "WMS-STOCK-001",
+      "description": "Stock is nonnegative after each atomic posting batch",
+      "status": "PASS",
+      "records_checked": 44,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {
+        "product_location_balances_checked": 36
+      }
+    },
+    {
+      "invariant_id": "WMS-UOM-001",
+      "description": "On-hand aggregation retains base unit and includes a meaningful ranking tie",
+      "status": "PASS",
+      "records_checked": 36,
+      "failing_count": 0,
+      "failures": [],
+      "evidence": {
+        "warehouse_stock_groups": 18,
+        "units": [
+          "EA",
+          "KG",
+          "L"
+        ],
+        "positive_same_unit_tie_groups": 4
+      }
+    }
+  ],
+  "row_counts": {
+    "PRODUCT_CATEGORIES": 4,
+    "PRODUCTS": 18,
+    "SUPPLIERS": 4,
+    "CUSTOMERS": 8,
+    "WAREHOUSES": 2,
+    "LOCATIONS": 8,
+    "INVENTORY_DOCUMENTS": 46,
+    "INVENTORY_DOCUMENT_LINES": 80,
+    "INVENTORY_MOVEMENTS": 90
+  }
+}

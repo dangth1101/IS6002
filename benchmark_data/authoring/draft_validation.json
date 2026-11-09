@@ -1,0 +1,405 @@
+{
+  "registry_counts": {
+    "groups": 50,
+    "questions": 550,
+    "dev_questions": 110
+  },
+  "competency_counts": {
+    "Filter": 8,
+    "Aggregate": 8,
+    "Group": 8,
+    "Ranking": 6,
+    "Join": 8,
+    "Time": 4,
+    "NULL": 4,
+    "Conditional": 4
+  },
+  "complexity_counts": {
+    "erp_sales/Simple": 8,
+    "erp_sales/Challenging": 5,
+    "erp_sales/Moderate": 12,
+    "wms_inventory/Simple": 8,
+    "wms_inventory/Moderate": 12,
+    "wms_inventory/Challenging": 5
+  },
+  "split_domain_counts": {
+    "development/erp_sales": 5,
+    "final/erp_sales": 20,
+    "development/wms_inventory": 5,
+    "final/wms_inventory": 20
+  },
+  "taxonomy_variant_counts": {
+    "lexical": 150,
+    "syntactic": 150,
+    "reordering": 100,
+    "mixed": 100
+  },
+  "question_text_unique": true,
+  "static_sql": {
+    "ERP-EF-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-EF-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-EF-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-EF-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-AG-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-AG-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-AG-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-AG-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-GB-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-GB-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-GB-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-GB-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-RK-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-RK-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-RK-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-JN-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-JN-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-JN-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-JN-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-TM-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-TM-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-NA-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-NA-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-CD-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "ERP-CD-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-EF-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-EF-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-EF-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-EF-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-AG-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-AG-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-AG-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-AG-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-GB-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-GB-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-GB-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-GB-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-RK-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-RK-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-RK-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-JN-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-JN-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-JN-03": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-JN-04": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-TM-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-TM-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-NA-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-NA-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-CD-01": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    },
+    "WMS-CD-02": {
+      "status": "PASS",
+      "message": "SQLite prepare/plan only; candidate rows not executed"
+    }
+  },
+  "near_duplicate_candidates": [
+    {
+      "scope": "within_group_variant",
+      "left": "ERP-EF-04-Q00",
+      "right": "ERP-EF-04-Q01",
+      "jaccard": 0.8
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "WMS-AG-03-Q00",
+      "right": "WMS-AG-03-Q01",
+      "jaccard": 0.8148
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "WMS-AG-03-Q00",
+      "right": "WMS-AG-03-Q04",
+      "jaccard": 0.7857
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q01",
+      "right": "WMS-GB-01-Q01",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.75
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q02",
+      "right": "WMS-GB-01-Q02",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7857
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q03",
+      "right": "WMS-GB-01-Q03",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8333
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q04",
+      "right": "WMS-GB-01-Q04",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7857
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q05",
+      "right": "WMS-GB-01-Q05",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7857
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q06",
+      "right": "WMS-GB-01-Q06",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8125
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q07",
+      "right": "WMS-GB-01-Q07",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8421
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q08",
+      "right": "WMS-GB-01-Q08",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q09",
+      "right": "WMS-GB-01-Q09",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8571
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-01-Q10",
+      "right": "WMS-GB-01-Q10",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.8696
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-GB-02-Q10",
+      "right": "ERP-NA-01-Q10",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7333
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-JN-01-Q09",
+      "right": "ERP-NA-01-Q09",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.72
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-JN-01-Q10",
+      "right": "ERP-JN-04-Q10",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7241
+    },
+    {
+      "scope": "between_groups",
+      "left": "ERP-JN-01-Q10",
+      "right": "ERP-NA-01-Q10",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7407
+    },
+    {
+      "scope": "between_groups",
+      "left": "WMS-AG-01-Q09",
+      "right": "WMS-GB-01-Q09",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.7391
+    },
+    {
+      "scope": "between_groups",
+      "left": "WMS-AG-01-Q10",
+      "right": "WMS-GB-01-Q10",
+      "left_split": "final",
+      "right_split": "final",
+      "jaccard": 0.76
+    }
+  ],
+  "variant_slot_inheritance": "PASS structurally; natural-language equivalence requires human review",
+  "database_hashes": {
+    "erp_sales": {
+      "database": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "schema": "44fe39755eace3128c1a4c1710348fd150fb6cb7c1d1adb437b8f106dc716eea"
+    },
+    "wms_inventory": {
+      "database": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "schema": "690c4a68944ef58ca67cc32f245ed23b4e9ab9a27e99279b8e5d0b9849883307"
+    }
+  },
+  "static_sql_summary": {
+    "pass": 50,
+    "fail": 0,
+    "rows_executed": false
+  },
+  "created_at_utc": "2026-11-09T10:28:05+00:00"
+}

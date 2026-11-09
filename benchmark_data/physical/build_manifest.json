@@ -1,0 +1,85 @@
+{
+  "benchmark": "BIRD-VN-Robust-50",
+  "build_status": "PASS",
+  "build_script_version": "0.1.0",
+  "seed": 6002,
+  "python_version": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+  "sqlite_version": "3.45.3",
+  "schema_version": 1,
+  "seed_config_sha256": "bea49fbdd8da1da6ee1884dccea004a4bbfcaa18e2f830d6ae403057c426bbf9",
+  "source_sha256": {
+    "schema_module": "a1fb60ef88327acfe6eafe873b20d6b119c25eff1255454817d305619d79f000",
+    "seed_generator": "ea28edc34e7f91665bd849012e203fc5d0dbd95662d3ed51290d260ab457288b",
+    "validator": "06f51c04a0611296e954317dde92338e5cc8fb0be91360eb01829c399afd5375",
+    "build_cli": "90300cb7c2e537ff059df2f6faf8e18ec3240e0c25f143b0fc161704d18e442a",
+    "fixture_test_runner": "9dbe1d3f826b78334a0d57574a3282b2e90b1e821a7ef76084e5effe211aaf73"
+  },
+  "test_evidence": {
+    "fixture_test_results.json": {
+      "path": "fixture_test_results.json",
+      "sha256": "e704c3a7581b44bb0254aa55d94f94e16307597321e4d02d06ee912654a33aa3",
+      "status": "PASS"
+    },
+    "all_test_results.json": {
+      "path": "all_test_results.json",
+      "sha256": "61106d48851a860b544f1569434b03c50937d563ee0a98e0bd245fdb32ae8c1e",
+      "status": "PASS"
+    }
+  },
+  "schemas": {
+    "erp_sales": {
+      "path": "schema_erp_sales.sql",
+      "sha256": "44fe39755eace3128c1a4c1710348fd150fb6cb7c1d1adb437b8f106dc716eea"
+    },
+    "wms_inventory": {
+      "path": "schema_wms_inventory.sql",
+      "sha256": "690c4a68944ef58ca67cc32f245ed23b4e9ab9a27e99279b8e5d0b9849883307"
+    }
+  },
+  "databases": {
+    "erp_sales": {
+      "row_counts": {
+        "CUSTOMERS": 24,
+        "EMPLOYEES": 5,
+        "PRODUCT_CATEGORIES": 5,
+        "PRODUCTS": 12,
+        "SALES_ORDERS": 72,
+        "SALES_ORDER_LINES": 216,
+        "SALES_SHIPMENTS": 48,
+        "SALES_RETURNS": 4,
+        "SALES_RETURN_LINES": 4,
+        "PAYMENT_TRANSACTIONS": 44
+      },
+      "sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "reproducibility": "PASS",
+      "database_file": "erp_sales.sqlite"
+    },
+    "wms_inventory": {
+      "row_counts": {
+        "PRODUCT_CATEGORIES": 4,
+        "PRODUCTS": 18,
+        "SUPPLIERS": 4,
+        "CUSTOMERS": 8,
+        "WAREHOUSES": 2,
+        "LOCATIONS": 8,
+        "INVENTORY_DOCUMENTS": 46,
+        "INVENTORY_DOCUMENT_LINES": 80,
+        "INVENTORY_MOVEMENTS": 90
+      },
+      "sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "reproducibility": "PASS",
+      "database_file": "wms_inventory.sqlite"
+    }
+  },
+  "validation": {
+    "erp_sales": {
+      "status": "PASS",
+      "failed": 0
+    },
+    "wms_inventory": {
+      "status": "PASS",
+      "failed": 0
+    }
+  },
+  "scope_note": "Physical synthetic DB only. No Intent Cards, benchmark questions, or canonical benchmark SQL are included."
+}
