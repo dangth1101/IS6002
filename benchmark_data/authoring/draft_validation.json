@@ -246,6 +246,30 @@
     },
     {
       "scope": "within_group_variant",
+      "left": "ERP-RK-02-Q00",
+      "right": "ERP-RK-02-Q01",
+      "jaccard": 0.8438
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "ERP-RK-02-Q00",
+      "right": "ERP-RK-02-Q02",
+      "jaccard": 0.7941
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "ERP-RK-02-Q00",
+      "right": "ERP-RK-02-Q04",
+      "jaccard": 0.7941
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "ERP-RK-02-Q00",
+      "right": "ERP-RK-02-Q05",
+      "jaccard": 0.8182
+    },
+    {
+      "scope": "within_group_variant",
       "left": "WMS-AG-03-Q00",
       "right": "WMS-AG-03-Q01",
       "jaccard": 0.8148
@@ -255,6 +279,18 @@
       "left": "WMS-AG-03-Q00",
       "right": "WMS-AG-03-Q04",
       "jaccard": 0.7857
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "WMS-CD-02-Q00",
+      "right": "WMS-CD-02-Q01",
+      "jaccard": 0.8077
+    },
+    {
+      "scope": "within_group_variant",
+      "left": "WMS-CD-02-Q00",
+      "right": "WMS-CD-02-Q04",
+      "jaccard": 0.8077
     },
     {
       "scope": "between_groups",
@@ -401,5 +437,5 @@
     "fail": 0,
     "rows_executed": false
   },
-  "created_at_utc": "2026-11-09T10:28:05+00:00"
+  "created_at_utc": "2026-11-09T11:17:47+00:00"
 }

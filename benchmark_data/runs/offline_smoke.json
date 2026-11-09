@@ -1,7 +1,7 @@
 {
   "artifact_version": 1,
   "benchmark_version": "0.3.0-draft-implementation",
-  "registry_sha256": "6bf01629f25bde4e9c73686669ae07e2b2091461f60929cf8cdc16afc5adfa77",
+  "registry_sha256": "9b5ae6eddd2e3c1aa885607b8607ec7bda89b2f92fc4a45afd98201973b1c574",
   "run_id": "synthetic-smoke",
   "replicate_id": 0,
   "model_id": "offline-fixture-identical-sql",
@@ -11,7 +11,7 @@
     "timeout_s": 30.0,
     "read_only": true
   },
-  "created_at_utc": "2026-11-09T10:28:06.305+00:00",
+  "created_at_utc": "2026-11-09T11:17:48.352+00:00",
   "database_artifacts": {
     "erp_sales": {
       "database_sha256": "57105a2f17651abf71679dca3d3ffa064372588d88ee7d0d074cf49a1bcfd6fb",

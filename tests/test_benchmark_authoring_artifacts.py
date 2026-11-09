@@ -27,11 +27,32 @@ def test_open_fixture_defects_and_dev_oracle_coverage_are_explicit():
     defects = json.loads((AUTHORING / "defect_report.json").read_text(encoding="utf-8"))
     expected = json.loads((AUTHORING / "expected_outputs_dev.json").read_text(encoding="utf-8"))
     validation = json.loads((AUTHORING / "ground_truth_validation.json").read_text(encoding="utf-8"))
-    assert defects["open_defect_count"] == 41
+    validation_records = json.loads((AUTHORING / "validation_records.json").read_text(encoding="utf-8"))
+    assert defects["open_defect_count"] == 35
     assert len(expected["expected_outputs"]) == len(DEV_ORACLES) == 10
     assert all(record["derived_before_canonical_sql_execution"] for record in expected["expected_outputs"])
-    assert validation["summary"] == {"VALIDATED_BY_AUTOMATION": 4, "NEEDS_HUMAN_REVIEW": 6, "BLOCKED": 0}
-    assert validation["all_group_status_summary"] == {"VALIDATED_BY_AUTOMATION": 4, "NEEDS_HUMAN_REVIEW": 6, "BLOCKED": 40}
+    assert validation["summary"] == {"VALIDATED_BY_AUTOMATION": 10, "NEEDS_HUMAN_REVIEW": 0, "BLOCKED": 0}
+    assert validation["all_group_status_summary"] == {"VALIDATED_BY_AUTOMATION": 10, "NEEDS_HUMAN_REVIEW": 0, "BLOCKED": 40}
+    main_results = {record["group_id"]: record for record in validation["results"]}
+    assert all(main_results["ERP-RK-02"]["business_rule_checks"].values())
+    assert all(main_results["WMS-CD-02"]["business_rule_checks"].values())
+    assert all(record["human_review_status"] == "NEEDS_HUMAN_REVIEW"
+               and record["owner_approval"]["status"] == "PENDING"
+               for record in validation_records if record["group_id"] in DEV_ORACLES)
+
+
+def test_dev_fixture_expected_outputs_precede_sql_and_all_six_fixtures_pass():
+    expected = json.loads((AUTHORING / "dev_fixture_expected_outputs.json").read_text(encoding="utf-8"))
+    validation = json.loads((AUTHORING / "dev_fixture_validation.json").read_text(encoding="utf-8"))
+    assert expected["stage"] == "EXPECTED_OUTPUTS_FROZEN_BEFORE_CANDIDATE_SQL_EXECUTION"
+    assert all(item["derived_before_candidate_sql_execution"] for item in expected["expected_outputs"])
+    assert validation["summary"] == {"PASS": 6, "FAIL": 0}
+    by_id = {item["group_id"]: item for item in validation["results"]}
+    assert by_id["ERP-RK-02"]["checks"]["unit_partition_and_rank3_tie_pass"]
+    assert by_id["WMS-CD-02"]["checks"]["transfer_not_double_counted"]
+    assert by_id["WMS-CD-02"]["checks"]["nonposted_zero_pass"]
+    assert by_id["WMS-CD-02"]["checks"]["posted_invariant_pass"]
+    assert validation["snapshot_immutable"] is True
 
 
 def test_expected_outputs_are_bound_to_the_frozen_snapshot_hashes():

@@ -1,6 +1,6 @@
 {
   "snapshot_immutable": true,
-  "open_defect_count": 41,
+  "open_defect_count": 35,
   "defects": [
     {
       "intent_id": "ERP-EF-02",
@@ -84,29 +84,11 @@
       "human_review": "NEEDS_HUMAN_REVIEW"
     },
     {
-      "intent_id": "ERP-RK-02",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "Products có EA/KG/L và order lines",
-      "gap": "Tie tại top-3, SKU khác unit và zero sold",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
       "intent_id": "ERP-RK-03",
       "status": "OPEN",
       "coverage_status": "NEEDS FIXTURE",
       "snapshot_evidence": "Posted captures/refunds, payment/customer links",
       "gap": "Equal maxima, pending decoy, no-cash customer fixture",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
-      "intent_id": "ERP-JN-02",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "216 lines, orders and products connected",
-      "gap": "Data corruption/duplicate line test chỉ ở validator; verify status/date exclusion",
       "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
       "human_review": "NEEDS_HUMAN_REVIEW"
     },
@@ -134,15 +116,6 @@
       "coverage_status": "NEEDS FIXTURE",
       "snapshot_evidence": "`order_date` from 2024-12-16 to 2026-02-28",
       "gap": "Exact `[start,end)` boundary",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
-      "intent_id": "ERP-TM-02",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "27 delivered timestamps Apr–Jun",
-      "gap": "UTC-to-local midnight instants and NULL event control",
       "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
       "human_review": "NEEDS_HUMAN_REVIEW"
     },
@@ -206,15 +179,6 @@
       "coverage_status": "NEEDS FIXTURE",
       "snapshot_evidence": "6 posted receipts and 1 draft receipt",
       "gap": "Multi-line receipt to detect inflated COUNT",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
-      "intent_id": "WMS-AG-02",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "20 posted shipments; positive and negative movements",
-      "gap": "Same SKU adjustment/transfer decoys; unit selection",
       "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
       "human_review": "NEEDS_HUMAN_REVIEW"
     },
@@ -309,15 +273,6 @@
       "human_review": "NEEDS_HUMAN_REVIEW"
     },
     {
-      "intent_id": "WMS-JN-04",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "12 posted transfers; two-leg identity rules in validator",
-      "gap": "Duplicate-looking legitimate leg and validator-only corrupted pair cases",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
       "intent_id": "WMS-TM-01",
       "status": "OPEN",
       "coverage_status": "NEEDS FIXTURE",
@@ -359,15 +314,6 @@
       "coverage_status": "NEEDS FIXTURE",
       "snapshot_evidence": "20 posted shipments + other movement types",
       "gap": "Same product/unit with shipment and non-shipment; pending/cancelled decoy",
-      "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
-      "human_review": "NEEDS_HUMAN_REVIEW"
-    },
-    {
-      "intent_id": "WMS-CD-02",
-      "status": "OPEN",
-      "coverage_status": "NEEDS FIXTURE",
-      "snapshot_evidence": "80 lines, 90 movement rows; document type/status and source links",
-      "gap": "Multi-line/multi-movement document to detect JOIN multiplication",
       "fixture_proposal": "Prepare an isolated test fixture in a temporary copy; preserve both frozen snapshots.",
       "human_review": "NEEDS_HUMAN_REVIEW"
     }

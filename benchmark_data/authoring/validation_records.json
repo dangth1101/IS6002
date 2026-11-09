@@ -5,62 +5,139 @@
     "canonical_sql_hash": "097997734e6d4349acd27f1f2cd40ac65ba41f02adf2d382bd5c9b1bf0e9ce33",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1"
+      "sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1",
+      "row_count": 48,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:erp_ef_01",
+      "derivation": "Scan SALES_ORDERS; retain CONFIRMED and project order identifiers/customer/date/status. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
       "sql_sha256": "097997734e6d4349acd27f1f2cd40ac65ba41f02adf2d382bd5c9b1bf0e9ce33",
       "actual_rows_sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1",
-      "status": "VALIDATED_BY_AUTOMATION"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 48,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:erp_ef_01",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "ERP-EF-01-Q00",
+        "question": "Cho xem các đơn hàng đã xác nhận?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "ERP-EF-01-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết cho xem các đơn hàng đã xác nhận không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — cho xem các đơn hàng đã xác nhận?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Cho xem các đơn hàng đã xác nhận?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-EF-01-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: cho xem các đơn hàng đã xác nhận?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -72,7 +149,32 @@
     "issues": [
       "48 confirmed/12 draft/12 cancelled; đối chiếu draft/cancelled không lọt"
     ],
-    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+    "semantic_slots": {
+      "intent_id": "ERP-EF-01",
+      "domain": "erp_sales",
+      "classification": "Filter / Simple: lọc một entity bằng status",
+      "competency": "Filter",
+      "complexity": "Simple",
+      "brief": "Cho xem các đơn hàng đã xác nhận?",
+      "entity_grain": "`sales_orders`; 1 hàng/đơn; order id/no, customer, order_date, status; không measure",
+      "filters_group_time": "`CONFIRMED`; không aggregate; không time restriction",
+      "null_tie": "Không loại order vì amount=0; empty nếu không có CONFIRMED",
+      "business_rules": "Order status; order value chỉ trên confirmed",
+      "fixture_evidence": "48 confirmed/12 draft/12 cancelled; đối chiếu draft/cancelled không lọt"
+    },
+    "canonical_sql_candidate": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": null,
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "ERP-EF-02",
@@ -656,62 +758,139 @@
     "canonical_sql_hash": "e42a9c6fcb6ffd9ec8b30329f098f7f6eb194ecb94695013c98cff4af97cc3be",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "14d3bd25e062c2bc1a7a41408bc38b50469b6f5872f0fc6733910eec0fccc0d2"
+      "sha256": "14d3bd25e062c2bc1a7a41408bc38b50469b6f5872f0fc6733910eec0fccc0d2",
+      "row_count": 6,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:erp_gb_03",
+      "derivation": "Scan confirmed orders, map nullable sales_rep_id to employee name in Python, and count orders by rep bucket. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
       "sql_sha256": "e42a9c6fcb6ffd9ec8b30329f098f7f6eb194ecb94695013c98cff4af97cc3be",
       "actual_rows_sha256": "14d3bd25e062c2bc1a7a41408bc38b50469b6f5872f0fc6733910eec0fccc0d2",
-      "status": "VALIDATED_BY_AUTOMATION"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 6,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:erp_gb_03",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "ERP-GB-03-Q00",
+        "question": "Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "ERP-GB-03-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết đếm confirmed orders theo sales rep, gồm nhóm chưa gán không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-GB-03-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -723,7 +902,32 @@
     "issues": [
       "Rep counts include NULL=6; tie rep1/3=9; fixture FK consistency"
     ],
-    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+    "semantic_slots": {
+      "intent_id": "ERP-GB-03",
+      "domain": "erp_sales",
+      "classification": "Group / Moderate: group nullable rep và đếm order",
+      "competency": "Group",
+      "complexity": "Moderate",
+      "brief": "Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "entity_grain": "rep id/name (NULL bucket), count confirmed orders",
+      "filters_group_time": "Confirmed; GROUP BY `sales_rep_id`, optional employee join",
+      "null_tie": "NULL rep là một nhóm “chưa gán”, không biến thành employee; zero group không sinh",
+      "business_rules": "Sales rep nullable",
+      "fixture_evidence": "Rep counts include NULL=6; tie rep1/3=9; fixture FK consistency"
+    },
+    "canonical_sql_candidate": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": null,
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "ERP-GB-04",
@@ -855,66 +1059,146 @@
   },
   {
     "group_id": "ERP-RK-02",
-    "intent_card_hash": "9a444370a1e750a293485c63862061002a3950e3fab2cb45b7991c4412fe748f",
-    "canonical_sql_hash": "bda2d6617ebe3bc5d4c8b1ee66a65ddeeca3718928acfd6a63f15d22d9e76e6c",
+    "intent_card_hash": "d23512aa024975e1f984f3290704b61116b1012578158897662c2b4c81402b00",
+    "canonical_sql_hash": "0dad2f826f0fc2c740119677402b55066ecb3b12c6e488ae3681595ac0422b27",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016"
+      "sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "row_count": 9,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:erp_rk_02",
+      "derivation": "Sum confirmed order-line milli-quantity by product within each base_unit; calculate competition rank per unit and retain all rank <= 3. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
-      "sql_sha256": "bda2d6617ebe3bc5d4c8b1ee66a65ddeeca3718928acfd6a63f15d22d9e76e6c",
-      "actual_rows_sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "sql_sha256": "0dad2f826f0fc2c740119677402b55066ecb3b12c6e488ae3681595ac0422b27",
+      "actual_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 9,
+      "business_rule_checks": {
+        "all_base_units_ranked": true,
+        "no_rank_beyond_three": true
+      }
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:erp_rk_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "ERP-RK-02-Q00",
+        "question": "Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "ERP-RK-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-RK-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -924,9 +1208,74 @@
       "llm_api_used": false
     },
     "issues": [
-      "12 products/units; fixture equal metrics at k boundary and SKU sold in distinct units"
+      "Snapshot có 12 sản phẩm/3 units; temporary fixture tạo top-3 tie tại cutoff trong EA và các cohort KG/L riêng"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "ERP-RK-02",
+      "domain": "erp_sales",
+      "classification": "Ranking / Challenging: unit-partitioned top-k with boundary ties",
+      "competency": "Ranking",
+      "complexity": "Challenging",
+      "brief": "Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "entity_grain": "product; 1 hàng/SKU; SKU/name/base_unit, sold quantity milli-unit trong base_unit tương ứng, rank trong unit",
+      "filters_group_time": "Chỉ confirmed order lines; SUM quantity theo SKU; RANK PARTITION BY base_unit; không áp dụng bộ lọc thời gian",
+      "null_tie": "Mỗi đơn vị được xếp hạng độc lập; zero sold không có line nên không vào cohort; lấy toàn bộ rank <=3, kể cả ties ở cutoff",
+      "business_rules": "Không cộng quantity giữa base_unit; top-3 và tie policy theo Owner decision ngày 2026-11-09",
+      "fixture_evidence": "Snapshot có 12 sản phẩm/3 units; temporary fixture tạo top-3 tie tại cutoff trong EA và các cohort KG/L riêng"
+    },
+    "canonical_sql_candidate": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 10,
+      "expected_rows_sha256": "ecda982429b18b20004e37417473c1e0ad2628fccc986ee8efafb604ff5b0287",
+      "actual_rows_sha256": "ecda982429b18b20004e37417473c1e0ad2628fccc986ee8efafb604ff5b0287",
+      "checks": {
+        "units_present": [
+          "EA",
+          "KG",
+          "L"
+        ],
+        "rank3_rows": [
+          [
+            7,
+            "SKU-007",
+            "Sản phẩm 07",
+            "EA",
+            628200,
+            3
+          ],
+          [
+            10,
+            "SKU-010",
+            "Sản phẩm 10",
+            "EA",
+            628200,
+            3
+          ],
+          [
+            2,
+            "SKU-002",
+            "Máy quét",
+            "KG",
+            26400,
+            3
+          ]
+        ],
+        "unit_partition_and_rank3_tie_pass": true
+      }
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "ERP-RK-03",
@@ -1062,62 +1411,139 @@
     "canonical_sql_hash": "913fa870cf54bc6e886e098a28f0d80a1b9be20629d9b05763e3c48f74948031",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518"
+      "sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518",
+      "row_count": 156,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:erp_jn_02",
+      "derivation": "Scan order/line/product tables and join by keys; retain lines whose parent order is CONFIRMED. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
       "sql_sha256": "913fa870cf54bc6e886e098a28f0d80a1b9be20629d9b05763e3c48f74948031",
       "actual_rows_sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 156,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:erp_jn_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "ERP-JN-02-Q00",
+        "question": "Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "ERP-JN-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết hiển thị từng dòng confirmed order cùng tên sản phẩm không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-JN-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -1129,7 +1555,43 @@
     "issues": [
       "216 lines, max 4/order; test line uniqueness, product join and order status"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "ERP-JN-02",
+      "domain": "erp_sales",
+      "classification": "Join / Moderate: order→lines→product, line grain",
+      "competency": "Join",
+      "complexity": "Moderate",
+      "brief": "Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "entity_grain": "order line; order no/date, SKU/name, qty milli-unit, line net VND",
+      "filters_group_time": "CONFIRMED; no aggregate; date unrestricted",
+      "null_tie": "NULL category irrelevant; no order-line absence means no row",
+      "business_rules": "Lines belong to one order and product",
+      "fixture_evidence": "216 lines, max 4/order; test line uniqueness, product join and order status"
+    },
+    "canonical_sql_candidate": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 156,
+      "expected_rows_sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518",
+      "actual_rows_sha256": "a12707b29c8207015244f97dd5f2d81ce4cfd9f33f312463aac9c57de61e7518",
+      "checks": {
+        "returned_rows": 156,
+        "nonconfirmed_order_control_count": 24,
+        "nonconfirmed_excluded": true
+      }
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "ERP-JN-03",
@@ -1329,62 +1791,139 @@
     "canonical_sql_hash": "c983094d533483295ff17b11a8807529974d417d868d7cfba0d75497dd94246f",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "e5e7432d4f0c002977a1e19df49fe3853b84f9cd759966c38177aaa9c2fa5eb3"
+      "sha256": "e5e7432d4f0c002977a1e19df49fe3853b84f9cd759966c38177aaa9c2fa5eb3",
+      "row_count": 27,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:erp_tm_02",
+      "derivation": "Parse delivered UTC instants, apply the Ho Chi Minh 2025 half-open interval, convert to UTC+7 date, and count shipments by day. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
       "sql_sha256": "c983094d533483295ff17b11a8807529974d417d868d7cfba0d75497dd94246f",
       "actual_rows_sha256": "e5e7432d4f0c002977a1e19df49fe3853b84f9cd759966c38177aaa9c2fa5eb3",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 27,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:erp_tm_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "ERP-TM-02-Q00",
+        "question": "Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "ERP-TM-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "ERP-TM-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -1396,7 +1935,50 @@
     "issues": [
       "27 delivered; fixture UTC instants immediately before/at local midnight; validate not use order_date"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "ERP-TM-02",
+      "domain": "erp_sales",
+      "classification": "Time / Moderate: delivery event grouped by local day",
+      "competency": "Time",
+      "complexity": "Moderate",
+      "brief": "Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "entity_grain": "shipment/local day; count shipment ids",
+      "filters_group_time": "delivered status, `delivered_at` UTC mapped to `[2025-01-01,2026-01-01)` local; group local date",
+      "null_tie": "NULL delivered_at excluded; zero count differs from no shipment group",
+      "business_rules": "Event timestamp UTC; local date window",
+      "fixture_evidence": "27 delivered; fixture UTC instants immediately before/at local midnight; validate not use order_date"
+    },
+    "canonical_sql_candidate": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 29,
+      "expected_rows_sha256": "255160220257957c1f131f48ce5532714d2021e014ad8978661672ea7ccd4c3e",
+      "actual_rows_sha256": "255160220257957c1f131f48ce5532714d2021e014ad8978661672ea7ccd4c3e",
+      "checks": {
+        "boundary_shipment_ids": {
+          "before_start": 6,
+          "at_start": 8,
+          "before_end": 9,
+          "at_end": 14
+        },
+        "included_start_date": true,
+        "included_last_date": true,
+        "before_start_excluded": true,
+        "exact_end_excluded": true
+      }
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "ERP-NA-01",
@@ -1660,62 +2242,139 @@
     "canonical_sql_hash": "8ac8ca29797b69c58bd3c44aebc8b6d02002f7c9998f24a6f230ee9a1bc513bd",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "b71998570ef1b20ffc96e2efc2b345ad446408ea677b90f33612d7d078597855"
+      "sha256": "b71998570ef1b20ffc96e2efc2b345ad446408ea677b90f33612d7d078597855",
+      "row_count": 44,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:wms_ef_01",
+      "derivation": "Scan inventory documents and retain POSTED status at document grain. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
       "sql_sha256": "8ac8ca29797b69c58bd3c44aebc8b6d02002f7c9998f24a6f230ee9a1bc513bd",
       "actual_rows_sha256": "b71998570ef1b20ffc96e2efc2b345ad446408ea677b90f33612d7d078597855",
-      "status": "VALIDATED_BY_AUTOMATION"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 44,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:wms_ef_01",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "WMS-EF-01-Q00",
+        "question": "Liệt kê chứng từ kho đã posted?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "WMS-EF-01-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: liệt kê chứng từ kho đã posted?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: liệt kê chứng từ kho đã posted?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê chứng từ kho đã posted?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết liệt kê chứng từ kho đã posted không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: liệt kê chứng từ kho đã posted?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê chứng từ kho đã posted?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê chứng từ kho đã posted?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê chứng từ kho đã posted?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê chứng từ kho đã posted?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-01-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy lập danh sách từng chứng từ kho đã post, kèm mã chứng từ, loại, trạng thái và ngày nghiệp vụ.",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -1727,7 +2386,32 @@
     "issues": [
       "46 docs include posted/draft/cancelled; ensure only posted returned"
     ],
-    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+    "semantic_slots": {
+      "intent_id": "WMS-EF-01",
+      "domain": "wms_inventory",
+      "classification": "Filter / Simple: lọc document status",
+      "competency": "Filter",
+      "complexity": "Simple",
+      "brief": "Liệt kê chứng từ kho đã posted?",
+      "entity_grain": "inventory_document; 1 row/document; doc no/type/status/time",
+      "filters_group_time": "`POSTED`; no aggregate/time cutoff",
+      "null_tie": "Draft/cancelled excluded; empty iff no posted docs",
+      "business_rules": "Posted documents create movements per synthetic rules",
+      "fixture_evidence": "46 docs include posted/draft/cancelled; ensure only posted returned"
+    },
+    "canonical_sql_candidate": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": null,
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "WMS-EF-02",
@@ -1735,62 +2419,139 @@
     "canonical_sql_hash": "e5c05664d2af48226176eb5c629ae9ad1bf45838dd070517a493345759be22d1",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "072570fa27d717eaa30a92196742c3c301033f450fc21f115a73282adba03646"
+      "sha256": "072570fa27d717eaa30a92196742c3c301033f450fc21f115a73282adba03646",
+      "row_count": 6,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:wms_ef_02",
+      "derivation": "Scan products and retain base_unit KG, preserving product/category fields. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
       "sql_sha256": "e5c05664d2af48226176eb5c629ae9ad1bf45838dd070517a493345759be22d1",
       "actual_rows_sha256": "072570fa27d717eaa30a92196742c3c301033f450fc21f115a73282adba03646",
-      "status": "VALIDATED_BY_AUTOMATION"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 6,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:wms_ef_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "WMS-EF-02-Q00",
+        "question": "Liệt kê SKU có base unit là KG?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "WMS-EF-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: liệt kê sku có base unit là kg?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: liệt kê sku có base unit là kg?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê sku có base unit là kg?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết liệt kê SKU có base unit là KG không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: liệt kê SKU có base unit là KG?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê SKU có base unit là KG?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê SKU có base unit là KG?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê SKU có base unit là KG?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê SKU có base unit là KG?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-EF-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: liệt kê SKU có base unit là KG?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -1802,7 +2563,32 @@
     "issues": [
       "18 products, 6 each EA/KG/L; NULL-category fixture"
     ],
-    "machine_validation_status": "VALIDATED_BY_AUTOMATION"
+    "semantic_slots": {
+      "intent_id": "WMS-EF-02",
+      "domain": "wms_inventory",
+      "classification": "Filter / Simple: filter product/base unit",
+      "competency": "Filter",
+      "complexity": "Simple",
+      "brief": "Liệt kê SKU có base unit là KG?",
+      "entity_grain": "product; 1/SKU; SKU/name/base_unit/category",
+      "filters_group_time": "unit=KG; no aggregation",
+      "null_tie": "NULL category preserved; no quantity sum",
+      "business_rules": "Units non-additive across base units",
+      "fixture_evidence": "18 products, 6 each EA/KG/L; NULL-category fixture"
+    },
+    "canonical_sql_candidate": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": null,
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "WMS-EF-03",
@@ -2002,62 +2788,139 @@
     "canonical_sql_hash": "15c899004f9dc172ff3f07d52020748f88cd1f377f1541aabc0771d981ece2b2",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38"
+      "sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38",
+      "row_count": 4,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:wms_ag_02",
+      "derivation": "Scan posted SHIPMENT links; sum negative movement magnitudes for KG products only. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
       "sql_sha256": "15c899004f9dc172ff3f07d52020748f88cd1f377f1541aabc0771d981ece2b2",
       "actual_rows_sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 4,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:wms_ag_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "WMS-AG-02-Q00",
+        "question": "Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "WMS-AG-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-AG-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -2069,7 +2932,39 @@
     "issues": [
       "20 posted shipments; fixture adjustment/transfer negative decoy"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "WMS-AG-02",
+      "domain": "wms_inventory",
+      "classification": "Aggregate / Moderate: aggregate shipment quantity at SKU grain",
+      "competency": "Aggregate",
+      "complexity": "Moderate",
+      "brief": "Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "entity_grain": "product/base_unit; 1 hàng/SKU; SKU and SUM outbound milli-quantity",
+      "filters_group_time": "Posted SHIPMENT movements; `base_unit='KG'`; full stored history, no date restriction",
+      "null_tie": "Do not add units; return quantity separate; no movement differs from zero net",
+      "business_rules": "Signed movements; posted only",
+      "fixture_evidence": "20 posted shipments; fixture adjustment/transfer negative decoy"
+    },
+    "canonical_sql_candidate": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 4,
+      "expected_rows_sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38",
+      "actual_rows_sha256": "d6ed6742bfd4a7c0a3eafcc5128e97b1512b87b8b3d694e8daaafde73a011b38",
+      "checks": {}
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "WMS-AG-03",
@@ -2845,62 +3740,139 @@
     "canonical_sql_hash": "62c3d9d8e94999f9a191eb27f17948f3533944fb9bd22fac0daf9c7222070942",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "10994e2e360377ba13dc6e405662b6ecc8e3348095687adae1f6bc9f70bb37ea"
+      "sha256": "10994e2e360377ba13dc6e405662b6ecc8e3348095687adae1f6bc9f70bb37ea",
+      "row_count": 24,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:wms_jn_04",
+      "derivation": "Scan posted transfer document/line/movement links and retain both SOURCE and DESTINATION leg identities and signed quantities. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
       "sql_sha256": "62c3d9d8e94999f9a191eb27f17948f3533944fb9bd22fac0daf9c7222070942",
       "actual_rows_sha256": "10994e2e360377ba13dc6e405662b6ecc8e3348095687adae1f6bc9f70bb37ea",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 24,
+      "business_rule_checks": {}
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:wms_jn_04",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "WMS-JN-04-Q00",
+        "question": "Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "WMS-JN-04-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết liệt kê transfer movement legs giữa hai warehouse theo chứng từ không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-JN-04-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -2912,7 +3884,39 @@
     "issues": [
       "12 posted transfers; fixture duplicate-looking legitimate leg and corrupted missing/duplicate pair in validator-only case"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "WMS-JN-04",
+      "domain": "wms_inventory",
+      "classification": "Join / Challenging: transfer pair integrity and warehouse movement",
+      "competency": "Join",
+      "complexity": "Challenging",
+      "brief": "Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "entity_grain": "transfer document/leg; one row/leg; source/target warehouse, product, signed qty, timestamp",
+      "filters_group_time": "Posted TRANSFER only; join each leg via source/leg identity; no summing duplicated pair as one leg",
+      "null_tie": "Two rows per valid transfer; duplicate-like valid movements remain; missing pair is invariant failure",
+      "business_rules": "Exactly two opposite equal-qty legs atomic; no same-warehouse-location transfer scope",
+      "fixture_evidence": "12 posted transfers; fixture duplicate-looking legitimate leg and corrupted missing/duplicate pair in validator-only case"
+    },
+    "canonical_sql_candidate": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 26,
+      "expected_rows_sha256": "ef49082e8a6f1a032289bea2ba8c924768a786005de8417e3a66e9416b9936d1",
+      "actual_rows_sha256": "ef49082e8a6f1a032289bea2ba8c924768a786005de8417e3a66e9416b9936d1",
+      "checks": {}
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   },
   {
     "group_id": "WMS-TM-01",
@@ -3236,66 +4240,148 @@
   },
   {
     "group_id": "WMS-CD-02",
-    "intent_card_hash": "b757d12827dd908368bf64a1db5e8d7cedda03a4defd37cc75daf0963ed9ef91",
-    "canonical_sql_hash": "f55f560716806e47bb58cdcb086138ba1fd9db3b4a5780444cea3de1fe410277",
+    "intent_card_hash": "65f65e553f901ffe4c653bf48a9e3885422ca89e93398761f9793213d0390a90",
+    "canonical_sql_hash": "07f7c20d852b350ad796fb997f85b6913b5e8352461cae147c0ad7a7d02f36df",
     "expected_outputs": {
       "path": "benchmark_data\\authoring\\expected_outputs_dev.json",
-      "sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92"
+      "sha256": "6687453c8f4cf427d5db55a2f5fbc3ecf2a67463c3a08ab2a666c7a81c6853cb",
+      "row_count": 80,
+      "oracle_id": "bird_vn_benchmark.intent_oracles:wms_cd_02",
+      "derivation": "Sum planned lines per document/product; executed is zero unless POSTED; TRANSFER uses SOURCE once, other types sum absolute movement under the approved direction rules. Candidate SQL is not imported or executed by the oracle.",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "derived_before_sql_execution": true
     },
     "expected_outputs_derived_before_sql": true,
     "execution_evidence": {
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "sql_sha256": "f55f560716806e47bb58cdcb086138ba1fd9db3b4a5780444cea3de1fe410277",
-      "actual_rows_sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92",
-      "status": "NEEDS_HUMAN_REVIEW"
+      "sql_sha256": "07f7c20d852b350ad796fb997f85b6913b5e8352461cae147c0ad7a7d02f36df",
+      "actual_rows_sha256": "6687453c8f4cf427d5db55a2f5fbc3ecf2a67463c3a08ab2a666c7a81c6853cb",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "row_count": 80,
+      "business_rule_checks": {
+        "all_statuses_present": true,
+        "nonposted_executed_zero": true,
+        "posted_matches_movement_invariant": true,
+        "transfer_source_once_matches_planned": true
+      }
     },
     "alternative_check": {
       "type": "PYTHON_ORACLE",
       "id": "bird_vn_benchmark.intent_oracles:wms_cd_02",
-      "source_sha256": "f7d79319902d60aa44d56f98478567a5a100bc329c57fad78e8fe3755c955b08"
+      "source_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc"
     },
     "ground_truth_status": "NEEDS_HUMAN_REVIEW",
     "human_review": "NEEDS_HUMAN_REVIEW",
     "question_reviews": [
       {
+        "question_id": "WMS-CD-02-Q00",
+        "question": "Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 0,
+        "role": "original",
+        "variant_type": "anchor",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
+      },
+      {
         "question_id": "WMS-CD-02-Q01",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn vui lòng cho biết: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 1,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q02",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần tra cứu nội dung sau: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 2,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q03",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả cần tìm là gì khi xét yêu cầu này: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 3,
+        "role": "variant",
+        "variant_type": "lexical",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q04",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Bạn có thể cho tôi biết với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không không?",
+        "q_index": 4,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q05",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Hãy giúp tôi xác định điều này: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 5,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q06",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi muốn xem kết quả của yêu cầu sau — với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 6,
+        "role": "variant",
+        "variant_type": "syntactic",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q07",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 7,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q08",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Kết quả theo tiêu chí cần hỏi là gì? Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 8,
+        "role": "variant",
+        "variant_type": "reordering",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q09",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 9,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       },
       {
         "question_id": "WMS-CD-02-Q10",
-        "status": "NEEDS_HUMAN_REVIEW"
+        "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "q_index": 10,
+        "role": "variant",
+        "variant_type": "mixed",
+        "semantic_slots_inherited": true,
+        "review_status": "NEEDS_HUMAN_REVIEW",
+        "owner_decision": null
       }
     ],
     "provenance": {
@@ -3305,8 +4391,81 @@
       "llm_api_used": false
     },
     "issues": [
-      "80 lines/90 movements; fixture 1 doc multiple lines/movement legs with differing totals"
+      "Temporary fixtures: transfer có hai legs nhưng executed=planned một lần; posted receipt/shipment/adjustment/return khớp invariant; draft receipt và cancelled shipment planned>0, executed=0"
     ],
-    "machine_validation_status": "NEEDS_HUMAN_REVIEW"
+    "semantic_slots": {
+      "intent_id": "WMS-CD-02",
+      "domain": "wms_inventory",
+      "classification": "Conditional / Moderate: planned vs executed by status/type and document-SKU grain",
+      "competency": "Conditional",
+      "complexity": "Moderate",
+      "brief": "Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "entity_grain": "document × product; 1 row/document-SKU; document no/type/status, SKU/base_unit, planned milli-unit, executed milli-unit",
+      "filters_group_time": "Giữ tất cả status; planned=sum document lines; executed chỉ từ POSTED movement; TRANSFER dùng SOURCE leg một lần; các loại khác dùng tổng ABS movement theo rules đã chốt",
+      "null_tie": "DRAFT/CANCELLED executed=0; POSTED thiếu movement là 0 theo synthetic invariant; không nhân planned khi join movement; không cộng khác base_unit",
+      "business_rules": "WMS BR-02/BR-06: signed movement; transfer có SOURCE âm và DESTINATION dương cùng lượng; document non-posted không hiệu lực; synthetic measure theo Owner decision 2026-11-09",
+      "fixture_evidence": "Temporary fixtures: transfer có hai legs nhưng executed=planned một lần; posted receipt/shipment/adjustment/return khớp invariant; draft receipt và cancelled shipment planned>0, executed=0"
+    },
+    "canonical_sql_candidate": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
+    "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "fixture_validation": {
+      "path": "benchmark_data\\authoring\\dev_fixture_validation.json",
+      "status": "PASS",
+      "row_count": 87,
+      "expected_rows_sha256": "e3a7d424852013b6ef623d70b0a08b144a450af1f60e21cfce2ed28f9c1d1ad5",
+      "actual_rows_sha256": "e3a7d424852013b6ef623d70b0a08b144a450af1f60e21cfce2ed28f9c1d1ad5",
+      "checks": {
+        "fixture_values_by_role": {
+          "draft_receipt": [
+            "DRAFT",
+            3000,
+            0
+          ],
+          "cancelled_shipment": [
+            "CANCELLED",
+            4000,
+            0
+          ],
+          "posted_receipt": [
+            "POSTED",
+            6000,
+            6000
+          ],
+          "posted_shipment": [
+            "POSTED",
+            5000,
+            5000
+          ],
+          "posted_adjustment": [
+            "POSTED",
+            7000,
+            7000
+          ],
+          "posted_return": [
+            "POSTED",
+            3000,
+            3000
+          ],
+          "posted_transfer": [
+            "POSTED",
+            9000,
+            9000
+          ]
+        },
+        "nonposted_zero_pass": true,
+        "posted_invariant_pass": true,
+        "transfer_not_double_counted": true
+      }
+    },
+    "outstanding_issues": [
+      "Benchmark Owner must review and decide Intent Card, canonical SQL and Q0–Q10; automation is not approval."
+    ],
+    "owner_approval": {
+      "status": "PENDING",
+      "approver": null,
+      "date": null,
+      "rationale": null
+    }
   }
 ]

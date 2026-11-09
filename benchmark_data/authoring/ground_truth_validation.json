@@ -1,17 +1,17 @@
 {
   "artifact_version": 1,
-  "created_at_utc": "2026-11-09T10:28:05.747+00:00",
-  "expected_outputs_sha256": "e33009cfc818cd334ca937d02fd9c2d2cf830b51ad1661b9bdead8b2e1975501",
-  "validation_records_sha256": "c8c6a81281a3f2ca3f053e98344183c99b0ce7dfcdbe9d8bf67b7aa2b8b7521d",
+  "created_at_utc": "2026-11-09T11:19:04.800+00:00",
+  "expected_outputs_sha256": "65759da39903bb217b509c1704759d67f2ab8c7f688017ada00391cb2231be89",
+  "validation_records_sha256": "f983bfb0a45355c34bd9bf495ddcd872e66a44f207f511d998adb0af48874343",
   "scope": "Development only; SQL candidates compared after expected outputs were frozen",
   "summary": {
-    "VALIDATED_BY_AUTOMATION": 4,
-    "NEEDS_HUMAN_REVIEW": 6,
+    "VALIDATED_BY_AUTOMATION": 10,
+    "NEEDS_HUMAN_REVIEW": 0,
     "BLOCKED": 0
   },
   "all_group_status_summary": {
-    "VALIDATED_BY_AUTOMATION": 4,
-    "NEEDS_HUMAN_REVIEW": 6,
+    "VALIDATED_BY_AUTOMATION": 10,
+    "NEEDS_HUMAN_REVIEW": 0,
     "BLOCKED": 40
   },
   "results": [
@@ -360,6 +360,7 @@
           "CONFIRMED"
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:erp_ef_01",
       "coverage_audit": "SUPPORTED",
       "status": "VALIDATED_BY_AUTOMATION",
@@ -404,6 +405,7 @@
           7
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:erp_gb_03",
       "coverage_audit": "SUPPORTED",
       "status": "VALIDATED_BY_AUTOMATION",
@@ -1666,10 +1668,11 @@
           0
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:erp_jn_02",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     },
     {
       "group_id": "ERP-TM-02",
@@ -1788,19 +1791,68 @@
           1
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:erp_tm_02",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     },
     {
       "group_id": "ERP-RK-02",
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
-      "canonical_sql_sha256": "bda2d6617ebe3bc5d4c8b1ee66a65ddeeca3718928acfd6a63f15d22d9e76e6c",
-      "expected_rows_sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016",
-      "actual_rows_sha256": "df3af7d420769accd6078ea42a108786c633c6bf893707a1d251ce385a7ef016",
-      "actual_row_count_before_set_comparison": 3,
+      "canonical_sql_sha256": "0dad2f826f0fc2c740119677402b55066ecb3b12c6e488ae3681595ac0422b27",
+      "expected_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "actual_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "actual_row_count_before_set_comparison": 9,
       "actual_rows": [
+        [
+          4,
+          "SKU-004",
+          "Sản phẩm 04",
+          "EA",
+          28800,
+          1
+        ],
+        [
+          10,
+          "SKU-010",
+          "Sản phẩm 10",
+          "EA",
+          28200,
+          2
+        ],
+        [
+          7,
+          "SKU-007",
+          "Sản phẩm 07",
+          "EA",
+          27400,
+          3
+        ],
+        [
+          11,
+          "SKU-011",
+          "Sản phẩm 11",
+          "KG",
+          50200,
+          1
+        ],
+        [
+          5,
+          "SKU-005",
+          "Sản phẩm 05",
+          "KG",
+          49200,
+          2
+        ],
+        [
+          2,
+          "SKU-002",
+          "Máy quét",
+          "KG",
+          26400,
+          3
+        ],
         [
           12,
           "SKU-012",
@@ -1826,10 +1878,14 @@
           2
         ]
       ],
+      "business_rule_checks": {
+        "all_base_units_ranked": true,
+        "no_rank_beyond_three": true
+      },
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:erp_rk_02",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     },
     {
       "group_id": "WMS-EF-01",
@@ -2148,6 +2204,7 @@
           "2025-01-21"
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:wms_ef_01",
       "coverage_audit": "SUPPORTED",
       "status": "VALIDATED_BY_AUTOMATION",
@@ -2204,6 +2261,7 @@
           1
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:wms_ef_02",
       "coverage_audit": "SUPPORTED",
       "status": "VALIDATED_BY_AUTOMATION",
@@ -2242,23 +2300,25 @@
           15149
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:wms_ag_02",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     },
     {
       "group_id": "WMS-CD-02",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "f55f560716806e47bb58cdcb086138ba1fd9db3b4a5780444cea3de1fe410277",
-      "expected_rows_sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92",
-      "actual_rows_sha256": "d9019c3a7d1da188edc80e621dc3c03c6e17f8953395a2ab8e5b25ad00e29c92",
-      "actual_row_count_before_set_comparison": 78,
+      "canonical_sql_sha256": "07f7c20d852b350ad796fb997f85b6913b5e8352461cae147c0ad7a7d02f36df",
+      "expected_rows_sha256": "6687453c8f4cf427d5db55a2f5fbc3ecf2a67463c3a08ab2a666c7a81c6853cb",
+      "actual_rows_sha256": "6687453c8f4cf427d5db55a2f5fbc3ecf2a67463c3a08ab2a666c7a81c6853cb",
+      "actual_row_count_before_set_comparison": 80,
       "actual_rows": [
         [
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           500000,
@@ -2268,6 +2328,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-002",
           "KG",
           500000,
@@ -2277,6 +2338,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-003",
           "L",
           500000,
@@ -2286,6 +2348,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-004",
           "EA",
           500000,
@@ -2295,6 +2358,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-005",
           "KG",
           500000,
@@ -2304,6 +2368,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-006",
           "L",
           500000,
@@ -2313,6 +2378,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-007",
           "EA",
           500000,
@@ -2322,6 +2388,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-008",
           "KG",
           500000,
@@ -2331,6 +2398,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-009",
           "L",
           500000,
@@ -2340,6 +2408,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-010",
           "EA",
           500000,
@@ -2349,6 +2418,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-011",
           "KG",
           500000,
@@ -2358,6 +2428,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-012",
           "L",
           500000,
@@ -2367,6 +2438,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-013",
           "EA",
           500000,
@@ -2376,6 +2448,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-014",
           "KG",
           500000,
@@ -2385,6 +2458,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-015",
           "L",
           500000,
@@ -2394,6 +2468,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-016",
           "EA",
           500000,
@@ -2403,6 +2478,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-017",
           "KG",
           500000,
@@ -2412,6 +2488,7 @@
           1,
           "WD-00001",
           "RECEIPT",
+          "POSTED",
           "W-SKU-018",
           "L",
           500000,
@@ -2421,6 +2498,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           500000,
@@ -2430,6 +2508,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-002",
           "KG",
           500000,
@@ -2439,6 +2518,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-003",
           "L",
           500000,
@@ -2448,6 +2528,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-004",
           "EA",
           500000,
@@ -2457,6 +2538,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-005",
           "KG",
           500000,
@@ -2466,6 +2548,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-006",
           "L",
           500000,
@@ -2475,6 +2558,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-007",
           "EA",
           500000,
@@ -2484,6 +2568,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-008",
           "KG",
           500000,
@@ -2493,6 +2578,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-009",
           "L",
           500000,
@@ -2502,6 +2588,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-010",
           "EA",
           500000,
@@ -2511,6 +2598,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-011",
           "KG",
           500000,
@@ -2520,6 +2608,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-012",
           "L",
           500000,
@@ -2529,6 +2618,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-013",
           "EA",
           500000,
@@ -2538,6 +2628,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-014",
           "KG",
           500000,
@@ -2547,6 +2638,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-015",
           "L",
           500000,
@@ -2556,6 +2648,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-016",
           "EA",
           500000,
@@ -2565,6 +2658,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-017",
           "KG",
           500000,
@@ -2574,6 +2668,7 @@
           2,
           "WD-00002",
           "RECEIPT",
+          "POSTED",
           "W-SKU-018",
           "L",
           500000,
@@ -2583,6 +2678,7 @@
           3,
           "WD-00003",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           10000,
@@ -2592,6 +2688,7 @@
           4,
           "WD-00004",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           10000,
@@ -2601,6 +2698,7 @@
           5,
           "WD-00005",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           10000,
@@ -2610,6 +2708,7 @@
           6,
           "WD-00006",
           "RECEIPT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           10000,
@@ -2619,114 +2718,127 @@
           7,
           "WD-00007",
           "TRANSFER",
+          "POSTED",
           "W-SKU-001",
           "EA",
           21000,
-          42000
+          21000
         ],
         [
           8,
           "WD-00008",
           "TRANSFER",
+          "POSTED",
           "W-SKU-002",
           "KG",
           22000,
-          44000
+          22000
         ],
         [
           9,
           "WD-00009",
           "TRANSFER",
+          "POSTED",
           "W-SKU-003",
           "L",
           23000,
-          46000
+          23000
         ],
         [
           10,
           "WD-00010",
           "TRANSFER",
+          "POSTED",
           "W-SKU-004",
           "EA",
           24000,
-          48000
+          24000
         ],
         [
           11,
           "WD-00011",
           "TRANSFER",
+          "POSTED",
           "W-SKU-005",
           "KG",
           25000,
-          50000
+          25000
         ],
         [
           12,
           "WD-00012",
           "TRANSFER",
+          "POSTED",
           "W-SKU-006",
           "L",
           26000,
-          52000
+          26000
         ],
         [
           13,
           "WD-00013",
           "TRANSFER",
+          "POSTED",
           "W-SKU-007",
           "EA",
           27000,
-          54000
+          27000
         ],
         [
           14,
           "WD-00014",
           "TRANSFER",
+          "POSTED",
           "W-SKU-008",
           "KG",
           28000,
-          56000
+          28000
         ],
         [
           15,
           "WD-00015",
           "TRANSFER",
+          "POSTED",
           "W-SKU-009",
           "L",
           29000,
-          58000
+          29000
         ],
         [
           16,
           "WD-00016",
           "TRANSFER",
+          "POSTED",
           "W-SKU-010",
           "EA",
           30000,
-          60000
+          30000
         ],
         [
           17,
           "WD-00017",
           "TRANSFER",
+          "POSTED",
           "W-SKU-011",
           "KG",
           31000,
-          62000
+          31000
         ],
         [
           18,
           "WD-00018",
           "TRANSFER",
+          "POSTED",
           "W-SKU-012",
           "L",
           32000,
-          64000
+          32000
         ],
         [
           19,
           "WD-00019",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-011",
           "KG",
           15149,
@@ -2736,6 +2848,7 @@
           20,
           "WD-00020",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-010",
           "EA",
           15210,
@@ -2745,6 +2858,7 @@
           21,
           "WD-00021",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           15382,
@@ -2754,6 +2868,7 @@
           22,
           "WD-00022",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-010",
           "EA",
           15449,
@@ -2763,6 +2878,7 @@
           23,
           "WD-00023",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-005",
           "KG",
           15593,
@@ -2772,6 +2888,7 @@
           24,
           "WD-00024",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           15639,
@@ -2781,6 +2898,7 @@
           25,
           "WD-00025",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-008",
           "KG",
           15756,
@@ -2790,6 +2908,7 @@
           26,
           "WD-00026",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-009",
           "L",
           15885,
@@ -2799,6 +2918,7 @@
           27,
           "WD-00027",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-007",
           "EA",
           15940,
@@ -2808,6 +2928,7 @@
           28,
           "WD-00028",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-003",
           "L",
           16062,
@@ -2817,6 +2938,7 @@
           29,
           "WD-00029",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-008",
           "KG",
           16159,
@@ -2826,6 +2948,7 @@
           30,
           "WD-00030",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-002",
           "KG",
           16230,
@@ -2835,6 +2958,7 @@
           31,
           "WD-00031",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-007",
           "EA",
           16342,
@@ -2844,6 +2968,7 @@
           32,
           "WD-00032",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-009",
           "L",
           16489,
@@ -2853,6 +2978,7 @@
           33,
           "WD-00033",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-001",
           "EA",
           16537,
@@ -2862,6 +2988,7 @@
           34,
           "WD-00034",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-010",
           "EA",
           16656,
@@ -2871,6 +2998,7 @@
           35,
           "WD-00035",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-008",
           "KG",
           16752,
@@ -2880,6 +3008,7 @@
           36,
           "WD-00036",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-002",
           "KG",
           16891,
@@ -2889,6 +3018,7 @@
           37,
           "WD-00037",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-003",
           "L",
           16916,
@@ -2898,6 +3028,7 @@
           38,
           "WD-00038",
           "SHIPMENT",
+          "POSTED",
           "W-SKU-006",
           "L",
           17059,
@@ -2907,6 +3038,7 @@
           39,
           "WD-00039",
           "CUSTOMER_RETURN",
+          "POSTED",
           "W-SKU-003",
           "L",
           5100,
@@ -2916,6 +3048,7 @@
           40,
           "WD-00040",
           "CUSTOMER_RETURN",
+          "POSTED",
           "W-SKU-004",
           "EA",
           5200,
@@ -2925,6 +3058,7 @@
           41,
           "WD-00041",
           "CUSTOMER_RETURN",
+          "POSTED",
           "W-SKU-005",
           "KG",
           5300,
@@ -2934,6 +3068,7 @@
           42,
           "WD-00042",
           "CUSTOMER_RETURN",
+          "POSTED",
           "W-SKU-006",
           "L",
           5400,
@@ -2943,6 +3078,7 @@
           43,
           "WD-00043",
           "ADJUSTMENT",
+          "POSTED",
           "W-SKU-018",
           "L",
           1000,
@@ -2952,16 +3088,43 @@
           44,
           "WD-00044",
           "ADJUSTMENT",
+          "POSTED",
           "W-SKU-018",
           "L",
           500,
           500
+        ],
+        [
+          45,
+          "WD-00045",
+          "RECEIPT",
+          "DRAFT",
+          "W-SKU-001",
+          "EA",
+          20000,
+          0
+        ],
+        [
+          46,
+          "WD-00046",
+          "SHIPMENT",
+          "CANCELLED",
+          "W-SKU-002",
+          "KG",
+          12000,
+          0
         ]
       ],
+      "business_rule_checks": {
+        "all_statuses_present": true,
+        "nonposted_executed_zero": true,
+        "posted_matches_movement_invariant": true,
+        "transfer_source_once_matches_planned": true
+      },
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:wms_cd_02",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     },
     {
       "group_id": "WMS-JN-04",
@@ -3260,10 +3423,11 @@
           "2025-01-31T09:00:00.000Z"
         ]
       ],
+      "business_rule_checks": {},
       "python_oracle_id": "bird_vn_benchmark.intent_oracles:wms_jn_04",
-      "coverage_audit": "NEEDS FIXTURE",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "error": "snapshot rows match oracle, but edge-case fixture remains open"
+      "coverage_audit": "SUPPORTED",
+      "status": "VALIDATED_BY_AUTOMATION",
+      "error": null
     }
   ]
 }

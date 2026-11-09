@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import sqlite3
 from collections import Counter, defaultdict
+from contextlib import closing
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -22,7 +23,7 @@ def table_rows(db_path: Path, table: str) -> list[dict[str, Any]]:
     if table not in allowed.get(db_path.stem.removesuffix(".sqlite"), set()):
         raise ValueError(f"Oracle table is not allowlisted: {db_path.name}:{table}")
     uri = db_path.resolve().as_uri() + "?mode=ro"
-    with sqlite3.connect(uri, uri=True) as connection:
+    with closing(sqlite3.connect(uri, uri=True)) as connection:
         connection.row_factory = sqlite3.Row
         return [dict(row) for row in connection.execute(f"SELECT * FROM {table}").fetchall()]
 
@@ -78,23 +79,25 @@ def erp_rk_02(db: Path) -> list[list[Any]]:
     orders, lines, products = (table_rows(db, name) for name in ("SALES_ORDERS", "SALES_ORDER_LINES", "PRODUCTS"))
     confirmed_ids = {o["order_id"] for o in orders if o["order_status"] == "CONFIRMED"}
     product_by_id = {p["product_id"]: p for p in products}
-    totals: Counter[int] = Counter()
+    totals_by_unit: dict[str, Counter[int]] = defaultdict(Counter)
     for line in lines:
         if line["order_id"] in confirmed_ids:
-            totals[line["product_id"]] += line["ordered_qty_milli"]
-    ranked = sorted(((qty, product_id) for product_id, qty in totals.items()), reverse=True)
-    cutoff = ranked[2][0] if len(ranked) >= 3 else (ranked[-1][0] if ranked else None)
+            product = product_by_id[line["product_id"]]
+            totals_by_unit[product["base_unit"]][line["product_id"]] += line["ordered_qty_milli"]
     rows = []
-    prior = None
-    rank = 0
-    for position, (qty, product_id) in enumerate(ranked, 1):
-        if qty != prior:
-            rank = position
-            prior = qty
-        if cutoff is None or qty < cutoff:
-            continue
-        product = product_by_id[product_id]
-        rows.append((product_id, product["sku"], product["product_name"], product["base_unit"], qty, rank))
+    for unit, totals in totals_by_unit.items():
+        ranked = sorted(((qty, product_id) for product_id, qty in totals.items()),
+                        key=lambda pair: (-pair[0], pair[1]))
+        prior_qty = None
+        rank = 0
+        for position, (qty, product_id) in enumerate(ranked, 1):
+            if qty != prior_qty:
+                rank = position
+                prior_qty = qty
+            if rank > 3:
+                continue
+            product = product_by_id[product_id]
+            rows.append((product_id, product["sku"], product["product_name"], unit, qty, rank))
     return _distinct(rows)
 
 
@@ -125,25 +128,35 @@ def wms_ag_02(db: Path) -> list[list[Any]]:
 
 
 def wms_cd_02(db: Path) -> list[list[Any]]:
+    """Compare planned and executed quantity by document and SKU.
+
+    Non-posted documents have zero executed quantity. A posted transfer uses
+    its SOURCE leg once, while other posted document types use absolute
+    movement quantities under the synthetic WMS direction rules.
+    """
     docs, lines, moves, products = (table_rows(db, name) for name in
                                     ("INVENTORY_DOCUMENTS", "INVENTORY_DOCUMENT_LINES", "INVENTORY_MOVEMENTS", "PRODUCTS"))
-    posted = {d["document_id"]: d for d in docs if d["document_status"] == "POSTED"}
+    doc_by_id = {d["document_id"]: d for d in docs}
     product_by_id = {p["product_id"]: p for p in products}
+    line_by_id = {line["document_line_id"]: line for line in lines}
     planned: Counter[tuple[int, int]] = Counter()
     for line in lines:
-        if line["document_id"] in posted:
-            planned[(line["document_id"], line["product_id"])] += line["planned_qty_milli"]
-    line_by_id = {line["document_line_id"]: line for line in lines}
-    moved: Counter[tuple[int, int]] = Counter()
+        planned[(line["document_id"], line["product_id"])] += line["planned_qty_milli"]
+    executed: Counter[tuple[int, int]] = Counter()
     for move in moves:
         line = line_by_id[move["document_line_id"]]
-        if line["document_id"] in posted:
-            moved[(line["document_id"], line["product_id"])] += abs(move["qty_delta_milli"])
+        doc = doc_by_id[line["document_id"]]
+        if doc["document_status"] != "POSTED":
+            continue
+        if doc["document_type"] == "TRANSFER" and move["movement_role"] != "SOURCE":
+            continue
+        executed[(line["document_id"], line["product_id"])] += abs(move["qty_delta_milli"])
     rows = []
     for (doc_id, product_id), planned_qty in planned.items():
-        doc, product = posted[doc_id], product_by_id[product_id]
-        rows.append((doc_id, doc["document_no"], doc["document_type"], product["sku"], product["base_unit"],
-                     planned_qty, moved.get((doc_id, product_id), 0)))
+        doc, product = doc_by_id[doc_id], product_by_id[product_id]
+        rows.append((doc_id, doc["document_no"], doc["document_type"], doc["document_status"],
+                     product["sku"], product["base_unit"], planned_qty,
+                     executed.get((doc_id, product_id), 0)))
     return _distinct(rows)
 
 

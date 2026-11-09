@@ -31,14 +31,14 @@
 | ERP-GB-03 | rep NULL=6; rep1=9 và rep3=9 | NULL bucket và tie hiện diện | — | SUPPORTED |
 | ERP-GB-04 | Delivered events Apr–Jun 2025; local month conversion | Revenue theo thời gian có dữ liệu | UTC instant đổi tháng local và month-with-no-rows | NEEDS FIXTURE |
 | ERP-RK-01 | Delivered orders/revenue hiện diện | Có cohort ranking | Tie đúng cutoff top-5 chưa chứng minh bởi evidence hiện tại | NEEDS FIXTURE |
-| ERP-RK-02 | Products có EA/KG/L và order lines | Unit boundary biểu diễn được | Tie tại top-3, SKU khác unit và zero sold | NEEDS FIXTURE |
+| ERP-RK-02 | Snapshot có 12 sản phẩm thuộc EA/KG/L; separate-unit output trên snapshot | Temporary copy tạo tie đúng rank 3 trong EA và giữ cohort KG/L riêng | `dev_fixture_validation.json`: unit partition + rank-3 tie PASS; zero-sold excluded per intent | SUPPORTED |
 | ERP-RK-03 | Posted captures/refunds, payment/customer links | Net cash cohort có refunds | Equal maxima, pending decoy, no-cash customer fixture | NEEDS FIXTURE |
 | ERP-JN-01 | Customers + orders, 4 customer không confirmed order | Absence và parent retention hiện diện | — | SUPPORTED |
-| ERP-JN-02 | 216 lines, orders and products connected | Order-line-product join có nhiều dòng | Data corruption/duplicate line test chỉ ở validator; verify status/date exclusion | NEEDS FIXTURE |
+| ERP-JN-02 | 216 lines; order-line-product FK path; snapshot có confirmed/draft/cancelled parents | Temp-copy control chứng minh non-confirmed lines không lọt; PK-corrupt duplicate là ngoài miền dữ liệu hợp lệ | `dev_fixture_validation.json`: candidate/oracle exact-set PASS; invalid duplicate-line case remains optional | SUPPORTED |
 | ERP-JN-03 | 27 delivered; lines/customer/product path | Revenue cohort có dữ liệu | Multi-payment/order case để phát hiện fan-out; expected group checks | NEEDS FIXTURE |
 | ERP-JN-04 | 4 returns, 2 received + 2 rejected; return-line/order links | Partial return/rejected contrast present | Same SKU multiple lines, full RECEIVED quantity, quantity upper bound | NEEDS FIXTURE |
 | ERP-TM-01 | `order_date` from 2024-12-16 to 2026-02-28 | Nhiều ngày trong/ngoài quý | Exact `[start,end)` boundary | NEEDS FIXTURE |
-| ERP-TM-02 | 27 delivered timestamps Apr–Jun | Event-time filter has data | UTC-to-local midnight instants and NULL event control | NEEDS FIXTURE |
+| ERP-TM-02 | 27 delivered timestamps Apr–Jun | Temp copy có instant trước/tại start, trước/tại exclusive end; local date bins kiểm tra | `dev_fixture_validation.json`: four boundary assertions + SQL/oracle PASS; NULL event excluded | SUPPORTED |
 | ERP-NA-01 | 4 customers without confirmed order | Anti-join has true and false cases | Ensure draft/cancelled-only customer not mistaken for confirmed | NEEDS FIXTURE |
 | ERP-NA-02 | 12 orders without posted cash; pending capture records exist | No-posted vs pending-only distinction possible | Posted capture/refund net-zero order fixture | NEEDS FIXTURE |
 | ERP-CD-01 | Validation totals: order value 592,736,375 vs recognized revenue 352,856,000 VND | Different measures/cohorts differ materially | Fixture crossing order date and delivery date periods to expose common-date filter | NEEDS FIXTURE |
@@ -48,7 +48,7 @@
 | WMS-EF-03 | 90 movements, 8 locations, posted events | Movement/location relation populated | Same SKU/location opposite legs and cutoff | NEEDS FIXTURE |
 | WMS-EF-04 | 2 QUARANTINE locations; no quarantine movements | Intended result currently empty | Positive quarantine collision + zero-balance and inactive-location controls; required before use | NEEDS FIXTURE |
 | WMS-AG-01 | 6 posted receipts and 1 draft receipt | Status/type contrast | Multi-line receipt to detect inflated COUNT | NEEDS FIXTURE |
-| WMS-AG-02 | 20 posted shipments; positive and negative movements | Outbound movement exists | Same SKU adjustment/transfer decoys; unit selection | NEEDS FIXTURE |
+| WMS-AG-02 | 20 posted shipments; signed movements; KG cohort exists | Temp copy thêm negative adjustment và transfer trên KG SKU để kiểm tra type filter | `dev_fixture_validation.json`: decoys excluded, candidate/oracle exact-set PASS | SUPPORTED |
 | WMS-AG-03 | On-hand validator reports 36 positive product-location balances; no zero-with-history | Positive balance cohort present | Zero-with-history and no-history location; confirm AVG inclusion denominator | NEEDS FIXTURE |
 | WMS-AG-04 | Schema supports balances by product-location; current positive balances | Grain exists | Fractional rational mean fixture; zero/history vs no-history | NEEDS FIXTURE |
 | WMS-GB-01 | 46 documents with multiple statuses | Status grouping supported | Ensure count document PK vs rows | NEEDS FIXTURE |
@@ -61,13 +61,13 @@
 | WMS-JN-01 | Six posted receipts have supplier relationship | FK path and status present | Ensure no line join duplicates | SUPPORTED |
 | WMS-JN-02 | 80 document lines and product FK path | Line/product path populated | Fixture planned quantity deliberately differs from posted movement | NEEDS FIXTURE |
 | WMS-JN-03 | 90 movements with location and warehouse links | Path is populated | Transfer paired legs and aggregation without unit/fanout issues | NEEDS FIXTURE |
-| WMS-JN-04 | 12 posted transfers; two-leg identity rules in validator | Transfer entities and legs exist | Duplicate-looking legitimate leg and validator-only corrupted pair cases | NEEDS FIXTURE |
+| WMS-JN-04 | 12 posted transfers / 24 legs; pair invariants pass | Temp copy thêm transfer có cùng SKU/quantity/timestamp nhưng distinct identity; cả legs phải giữ nguyên | `dev_fixture_validation.json`: candidate/oracle exact-set PASS; corrupted-pair case thuộc validator optional suite | SUPPORTED |
 | WMS-TM-01 | business_date range 2024-11-02..2025-01-31 | January cohort exists | business_date differs from posted_at at boundary | NEEDS FIXTURE |
 | WMS-TM-02 | UTC event timestamps Jan–Mar 2025; 4 documents share timestamp with posted_seq | Same-time sequence is represented | Exact cutoff and atomic transfer batch evidence | NEEDS FIXTURE |
 | WMS-NA-01 | Products exist; no movement at PICKING locations | Anti-join at location scope yields many rows, unlike global no-movement | Add a picking movement collision to prove location scope; confirm active-location filter | NEEDS FIXTURE |
 | WMS-NA-02 | No zero-with-history balances; all 36 recorded balances positive | Schema can represent aggregates but snapshot lacks zero case | Add zero-with-history and no-history pair; otherwise cannot validate distinction | NEEDS FIXTURE |
 | WMS-CD-01 | 20 posted shipments + other movement types | Conditional type measures can differ | Same product/unit with shipment and non-shipment; pending/cancelled decoy | NEEDS FIXTURE |
-| WMS-CD-02 | 80 lines, 90 movement rows; document type/status and source links | Both planned and realized sides present | Multi-line/multi-movement document to detect JOIN multiplication | NEEDS FIXTURE |
+| WMS-CD-02 | 80 lines/90 movements; 2 non-posted docs retain planned rows; transfer source/destination legs | Temp copy covers DRAFT/CANCELLED zero execution and POSTED RECEIPT/SHIPMENT/ADJUSTMENT/CUSTOMER_RETURN/TRANSFER invariants | `dev_fixture_validation.json`: statuses, planned/executed and source-only transfer assertions PASS | SUPPORTED |
 
 ## Near-duplicate review and split leakage
 
