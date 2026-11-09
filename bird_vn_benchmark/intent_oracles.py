@@ -97,7 +97,7 @@ def erp_rk_02(db: Path) -> list[list[Any]]:
             if rank > 3:
                 continue
             product = product_by_id[product_id]
-            rows.append((product_id, product["sku"], product["product_name"], unit, qty, rank))
+            rows.append((product["sku"], product["product_name"], unit, qty, rank))
     return _distinct(rows)
 
 

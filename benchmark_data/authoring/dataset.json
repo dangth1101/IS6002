@@ -3,7 +3,7 @@
   "benchmark_version": "0.3.0-draft-implementation",
   "source_intent_cards": "docs/benchmark/intent_cards/INTENT_CARDS_DRAFT.md",
   "source_hashes": {
-    "intent_cards": "75547dfbbcb4b58dd63f4b5c3e18c5b298d6f682b86d618cb0d15dc837e84f82",
+    "intent_cards": "c03446c8dd91e991cd6bd13e16ad737e29865e61482b4d7ca09dc18028838a6f",
     "coverage_audit": "f49e980456901985319fb8ba4a8e09ebb1a938fbb2145abd77749b8f2a21b597",
     "build_manifest": "af145fbdaeb49653989007a1f0782b238c34667d37f2e0ca36cc55469ef5f334",
     "erp_database": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
@@ -29,7 +29,7 @@
         "classification": "Filter / Simple: lọc một entity bằng status",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Cho xem các đơn hàng đã xác nhận?",
+        "brief": "Liệt kê từng đơn hàng ở trạng thái CONFIRMED, kèm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
         "entity_grain": "`sales_orders`; 1 hàng/đơn; order id/no, customer, order_date, status; không measure",
         "filters_group_time": "`CONFIRMED`; không aggregate; không time restriction",
         "null_tie": "Không loại order vì amount=0; empty nếu không có CONFIRMED",
@@ -41,7 +41,8 @@
       "canonical_sql_sha256": "097997734e6d4349acd27f1f2cd40ac65ba41f02adf2d382bd5c9b1bf0e9ce33",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "ERP-EF-02",
@@ -349,7 +350,7 @@
         "classification": "Group / Moderate: group nullable rep và đếm order",
         "competency": "Group",
         "complexity": "Moderate",
-        "brief": "Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+        "brief": "Với mỗi sales rep có ít nhất một đơn CONFIRMED, cho biết mã sales rep, tên nhân viên nếu có và số đơn CONFIRMED; tạo thêm một nhóm NULL chưa gán khi có đơn CONFIRMED không có sales rep.",
         "entity_grain": "rep id/name (NULL bucket), count confirmed orders",
         "filters_group_time": "Confirmed; GROUP BY `sales_rep_id`, optional employee join",
         "null_tie": "NULL rep là một nhóm “chưa gán”, không biến thành employee; zero group không sinh",
@@ -361,7 +362,8 @@
       "canonical_sql_sha256": "e42a9c6fcb6ffd9ec8b30329f098f7f6eb194ecb94695013c98cff4af97cc3be",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "ERP-GB-04",
@@ -447,19 +449,27 @@
         "classification": "Ranking / Challenging: unit-partitioned top-k with boundary ties",
         "competency": "Ranking",
         "complexity": "Challenging",
-        "brief": "Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+        "brief": "Trong từng base unit riêng biệt, xếp hạng mỗi SKU theo tổng ordered quantity của các đơn CONFIRMED; trả SKU, tên sản phẩm, base unit, tổng lượng (milli-unit) và hạng, lấy mọi hạng từ 1 đến 3 kể cả đồng hạng ở mốc 3.",
         "entity_grain": "product; 1 hàng/SKU; SKU/name/base_unit, sold quantity milli-unit trong base_unit tương ứng, rank trong unit",
         "filters_group_time": "Chỉ confirmed order lines; SUM quantity theo SKU; RANK PARTITION BY base_unit; không áp dụng bộ lọc thời gian",
         "null_tie": "Mỗi đơn vị được xếp hạng độc lập; zero sold không có line nên không vào cohort; lấy toàn bộ rank <=3, kể cả ties ở cutoff",
         "business_rules": "Không cộng quantity giữa base_unit; top-3 và tie policy theo Owner decision ngày 2026-11-09",
         "fixture_evidence": "Snapshot có 12 sản phẩm/3 units; temporary fixture tạo top-3 tie tại cutoff trong EA và các cohort KG/L riêng"
       },
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
-      "canonical_sql_draft": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
-      "canonical_sql_sha256": "0dad2f826f0fc2c740119677402b55066ecb3b12c6e488ae3681595ac0422b27",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql_draft": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql_sha256": "d21aeeb49df3e4507a54f6aec4eafc8b80685a3f11fb46f3b6feb73899ce4136",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_issues": [],
+      "projection_alignment_decision": {
+        "status": "RESOLVED_BY_BENCHMARK_OWNER",
+        "option": "B",
+        "decision": "Remove product_id from the final SELECT; retain SKU, product_name, base_unit, sold_qty_milli, and rnk. Ranking partition and tie policy remain unchanged.",
+        "date": "2026-11-09"
+      },
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "ERP-RK-03",
@@ -542,7 +552,7 @@
         "classification": "Join / Moderate: order→lines→product, line grain",
         "competency": "Join",
         "complexity": "Moderate",
-        "brief": "Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+        "brief": "Liệt kê từng dòng của mọi đơn CONFIRMED, một dòng cho mỗi order line, gồm số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity theo milli-unit và line net theo VND.",
         "entity_grain": "order line; order no/date, SKU/name, qty milli-unit, line net VND",
         "filters_group_time": "CONFIRMED; no aggregate; date unrestricted",
         "null_tie": "NULL category irrelevant; no order-line absence means no row",
@@ -554,7 +564,8 @@
       "canonical_sql_sha256": "913fa870cf54bc6e886e098a28f0d80a1b9be20629d9b05763e3c48f74948031",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "ERP-JN-03",
@@ -673,7 +684,7 @@
         "classification": "Time / Moderate: delivery event grouped by local day",
         "competency": "Time",
         "complexity": "Moderate",
-        "brief": "Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+        "brief": "Cho mỗi ngày Việt Nam trong năm 2025 có ít nhất một shipment DELIVERED, trả ngày địa phương và số shipment; dùng delivered_at_utc quy đổi sang Asia/Ho_Chi_Minh, khoảng [2025-01-01, 2026-01-01), không tạo dòng cho ngày không có shipment.",
         "entity_grain": "shipment/local day; count shipment ids",
         "filters_group_time": "delivered status, `delivered_at` UTC mapped to `[2025-01-01,2026-01-01)` local; group local date",
         "null_tie": "NULL delivered_at excluded; zero count differs from no shipment group",
@@ -685,7 +696,8 @@
       "canonical_sql_sha256": "c983094d533483295ff17b11a8807529974d417d868d7cfba0d75497dd94246f",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "ERP-NA-01",
@@ -834,7 +846,7 @@
         "classification": "Filter / Simple: lọc document status",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Liệt kê chứng từ kho đã posted?",
+        "brief": "Liệt kê từng inventory document có document_status POSTED, gồm document ID, document number, document type, trạng thái và business date.",
         "entity_grain": "inventory_document; 1 row/document; doc no/type/status/time",
         "filters_group_time": "`POSTED`; no aggregate/time cutoff",
         "null_tie": "Draft/cancelled excluded; empty iff no posted docs",
@@ -846,7 +858,8 @@
       "canonical_sql_sha256": "8ac8ca29797b69c58bd3c44aebc8b6d02002f7c9998f24a6f230ee9a1bc513bd",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "WMS-EF-02",
@@ -865,7 +878,7 @@
         "classification": "Filter / Simple: filter product/base unit",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Liệt kê SKU có base unit là KG?",
+        "brief": "Liệt kê từng product có base_unit KG, gồm product ID, SKU, tên sản phẩm, base unit và category ID (giữ NULL nếu chưa phân loại).",
         "entity_grain": "product; 1/SKU; SKU/name/base_unit/category",
         "filters_group_time": "unit=KG; no aggregation",
         "null_tie": "NULL category preserved; no quantity sum",
@@ -877,7 +890,8 @@
       "canonical_sql_sha256": "e5c05664d2af48226176eb5c629ae9ad1bf45838dd070517a493345759be22d1",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "WMS-EF-03",
@@ -993,7 +1007,7 @@
         "classification": "Aggregate / Moderate: aggregate shipment quantity at SKU grain",
         "competency": "Aggregate",
         "complexity": "Moderate",
-        "brief": "Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+        "brief": "Với mỗi product có base_unit KG và phát sinh ít nhất một movement âm thuộc chứng từ SHIPMENT đã POSTED trong toàn bộ lịch sử, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
         "entity_grain": "product/base_unit; 1 hàng/SKU; SKU and SUM outbound milli-quantity",
         "filters_group_time": "Posted SHIPMENT movements; `base_unit='KG'`; full stored history, no date restriction",
         "null_tie": "Do not add units; return quantity separate; no movement differs from zero net",
@@ -1005,7 +1019,8 @@
       "canonical_sql_sha256": "15c899004f9dc172ff3f07d52020748f88cd1f377f1541aabc0771d981ece2b2",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "WMS-AG-03",
@@ -1417,7 +1432,7 @@
         "classification": "Join / Challenging: transfer pair integrity and warehouse movement",
         "competency": "Join",
         "complexity": "Challenging",
-        "brief": "Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+        "brief": "Liệt kê từng movement leg của mỗi chứng từ TRANSFER POSTED, một dòng mỗi leg; gồm document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
         "entity_grain": "transfer document/leg; one row/leg; source/target warehouse, product, signed qty, timestamp",
         "filters_group_time": "Posted TRANSFER only; join each leg via source/leg identity; no summing duplicated pair as one leg",
         "null_tie": "Two rows per valid transfer; duplicate-like valid movements remain; missing pair is invariant failure",
@@ -1429,7 +1444,8 @@
       "canonical_sql_sha256": "62c3d9d8e94999f9a191eb27f17948f3533944fb9bd22fac0daf9c7222070942",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     },
     {
       "group_id": "WMS-TM-01",
@@ -1610,7 +1626,7 @@
         "classification": "Conditional / Moderate: planned vs executed by status/type and document-SKU grain",
         "competency": "Conditional",
         "complexity": "Moderate",
-        "brief": "Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+        "brief": "Với mọi cặp document × SKU, bất kể trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity theo milli-unit; executed bằng 0 nếu document chưa POSTED, TRANSFER chỉ tính SOURCE leg một lần, loại POSTED khác theo movement rules đã chốt.",
         "entity_grain": "document × product; 1 row/document-SKU; document no/type/status, SKU/base_unit, planned milli-unit, executed milli-unit",
         "filters_group_time": "Giữ tất cả status; planned=sum document lines; executed chỉ từ POSTED movement; TRANSFER dùng SOURCE leg một lần; các loại khác dùng tổng ABS movement theo rules đã chốt",
         "null_tie": "DRAFT/CANCELLED executed=0; POSTED thiếu movement là 0 theo synthetic invariant; không nhân planned khi join movement; không cộng khác base_unit",
@@ -1622,7 +1638,8 @@
       "canonical_sql_sha256": "07f7c20d852b350ad796fb997f85b6913b5e8352461cae147c0ad7a7d02f36df",
       "alternative_sql": null,
       "expected_output": null,
-      "validation_status": "BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED"
+      "validation_status": "VALIDATED_BY_AUTOMATION",
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
     }
   ],
   "questions": [
@@ -1634,13 +1651,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Cho xem các đơn hàng đã xác nhận?",
+      "question": "Liệt kê từng đơn hàng ở trạng thái CONFIRMED, kèm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "ERP-EF-01-Q01",
@@ -1650,13 +1668,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: cho xem các đơn hàng đã xác nhận?",
+      "question": "Liệt kê từng đơn đã xác nhận, gồm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q02",
@@ -1666,13 +1686,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: cho xem các đơn hàng đã xác nhận?",
+      "question": "Những đơn bán hàng nào đã được xác nhận? Trả về mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái của từng đơn.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q03",
@@ -1682,13 +1704,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: cho xem các đơn hàng đã xác nhận?",
+      "question": "Tra cứu các sales order đã được xác nhận, bao gồm mã định danh nội bộ (order_id), số đơn bán (order_no), mã khách hàng (customer_id), ngày đặt và trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Lexical wording refined to reduce near-duplicate similarity and name customer_id explicitly; still needs human review."
     },
     {
       "question_id": "ERP-EF-01-Q04",
@@ -1698,13 +1722,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết cho xem các đơn hàng đã xác nhận không?",
+      "question": "Mỗi đơn CONFIRMED gồm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái là gì?",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q05",
@@ -1714,13 +1740,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: cho xem các đơn hàng đã xác nhận?",
+      "question": "Cần danh sách đơn CONFIRMED với năm trường: mã đơn, số đơn, mã khách hàng, ngày đặt, trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q06",
@@ -1730,13 +1758,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — cho xem các đơn hàng đã xác nhận?",
+      "question": "Hãy trả về các bộ thông tin (mã đơn, số đơn, mã khách hàng, ngày đặt, trạng thái) cho những đơn có trạng thái CONFIRMED.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q07",
@@ -1746,13 +1776,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: cho xem các đơn hàng đã xác nhận?",
+      "question": "Với mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái cần hiển thị, hãy lọc những đơn có trạng thái CONFIRMED.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q08",
@@ -1762,13 +1794,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Cho xem các đơn hàng đã xác nhận?",
+      "question": "Trạng thái cần xét là CONFIRMED; trong toàn bộ đơn hàng, liệt kê mã đơn, số đơn, mã khách hàng và ngày đặt cùng trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q09",
@@ -1778,13 +1812,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: cho xem các đơn hàng đã xác nhận?",
+      "question": "Tìm các đơn bán đã được chốt, rồi trình bày từng đơn dưới dạng mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-01-Q10",
@@ -1794,13 +1833,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: cho xem các đơn hàng đã xác nhận?",
+      "question": "Trả về mỗi đơn ở trạng thái CONFIRMED dưới dạng mã đơn, số đơn, mã khách hàng, ngày đặt, trạng thái; đây là các đơn đã xác nhận.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "syntactic",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-EF-02-Q00",
@@ -3394,13 +3438,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Với mỗi sales rep có ít nhất một đơn CONFIRMED, cho biết mã sales rep, tên nhân viên nếu có và số đơn CONFIRMED; tạo thêm một nhóm NULL chưa gán khi có đơn CONFIRMED không có sales rep.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "ERP-GB-03-Q01",
@@ -3410,13 +3455,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Với từng nhân viên kinh doanh có đơn đã xác nhận, nêu mã sales rep, tên nếu có và số đơn; nếu có đơn CONFIRMED chưa gán người phụ trách, tính chúng trong một nhóm NULL riêng.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q02",
@@ -3426,13 +3473,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Thống kê số đơn CONFIRMED theo sales rep có đơn, gồm mã rep, tên nếu có và số đơn; giữ nhóm NULL riêng nếu có đơn chưa gán sales rep.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q03",
@@ -3442,13 +3491,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Với mỗi người phụ trách bán hàng có ít nhất một đơn ở trạng thái CONFIRMED, cho biết mã, tên nếu có và số đơn; thêm nhóm NULL nếu tồn tại đơn đã xác nhận chưa gán người phụ trách.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q04",
@@ -3458,13 +3509,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết đếm confirmed orders theo sales rep, gồm nhóm chưa gán không?",
+      "question": "Mỗi sales rep có đơn CONFIRMED có mã nào, tên nào nếu có và bao nhiêu đơn? Nếu có đơn chưa gán rep, trình bày chúng thành nhóm NULL riêng.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q05",
@@ -3474,13 +3527,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Lập bảng theo sales rep có đơn CONFIRMED, gồm mã rep, tên nếu có và số đơn; biểu diễn đơn đã xác nhận chưa gán rep thành nhóm NULL nếu có.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q06",
@@ -3490,13 +3545,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Tạo một dòng cho mỗi sales rep có đơn đã xác nhận, gồm mã, tên nếu có và số đơn; nếu có đơn CONFIRMED không gán rep, thêm một dòng nhóm NULL.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q07",
@@ -3506,13 +3563,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Chỉ lấy đơn CONFIRMED trong toàn bộ dữ liệu; nhóm chúng theo sales rep có đơn, rồi trả mã, tên nếu có và số đơn. Đơn chưa gán rep thuộc nhóm NULL riêng nếu có.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q08",
@@ -3522,13 +3581,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Kết quả cần mã sales rep, tên nếu có và số đơn cho mỗi rep có đơn CONFIRMED; giữ nhóm NULL riêng khi có đơn đã xác nhận chưa gán rep.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q09",
@@ -3538,13 +3599,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Phân nhóm các đơn CONFIRMED theo người phụ trách bán hàng có đơn, kể cả nhóm NULL nếu có đơn chưa phân công; cho biết mã/tên nếu có và số đơn.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-03-Q10",
@@ -3554,13 +3620,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "question": "Bao nhiêu đơn CONFIRMED thuộc mỗi sales rep có đơn? Trình bày mã rep, tên nếu có và số lượng; tính đơn chưa gán trong nhóm NULL riêng nếu có.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "syntactic",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-GB-04-Q00",
@@ -3922,13 +3993,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Trong từng base unit riêng biệt, xếp hạng mỗi SKU theo tổng ordered quantity của các đơn CONFIRMED; trả SKU, tên sản phẩm, base unit, tổng lượng (milli-unit) và hạng, lấy mọi hạng từ 1 đến 3 kể cả đồng hạng ở mốc 3.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "ERP-RK-02-Q01",
@@ -3938,13 +4010,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Riêng trong từng đơn vị cơ sở, xếp các SKU theo tổng số lượng đặt ở đơn đã xác nhận; nêu SKU, tên, đơn vị, tổng milli-unit và hạng, giữ mọi đồng hạng ở vị trí ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q02",
@@ -3954,13 +4028,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Với mỗi base unit, tìm các mã hàng dẫn đầu theo lượng bán trong confirmed orders: mã SKU, tên, đơn vị, tổng lượng milli-unit và thứ hạng; lấy top ba kể cả hòa ở hạng ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q03",
@@ -3970,13 +4046,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: trong từng đơn vị cơ sở, những sku nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Xếp từng mặt hàng theo tổng lượng ordered trong các đơn được xác nhận, tách riêng từng đơn vị cơ sở; hiển thị SKU, tên, đơn vị, tổng milli-unit và hạng 1–3 cùng mọi trường hợp đồng hạng tại cutoff.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q04",
@@ -3986,13 +4064,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba không?",
+      "question": "Những SKU nào đứng trong ba hạng đầu của từng base unit nếu cộng ordered quantity trên các đơn CONFIRMED? Với mỗi SKU, cho biết tên, đơn vị, tổng milli-unit và rank; không bỏ đồng hạng hạng ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q05",
@@ -4002,13 +4082,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Hãy lập bảng xếp hạng riêng theo base unit từ lượng ordered của đơn CONFIRMED. Mỗi dòng gồm SKU, tên sản phẩm, đơn vị, tổng milli-unit và hạng; bao gồm toàn bộ tie ở hạng 3.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q06",
@@ -4018,13 +4100,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Cần chọn mọi SKU có rank không quá 3 trong cohort cùng base unit, tính rank từ tổng ordered quantity của confirmed orders; trả tên, SKU, đơn vị, tổng milli-unit và rank, giữ ties tại 3.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q07",
@@ -4034,13 +4118,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Trước tiên tách sản phẩm theo base unit, rồi trong mỗi nhóm xếp theo tổng ordered milli-unit giảm dần trên confirmed orders; trả SKU, tên, đơn vị, tổng và hạng, gồm mọi tie ở hạng ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q08",
@@ -4050,13 +4136,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Chỉ dùng dòng hàng thuộc đơn CONFIRMED và cộng quantity theo SKU. Sau đó xếp hạng độc lập trong từng đơn vị cơ sở; kết quả cần SKU, tên, đơn vị, tổng milli-unit, hạng 1–3 và mọi tie tại hạng ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q09",
@@ -4066,13 +4154,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Trong mỗi cohort đơn vị cơ sở, hãy xếp các mặt hàng dẫn đầu theo tổng lượng ordered ở đơn đã chốt; xuất SKU/tên/đơn vị/tổng milli-unit/hạng và giữ đồng hạng thứ ba.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-02-Q10",
@@ -4082,13 +4175,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "question": "Hãy trả trước SKU, tên, đơn vị, tổng ordered milli-unit và thứ hạng: dùng các đơn CONFIRMED, cộng theo SKU, phân hạng riêng mỗi base unit và giữ mọi trường hợp hòa tại hạng 3.",
       "db_id": "erp_sales",
       "split": "development",
-      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT product_id,sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
+      "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-RK-03-Q00",
@@ -4450,13 +4548,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Liệt kê từng dòng của mọi đơn CONFIRMED, một dòng cho mỗi order line, gồm số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity theo milli-unit và line net theo VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "ERP-JN-02-Q01",
@@ -4466,13 +4565,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Cho xem chi tiết từng dòng hàng thuộc đơn đã xác nhận: số đơn, ngày đặt, mã và tên SKU, lượng đặt milli-unit cùng giá trị ròng dòng hàng VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q02",
@@ -4482,13 +4583,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Tra cứu các order line của đơn CONFIRMED, mỗi dòng kèm số đơn, ngày đặt, SKU/tên sản phẩm, số lượng đặt milli-unit và net amount VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q03",
@@ -4498,13 +4601,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Hiển thị các dòng sản phẩm trong đơn bán đã chốt; cần số đơn, ngày đơn, mã/tên mặt hàng, ordered quantity milli-unit và line net bằng VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q04",
@@ -4514,13 +4619,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết hiển thị từng dòng confirmed order cùng tên sản phẩm không?",
+      "question": "Mỗi order line trong đơn CONFIRMED có số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND nào?",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q05",
@@ -4530,13 +4637,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Hãy tạo danh sách ở cấp dòng đơn hàng. Với đơn đã xác nhận, trình bày số đơn, ngày đặt, mã SKU, tên sản phẩm, lượng đặt milli-unit và giá trị ròng VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q06",
@@ -4546,13 +4655,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Cần các bộ (số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit, line net VND) cho tất cả order line thuộc đơn CONFIRMED.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q07",
@@ -4562,13 +4673,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Chỉ giữ đơn có trạng thái CONFIRMED; sau đó mở rộng đến từng order line và ghép sản phẩm, trả số đơn/ngày đặt, SKU/tên, lượng đặt milli-unit và line net VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q08",
@@ -4578,13 +4691,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Đầu ra cần số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND. Hãy lấy ở grain từng dòng hàng, chỉ từ các đơn đã xác nhận.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q09",
@@ -4594,13 +4709,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Với từng chi tiết đơn bán đã chốt, nối thông tin mặt hàng và trình bày bộ số đơn, ngày, SKU/tên, lượng milli-unit, net VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-02-Q10",
@@ -4610,13 +4730,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "question": "Với mỗi order line thuộc đơn CONFIRMED, trả số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-JN-03-Q00",
@@ -5154,13 +5279,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Cho mỗi ngày Việt Nam trong năm 2025 có ít nhất một shipment DELIVERED, trả ngày địa phương và số shipment; dùng delivered_at_utc quy đổi sang Asia/Ho_Chi_Minh, khoảng [2025-01-01, 2026-01-01), không tạo dòng cho ngày không có shipment.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "ERP-TM-02-Q01",
@@ -5170,13 +5296,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Thống kê theo ngày giờ Việt Nam số chuyến đã giao trong năm 2025; chỉ hiện ngày có chuyến, lấy ngày từ delivered timestamp UTC và đếm shipment.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q02",
@@ -5186,13 +5314,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Mỗi ngày địa phương có giao hàng thành công trong 2025 có bao nhiêu shipment? Dùng mốc delivered, đổi UTC sang Asia/Ho_Chi_Minh và không thêm ngày có số 0.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q03",
@@ -5202,13 +5332,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Đếm các lô giao đã hoàn tất theo ngày Việt Nam trong năm 2025, dựa vào delivered_at_utc; chỉ trả ngày phát sinh ít nhất một shipment.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q04",
@@ -5218,13 +5350,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao không?",
+      "question": "Ngày địa phương nào trong khoảng năm 2025 có shipment ở trạng thái DELIVERED, và mỗi ngày có bao nhiêu shipment? Diễn giải ngày theo Asia/Ho_Chi_Minh.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q05",
@@ -5234,13 +5368,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Hãy lập bảng ngày–số chuyến giao: đổi delivered_at_utc sang giờ Việt Nam, lọc năm 2025 theo [01/01/2025, 01/01/2026), chỉ giữ ngày có dữ liệu.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q06",
@@ -5250,13 +5386,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Cần số lượng shipment DELIVERED cho từng ngày địa phương hiện diện trong dữ liệu năm 2025; ngày lấy từ thời điểm giao UTC quy đổi sang giờ Việt Nam.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q07",
@@ -5266,13 +5404,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Dùng delivered_at_utc và trạng thái DELIVERED để chọn khoảng local-year 2025 trước; sau đó nhóm theo ngày Asia/Ho_Chi_Minh và đếm shipment, không scaffold ngày rỗng.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q08",
@@ -5282,13 +5422,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Kết quả gồm ngày Việt Nam và số shipment. Chỉ tính mốc giao trong [2025-01-01, 2026-01-01) theo giờ địa phương, đổi từ UTC, và chỉ nhóm ngày có shipment DELIVERED.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q09",
@@ -5298,13 +5440,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Tổng hợp các đơn vị giao đã hoàn tất mỗi ngày theo giờ Việt Nam; dùng delivered time UTC và lọc local-year 2025, chỉ xuất các ngày có chuyến cùng số lượng.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-TM-02-Q10",
@@ -5314,13 +5461,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "question": "Trước hết chọn event DELIVERED trong năm địa phương 2025, rồi đếm shipment theo ngày sau quy đổi UTC→Asia/Ho_Chi_Minh; trả ngày và count, không sinh ngày 0.",
       "db_id": "erp_sales",
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "ERP-NA-01-Q00",
@@ -6034,13 +6186,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Liệt kê chứng từ kho đã posted?",
+      "question": "Liệt kê từng inventory document có document_status POSTED, gồm document ID, document number, document type, trạng thái và business date.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "WMS-EF-01-Q01",
@@ -6050,13 +6203,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: liệt kê chứng từ kho đã posted?",
+      "question": "Cho biết các chứng từ kho đã ghi nhận ở trạng thái POSTED; mỗi dòng cần ID, số chứng từ, loại, trạng thái và ngày nghiệp vụ.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q02",
@@ -6066,13 +6221,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: liệt kê chứng từ kho đã posted?",
+      "question": "Tra cứu inventory documents đã hạch toán, kèm document ID/no, document type, status và business date.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q03",
@@ -6082,13 +6239,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê chứng từ kho đã posted?",
+      "question": "Những phiếu kho nào đã được ghi sổ? Trả mã chứng từ, số chứng từ, loại chứng từ, trạng thái và ngày nghiệp vụ.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q04",
@@ -6098,13 +6257,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết liệt kê chứng từ kho đã posted không?",
+      "question": "Mỗi inventory document POSTED có ID, số hiệu, loại, status và business date nào?",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q05",
@@ -6114,13 +6275,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: liệt kê chứng từ kho đã posted?",
+      "question": "Hãy lập danh sách ở grain một chứng từ kho; chỉ chọn POSTED và hiển thị document ID, number, type, status, business date.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q06",
@@ -6130,13 +6293,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê chứng từ kho đã posted?",
+      "question": "Cần các bộ thông tin (ID, số chứng từ, loại, trạng thái, ngày nghiệp vụ) của tất cả chứng từ kho có status POSTED.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q07",
@@ -6146,13 +6311,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê chứng từ kho đã posted?",
+      "question": "Lọc trạng thái document là POSTED trước; sau đó trả ID/số chứng từ, loại, trạng thái và business date cho từng chứng từ.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q08",
@@ -6162,13 +6329,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê chứng từ kho đã posted?",
+      "question": "Đầu ra cần document ID, document number, document type, status và business date. Trong toàn bộ chứng từ kho, chỉ lấy những dòng POSTED.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q09",
@@ -6178,13 +6347,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê chứng từ kho đã posted?",
+      "question": "Liệt kê các phiếu kho đã ghi sổ, mỗi phiếu là một dòng gồm ID, số hiệu, loại, trạng thái và business date.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-01-Q10",
@@ -6194,13 +6368,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Hãy lập danh sách từng chứng từ kho đã post, kèm mã chứng từ, loại, trạng thái và ngày nghiệp vụ.",
+      "question": "Trả projection ID/no/type/status/business date cho từng chứng từ; trước tiên giới hạn inventory document ở trạng thái POSTED.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q00",
@@ -6210,13 +6389,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Liệt kê SKU có base unit là KG?",
+      "question": "Liệt kê từng product có base_unit KG, gồm product ID, SKU, tên sản phẩm, base unit và category ID (giữ NULL nếu chưa phân loại).",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "WMS-EF-02-Q01",
@@ -6226,13 +6406,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: liệt kê sku có base unit là kg?",
+      "question": "Cho xem các mặt hàng đo theo kilogram (KG), mỗi SKU kèm product ID, tên, đơn vị cơ sở và category ID nếu có.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q02",
@@ -6242,13 +6424,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: liệt kê sku có base unit là kg?",
+      "question": "Tra cứu sản phẩm có đơn vị chuẩn là KG; trả ID sản phẩm, mã SKU, tên, base unit và mã danh mục, kể cả danh mục NULL.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q03",
@@ -6258,13 +6442,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê sku có base unit là kg?",
+      "question": "Những SKU nào dùng KG làm đơn vị cơ sở? Với mỗi mặt hàng, nêu product ID, tên hàng, đơn vị và category ID nếu được gán.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q04",
@@ -6274,13 +6460,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết liệt kê SKU có base unit là KG không?",
+      "question": "Mỗi product có base_unit KG mang product ID, SKU, tên, category ID nào? Giữ nguyên NULL ở category nếu chưa phân loại.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q05",
@@ -6290,13 +6478,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: liệt kê SKU có base unit là KG?",
+      "question": "Hãy lập danh sách sản phẩm theo grain một product, chỉ gồm đơn vị KG; các cột là ID, SKU, tên, base unit và category ID.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q06",
@@ -6306,13 +6496,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê SKU có base unit là KG?",
+      "question": "Cần các bộ (product ID, SKU, tên, base unit, category ID) sau khi lọc sản phẩm có đơn vị cơ sở KG; category chưa gán vẫn để NULL.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q07",
@@ -6322,13 +6514,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê SKU có base unit là KG?",
+      "question": "Trước hết chọn base_unit='KG'; từ mỗi product được chọn, xuất product ID, SKU, tên, đơn vị và category ID, không loại NULL category.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q08",
@@ -6338,13 +6532,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê SKU có base unit là KG?",
+      "question": "Kết quả cần ID sản phẩm, SKU, tên, base unit và category ID. Trong catalog, chỉ lấy product đo bằng KG và giữ product chưa có category.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q09",
@@ -6354,13 +6550,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê SKU có base unit là KG?",
+      "question": "Tìm các mặt hàng tính theo kilogram, rồi trình bày ID/SKU/tên/đơn vị/category ID, kể cả category chưa gán.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-02-Q10",
@@ -6370,13 +6571,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: liệt kê SKU có base unit là KG?",
+      "question": "Trả product ID, SKU, tên, base unit và category ID; bộ lọc catalog là KG, còn NULL category vẫn được giữ.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-EF-03-Q00",
@@ -6914,13 +7120,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Với mỗi product có base_unit KG và phát sinh ít nhất một movement âm thuộc chứng từ SHIPMENT đã POSTED trong toàn bộ lịch sử, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "WMS-AG-02-Q01",
@@ -6930,13 +7137,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Tổng hợp lượng hàng xuất giao khách đã ghi sổ cho từng SKU tính bằng KG; nêu product ID, SKU, base unit và tổng milli-KG trên toàn bộ lịch sử.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q02",
@@ -6946,13 +7155,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, với mỗi product base_unit KG có movement âm của SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q03",
@@ -6962,13 +7173,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: với từng sku có đơn vị cơ sở là kg, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, với mỗi SKU base_unit KG có movement âm thuộc SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q04",
@@ -6978,13 +7191,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu không?",
+      "question": "Trong toàn bộ lịch sử, mỗi SKU KG có tổng lượng milli-KG đã xuất qua movement âm thuộc SHIPMENT POSTED là bao nhiêu? Trả product ID, SKU, base unit và tổng lượng.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q05",
@@ -6994,13 +7209,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Với mỗi SKU có base_unit KG và movement âm thuộc SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG) trên toàn bộ lịch sử.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q06",
@@ -7010,13 +7227,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, chỉ xét movement âm thuộc SHIPMENT POSTED của product base_unit KG; trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q07",
@@ -7026,13 +7245,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, chọn movement âm của SHIPMENT POSTED thuộc product base_unit KG, rồi nhóm theo product; trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q08",
@@ -7042,13 +7263,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Kết quả cần product ID, SKU, base unit và tổng shipped milli-KG. Chỉ nhóm các sản phẩm KG có phát sinh shipment movement âm đã POSTED, không giới hạn ngày.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q09",
@@ -7058,13 +7281,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, tổng hợp lượng xuất milli-KG cho mỗi product base_unit KG từ movement âm thuộc SHIPMENT POSTED; trả product ID, SKU, base unit và tổng lượng.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-02-Q10",
@@ -7074,13 +7302,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "question": "Trong toàn bộ lịch sử, chọn movement âm thuộc SHIPMENT POSTED của SKU KG, tổng hợp theo product rồi trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-AG-03-Q00",
@@ -9202,13 +9435,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Liệt kê từng movement leg của mỗi chứng từ TRANSFER POSTED, một dòng mỗi leg; gồm document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "WMS-JN-04-Q01",
@@ -9218,13 +9452,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Cho xem từng chân movement của lệnh chuyển kho đã ghi sổ, với ID/số chứng từ, dòng, SKU, số thứ tự/vai trò leg, kho đi/đến, delta milli-unit có dấu và timestamp UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q02",
@@ -9234,13 +9470,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Tra cứu các inventory transfer POSTED ở mức từng leg; cần mã/số chứng từ, line, SKU, leg no/role, warehouse nguồn-đích, lượng signed milli-unit và moved_at UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q03",
@@ -9250,13 +9488,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Mỗi chân luân chuyển giữa kho trong chứng từ đã hạch toán cần hiện document ID/no, line no, SKU, leg no và role, kho nguồn/đích, signed milli-quantity, thời điểm UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q04",
@@ -9266,13 +9506,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết liệt kê transfer movement legs giữa hai warehouse theo chứng từ không?",
+      "question": "Với từng leg của TRANSFER POSTED, document nào và line nào liên quan, SKU gì, leg number/role ra sao, kho nguồn/đích nào, delta milli-unit và thời điểm UTC là bao nhiêu?",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q05",
@@ -9282,13 +9524,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Hãy tạo bảng ở grain một movement leg, chỉ từ transfer đã ghi sổ; các cột gồm document ID/no, line, SKU, leg no/role, source/destination warehouse, signed qty milli-unit và moved_at UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q06",
@@ -9298,13 +9542,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Cần các bộ thông tin chi tiết cho mọi transfer leg POSTED: chứng từ, số dòng, SKU, nhận diện/vai trò leg, hai warehouse, lượng có dấu và timestamp UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q07",
@@ -9314,13 +9560,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Lọc chứng từ TRANSFER có status POSTED trước, rồi theo từng movement leg nối document line, product và location; trả mã chứng từ/line/SKU, vai trò leg, hai kho, delta và giờ UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q08",
@@ -9330,13 +9578,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Đầu ra cần document ID/no, line number, SKU, leg number/role, kho nguồn/đích, signed milli-quantity và thời điểm UTC. Mỗi row là một leg thuộc transfer đã POSTED.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q09",
@@ -9346,13 +9596,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Với từng movement leg của TRANSFER POSTED, trả document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-JN-04-Q10",
@@ -9362,13 +9617,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "question": "Mỗi row tương ứng một movement leg; trước hết giới hạn transfer POSTED, sau đó xuất chứng từ/line/SKU/leg-role/kho nguồn-đích/signed milli-qty/timestamp UTC.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-TM-01-Q00",
@@ -10258,13 +10518,14 @@
       "role": "original",
       "variant_type": "anchor",
       "transformation_note": "anchor",
-      "question": "Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Với mọi cặp document × SKU, bất kể trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity theo milli-unit; executed bằng 0 nếu document chưa POSTED, TRANSFER chỉ tính SOURCE leg một lần, loại POSTED khác theo movement rules đã chốt.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
     },
     {
       "question_id": "WMS-CD-02-Q01",
@@ -10274,13 +10535,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "request framing",
-      "question": "Bạn vui lòng cho biết: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Với mỗi document × SKU ở mọi trạng thái, trả document ID, document number, type, status, SKU, base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED có executed=0, TRANSFER lấy SOURCE một lần.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q02",
@@ -10290,13 +10553,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "information request",
-      "question": "Tôi cần tra cứu nội dung sau: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Với mọi document × SKU, trả document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit; gồm mọi trạng thái, non-POSTED có executed=0, TRANSFER lấy SOURCE một lần.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q03",
@@ -10306,13 +10571,15 @@
       "role": "variant",
       "variant_type": "lexical",
       "transformation_note": "nominal request",
-      "question": "Kết quả cần tìm là gì khi xét yêu cầu này: với mỗi chứng từ và sku, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Với mỗi document × SKU ở mọi trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED có executed=0, TRANSFER lấy SOURCE một lần, loại POSTED khác theo movement rules.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q04",
@@ -10322,13 +10589,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "embedded question",
-      "question": "Bạn có thể cho tôi biết với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không không?",
+      "question": "Mỗi cặp document × SKU có document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit nào? Non-POSTED có executed=0; TRANSFER lấy SOURCE một lần.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q05",
@@ -10338,13 +10607,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "polite imperative",
-      "question": "Hãy giúp tôi xác định điều này: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Lập bảng cho mọi document × SKU và mọi trạng thái, gồm document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED bằng 0, TRANSFER lấy SOURCE một lần.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q06",
@@ -10354,13 +10625,15 @@
       "role": "variant",
       "variant_type": "syntactic",
       "transformation_note": "report request",
-      "question": "Tôi muốn xem kết quả của yêu cầu sau — với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Cần kết quả cho mọi chứng từ và SKU, không lọc status: mã/no/type/status, SKU/base unit, planned quantity và executed quantity. Tính transfer từ SOURCE một lần; các loại POSTED còn lại theo quy tắc movement.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q07",
@@ -10370,13 +10643,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "request lead-in",
-      "question": "Đối với yêu cầu nghiệp vụ này, trước hết hãy xác định: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Cho mọi document × SKU, giữ mọi trạng thái và trả document ID/no/type/status, SKU/base unit, planned và executed quantity riêng theo milli-unit; executed chỉ từ POSTED movement, TRANSFER lấy SOURCE một lần.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q08",
@@ -10386,13 +10661,15 @@
       "role": "variant",
       "variant_type": "reordering",
       "transformation_note": "result-first framing",
-      "question": "Kết quả theo tiêu chí cần hỏi là gì? Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Đầu ra gồm document ID/no/type/status, SKU, base unit, planned và executed milli-unit. Quy tắc: non-POSTED có executed=0; transfer POSTED lấy SOURCE, các document type khác theo movement rules.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q09",
@@ -10402,13 +10679,18 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "lexical+syntax",
-      "question": "Tôi cần một báo cáo cho nội dung sau; bạn hãy cung cấp giúp: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Đối chiếu riêng planned quantity và executed quantity theo milli-unit cho từng document × SKU, gồm mọi trạng thái; TRANSFER chỉ tính SOURCE một lần, non-POSTED có executed=0, loại POSTED khác theo movement rules.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "syntactic"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     },
     {
       "question_id": "WMS-CD-02-Q10",
@@ -10418,14 +10700,24 @@
       "role": "variant",
       "variant_type": "mixed",
       "transformation_note": "reorder+request framing",
-      "question": "Với yêu cầu dưới đây, vui lòng trả lời trước tiên câu hỏi nghiệp vụ này: với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "question": "Trước hết phân nhóm document × SKU trên mọi trạng thái, rồi xuất ID/no/type/status, SKU/unit và hai lượng milli-unit; DRAFT/CANCELLED có executed=0, TRANSFER lấy SOURCE, loại POSTED khác theo rules.",
       "db_id": "wms_inventory",
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "secondary_tags": [
+        "lexical",
+        "reordering"
+      ],
+      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
     }
   ],
-  "approval_note": "All intent cards, SQL candidates, and question wordings remain unapproved drafts."
+  "approval_note": "All Intent Cards, SQL candidates, and question wordings remain pending human review; machine validation is not owner approval.",
+  "human_review_status": "NEEDS_HUMAN_REVIEW",
+  "paraphrase_revision": "dev-v3",
+  "paraphrase_revision_note": "Targeted wording corrections; inline taxonomy notes removed; ERP-RK-02 product_id projection mismatch held for Owner decision.",
+  "authoring_revision": "dev-v4-erp-rk02-projection-b",
+  "authoring_revision_note": "Owner chose Option B; final projection now contains five requested fields; all human review remains pending."
 }

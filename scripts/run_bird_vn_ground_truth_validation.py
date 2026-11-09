@@ -62,8 +62,9 @@ def main() -> None:
             equal = set(map(tuple, actual_rows)) == set(map(tuple, expected["expected_rows"]))
             if group_id == "ERP-RK-02":
                 business_rule_checks = {
-                    "all_base_units_ranked": {row[3] for row in actual_rows} == {"EA", "KG", "L"},
-                    "no_rank_beyond_three": all(row[5] <= 3 for row in actual_rows),
+                    "exact_five_column_projection": all(len(row) == 5 for row in actual_rows),
+                    "all_base_units_ranked": {row[2] for row in actual_rows} == {"EA", "KG", "L"},
+                    "no_rank_beyond_three": all(row[4] <= 3 for row in actual_rows),
                 }
             elif group_id == "WMS-CD-02":
                 transfer_rows = [row for row in actual_rows if row[2] == "TRANSFER"]
@@ -104,6 +105,8 @@ def main() -> None:
             "error": error,
         }
         results.append(record)
+        group["validation_status"] = status
+        group["human_review_status"] = "NEEDS_HUMAN_REVIEW"
         validation_record = validation_records[group_id]
         questions = sorted((item for item in registry["questions"] if item["group_id"] == group_id),
                            key=lambda item: item["q_index"])
@@ -157,6 +160,13 @@ def main() -> None:
             record["ground_truth_status"] = "BLOCKED"
             record["blocker"] = "No independent expected output/oracle artifact yet; do not execute candidate SQL on frozen snapshot."
     validation_path.write_text(json.dumps(list(validation_records.values()), ensure_ascii=False, indent=2), encoding="utf-8")
+    source_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    candidate_sql_path = ROOT / "benchmark_data/authoring/ground_truth_candidates.sql"
+    with candidate_sql_path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write("-- DRAFT ONLY: SQL candidates are not owner-approved; see validation artifacts for machine checks.\n")
+        for group in registry["groups"]:
+            handle.write(f"\n-- {group['group_id']} | {group['db_id']} | {group['complexity']} | {group.get('validation_status', 'NEEDS_HUMAN_REVIEW')}\n")
+            handle.write(group["canonical_sql_draft"].rstrip(";") + ";\n")
     all_statuses = Counter(record.get("machine_validation_status", "BLOCKED") for record in validation_records.values())
     output = {
         "artifact_version": 1,

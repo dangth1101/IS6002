@@ -2,13 +2,13 @@
   "artifact_version": 1,
   "scope": "Six Development edge-case fixtures; disposable copies of frozen snapshots",
   "stage": "EXPECTED_OUTPUTS_FROZEN_BEFORE_CANDIDATE_SQL_EXECUTION",
-  "created_at_utc": "2026-11-09T11:17:47.290+00:00",
+  "created_at_utc": "2026-11-09T14:56:35.337+00:00",
   "source_snapshot_hashes": {
     "erp_sales": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
     "wms_inventory": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5"
   },
-  "source_oracle_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc",
-  "source_registry_sha256": "d486ca391d9920fdd60c533f00b04f8c089a85e72718f148f341726150a305b9",
+  "source_oracle_sha256": "61104de9c854ec2ec45285805e2edaf3829d98daed5687b2411ae37b9ad9e7f8",
+  "source_registry_sha256": "460acf73b291071a9a05fcd3a43fbfc986876cf4db9b5342bf074e5ea34fbd3f",
   "expected_outputs": [
     {
       "group_id": "ERP-JN-02",
@@ -1453,7 +1453,6 @@
       "oracle_method": "Sum confirmed line quantities by product/base_unit; rank independently per unit with competition rank and include rank <= 3.",
       "expected_rows": [
         [
-          1,
           "SKU-001",
           "Máy quét",
           "EA",
@@ -1461,31 +1460,6 @@
           1
         ],
         [
-          10,
-          "SKU-010",
-          "Sản phẩm 10",
-          "EA",
-          628200,
-          3
-        ],
-        [
-          11,
-          "SKU-011",
-          "Sản phẩm 11",
-          "KG",
-          50200,
-          1
-        ],
-        [
-          12,
-          "SKU-012",
-          "Sản phẩm 12",
-          "L",
-          111600,
-          1
-        ],
-        [
-          2,
           "SKU-002",
           "Máy quét",
           "KG",
@@ -1493,7 +1467,6 @@
           3
         ],
         [
-          3,
           "SKU-003",
           "Sản phẩm 03",
           "L",
@@ -1501,7 +1474,6 @@
           2
         ],
         [
-          4,
           "SKU-004",
           "Sản phẩm 04",
           "EA",
@@ -1509,7 +1481,6 @@
           2
         ],
         [
-          5,
           "SKU-005",
           "Sản phẩm 05",
           "KG",
@@ -1517,7 +1488,6 @@
           2
         ],
         [
-          7,
           "SKU-007",
           "Sản phẩm 07",
           "EA",
@@ -1525,15 +1495,35 @@
           3
         ],
         [
-          9,
           "SKU-009",
           "Sản phẩm 09",
           "L",
           108600,
           2
+        ],
+        [
+          "SKU-010",
+          "Sản phẩm 10",
+          "EA",
+          628200,
+          3
+        ],
+        [
+          "SKU-011",
+          "Sản phẩm 11",
+          "KG",
+          50200,
+          1
+        ],
+        [
+          "SKU-012",
+          "Sản phẩm 12",
+          "L",
+          111600,
+          1
         ]
       ],
-      "expected_rows_sha256": "ecda982429b18b20004e37417473c1e0ad2628fccc986ee8efafb604ff5b0287",
+      "expected_rows_sha256": "fb802d87af7344782de429950765cb87863c3551497640da878bef8b2817a0cc",
       "row_count": 10,
       "metadata": {
         "fixture_id": "ERP-RK-02-temporary-v1",
@@ -1541,7 +1531,7 @@
           "four confirmed EA lines added; SKU-007/SKU-010 tie at rank 3"
         ],
         "database_sha256": "658ceffe22608f2b73e33f9f94f686b1461ce4d9c90ff172d612a4080c87055e",
-        "baseline_expected_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7"
+        "baseline_expected_rows_sha256": "4a202313a949fa3a4a6bdc7ef9caf1184cfe99d910543c08bb79608bd2088a1a"
       },
       "derived_before_candidate_sql_execution": true
     },

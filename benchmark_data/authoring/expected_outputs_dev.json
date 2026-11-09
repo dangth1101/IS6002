@@ -1,9 +1,9 @@
 {
   "artifact_version": 1,
   "benchmark_version": "0.3.0-draft-implementation",
-  "derived_at_utc": "2026-11-09T11:19:04.698+00:00",
-  "source_registry_sha256": "d486ca391d9920fdd60c533f00b04f8c089a85e72718f148f341726150a305b9",
-  "source_oracle_sha256": "d385239c76d7fdc7190cd11a6525c4ba2b4e69e6be4ed1957ee8ba3c8cb5dfbc",
+  "derived_at_utc": "2026-11-09T14:56:35.217+00:00",
+  "source_registry_sha256": "460acf73b291071a9a05fcd3a43fbfc986876cf4db9b5342bf074e5ea34fbd3f",
+  "source_oracle_sha256": "61104de9c854ec2ec45285805e2edaf3829d98daed5687b2411ae37b9ad9e7f8",
   "scope": "10 proposed Development groups only; not a final or human-approved gold output",
   "expected_outputs": [
     {
@@ -1777,31 +1777,6 @@
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
       "expected_rows": [
         [
-          10,
-          "SKU-010",
-          "Sản phẩm 10",
-          "EA",
-          28200,
-          2
-        ],
-        [
-          11,
-          "SKU-011",
-          "Sản phẩm 11",
-          "KG",
-          50200,
-          1
-        ],
-        [
-          12,
-          "SKU-012",
-          "Sản phẩm 12",
-          "L",
-          111600,
-          1
-        ],
-        [
-          2,
           "SKU-002",
           "Máy quét",
           "KG",
@@ -1809,7 +1784,6 @@
           3
         ],
         [
-          3,
           "SKU-003",
           "Sản phẩm 03",
           "L",
@@ -1817,7 +1791,6 @@
           2
         ],
         [
-          4,
           "SKU-004",
           "Sản phẩm 04",
           "EA",
@@ -1825,7 +1798,6 @@
           1
         ],
         [
-          5,
           "SKU-005",
           "Sản phẩm 05",
           "KG",
@@ -1833,7 +1805,6 @@
           2
         ],
         [
-          7,
           "SKU-007",
           "Sản phẩm 07",
           "EA",
@@ -1841,15 +1812,35 @@
           3
         ],
         [
-          9,
           "SKU-009",
           "Sản phẩm 09",
           "L",
           108600,
           2
+        ],
+        [
+          "SKU-010",
+          "Sản phẩm 10",
+          "EA",
+          28200,
+          2
+        ],
+        [
+          "SKU-011",
+          "Sản phẩm 11",
+          "KG",
+          50200,
+          1
+        ],
+        [
+          "SKU-012",
+          "Sản phẩm 12",
+          "L",
+          111600,
+          1
         ]
       ],
-      "expected_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "expected_rows_sha256": "4a202313a949fa3a4a6bdc7ef9caf1184cfe99d910543c08bb79608bd2088a1a",
       "row_count_before_set_comparison": 9,
       "oracle_id": "bird_vn_benchmark.intent_oracles:erp_rk_02",
       "oracle_method": "Sum confirmed order-line milli-quantity by product within each base_unit; calculate competition rank per unit and retain all rank <= 3. Candidate SQL is not imported or executed by the oracle.",

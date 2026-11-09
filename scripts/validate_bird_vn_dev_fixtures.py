@@ -271,11 +271,12 @@ def main() -> None:
                 if not checks["nonconfirmed_excluded"]:
                     status, error = "FAIL", "candidate includes lines from non-confirmed orders"
             if intent_id == "ERP-RK-02" and actual_rows is not None:
-                units = {row[3] for row in actual_rows}
-                rank3 = [row for row in actual_rows if row[5] == 3]
-                checks = {"units_present": sorted(units), "rank3_rows": rank3,
+                units = {row[2] for row in actual_rows}
+                rank3 = [row for row in actual_rows if row[4] == 3]
+                checks = {"five_column_projection": all(len(row) == 5 for row in actual_rows),
+                          "units_present": sorted(units), "rank3_rows": rank3,
                           "unit_partition_and_rank3_tie_pass": units == {"EA", "KG", "L"}
-                          and {row[0] for row in rank3 if row[3] == "EA"} == {7, 10}}
+                          and {row[0] for row in rank3 if row[2] == "EA"} == {"SKU-007", "SKU-010"}}
                 if not checks["unit_partition_and_rank3_tie_pass"]:
                     status, error = "FAIL", "fixture did not prove independent units and the third-place tie"
             if intent_id == "WMS-CD-02" and actual_rows is not None:

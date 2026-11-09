@@ -27,14 +27,18 @@ The updated text audit flags 25 token-Jaccard pairs: 9 within the same groups an
 
 Latest artifacts: [`ground_truth_validation.json`](../../benchmark_data/authoring/ground_truth_validation.json), [`dev_fixture_expected_outputs.json`](../../benchmark_data/authoring/dev_fixture_expected_outputs.json), [`dev_fixture_validation.json`](../../benchmark_data/authoring/dev_fixture_validation.json), and [`validation_records.json`](../../benchmark_data/authoring/validation_records.json).
 
+## Current alignment revision dev-v4 (2026-11-09)
+
+The earlier 4/6 automation split is **historical only**. Current Development status is 10/10 `VALIDATED_BY_AUTOMATION`; all 10 groups and all 110 questions remain pending human review. Benchmark Owner chose Option B for ERP-RK-02: remove `product_id` from final SELECT, retaining exactly SKU, product name, base unit, sold quantity and rank; per-unit ranking and tie policy are unchanged. Expected and actual row hashes match on the main snapshot and fixtures. Dataset machine statuses match the validation artifact, while Intent/Gold/question review and Owner approval remain pending. The 100 variants retain quota 30/30/20/20. Near-duplicate audit: 19 candidates, none involving Development or crossing splits. See [v4 review package](dev_human_approval/README.md), [wording change log](dev_human_approval/DEV_V2_TO_V3_CHANGELOG.csv), and [quality audit](dev_human_approval/DEV_PARAPHRASE_QUALITY_AUDIT.md).
+
 ## 1. Tóm tắt trạng thái
 
 Artifacts được tạo từ registry và snapshot đã đóng băng. Expected outputs của 10 Dev groups được tạo bằng Python oracle trước khi chạy canonical SQL. Candidate SQL được thực thi read-only trên snapshot; kết quả đối chiếu dùng set-based EX.
 
 | Trạng thái automation | Số nhóm | Ý nghĩa |
 |---|---:|---|
-| `VALIDATED_BY_AUTOMATION` | 4 | Khớp Python oracle và coverage audit hiện ghi `SUPPORTED`; vẫn cần Owner duyệt intent, SQL, output và wording. |
-| `NEEDS_HUMAN_REVIEW` | 6 | Candidate khớp output đã ghi, nhưng còn fixture/định nghĩa measure cần giải quyết trước khi coi canonical SQL là gold. |
+| `VALIDATED_BY_AUTOMATION` | 4 (historical) | Khớp Python oracle và coverage audit hiện ghi `SUPPORTED`; vẫn cần Owner duyệt intent, SQL, output và wording. |
+| `NEEDS_HUMAN_REVIEW` | 6 (historical) | Candidate khớp output đã ghi, nhưng còn fixture/định nghĩa measure cần giải quyết trước khi coi canonical SQL là gold. |
 | `BLOCKED` | 0 Dev / 40 Final | 40 Final chưa có expected outputs, chưa thực thi canonical SQL. |
 
 ### Evidence files

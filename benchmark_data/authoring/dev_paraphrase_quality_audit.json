@@ -1,0 +1,433 @@
+{
+  "revision": "dev-v4-erp-rk02-projection-b",
+  "created_at_utc": "2026-11-09T14:11:38+00:00",
+  "scope": "10 Development groups only; 40 Final groups, SQL/oracles, expected rows and snapshots untouched",
+  "taxonomy_quota_per_group": {
+    "lexical": 3,
+    "syntactic": 3,
+    "reordering": 2,
+    "mixed": 2
+  },
+  "groups": [
+    {
+      "group_id": "ERP-EF-01",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 48,
+      "candidate_rows": 48,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "ERP-GB-03",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 6,
+      "candidate_rows": 6,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "ERP-RK-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 9,
+      "candidate_rows": 9,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "ERP-JN-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 156,
+      "candidate_rows": 156,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "ERP-TM-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 27,
+      "candidate_rows": 27,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "WMS-EF-01",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 44,
+      "candidate_rows": 44,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "WMS-EF-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 6,
+      "candidate_rows": 6,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "WMS-AG-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 4,
+      "candidate_rows": 4,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "WMS-JN-04",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; wording clarification only",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 24,
+      "candidate_rows": 24,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    },
+    {
+      "group_id": "WMS-CD-02",
+      "q0_audit": "REVISED_TO_MATCH_CARD_AND_SQL_PROJECTION",
+      "q0_decision": "NONE; existing decision already explicit",
+      "variant_count": 10,
+      "lexical": 3,
+      "syntactic": 3,
+      "reordering": 2,
+      "mixed": 2,
+      "mixed_secondary_tags_complete": true,
+      "non_generic_wrapper_variants": 10,
+      "wordings_different_from_q0": 10,
+      "all_questions_pending_human_review": true,
+      "expected_rows": 80,
+      "candidate_rows": 80,
+      "candidate_execution_status": "VALIDATED_BY_AUTOMATION"
+    }
+  ],
+  "totals": {
+    "development_groups": 10,
+    "variants": 100,
+    "q0_revised": 10,
+    "q0_needs_owner_decision": 0,
+    "lexical": 30,
+    "syntactic": 30,
+    "reordering": 20,
+    "mixed": 20,
+    "non_generic_wrapper_variants": 100,
+    "variants_pending_human_review": 100
+  },
+  "q0_changes": [
+    {
+      "group_id": "ERP-EF-01",
+      "old": "Cho xem các đơn hàng đã xác nhận?",
+      "new": "Liệt kê từng đơn hàng ở trạng thái CONFIRMED, kèm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-GB-03",
+      "old": "Đếm confirmed orders theo sales rep, gồm nhóm chưa gán?",
+      "new": "Với mỗi sales rep có confirmed orders, kể cả một nhóm riêng cho sales rep chưa gán (NULL), cho biết mã sales rep, tên nếu có và số đơn CONFIRMED trong toàn bộ dữ liệu.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-RK-02",
+      "old": "Trong từng đơn vị cơ sở, những SKU nào thuộc top 3 số lượng bán trong các đơn đã xác nhận, kể cả đồng hạng tại vị trí thứ ba?",
+      "new": "Trong từng base unit riêng biệt, xếp hạng mỗi SKU theo tổng ordered quantity của các đơn CONFIRMED; trả SKU, tên sản phẩm, base unit, tổng lượng (milli-unit) và hạng, lấy mọi hạng từ 1 đến 3 kể cả đồng hạng ở mốc 3.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-JN-02",
+      "old": "Hiển thị từng dòng confirmed order cùng tên sản phẩm?",
+      "new": "Liệt kê từng dòng của mọi đơn CONFIRMED, một dòng cho mỗi order line, gồm số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity theo milli-unit và line net theo VND.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-TM-02",
+      "old": "Mỗi ngày trong năm 2025 có bao nhiêu chuyến giao hàng được ghi nhận là đã giao?",
+      "new": "Cho mỗi ngày Việt Nam trong năm 2025 có ít nhất một shipment DELIVERED, trả ngày địa phương và số shipment; dùng delivered_at_utc quy đổi sang Asia/Ho_Chi_Minh, khoảng [2025-01-01, 2026-01-01), không tạo dòng cho ngày không có shipment.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-EF-01",
+      "old": "Liệt kê chứng từ kho đã posted?",
+      "new": "Liệt kê từng inventory document có document_status POSTED, gồm document ID, document number, document type, trạng thái và business date.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-EF-02",
+      "old": "Liệt kê SKU có base unit là KG?",
+      "new": "Liệt kê từng product có base_unit KG, gồm product ID, SKU, tên sản phẩm, base unit và category ID (giữ NULL nếu chưa phân loại).",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-AG-02",
+      "old": "Với từng SKU có đơn vị cơ sở là KG, tổng lượng xuất giao khách là bao nhiêu?",
+      "new": "Với mỗi product có base_unit KG và phát sinh ít nhất một movement âm thuộc chứng từ SHIPMENT đã POSTED trong toàn bộ lịch sử, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-JN-04",
+      "old": "Liệt kê transfer movement legs giữa hai warehouse theo chứng từ?",
+      "new": "Liệt kê từng movement leg của mỗi chứng từ TRANSFER POSTED, một dòng mỗi leg; gồm document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-CD-02",
+      "old": "Với mỗi chứng từ và SKU, so sánh số lượng theo kế hoạch với số lượng đã thực hiện; chứng từ chưa post có số lượng thực hiện bằng không?",
+      "new": "Với mọi cặp document × SKU, bất kể trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity theo milli-unit; executed bằng 0 nếu document chưa POSTED, TRANSFER chỉ tính SOURCE leg một lần, loại POSTED khác theo movement rules đã chốt.",
+      "status": "NEEDS_HUMAN_REVIEW"
+    }
+  ],
+  "interpretation": "Taxonomy labels describe intended linguistic transformations; automated shape checks do not establish semantic equivalence. All 110 questions remain NEEDS_HUMAN_REVIEW.",
+  "near_duplicate_audit": {
+    "candidate_pair_count": 19,
+    "within_group": 3,
+    "between_groups": 16,
+    "development_involved": 0,
+    "cross_split": 0,
+    "pairs": [
+      {
+        "scope": "within_group_variant",
+        "left": "ERP-EF-04-Q00",
+        "right": "ERP-EF-04-Q01",
+        "jaccard": 0.8
+      },
+      {
+        "scope": "within_group_variant",
+        "left": "WMS-AG-03-Q00",
+        "right": "WMS-AG-03-Q01",
+        "jaccard": 0.8148
+      },
+      {
+        "scope": "within_group_variant",
+        "left": "WMS-AG-03-Q00",
+        "right": "WMS-AG-03-Q04",
+        "jaccard": 0.7857
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q01",
+        "right": "WMS-GB-01-Q01",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.75
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q02",
+        "right": "WMS-GB-01-Q02",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7857
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q03",
+        "right": "WMS-GB-01-Q03",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8333
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q04",
+        "right": "WMS-GB-01-Q04",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7857
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q05",
+        "right": "WMS-GB-01-Q05",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7857
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q06",
+        "right": "WMS-GB-01-Q06",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8125
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q07",
+        "right": "WMS-GB-01-Q07",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8421
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q08",
+        "right": "WMS-GB-01-Q08",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q09",
+        "right": "WMS-GB-01-Q09",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8571
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-01-Q10",
+        "right": "WMS-GB-01-Q10",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.8696
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-GB-02-Q10",
+        "right": "ERP-NA-01-Q10",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7333
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-JN-01-Q09",
+        "right": "ERP-NA-01-Q09",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.72
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-JN-01-Q10",
+        "right": "ERP-JN-04-Q10",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7241
+      },
+      {
+        "scope": "between_groups",
+        "left": "ERP-JN-01-Q10",
+        "right": "ERP-NA-01-Q10",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7407
+      },
+      {
+        "scope": "between_groups",
+        "left": "WMS-AG-01-Q09",
+        "right": "WMS-GB-01-Q09",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.7391
+      },
+      {
+        "scope": "between_groups",
+        "left": "WMS-AG-01-Q10",
+        "right": "WMS-GB-01-Q10",
+        "left_split": "final",
+        "right_split": "final",
+        "jaccard": 0.76
+      }
+    ],
+    "method_limit": "Token Jaccard flags wording similarity only; it neither proves paraphrase equivalence nor decides leakage by itself."
+  },
+  "source_hashes": {
+    "previous_registry": "d486ca391d9920fdd60c533f00b04f8c089a85e72718f148f341726150a305b9",
+    "registry": "460acf73b291071a9a05fcd3a43fbfc986876cf4db9b5342bf074e5ea34fbd3f",
+    "validation_records": "fd53bdca50e1b38bfdea073a66e9d78bdf4b19e0cb3a9a1460e5582e0dd21e29",
+    "expected_outputs": "38f1e00c520f1b2c4b95b9234a43fe8fa45464c8ef8fd8c54f1158403d3d377d",
+    "draft_validation": "83398ffe528e0258293b0c7556aebd58fce2106f4f535c7a9f590b0fd7a6a6ee",
+    "erp_snapshot": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+    "wms_snapshot": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5"
+  },
+  "wording_change_log": {
+    "path": "docs/benchmark/review/dev_human_approval/DEV_V2_TO_V3_CHANGELOG.csv",
+    "sha256": "d291b96dd5e7291fe8415b7219852b021a44ff5939a7f0bb97d17c311c308102"
+  },
+  "owner_decisions_required": [],
+  "editorial_annotation_occurrences_remaining": 0,
+  "semantic_equivalence_status": "ALL_110_QUESTIONS_NEED_HUMAN_REVIEW",
+  "owner_decisions_recorded": [
+    "ERP-RK-02 Option B: removed product_id from final projection; five requested fields retained."
+  ]
+}

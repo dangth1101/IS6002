@@ -1,8 +1,8 @@
 {
   "artifact_version": 1,
-  "created_at_utc": "2026-11-09T11:19:04.800+00:00",
-  "expected_outputs_sha256": "65759da39903bb217b509c1704759d67f2ab8c7f688017ada00391cb2231be89",
-  "validation_records_sha256": "f983bfb0a45355c34bd9bf495ddcd872e66a44f207f511d998adb0af48874343",
+  "created_at_utc": "2026-11-09T14:56:35.441+00:00",
+  "expected_outputs_sha256": "38f1e00c520f1b2c4b95b9234a43fe8fa45464c8ef8fd8c54f1158403d3d377d",
+  "validation_records_sha256": "fd53bdca50e1b38bfdea073a66e9d78bdf4b19e0cb3a9a1460e5582e0dd21e29",
   "scope": "Development only; SQL candidates compared after expected outputs were frozen",
   "summary": {
     "VALIDATED_BY_AUTOMATION": 10,
@@ -1800,13 +1800,12 @@
     {
       "group_id": "ERP-RK-02",
       "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
-      "canonical_sql_sha256": "0dad2f826f0fc2c740119677402b55066ecb3b12c6e488ae3681595ac0422b27",
-      "expected_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
-      "actual_rows_sha256": "f64c29dc520eda8142282f8e9d42e7f9afc313c2093d681c9342fbbf1be1cdf7",
+      "canonical_sql_sha256": "d21aeeb49df3e4507a54f6aec4eafc8b80685a3f11fb46f3b6feb73899ce4136",
+      "expected_rows_sha256": "4a202313a949fa3a4a6bdc7ef9caf1184cfe99d910543c08bb79608bd2088a1a",
+      "actual_rows_sha256": "4a202313a949fa3a4a6bdc7ef9caf1184cfe99d910543c08bb79608bd2088a1a",
       "actual_row_count_before_set_comparison": 9,
       "actual_rows": [
         [
-          4,
           "SKU-004",
           "Sản phẩm 04",
           "EA",
@@ -1814,7 +1813,6 @@
           1
         ],
         [
-          10,
           "SKU-010",
           "Sản phẩm 10",
           "EA",
@@ -1822,7 +1820,6 @@
           2
         ],
         [
-          7,
           "SKU-007",
           "Sản phẩm 07",
           "EA",
@@ -1830,7 +1827,6 @@
           3
         ],
         [
-          11,
           "SKU-011",
           "Sản phẩm 11",
           "KG",
@@ -1838,7 +1834,6 @@
           1
         ],
         [
-          5,
           "SKU-005",
           "Sản phẩm 05",
           "KG",
@@ -1846,7 +1841,6 @@
           2
         ],
         [
-          2,
           "SKU-002",
           "Máy quét",
           "KG",
@@ -1854,7 +1848,6 @@
           3
         ],
         [
-          12,
           "SKU-012",
           "Sản phẩm 12",
           "L",
@@ -1862,7 +1855,6 @@
           1
         ],
         [
-          3,
           "SKU-003",
           "Sản phẩm 03",
           "L",
@@ -1870,7 +1862,6 @@
           2
         ],
         [
-          9,
           "SKU-009",
           "Sản phẩm 09",
           "L",
@@ -1879,6 +1870,7 @@
         ]
       ],
       "business_rule_checks": {
+        "exact_five_column_projection": true,
         "all_base_units_ranked": true,
         "no_rank_beyond_three": true
       },
@@ -3429,5 +3421,6 @@
       "status": "VALIDATED_BY_AUTOMATION",
       "error": null
     }
-  ]
+  ],
+  "question_wording_revision": "dev-v2; wording changes only; expected row values and SQL execution evidence unchanged"
 }

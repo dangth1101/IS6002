@@ -1,8 +1,8 @@
 {
   "artifact_version": 1,
-  "expected_outputs_sha256": "53919b1e9305b076b00b0c32530ef52f0f529301c01825be8e1343a6488c50ad",
+  "expected_outputs_sha256": "c1fb5180817d972ad3446322a16965e5fc5c54c12cadf3905f945cf8b3177cf7",
   "scope": "Candidate SQL executed only after dev_fixture_expected_outputs.json was written",
-  "created_at_utc": "2026-11-09T11:17:47.301+00:00",
+  "created_at_utc": "2026-11-09T14:56:35.347+00:00",
   "results": [
     {
       "group_id": "ERP-JN-02",
@@ -1412,7 +1412,6 @@
       "status": "PASS",
       "actual_rows": [
         [
-          1,
           "SKU-001",
           "Máy quét",
           "EA",
@@ -1420,7 +1419,6 @@
           1
         ],
         [
-          4,
           "SKU-004",
           "Sản phẩm 04",
           "EA",
@@ -1428,7 +1426,6 @@
           2
         ],
         [
-          7,
           "SKU-007",
           "Sản phẩm 07",
           "EA",
@@ -1436,7 +1433,6 @@
           3
         ],
         [
-          10,
           "SKU-010",
           "Sản phẩm 10",
           "EA",
@@ -1444,7 +1440,6 @@
           3
         ],
         [
-          11,
           "SKU-011",
           "Sản phẩm 11",
           "KG",
@@ -1452,7 +1447,6 @@
           1
         ],
         [
-          5,
           "SKU-005",
           "Sản phẩm 05",
           "KG",
@@ -1460,7 +1454,6 @@
           2
         ],
         [
-          2,
           "SKU-002",
           "Máy quét",
           "KG",
@@ -1468,7 +1461,6 @@
           3
         ],
         [
-          12,
           "SKU-012",
           "Sản phẩm 12",
           "L",
@@ -1476,7 +1468,6 @@
           1
         ],
         [
-          3,
           "SKU-003",
           "Sản phẩm 03",
           "L",
@@ -1484,7 +1475,6 @@
           2
         ],
         [
-          9,
           "SKU-009",
           "Sản phẩm 09",
           "L",
@@ -1492,11 +1482,12 @@
           2
         ]
       ],
-      "actual_rows_sha256": "ecda982429b18b20004e37417473c1e0ad2628fccc986ee8efafb604ff5b0287",
-      "expected_rows_sha256": "ecda982429b18b20004e37417473c1e0ad2628fccc986ee8efafb604ff5b0287",
+      "actual_rows_sha256": "fb802d87af7344782de429950765cb87863c3551497640da878bef8b2817a0cc",
+      "expected_rows_sha256": "fb802d87af7344782de429950765cb87863c3551497640da878bef8b2817a0cc",
       "row_count": 10,
       "fixture_database_sha256": "658ceffe22608f2b73e33f9f94f686b1461ce4d9c90ff172d612a4080c87055e",
       "checks": {
+        "five_column_projection": true,
         "units_present": [
           "EA",
           "KG",
@@ -1504,7 +1495,6 @@
         ],
         "rank3_rows": [
           [
-            7,
             "SKU-007",
             "Sản phẩm 07",
             "EA",
@@ -1512,7 +1502,6 @@
             3
           ],
           [
-            10,
             "SKU-010",
             "Sản phẩm 10",
             "EA",
@@ -1520,7 +1509,6 @@
             3
           ],
           [
-            2,
             "SKU-002",
             "Máy quét",
             "KG",
