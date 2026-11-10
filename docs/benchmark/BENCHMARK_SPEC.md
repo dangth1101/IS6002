@@ -3,14 +3,14 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | Phiên bản | **0.3.0** |
-| Trạng thái | **Draft – D1–D7, D10, D11 đã APPROVED; D8, D9, D12–D14 còn PROPOSED** |
+| Trạng thái | **Draft — D1–D11 và D13 APPROVED; D12 và D14 PROPOSED** |
 | Ngày | 2026-11-09 |
 | DBMS | SQLite |
 | Quy mô đề xuất | 550 Questions; 50 Semantic Groups/Intent; 50 canonical SQL |
 | Split đề xuất | Development: 10 groups/110 Questions; Final: 40 groups/440 Questions |
 | Phạm vi tài liệu | Đặc tả Bước 1; Bước 2B đã tạo physical DB/seed; chưa có benchmark Questions hoặc canonical SQL |
 
-Đây vẫn là đặc tả Draft, chưa phải benchmark đã được triển khai hoặc phát hành. Benchmark Owner đã phê duyệt D1–D7, D10 và D11 ngày 2026-11-09; D8, D9, D12–D14 còn PROPOSED. Các ví dụ nghiệp vụ chỉ minh họa cách làm, không phải item của benchmark.
+Đây vẫn là đặc tả Draft, chưa phải benchmark đã phát hành. Benchmark Owner phê duyệt D1–D7, D10, D11 ngày 2026-11-09; D8, D9, D13 ngày 2026-11-10. D12 và D14 còn PROPOSED. Ví dụ nghiệp vụ chỉ minh họa phương pháp, không phải item benchmark.
 
 **Ghi chú phiên bản 0.3.0:** quy mô đề xuất tăng lên 50 Semantic Groups, mỗi group gồm 1 original + 10 variants; cập nhật split, taxonomy, metrics và single-human validation. Các quyết định D1–D7, D10, D11 được ghi nhận APPROVED ngày 2026-11-09; trạng thái Draft vẫn giữ nguyên cho đến khi hoàn tất các quyết định và nghiệm thu benchmark.
 
@@ -244,7 +244,7 @@ Ví dụ: Q0 và Qi đều chạy, cùng trả empty result nhưng gold không r
 
 ### Repeated runs và suy luận thống kê
 
-Nếu dùng R>1 repeats, chạy đủ 550 questions mỗi replicate với cùng config; so Q0/Qi trong cùng group và cùng replicate index. Tính metric riêng theo replicate, báo mean, range/SD và raw counts; không gộp SQL outputs giữa repeats và không chọn repeat có điểm cao nhất. Retry policy và seed phải được cố định trước run.
+Chạy đúng 3 replicates đầy đủ cho mỗi model/config: Development có 3 × 110 = 330 prediction records/model/config. Ghép Q0 với Q1–Q10 trong cùng group và replicate_id (1, 2, 3). Tính metrics riêng từng replicate, sau đó báo mean, population SD, range và raw counts; không gộp outputs hoặc chọn best run. Giữ nguyên model/config hash giữa các lần chạy.
 
 Đơn vị cluster cho bootstrap/CI là Semantic Group (50 clusters), không phải 550 Questions hay 500 pairs độc lập. Các variants trong group và pairs dùng chung Q0 nên tương quan. Báo eligible groups/pairs và infrastructure missingness; suy luận vẫn exploratory.
 ## 11. SQL Comparator, giới hạn EX và test cases
@@ -281,10 +281,10 @@ Set comparator có thể nhận nhầm câu trả lời thiếu duplicate; cũng
 | Prediction timeout | 0 | 0 cho mọi pair liên quan | Dùng timeout cố định; giữ denominator. |
 | GT lỗi/timeout | Không tính question/group | Chưa xác định | Benchmark defect; sửa/loại theo version và chạy lại mọi đánh giá liên quan. |
 | GT hợp lệ trả 0 rows | Theo so sánh | Theo output pair | Item hợp lệ; empty/empty match; đánh giá collision bằng fixture. |
-| Provider/network/infra failure | Unknown | Unknown cho pair/group liên quan | Đề xuất retry initial + tối đa 2 retries cùng request/config. Sau đó giữ status infra_error; loại question khỏi EX denominator, pair khỏi RSS/CA/PRA denominators và group khỏi RobustEX_All nếu thiếu một trong 11 outcomes. Báo attempts/missingness; chốt retry cap trước run. |
+| Lỗi provider/network/hạ tầng tạm thời | Unknown | Unknown cho pair/group bị ảnh hưởng | D13: một initial attempt + tối đa hai retries bounded-backoff với cùng request/config; lưu lịch sử từng attempt. Nếu chưa khôi phục, ghi infra_error/UNKNOWN, loại khỏi denominator liên quan và báo missingness. |
 | Prediction API thành công nhưng content rỗng/từ chối/no SQL | 0 | 0 cho mọi pair liên quan | Đây là outcome model, không phải infra failure. |
 
-Timeout hiện tại trong `bird_demo/runner.py:TIMEOUT_S` là 30 giây; chỉ là điểm xuất phát cần kiểm tra trên snapshot benchmark, rồi freeze cùng resource limits, SQLite/Python và execution environment. Mọi nhóm model dùng cùng giới hạn. Infra retry cap là đề xuất, cần chốt cùng retry/repeat policy trước evaluation.
+D8 chốt SQL execution timeout là 30 giây/query cho mọi model/question. Ghi SQL status, elapsed time và error category. Không retry SQL timeout. Provider/network timeout thuộc prediction collector và chỉ được retry khi phân loại là lỗi hạ tầng tạm thời theo D13; phải tách hai loại timeout này.
 
 ## 13. Experimental Protocol và Development/Final
 
@@ -299,9 +299,9 @@ Timeout hiện tại trong `bird_demo/runner.py:TIMEOUT_S` là 30 giây; chỉ l
 ### Freeze và giữ điều kiện tương đương
 
 - Pin benchmark, DB snapshot, schema, glossary/Evidence, prompt, evaluator, runtime, timeout và hashes.
-- Pin model snapshot/provider, decoding parameters, system/user prompt, tool settings, retries, seed nếu hỗ trợ.
+- Pin model snapshot/provider, decoding parameters, system/user prompt, tool settings, D13 retry policy, seed nếu được hỗ trợ và model/config hash. Theo dõi provider/network timeout riêng với SQL execution timeout D8.
 - Giữ mọi đầu vào trên giống nhau cho 11 Questions trong group, chỉ thay wording. Ghi thứ tự chạy; randomize/cân bằng thứ tự 550 Questions bằng seed cố định trước run.
-- Nếu có repeats, chạy đủ 550 Questions mỗi replicate; pair Q0–Qi cùng group và replicate. Số lần, aggregation, seed và retry policy đăng ký trước.
+- Chạy đúng 3 replicates đầy đủ cho mỗi model/config. Mỗi Development replicate gồm đủ 110 Questions; lưu replicate_id=1/2/3, question_id, group_id, model/config hash và attempt records. Chỉ ghép Q0–Qi trong cùng group và replicate. Báo từng replicate cùng mean/SD/range; không chọn best run.
 - Không thay schema, glossary hoặc prompt giữa các 11 wordings; nếu điều chỉnh thì chạy lại group và tạo run/version mới.
 
 ### Lưu kết quả
@@ -312,7 +312,7 @@ Timeout hiện tại trong `bird_demo/runner.py:TIMEOUT_S` là 30 giây; chỉ l
 
 ### Quy tắc kết quả chưa xác định
 
-SQL error, timeout, no SQL là outcomes đã định nghĩa, không phải missing data. Đề xuất hạ tầng: một initial attempt + tối đa 2 infra retries với cùng request/config; giữ mọi attempts. Không retry lỗi SQL/model output. Nếu infra failure chưa khôi phục, question/pairs/group được xử lý unknown theo §10; không gán 0 hoặc 1, và báo mọi denominator/missing count. Không loại mẫu sau khi xem model correctness. Tại đủ dữ liệu, mặc định denominators là 50/500/550 questions, 500 anchor pairs, 50 groups.
+SQL error, SQL timeout và no/malformed SQL trong phản hồi model hợp lệ là outcome đã định nghĩa và không được retry. Theo D13, chỉ lỗi hạ tầng tạm thời mới được retry: một initial attempt và tối đa hai bounded-backoff retries với cùng request/config; retries không phải replicates. Nếu vẫn lỗi, ghi UNKNOWN/infra_error, lưu attempts, báo missingness và từng denominator; không chấm 0/1 hoặc loại mẫu dựa trên correctness. D9 yêu cầu ba replicates đầy đủ mỗi model/config. Phân tích cluster theo 50 Semantic Groups; Questions và pairs không phải quan sát độc lập.
 
 ### Giới hạn thiết kế
 
@@ -330,7 +330,7 @@ Chỉ hai database không đủ đo generalization sang domain/schema khác. M�
 
 ## 15. Decision Record — D1–D14
 
-D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09. D8, D9, D12, D13 và D14 vẫn PROPOSED. Mỗi status và rationale được ghi tại Decision Review; không tự phê duyệt quyết định nào khác.
+D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9 và D13 được phê duyệt ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Status và rationale được ghi tại Decision Review; phê duyệt này không bao gồm các quyết định khác.
 
 | Decision ID | Recommended value | Status | Decision owner / approver | Date | Rationale (confirm or replace at decision) |
 |---|---|---|---|---|---|
@@ -341,12 +341,12 @@ D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09
 | D5 | Schema context/Evidence giống nhau cho mọi 11 Questions trong group | APPROVED | Benchmark Owner | 2026-11-09 | Giữ dữ liệu và thông tin nền giống nhau giữa Q0–Q10 trong cùng group để cô lập wording variation. |
 | D6 | Chính xác 2 empty-result intents: 1 ERP và 1 WMS | APPROVED | Benchmark Owner | 2026-11-09 | Giữ một trường hợp empty có chủ đích cho mỗi database; mỗi intent cần fixture/counterexample kiểm tra false match. |
 | D7 | BIRD-compatible set EX; EX_bag là diagnostic; EX không kiểm tra row order. Mỗi ranking Intent Card chốt deterministic tie-break hoặc include all ties | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận set-based comparator chính; semantics ties được định nghĩa theo intent và cần test riêng. |
-| D8 | Timeout khởi điểm 30 giây/query, đo trên snapshot rồi freeze; cùng resource limits cho mọi câu | PROPOSED | — | — | Source hiện dùng 30s; workload mới cần đo. |
-| D9 | Ưu tiên 3 replicates nếu đủ nguồn lực; nếu không single-shot. Paired theo replicate, báo từng run và mean/range/SD | PROPOSED | — | — | Không gộp SQL outputs hoặc chọn replicate cao nhất. |
+| D8 | SQL execution timeout cố định 30 giây/query; ghi status, elapsed time, error category; không retry SQL timeout | APPROVED | Benchmark Owner | 2026-11-10 | Cùng giới hạn cho mọi câu; SQL timeout là model outcome, không phải lỗi hạ tầng được retry. |
+| D9 | Đúng 3 replicates đầy đủ/model/config; ghép theo replicate_id 1/2/3; báo từng replicate và mean/SD/range | APPROVED | Benchmark Owner | 2026-11-10 | Development có 330 predictions/model/config; không gộp run hoặc chọn best run. |
 | D10 | Một Benchmark Owner thực hiện single-human validation; AI/Codex hỗ trợ critique/oracle; công khai không có independent human annotation | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận quy trình một người; AI/Codex chỉ hỗ trợ kiểm tra kỹ thuật, không được tính là annotator độc lập hay double-blind review; công bố common-method bias. |
 | D11 | Competency quota §6 (8/8/8/6/8/4/4/4); complexity ERP 8/12/5, WMS 8/12/5; mỗi group 3 Lexical, 3 Syntactic, 2 Reordering, 2 Mixed | APPROVED | Benchmark Owner | 2026-11-09 | Khóa coverage theo database, competency và taxonomy trước authoring; mọi biến thể vẫn phải qua semantic-slot review. |
 | D12 | 0.x pilot; Final giữ kín khi khả thi, nếu không ghi exposure/leakage | PROPOSED | — | — | Chốt release/access trước tune/final evaluation. |
-| D13 | Bootstrap/statistics cluster theo 50 groups; infra retry tối đa 2 sau initial; missingness/denominators công bố | PROPOSED | — | — | 550 câu và 500 pairs lồng trong groups; suy luận exploratory. |
+| D13 | Một initial attempt + tối đa 2 bounded-backoff retries chỉ cho lỗi hạ tầng tạm thời; giữ request/config; cluster theo Semantic Group | APPROVED | Benchmark Owner | 2026-11-10 | Không retry SQL error/timeout, malformed/missing SQL trong phản hồi hợp lệ hoặc kết quả sai. Retry không phải replicate; lưu attempts, error categories, UNKNOWN và denominators. |
 | D14 | Gọi là pilot, không tuyên bố “first” hoặc novelty tuyệt đối | PROPOSED | — | — | Cần literature review trước novelty claim. |
 
 ## 16. Checklist nghiệm thu
@@ -402,9 +402,9 @@ D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09
 
 ## 18. Trạng thái Bước 2A và điều kiện cho các bước tiếp theo
 
-D1–D7, D10 và D11 đã được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9, D12, D13 và D14 vẫn PROPOSED. Thiết kế logic Bước 2A được nghiệm thu riêng ngày 2026-11-09 theo phạm vi đã ghi tại [STEP_2A_REVIEW.md](database_design/STEP_2A_REVIEW.md). Complexity quota đã chốt là ERP 8/12/5 và WMS 8/12/5; empty-result quota chính xác 2 (mỗi DB một intent).
+D1–D7, D10 và D11 được phê duyệt ngày 2026-11-09; D8, D9 và D13 ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Các phê duyệt không vượt ra ngoài quyết định đã nêu.
 
-D4 ban đầu chỉ duyệt định hướng hai database. Sau đó Benchmark Owner xác nhận riêng các synthetic rules R-01…R-11 cho thiết kế logic; chúng không phải chuẩn ERP/WMS phổ quát. Thiết kế logic Bước 2A được nghiệm thu ngày 2026-11-09. Benchmark Owner xác nhận riêng việc nghiệm thu Bước 2B trong yêu cầu Autonomous Benchmark Implementation ngày 2026-11-09; snapshot hashes và validation evidence tại [physical database README](physical_database/README.md). Intent Cards, 50 SQL candidates và 550 wording drafts hiện được quản lý tại `docs/benchmark/intent_cards/` và `benchmark_data/authoring/`; tất cả chờ human review, không phải release. D8/D9/D13 phải được chốt trước official evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty.
+D4 ban đầu phê duyệt định hướng hai database. Benchmark Owner xác nhận riêng các synthetic rules R-01–R-11 cho thiết kế logic; đây không phải chuẩn ngành. Bước 2A được nghiệm thu ngày 2026-11-09; physical database được xác nhận riêng ngày 2026-11-09. Intent Cards, 50 SQL candidates và 550 wording drafts vẫn chờ human review. D8/D9/D13 đã phê duyệt nhưng vẫn cần hoàn tất implementation, human approval, registry/model-config freeze và cost authorization trước official evaluation. D12 vẫn cần trước khi phát hành Final; D14 trước khi tuyên bố novelty.
 ## Phụ lục A. Phân loại phương pháp
 
 - **Kế thừa BIRD:** database-grounded task, schema/data context, Evidence khi cần, kiểm tra SQL validity và text/knowledge/SQL alignment, execution-based EX.

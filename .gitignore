@@ -17,3 +17,11 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# ==========================================
+# IS6002 - Temporary Human Review Archives
+# Candidates for cleanup after Human Review
+# ==========================================
+
+# /docs/benchmark/review/dev_human_approval/archive/
+# /docs/benchmark/review/dev_human_approval/archive_v1_generic_wrappers/

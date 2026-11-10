@@ -1,5 +1,7 @@
 # Development paraphrase quality audit — dev-v2
 
+> **Lịch sử v2–v4, không dùng làm chứng nhận wording hiện hành.** Các tỷ lệ/near-duplicate flags và nhận xét bên dưới thuộc lần audit cũ. Bản hiện hành là [v5 audit](DEV_V5_PARAPHRASE_AUDIT.md), với 82 sửa đổi và hai `TAXONOMY_LIMITATION`; tất cả câu vẫn chờ human review. Không diễn giải tỷ lệ tự kiểm tra cũ thành human semantic equivalence.
+
 Status: draft; all Q0–Q10 still need human review. Heuristic checks do not prove equivalence.
 
 ## Q0 audit

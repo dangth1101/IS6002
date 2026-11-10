@@ -4,9 +4,9 @@
 |---|---|
 | Đặc tả | BENCHMARK_SPEC.md v0.3.0 — Draft |
 | Mẫu annotation | ANNOTATION_REVIEW_TEMPLATE.md v0.3.0 — Draft |
-| Review | 0.3.0 — ghi nhận phê duyệt một phần ngày 2026-11-09 |
-| Ngày | 2026-11-09 |
-| Trạng thái quyết định | D1–D7, D10, D11 APPROVED ngày 2026-11-09; D8, D9, D12–D14 PROPOSED |
+| Review | 0.3.0 — bổ sung phê duyệt D8, D9, D13 ngày 2026-11-10 |
+| Ngày | 2026-11-10 (bổ sung; phê duyệt cũ giữ nguyên ngày) |
+| Trạng thái quyết định | D1–D7, D10, D11 APPROVED ngày 2026-11-09; D8, D9, D13 APPROVED ngày 2026-11-10; D12, D14 PROPOSED |
 
 ## 1. Quy mô và tính nhất quán cần duyệt
 
@@ -44,9 +44,9 @@ Với G=50, Q0 là original, Qi là variant, i=1..10. y[g,i]=1 nếu prediction 
 | Robust EX (All) | 100 × groups có đủ 11 outcomes và cả 11 đúng / K_G (≤50) | Model failure làm group fail |
 | Pairwise Robust Accuracy | 100 × pairs có Q0 và Qi đều đúng / M_PRA (≤500) | 500 Q0–Qi pairs; shared Q0 làm cặp phụ thuộc nhau |
 
-Unrecoverable infrastructure questions/pairs/groups bị loại khỏi denominator liên quan sau retry cap đã định trước; luôn báo mẫu số thực tế và số missing. Nếu denominator bằng 0, metric là N/A. Đề xuất retry policy: initial + tối đa 2 retries cùng request/config, cần D13 approval.
+Unrecovered infrastructure failures remain UNKNOWN after one initial attempt and at most two bounded-backoff retries under D13; exclude from the relevant denominator and report missing counts and actual denominators. Retries are not replicates. A zero denominator yields N/A.
 
-Repeated runs: so Q0 với Qi trong cùng group và cùng replicate; tính metric mỗi replicate, sau đó báo mean/range/SD và raw counts. Không gộp outputs giữa replicate, không chọn replicate có điểm cao nhất. Bootstrap/CI cluster theo 50 groups; không coi 550 questions hoặc 500 pairs là độc lập.
+Repeated runs: exactly 3 complete replicates per model/config. Pair Q0/Qi within group and replicate; compute metrics per replicate and report mean/range/SD/raw counts. Do not pool outputs or select the best run. Bootstrap/CI clusters by 50 groups; 550 Questions and 500 pairs are not independent.
 
 ## 3. Kiểm tra quy trình annotation một người
 
@@ -63,7 +63,7 @@ Repeated runs: so Q0 với Qi trong cùng group và cùng replicate; tính metri
 
 ## 4. Decision Record D1–D14
 
-Benchmark Owner đã phê duyệt D1–D7, D10 và D11 ngày 2026-11-09. Các simulation rules chi tiết R-01–R-11 được chấp nhận cho logic design và ghi trong STEP_2A_REVIEW.md ngày 2026-11-09; không được diễn giải là chuẩn ERP/WMS phổ quát. D8, D9, D12, D13 và D14 vẫn PROPOSED. D4 riêng vẫn chỉ phê duyệt định hướng hai SQLite DB.
+Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D8, D9, D13 ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Simulation rules R-01–R-11 được chấp nhận cho logic design, không phải chuẩn ngành. D4 chỉ phê duyệt định hướng hai SQLite DB.
 
 | ID | Giá trị khuyến nghị | Lý do | Quyết định | Người quyết định | Ngày | Rationale thực tế / deviation |
 |---|---|---|---|---|---|---|
@@ -74,12 +74,12 @@ Benchmark Owner đã phê duyệt D1–D7, D10 và D11 ngày 2026-11-09. Các si
 | D5 | Schema context/Evidence giống nhau cho 11 questions trong cùng group | Cô lập tác động wording; các câu trong group phải nhận cùng thông tin nền. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận giữ schema, glossary/context và Evidence giống nhau giữa Q0–Q10 trong cùng group; chỉ wording câu hỏi được thay đổi. |
 | D6 | Chính xác 2 empty-result intents: 1 ERP + 1 WMS | Bao gồm empty có chủ đích ở cả hai DB; quota nhỏ giúp kiểm soát false-empty match bằng fixtures. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Benchmark Owner chốt quota từ khoảng 2–3 thành đúng 2 intent, một cho mỗi DB; fixture phải kiểm tra false-empty collision. |
 | D7 | BIRD-compatible set EX/RSS; EX_bag diagnostic; primary EX không chấm row order; mỗi ranking Intent Card chốt tie policy | Bảo toàn comparator tương thích; ranking semantics phải nêu deterministic tie-break hoặc include ties. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Set comparator so result membership, không xác minh output order; mỗi intent ranking ghi quy tắc đồng hạng rõ ràng. |
-| D8 | Timeout khởi điểm 30 giây/query; đo trên DB rồi freeze cùng resource limits | Source hiện dùng 30s, workload mới chưa đo. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
-| D9 | 3 replicates nếu đủ nguồn lực; nếu không single-shot; paired theo replicate và báo từng lần | Kiểm soát sampling variability, không chọn run tốt nhất. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
+| D8 | SQL execution timeout cố định 30 giây cho mỗi truy vấn benchmark | Giữ giới hạn thống nhất, tránh truy vấn treo. SQL timeout không được retry. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Owner chốt 30 giây/query; evaluator cần ghi SQL status, elapsed time và error category. SQL timeout là model outcome, không phải lỗi hạ tầng có thể retry. |
+| D9 | Đúng 3 replicates đầy đủ cho mỗi model/config; ghép cặp trong cùng replicate; báo từng replicate và mean/SD/range | Đo sampling variability, tránh chọn run tốt nhất hoặc gộp outcome phụ thuộc; Development có 3 × 110 = 330 predictions/model/config. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Ba lần chạy đầy đủ là bắt buộc; mỗi câu xuất hiện một lần trong replicate 1/2/3, giữ cùng model/config hash. |
 | D10 | Một Benchmark Owner single-human validation; AI/Codex hỗ trợ critique/oracle; công bố không có independent human annotation | Phù hợp nguồn lực đồ án; nêu rõ common-method bias, không đo inter-annotator agreement. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận một người thực hiện và chịu trách nhiệm human review/final approval; Codex/LLM chỉ hỗ trợ kỹ thuật, không được tính là annotator độc lập hoặc double-blind review. |
 | D11 | Competency quota §6; complexity ERP 8/12/5 và WMS 8/12/5; mỗi group 3 Lexical/3 Syntactic/2 Reordering/2 Mixed | Khóa coverage và complexity mỗi database trước authoring. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận tổng 16/24/10 và phân bổ 8/12/5 cho mỗi DB; mapping từng intent theo rubric complexity. |
 | D12 | Giữ 0.x pilot; Final giữ kín nếu khả thi, nếu không công khai exposure | Tránh gọi nhầm tập đã tune là blind. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
-| D13 | Inference exploratory, cluster 50 groups; initial + tối đa 2 infra retries; missingness/denominators công bố | 550 câu/pairs lồng trong group; retry policy phải tái lập. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
+| D13 | Một initial attempt + tối đa 2 retries có bounded backoff, chỉ cho lỗi hạ tầng tạm thời; giữ nguyên request/config | Tách sự cố hệ thống khỏi lỗi model/SQL; retry không tính là replicate. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Không retry SQL error/timeout, malformed/missing SQL trong phản hồi hợp lệ hoặc kết quả model sai. Hết retry cap thì giữ UNKNOWN/missingness và báo denominator. |
 | D14 | Gọi là pilot, không tuyên bố “first”/novelty tuyệt đối trước literature review | Không vượt quá bằng chứng hiện tại. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
 
 ## 5. Vai trò — mô hình một người
@@ -95,4 +95,4 @@ Benchmark Owner đã phê duyệt D1–D7, D10 và D11 ngày 2026-11-09. Các si
 
 Benchmark Owner xác nhận R-01–R-11 và nghiệm thu logic design ngày 2026-11-09; chi tiết, rationale và phạm vi được lưu trong [STEP_2A_REVIEW.md](database_design/STEP_2A_REVIEW.md). Đây là acceptance của design artifacts, không phải nghiệm thu physical database hay kết quả validator.
 
-Physical schema/seed, invariant validator, reproducibility check và edge-case fixtures được theo dõi tại [physical database README](physical_database/README.md), cùng build manifest và validation hashes. Benchmark Owner xác nhận nghiệm thu Bước 2B riêng ngày 2026-11-09. Intent Cards, SQL candidates và Questions hiện là drafts; chưa human-approved. D8/D9/D13 vẫn phải chốt trước official evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty.
+Physical schema/seed, invariant validator, reproducibility check và edge-case fixtures được theo dõi tại [physical database README](physical_database/README.md), cùng build manifest và validation hashes. Benchmark Owner xác nhận nghiệm thu Bước 2B riêng ngày 2026-11-09. Intent Cards, SQL candidates và Questions hiện là drafts; chưa human-approved. D8/D9/D13 were approved 2026-11-10; the collector/evaluator implementation, human approvals, registry/model-config freeze, and cost authorization remain prerequisites for official evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty.

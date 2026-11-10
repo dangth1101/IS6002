@@ -51,7 +51,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q02",
-        "question": "Những đơn bán hàng nào đã được xác nhận? Trả về mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái của từng đơn.",
+        "question": "Tra cứu các đơn bán ở trạng thái đã xác nhận, gồm mã định danh đơn hàng, số hiệu đơn, mã khách hàng, ngày đặt hàng và trạng thái.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -71,7 +71,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q04",
-        "question": "Mỗi đơn CONFIRMED gồm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái là gì?",
+        "question": "Những đơn hàng nào đang ở trạng thái CONFIRMED? Với từng đơn, cho biết mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -91,7 +91,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q06",
-        "question": "Hãy trả về các bộ thông tin (mã đơn, số đơn, mã khách hàng, ngày đặt, trạng thái) cho những đơn có trạng thái CONFIRMED.",
+        "question": "Mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái của từng đơn CONFIRMED là gì?",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -101,7 +101,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q07",
-        "question": "Với mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái cần hiển thị, hãy lọc những đơn có trạng thái CONFIRMED.",
+        "question": "Mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái là các thông tin cần hiển thị; chỉ lấy những đơn có trạng thái CONFIRMED.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -121,7 +121,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q09",
-        "question": "Tìm các đơn bán đã được chốt, rồi trình bày từng đơn dưới dạng mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
+        "question": "Mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái cần được liệt kê cho từng đơn bán đã được xác nhận.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -131,7 +131,7 @@
       },
       {
         "question_id": "ERP-EF-01-Q10",
-        "question": "Trả về mỗi đơn ở trạng thái CONFIRMED dưới dạng mã đơn, số đơn, mã khách hàng, ngày đặt, trạng thái; đây là các đơn đã xác nhận.",
+        "question": "Mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái cần được báo cho những đơn nào? Chỉ liệt kê từng đơn ở trạng thái CONFIRMED.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -175,7 +175,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "ERP-EF-02",
@@ -805,7 +805,7 @@
       },
       {
         "question_id": "ERP-GB-03-Q02",
-        "question": "Thống kê số đơn CONFIRMED theo sales rep có đơn, gồm mã rep, tên nếu có và số đơn; giữ nhóm NULL riêng nếu có đơn chưa gán sales rep.",
+        "question": "Tổng hợp số đơn bán đã xác nhận cho từng nhân viên phụ trách có đơn, kèm mã nhân viên kinh doanh và tên nếu có; các đơn đã xác nhận chưa phân công được tính chung trong nhóm NULL nếu tồn tại.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -825,7 +825,7 @@
       },
       {
         "question_id": "ERP-GB-03-Q04",
-        "question": "Mỗi sales rep có đơn CONFIRMED có mã nào, tên nào nếu có và bao nhiêu đơn? Nếu có đơn chưa gán rep, trình bày chúng thành nhóm NULL riêng.",
+        "question": "Mỗi sales rep có ít nhất một đơn CONFIRMED phụ trách bao nhiêu đơn CONFIRMED? Ghi mã sales rep, tên nếu có và số đơn; nếu có đơn CONFIRMED chưa gán sales rep, đếm chúng trong một nhóm NULL riêng.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -845,7 +845,7 @@
       },
       {
         "question_id": "ERP-GB-03-Q06",
-        "question": "Tạo một dòng cho mỗi sales rep có đơn đã xác nhận, gồm mã, tên nếu có và số đơn; nếu có đơn CONFIRMED không gán rep, thêm một dòng nhóm NULL.",
+        "question": "Có bao nhiêu đơn CONFIRMED theo từng sales rep có đơn? Kết quả gồm mã sales rep, tên nếu có và số đơn; đơn CONFIRMED chưa gán sales rep tạo một nhóm NULL nếu có.",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -855,7 +855,7 @@
       },
       {
         "question_id": "ERP-GB-03-Q07",
-        "question": "Chỉ lấy đơn CONFIRMED trong toàn bộ dữ liệu; nhóm chúng theo sales rep có đơn, rồi trả mã, tên nếu có và số đơn. Đơn chưa gán rep thuộc nhóm NULL riêng nếu có.",
+        "question": "Chỉ xét các đơn CONFIRMED, kể cả những đơn chưa gán sales rep. Thống kê theo sales rep có đơn, trả mã, tên nếu có và số đơn; các đơn chưa gán nằm trong một nhóm NULL riêng nếu có.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -875,7 +875,7 @@
       },
       {
         "question_id": "ERP-GB-03-Q09",
-        "question": "Phân nhóm các đơn CONFIRMED theo người phụ trách bán hàng có đơn, kể cả nhóm NULL nếu có đơn chưa phân công; cho biết mã/tên nếu có và số đơn.",
+        "question": "Các đơn đã xác nhận chưa phân công người phụ trách cần nằm trong một nhóm NULL nếu có. Với mỗi người phụ trách bán hàng có đơn đã xác nhận, báo mã sales rep, tên nếu có và số đơn; nhóm NULL cũng có các trường này.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -929,7 +929,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "ERP-GB-04",
@@ -1105,7 +1105,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q01",
-        "question": "Riêng trong từng đơn vị cơ sở, xếp các SKU theo tổng số lượng đặt ở đơn đã xác nhận; nêu SKU, tên, đơn vị, tổng milli-unit và hạng, giữ mọi đồng hạng ở vị trí ba.",
+        "question": "Trong từng đơn vị cơ sở, xếp các SKU theo tổng số lượng đặt của đơn đã xác nhận từ cao xuống thấp; nêu SKU, tên sản phẩm, đơn vị, tổng milli-unit và hạng, chỉ lấy hạng 1 đến 3 cùng mọi SKU đồng hạng.",
         "q_index": 1,
         "role": "variant",
         "variant_type": "lexical",
@@ -1115,7 +1115,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q02",
-        "question": "Với mỗi base unit, tìm các mã hàng dẫn đầu theo lượng bán trong confirmed orders: mã SKU, tên, đơn vị, tổng lượng milli-unit và thứ hạng; lấy top ba kể cả hòa ở hạng ba.",
+        "question": "Trong mỗi đơn vị cơ sở, tìm các mã SKU ở hạng 1 đến 3 theo tổng lượng đặt hàng giảm dần trên đơn đã xác nhận, kể cả đồng hạng; trả SKU, tên hàng, đơn vị cơ sở, tổng milli-unit và thứ hạng.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -1125,7 +1125,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q03",
-        "question": "Xếp từng mặt hàng theo tổng lượng ordered trong các đơn được xác nhận, tách riêng từng đơn vị cơ sở; hiển thị SKU, tên, đơn vị, tổng milli-unit và hạng 1–3 cùng mọi trường hợp đồng hạng tại cutoff.",
+        "question": "Xếp từng mặt hàng theo tổng lượng đặt trên các đơn đã xác nhận, từ cao xuống thấp và riêng cho từng đơn vị cơ sở; hiển thị SKU, tên mặt hàng, đơn vị, tổng milli-unit và hạng, chỉ giữ hạng 1–3 kể cả đồng hạng.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -1145,7 +1145,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q05",
-        "question": "Hãy lập bảng xếp hạng riêng theo base unit từ lượng ordered của đơn CONFIRMED. Mỗi dòng gồm SKU, tên sản phẩm, đơn vị, tổng milli-unit và hạng; bao gồm toàn bộ tie ở hạng 3.",
+        "question": "Hãy lập bảng xếp hạng giảm dần riêng cho từng base unit từ tổng lượng đặt của các đơn CONFIRMED. Chỉ hiển thị các SKU có hạng từ 1 đến 3, gồm cả đồng hạng; mỗi dòng có SKU, tên sản phẩm, base unit, tổng milli-unit và hạng.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1155,7 +1155,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q06",
-        "question": "Cần chọn mọi SKU có rank không quá 3 trong cohort cùng base unit, tính rank từ tổng ordered quantity của confirmed orders; trả tên, SKU, đơn vị, tổng milli-unit và rank, giữ ties tại 3.",
+        "question": "Nếu xếp các SKU trong cùng base unit theo tổng lượng đặt giảm dần của đơn CONFIRMED, SKU nào có hạng không quá 3? Trả SKU, tên sản phẩm, base unit, tổng milli-unit và hạng cho tất cả các SKU đó, kể cả đồng hạng.",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1165,7 +1165,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q07",
-        "question": "Trước tiên tách sản phẩm theo base unit, rồi trong mỗi nhóm xếp theo tổng ordered milli-unit giảm dần trên confirmed orders; trả SKU, tên, đơn vị, tổng và hạng, gồm mọi tie ở hạng ba.",
+        "question": "Chỉ lấy hạng 1–3 và giữ mọi SKU đồng hạng; kết quả gồm SKU, tên sản phẩm, base unit, tổng lượng đặt milli-unit và hạng. Việc xếp hạng dựa trên tổng lượng đặt giảm dần từ đơn CONFIRMED và thực hiện riêng trong từng base unit.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -1175,7 +1175,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q08",
-        "question": "Chỉ dùng dòng hàng thuộc đơn CONFIRMED và cộng quantity theo SKU. Sau đó xếp hạng độc lập trong từng đơn vị cơ sở; kết quả cần SKU, tên, đơn vị, tổng milli-unit, hạng 1–3 và mọi tie tại hạng ba.",
+        "question": "Chỉ dùng các dòng hàng của đơn CONFIRMED và cộng số lượng đặt theo SKU. Xếp giảm dần theo tổng này riêng trong từng đơn vị cơ sở; trả SKU, tên sản phẩm, đơn vị cơ sở, tổng milli-unit và hạng, chỉ lấy hạng 1–3 kể cả đồng hạng.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -1185,7 +1185,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q09",
-        "question": "Trong mỗi cohort đơn vị cơ sở, hãy xếp các mặt hàng dẫn đầu theo tổng lượng ordered ở đơn đã chốt; xuất SKU/tên/đơn vị/tổng milli-unit/hạng và giữ đồng hạng thứ ba.",
+        "question": "Mặt hàng nào thuộc hạng 1 đến 3 trong từng đơn vị cơ sở khi xếp theo tổng lượng đặt giảm dần của đơn đã xác nhận? Kèm SKU, tên mặt hàng, đơn vị cơ sở, tổng milli-unit và thứ hạng; giữ tất cả đồng hạng.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -1195,7 +1195,7 @@
       },
       {
         "question_id": "ERP-RK-02-Q10",
-        "question": "Hãy trả trước SKU, tên, đơn vị, tổng ordered milli-unit và thứ hạng: dùng các đơn CONFIRMED, cộng theo SKU, phân hạng riêng mỗi base unit và giữ mọi trường hợp hòa tại hạng 3.",
+        "question": "SKU, tên sản phẩm, đơn vị cơ sở, tổng lượng đặt milli-unit và thứ hạng là các thông tin cần lấy. Dùng đơn đã xác nhận để cộng lượng đặt theo SKU, xếp giảm dần riêng trong từng đơn vị cơ sở và chỉ giữ hạng 1–3 kể cả đồng hạng.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -1277,7 +1277,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "ERP-RK-03",
@@ -1459,7 +1459,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q02",
-        "question": "Tra cứu các order line của đơn CONFIRMED, mỗi dòng kèm số đơn, ngày đặt, SKU/tên sản phẩm, số lượng đặt milli-unit và net amount VND.",
+        "question": "Tra cứu các dòng chi tiết của đơn bán đã xác nhận; mỗi dòng kèm số đơn, ngày đặt hàng, SKU, tên mặt hàng, số lượng đặt theo milli-unit và giá trị ròng của dòng theo VND.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -1469,7 +1469,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q03",
-        "question": "Hiển thị các dòng sản phẩm trong đơn bán đã chốt; cần số đơn, ngày đơn, mã/tên mặt hàng, ordered quantity milli-unit và line net bằng VND.",
+        "question": "Hiển thị các dòng sản phẩm trong đơn bán đã xác nhận, gồm số đơn, ngày đặt, SKU, tên mặt hàng, lượng đặt theo milli-unit và giá trị ròng dòng hàng bằng VND.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -1479,7 +1479,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q04",
-        "question": "Mỗi order line trong đơn CONFIRMED có số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND nào?",
+        "question": "Trong các đơn CONFIRMED, mỗi dòng hàng có số đơn, ngày đặt, SKU, tên sản phẩm, lượng đặt milli-unit và giá trị ròng VND như thế nào?",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1499,7 +1499,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q06",
-        "question": "Cần các bộ (số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit, line net VND) cho tất cả order line thuộc đơn CONFIRMED.",
+        "question": "Số đơn, ngày đặt, SKU, tên sản phẩm, lượng đặt milli-unit và giá trị ròng VND của từng dòng thuộc đơn CONFIRMED là gì?",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1509,7 +1509,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q07",
-        "question": "Chỉ giữ đơn có trạng thái CONFIRMED; sau đó mở rộng đến từng order line và ghép sản phẩm, trả số đơn/ngày đặt, SKU/tên, lượng đặt milli-unit và line net VND.",
+        "question": "Chỉ xét các đơn có trạng thái CONFIRMED. Với từng dòng hàng của các đơn đó, liệt kê số đơn, ngày đặt, SKU, tên sản phẩm, lượng đặt milli-unit và giá trị ròng dòng hàng VND.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -1519,7 +1519,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q08",
-        "question": "Đầu ra cần số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND. Hãy lấy ở grain từng dòng hàng, chỉ từ các đơn đã xác nhận.",
+        "question": "Kết quả cần số đơn, ngày đặt, SKU, tên sản phẩm, lượng đặt milli-unit và giá trị ròng dòng hàng VND. Mỗi dòng kết quả tương ứng một dòng hàng của đơn đã xác nhận.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -1529,7 +1529,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q09",
-        "question": "Với từng chi tiết đơn bán đã chốt, nối thông tin mặt hàng và trình bày bộ số đơn, ngày, SKU/tên, lượng milli-unit, net VND.",
+        "question": "Trong các đơn bán đã xác nhận, từng dòng chi tiết đặt mặt hàng nào và có giá trị ròng bao nhiêu? Trả số đơn, ngày đặt, SKU, tên mặt hàng, số lượng đặt milli-unit và giá trị ròng dòng hàng VND.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -1539,7 +1539,7 @@
       },
       {
         "question_id": "ERP-JN-02-Q10",
-        "question": "Với mỗi order line thuộc đơn CONFIRMED, trả số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity milli-unit và line net VND.",
+        "question": "Số đơn và ngày đặt cần đi cùng SKU, tên mặt hàng, lượng đặt milli-unit và giá trị ròng dòng hàng VND. Liệt kê các thông tin này cho từng dòng chi tiết của đơn bán đã xác nhận.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -1594,7 +1594,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "ERP-JN-03",
@@ -1830,7 +1830,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q01",
-        "question": "Thống kê theo ngày giờ Việt Nam số chuyến đã giao trong năm 2025; chỉ hiện ngày có chuyến, lấy ngày từ delivered timestamp UTC và đếm shipment.",
+        "question": "Thống kê số lượt giao hàng (shipment) đã giao thành công ở trạng thái DELIVERED theo từng ngày Việt Nam của năm 2025. Trả ngày và số shipment, lấy ngày từ delivered_at_utc đổi sang giờ Việt Nam và chỉ hiện ngày có shipment.",
         "q_index": 1,
         "role": "variant",
         "variant_type": "lexical",
@@ -1840,7 +1840,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q02",
-        "question": "Mỗi ngày địa phương có giao hàng thành công trong 2025 có bao nhiêu shipment? Dùng mốc delivered, đổi UTC sang Asia/Ho_Chi_Minh và không thêm ngày có số 0.",
+        "question": "Báo số lần giao hàng (shipment) đã hoàn tất ở trạng thái DELIVERED cho mỗi ngày địa phương trong năm 2025; kèm ngày và số shipment, dựa trên delivered_at_utc quy đổi sang Asia/Ho_Chi_Minh, chỉ liệt kê ngày có shipment.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -1850,7 +1850,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q03",
-        "question": "Đếm các lô giao đã hoàn tất theo ngày Việt Nam trong năm 2025, dựa vào delivered_at_utc; chỉ trả ngày phát sinh ít nhất một shipment.",
+        "question": "Đếm các lô giao hàng (shipment) đã giao ở trạng thái DELIVERED theo ngày Việt Nam trong năm 2025, lấy ngày giao từ delivered_at_utc đổi sang giờ Việt Nam; chỉ trả ngày có shipment cùng số shipment của ngày đó.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -1860,7 +1860,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q04",
-        "question": "Ngày địa phương nào trong khoảng năm 2025 có shipment ở trạng thái DELIVERED, và mỗi ngày có bao nhiêu shipment? Diễn giải ngày theo Asia/Ho_Chi_Minh.",
+        "question": "Những ngày nào trong năm 2025 theo Asia/Ho_Chi_Minh có shipment DELIVERED, và mỗi ngày có bao nhiêu shipment? Xác định ngày bằng delivered_at_utc sau khi đổi từ UTC sang giờ Việt Nam; chỉ liệt kê ngày có shipment.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1870,7 +1870,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q05",
-        "question": "Hãy lập bảng ngày–số chuyến giao: đổi delivered_at_utc sang giờ Việt Nam, lọc năm 2025 theo [01/01/2025, 01/01/2026), chỉ giữ ngày có dữ liệu.",
+        "question": "Hãy lập bảng gồm ngày Việt Nam và số shipment DELIVERED. Ngày lấy từ delivered_at_utc quy đổi sang giờ Việt Nam, thuộc khoảng từ 01/01/2025 đến trước 01/01/2026; không thêm ngày không có shipment.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -1890,7 +1890,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q07",
-        "question": "Dùng delivered_at_utc và trạng thái DELIVERED để chọn khoảng local-year 2025 trước; sau đó nhóm theo ngày Asia/Ho_Chi_Minh và đếm shipment, không scaffold ngày rỗng.",
+        "question": "Chỉ xét shipment DELIVERED có delivered_at_utc sau quy đổi sang giờ Việt Nam nằm từ 01/01/2025 đến trước 01/01/2026. Theo từng ngày Việt Nam có shipment, trả ngày và số shipment; không thêm ngày không có shipment.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -1910,7 +1910,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q09",
-        "question": "Tổng hợp các đơn vị giao đã hoàn tất mỗi ngày theo giờ Việt Nam; dùng delivered time UTC và lọc local-year 2025, chỉ xuất các ngày có chuyến cùng số lượng.",
+        "question": "Trong năm 2025 theo giờ Việt Nam, mỗi ngày có bao nhiêu lượt giao hàng (shipment) ở trạng thái DELIVERED? Trả ngày và số shipment, dùng delivered_at_utc đổi sang Asia/Ho_Chi_Minh và chỉ hiện ngày có shipment.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -1920,7 +1920,7 @@
       },
       {
         "question_id": "ERP-TM-02-Q10",
-        "question": "Trước hết chọn event DELIVERED trong năm địa phương 2025, rồi đếm shipment theo ngày sau quy đổi UTC→Asia/Ho_Chi_Minh; trả ngày và count, không sinh ngày 0.",
+        "question": "Lọc các lô giao hàng (shipment) ở trạng thái DELIVERED trong năm 2025 tính theo giờ Việt Nam từ delivered_at_utc. Sau khi đổi UTC sang Asia/Ho_Chi_Minh, báo ngày cùng số shipment của từng ngày có phát sinh; không liệt kê ngày không có shipment.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -1982,7 +1982,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "ERP-NA-01",
@@ -2292,7 +2292,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q02",
-        "question": "Tra cứu inventory documents đã hạch toán, kèm document ID/no, document type, status và business date.",
+        "question": "Tra cứu các chứng từ kho đã ghi sổ (POSTED), kèm mã định danh chứng từ, số hiệu chứng từ, loại chứng từ, trạng thái và ngày nghiệp vụ.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -2302,7 +2302,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q03",
-        "question": "Những phiếu kho nào đã được ghi sổ? Trả mã chứng từ, số chứng từ, loại chứng từ, trạng thái và ngày nghiệp vụ.",
+        "question": "Liệt kê từng phiếu kho đã ghi sổ, gồm mã phiếu, số phiếu, loại phiếu, trạng thái và ngày nghiệp vụ.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -2312,7 +2312,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q04",
-        "question": "Mỗi inventory document POSTED có ID, số hiệu, loại, status và business date nào?",
+        "question": "Những chứng từ kho nào có trạng thái POSTED? Với mỗi chứng từ, cho biết mã định danh, số chứng từ, loại, trạng thái và ngày nghiệp vụ.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2322,7 +2322,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q05",
-        "question": "Hãy lập danh sách ở grain một chứng từ kho; chỉ chọn POSTED và hiển thị document ID, number, type, status, business date.",
+        "question": "Cần một danh sách chứng từ kho POSTED, mỗi chứng từ một dòng gồm mã định danh, số chứng từ, loại, trạng thái và ngày nghiệp vụ.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2332,7 +2332,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q06",
-        "question": "Cần các bộ thông tin (ID, số chứng từ, loại, trạng thái, ngày nghiệp vụ) của tất cả chứng từ kho có status POSTED.",
+        "question": "Mã định danh, số chứng từ, loại, trạng thái và ngày nghiệp vụ của từng chứng từ kho POSTED là gì?",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2352,7 +2352,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q08",
-        "question": "Đầu ra cần document ID, document number, document type, status và business date. Trong toàn bộ chứng từ kho, chỉ lấy những dòng POSTED.",
+        "question": "Kết quả gồm mã định danh chứng từ, số chứng từ, loại chứng từ, trạng thái và ngày nghiệp vụ. Chỉ liệt kê các chứng từ kho có trạng thái POSTED.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -2362,7 +2362,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q09",
-        "question": "Liệt kê các phiếu kho đã ghi sổ, mỗi phiếu là một dòng gồm ID, số hiệu, loại, trạng thái và business date.",
+        "question": "Có những phiếu kho đã ghi sổ nào? Mỗi phiếu cần mã định danh, số hiệu, loại phiếu, trạng thái và ngày nghiệp vụ.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -2372,7 +2372,7 @@
       },
       {
         "question_id": "WMS-EF-01-Q10",
-        "question": "Trả projection ID/no/type/status/business date cho từng chứng từ; trước tiên giới hạn inventory document ở trạng thái POSTED.",
+        "question": "Mã định danh, số hiệu chứng từ, loại, trạng thái và ngày nghiệp vụ cần được liệt kê cho từng phiếu kho đã ghi sổ (POSTED).",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -2416,7 +2416,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "WMS-EF-02",
@@ -2480,7 +2480,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q03",
-        "question": "Những SKU nào dùng KG làm đơn vị cơ sở? Với mỗi mặt hàng, nêu product ID, tên hàng, đơn vị và category ID nếu được gán.",
+        "question": "Liệt kê các mặt hàng có đơn vị cơ sở kilogram (KG), gồm mã sản phẩm, SKU, tên hàng, đơn vị cơ sở và mã danh mục; giữ NULL nếu mặt hàng chưa được phân loại.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -2490,7 +2490,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q04",
-        "question": "Mỗi product có base_unit KG mang product ID, SKU, tên, category ID nào? Giữ nguyên NULL ở category nếu chưa phân loại.",
+        "question": "Những sản phẩm nào dùng KG làm đơn vị cơ sở? Với mỗi sản phẩm, cho biết mã sản phẩm, SKU, tên, đơn vị cơ sở và mã danh mục; mã danh mục chưa gán vẫn là NULL.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2500,7 +2500,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q05",
-        "question": "Hãy lập danh sách sản phẩm theo grain một product, chỉ gồm đơn vị KG; các cột là ID, SKU, tên, base unit và category ID.",
+        "question": "Cần một danh sách sản phẩm dùng đơn vị cơ sở KG, mỗi sản phẩm một dòng với mã sản phẩm, SKU, tên, đơn vị cơ sở và mã danh mục; sản phẩm chưa có danh mục vẫn được giữ với NULL.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2510,7 +2510,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q06",
-        "question": "Cần các bộ (product ID, SKU, tên, base unit, category ID) sau khi lọc sản phẩm có đơn vị cơ sở KG; category chưa gán vẫn để NULL.",
+        "question": "Mã sản phẩm, SKU, tên, đơn vị cơ sở và mã danh mục của các sản phẩm dùng KG là gì? Nếu chưa gán danh mục, giữ NULL cho mã danh mục.",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2520,7 +2520,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q07",
-        "question": "Trước hết chọn base_unit='KG'; từ mỗi product được chọn, xuất product ID, SKU, tên, đơn vị và category ID, không loại NULL category.",
+        "question": "Không bỏ sản phẩm chưa có danh mục: giữ mã danh mục NULL. Trong các sản phẩm có đơn vị cơ sở KG, liệt kê mã sản phẩm, SKU, tên, đơn vị cơ sở và mã danh mục.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -2530,7 +2530,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q08",
-        "question": "Kết quả cần ID sản phẩm, SKU, tên, base unit và category ID. Trong catalog, chỉ lấy product đo bằng KG và giữ product chưa có category.",
+        "question": "Kết quả cần mã sản phẩm, SKU, tên sản phẩm, đơn vị cơ sở và mã danh mục. Chỉ lấy sản phẩm có đơn vị cơ sở KG, kể cả sản phẩm chưa phân loại với mã danh mục NULL.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -2540,7 +2540,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q09",
-        "question": "Tìm các mặt hàng tính theo kilogram, rồi trình bày ID/SKU/tên/đơn vị/category ID, kể cả category chưa gán.",
+        "question": "Các mặt hàng tính theo kilogram (KG) có mã sản phẩm, SKU, tên hàng, đơn vị cơ sở và mã danh mục nào? Giữ cả mặt hàng chưa phân loại, với mã danh mục NULL.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -2550,7 +2550,7 @@
       },
       {
         "question_id": "WMS-EF-02-Q10",
-        "question": "Trả product ID, SKU, tên, base unit và category ID; bộ lọc catalog là KG, còn NULL category vẫn được giữ.",
+        "question": "Mã sản phẩm, SKU, tên hàng, đơn vị cơ sở và mã danh mục cần xuất hiện trong danh sách; danh sách chỉ gồm mặt hàng tính theo KG, vẫn giữ NULL ở mã danh mục chưa gán.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -2594,7 +2594,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "WMS-EF-03",
@@ -2830,7 +2830,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q01",
-        "question": "Tổng hợp lượng hàng xuất giao khách đã ghi sổ cho từng SKU tính bằng KG; nêu product ID, SKU, base unit và tổng milli-KG trên toàn bộ lịch sử.",
+        "question": "Tổng hợp lượng xuất giao hàng cho từng mặt hàng dùng đơn vị cơ sở KG có biến động giảm tồn kho thuộc chứng từ SHIPMENT đã ghi sổ (POSTED). Nêu mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất theo milli-KG trong toàn bộ lịch sử.",
         "q_index": 1,
         "role": "variant",
         "variant_type": "lexical",
@@ -2840,7 +2840,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q02",
-        "question": "Trong toàn bộ lịch sử, với mỗi product base_unit KG có movement âm của SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
+        "question": "Với mỗi mặt hàng tính bằng KG có phát sinh lượng xuất giảm tồn từ chứng từ SHIPMENT POSTED, cho biết mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng đã xuất theo milli-KG trên toàn bộ lịch sử.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -2850,7 +2850,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q03",
-        "question": "Trong toàn bộ lịch sử, với mỗi SKU base_unit KG có movement âm thuộc SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
+        "question": "Với từng sản phẩm có đơn vị cơ sở KG và có ghi nhận giảm tồn kho trên phiếu xuất SHIPMENT đã POSTED, trả mã sản phẩm, SKU, đơn vị cơ sở và tổng số lượng xuất milli-KG, không giới hạn ngày.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -2860,7 +2860,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q04",
-        "question": "Trong toàn bộ lịch sử, mỗi SKU KG có tổng lượng milli-KG đã xuất qua movement âm thuộc SHIPMENT POSTED là bao nhiêu? Trả product ID, SKU, base unit và tổng lượng.",
+        "question": "Mỗi sản phẩm KG có movement âm thuộc chứng từ SHIPMENT POSTED đã xuất tổng cộng bao nhiêu milli-KG trong toàn bộ lịch sử? Trả mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2870,7 +2870,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q05",
-        "question": "Với mỗi SKU có base_unit KG và movement âm thuộc SHIPMENT POSTED, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG) trên toàn bộ lịch sử.",
+        "question": "Những sản phẩm nào có đơn vị cơ sở KG và movement âm thuộc SHIPMENT POSTED, và mỗi sản phẩm đã xuất tổng cộng bao nhiêu milli-KG trong toàn bộ lịch sử? Hiển thị mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2880,7 +2880,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q06",
-        "question": "Trong toàn bộ lịch sử, chỉ xét movement âm thuộc SHIPMENT POSTED của product base_unit KG; trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
+        "question": "Cần một bảng gồm mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất milli-KG cho từng sản phẩm KG có movement âm của SHIPMENT POSTED; tính trên toàn bộ lịch sử.",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -2890,7 +2890,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q07",
-        "question": "Trong toàn bộ lịch sử, chọn movement âm của SHIPMENT POSTED thuộc product base_unit KG, rồi nhóm theo product; trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
+        "question": "Trên toàn bộ lịch sử, chỉ xét các movement âm của chứng từ SHIPMENT POSTED đối với sản phẩm có đơn vị cơ sở KG. Theo từng sản phẩm có các movement đó, trả mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất milli-KG.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -2900,7 +2900,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q08",
-        "question": "Kết quả cần product ID, SKU, base unit và tổng shipped milli-KG. Chỉ nhóm các sản phẩm KG có phát sinh shipment movement âm đã POSTED, không giới hạn ngày.",
+        "question": "Kết quả gồm mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất milli-KG. Chỉ liệt kê sản phẩm KG có movement âm thuộc chứng từ SHIPMENT POSTED, tính trên toàn bộ lịch sử.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -2910,7 +2910,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q09",
-        "question": "Trong toàn bộ lịch sử, tổng hợp lượng xuất milli-KG cho mỗi product base_unit KG từ movement âm thuộc SHIPMENT POSTED; trả product ID, SKU, base unit và tổng lượng.",
+        "question": "Trong toàn bộ lịch sử, mỗi mặt hàng KG có biến động giảm tồn trên phiếu SHIPMENT đã ghi sổ (POSTED) đã xuất bao nhiêu milli-KG? Trả mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất cho từng mặt hàng đó.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -2920,7 +2920,7 @@
       },
       {
         "question_id": "WMS-AG-02-Q10",
-        "question": "Trong toàn bộ lịch sử, chọn movement âm thuộc SHIPMENT POSTED của SKU KG, tổng hợp theo product rồi trả product ID, SKU, base unit và tổng lượng xuất milli-KG.",
+        "question": "Mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất milli-KG cần được thống kê theo từng mặt hàng. Chỉ lấy mặt hàng KG có phát sinh giảm tồn từ SHIPMENT đã ghi sổ (POSTED) và tính trên toàn bộ lịch sử.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -2971,7 +2971,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "WMS-AG-03",
@@ -3783,7 +3783,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q01",
-        "question": "Cho xem từng chân movement của lệnh chuyển kho đã ghi sổ, với ID/số chứng từ, dòng, SKU, số thứ tự/vai trò leg, kho đi/đến, delta milli-unit có dấu và timestamp UTC.",
+        "question": "Cho xem từng vế biến động kho của chứng từ chuyển kho đã ghi sổ (TRANSFER POSTED), với mã và số chứng từ, số dòng, SKU, số thứ tự vế, vai trò vế, mã kho đi và kho đến, lượng thay đổi milli-unit có dấu và thời điểm UTC.",
         "q_index": 1,
         "role": "variant",
         "variant_type": "lexical",
@@ -3793,7 +3793,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q02",
-        "question": "Tra cứu các inventory transfer POSTED ở mức từng leg; cần mã/số chứng từ, line, SKU, leg no/role, warehouse nguồn-đích, lượng signed milli-unit và moved_at UTC.",
+        "question": "Tra cứu từng vế điều chuyển của các chứng từ TRANSFER đã POSTED; nêu mã chứng từ, số chứng từ, số dòng, SKU, số vế, vai trò vế, mã kho nguồn, mã kho đích, lượng biến động milli-unit có dấu và thời điểm phát sinh UTC.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -3803,7 +3803,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q03",
-        "question": "Mỗi chân luân chuyển giữa kho trong chứng từ đã hạch toán cần hiện document ID/no, line no, SKU, leg no và role, kho nguồn/đích, signed milli-quantity, thời điểm UTC.",
+        "question": "Mỗi vế luân chuyển giữa kho thuộc chứng từ TRANSFER đã ghi sổ (POSTED) cần hiện mã và số chứng từ, số dòng, SKU, số thứ tự vế, vai trò vế, mã kho xuất và mã kho nhận, lượng thay đổi milli-unit có dấu cùng thời điểm UTC.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -3813,7 +3813,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q04",
-        "question": "Với từng leg của TRANSFER POSTED, document nào và line nào liên quan, SKU gì, leg number/role ra sao, kho nguồn/đích nào, delta milli-unit và thời điểm UTC là bao nhiêu?",
+        "question": "Mỗi movement leg của TRANSFER POSTED thuộc mã chứng từ, số chứng từ, số dòng và SKU nào? Cho biết thêm số thứ tự leg, vai trò leg, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm movement UTC.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -3823,7 +3823,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q05",
-        "question": "Hãy tạo bảng ở grain một movement leg, chỉ từ transfer đã ghi sổ; các cột gồm document ID/no, line, SKU, leg no/role, source/destination warehouse, signed qty milli-unit và moved_at UTC.",
+        "question": "Cần một bảng với mỗi movement leg của TRANSFER POSTED là một dòng, gồm mã chứng từ, số chứng từ, số dòng, SKU, số thứ tự leg, vai trò leg, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm movement UTC.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -3833,7 +3833,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q06",
-        "question": "Cần các bộ thông tin chi tiết cho mọi transfer leg POSTED: chứng từ, số dòng, SKU, nhận diện/vai trò leg, hai warehouse, lượng có dấu và timestamp UTC.",
+        "question": "Mã chứng từ, số chứng từ, số dòng, SKU, số thứ tự leg, vai trò leg, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm movement UTC của mỗi leg thuộc TRANSFER POSTED là gì?",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -3843,7 +3843,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q07",
-        "question": "Lọc chứng từ TRANSFER có status POSTED trước, rồi theo từng movement leg nối document line, product và location; trả mã chứng từ/line/SKU, vai trò leg, hai kho, delta và giờ UTC.",
+        "question": "Chỉ xét chứng từ TRANSFER có trạng thái POSTED. Với từng movement leg, liệt kê mã chứng từ, số chứng từ, số dòng, SKU, số thứ tự leg, vai trò leg, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm movement UTC.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -3853,7 +3853,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q08",
-        "question": "Đầu ra cần document ID/no, line number, SKU, leg number/role, kho nguồn/đích, signed milli-quantity và thời điểm UTC. Mỗi row là một leg thuộc transfer đã POSTED.",
+        "question": "Kết quả cần mã chứng từ, số chứng từ, số dòng, SKU, số thứ tự leg, vai trò leg, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm movement UTC. Mỗi dòng là một leg của chứng từ TRANSFER POSTED.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -3863,7 +3863,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q09",
-        "question": "Với từng movement leg của TRANSFER POSTED, trả document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
+        "question": "Với chứng từ chuyển kho đã ghi sổ (TRANSFER POSTED), thông tin từng vế biến động kho là gì? Mỗi dòng cần mã và số chứng từ, số dòng, SKU, số thứ tự vế, vai trò vế, mã kho nguồn, mã kho đích, lượng milli-unit có dấu và thời điểm UTC.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -3873,7 +3873,7 @@
       },
       {
         "question_id": "WMS-JN-04-Q10",
-        "question": "Mỗi row tương ứng một movement leg; trước hết giới hạn transfer POSTED, sau đó xuất chứng từ/line/SKU/leg-role/kho nguồn-đích/signed milli-qty/timestamp UTC.",
+        "question": "Mã chứng từ, số chứng từ, số dòng, SKU, số thứ tự vế, vai trò vế, mã kho đi, mã kho đến, lượng thay đổi milli-unit có dấu và thời điểm UTC cần được hiển thị cho từng vế biến động kho của chứng từ chuyển kho đã ghi sổ (TRANSFER POSTED).",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -3924,7 +3924,7 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   },
   {
     "group_id": "WMS-TM-01",
@@ -4293,7 +4293,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q01",
-        "question": "Với mỗi document × SKU ở mọi trạng thái, trả document ID, document number, type, status, SKU, base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED có executed=0, TRANSFER lấy SOURCE một lần.",
+        "question": "Với từng chứng từ và mã SKU ở mọi trạng thái, cho biết mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng dự kiến và lượng đã thực hiện riêng theo milli-unit. Lượng thực hiện bằng 0 khi chưa POSTED; chuyển kho TRANSFER chỉ tính vế SOURCE một lần, các loại POSTED khác theo quy tắc biến động kho.",
         "q_index": 1,
         "role": "variant",
         "variant_type": "lexical",
@@ -4303,7 +4303,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q02",
-        "question": "Với mọi document × SKU, trả document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit; gồm mọi trạng thái, non-POSTED có executed=0, TRANSFER lấy SOURCE một lần.",
+        "question": "Với mỗi cặp chứng từ kho và mặt hàng SKU, trả mã định danh chứng từ, số hiệu chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, số lượng kế hoạch và số lượng thực hiện theo milli-unit. Giữ mọi trạng thái; chưa POSTED thì số lượng thực hiện bằng 0, TRANSFER chỉ lấy SOURCE một lần và các loại POSTED khác theo quy tắc movement.",
         "q_index": 2,
         "role": "variant",
         "variant_type": "lexical",
@@ -4313,7 +4313,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q03",
-        "question": "Với mỗi document × SKU ở mọi trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED có executed=0, TRANSFER lấy SOURCE một lần, loại POSTED khác theo movement rules.",
+        "question": "Cho từng chứng từ với từng SKU trong đó, bất kể trạng thái, liệt kê mã chứng từ, số chứng từ, loại chứng từ, trạng thái, SKU, đơn vị cơ sở, lượng theo kế hoạch và lượng thực tế đã thực hiện bằng milli-unit. Chưa ghi sổ POSTED thì lượng thực hiện là 0; phiếu chuyển kho TRANSFER tính vế nguồn SOURCE một lần, các loại POSTED còn lại theo quy tắc biến động.",
         "q_index": 3,
         "role": "variant",
         "variant_type": "lexical",
@@ -4323,7 +4323,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q04",
-        "question": "Mỗi cặp document × SKU có document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit nào? Non-POSTED có executed=0; TRANSFER lấy SOURCE một lần.",
+        "question": "Mỗi cặp chứng từ và SKU có lượng kế hoạch và lượng thực hiện theo milli-unit là bao nhiêu? Trả mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở và hai lượng này cho mọi trạng thái; lượng thực hiện là 0 nếu chưa POSTED, TRANSFER chỉ tính SOURCE một lần, các loại POSTED khác theo movement rules.",
         "q_index": 4,
         "role": "variant",
         "variant_type": "syntactic",
@@ -4333,7 +4333,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q05",
-        "question": "Lập bảng cho mọi document × SKU và mọi trạng thái, gồm document ID/no/type/status, SKU/base unit, planned quantity và executed quantity riêng theo milli-unit; non-POSTED bằng 0, TRANSFER lấy SOURCE một lần.",
+        "question": "Cần một bảng cho mọi cặp chứng từ và SKU, ở mọi trạng thái, gồm mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng kế hoạch và lượng thực hiện theo milli-unit. Nếu chưa POSTED, chỉ lượng thực hiện bằng 0; nếu là TRANSFER POSTED, tính SOURCE một lần; các loại POSTED còn lại theo movement rules.",
         "q_index": 5,
         "role": "variant",
         "variant_type": "syntactic",
@@ -4343,7 +4343,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q06",
-        "question": "Cần kết quả cho mọi chứng từ và SKU, không lọc status: mã/no/type/status, SKU/base unit, planned quantity và executed quantity. Tính transfer từ SOURCE một lần; các loại POSTED còn lại theo quy tắc movement.",
+        "question": "Mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng kế hoạch và lượng thực hiện của từng cặp chứng từ và SKU là gì? Hai lượng dùng milli-unit. Giữ mọi trạng thái; lượng thực hiện là 0 khi chưa POSTED, TRANSFER tính SOURCE một lần, các loại POSTED khác theo movement rules.",
         "q_index": 6,
         "role": "variant",
         "variant_type": "syntactic",
@@ -4353,7 +4353,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q07",
-        "question": "Cho mọi document × SKU, giữ mọi trạng thái và trả document ID/no/type/status, SKU/base unit, planned và executed quantity riêng theo milli-unit; executed chỉ từ POSTED movement, TRANSFER lấy SOURCE một lần.",
+        "question": "Chứng từ chưa POSTED có lượng thực hiện bằng 0; TRANSFER POSTED chỉ tính SOURCE một lần, các loại POSTED khác theo movement rules. Với mọi cặp chứng từ và SKU ở mọi trạng thái, trả mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng kế hoạch và lượng thực hiện riêng theo milli-unit.",
         "q_index": 7,
         "role": "variant",
         "variant_type": "reordering",
@@ -4363,7 +4363,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q08",
-        "question": "Đầu ra gồm document ID/no/type/status, SKU, base unit, planned và executed milli-unit. Quy tắc: non-POSTED có executed=0; transfer POSTED lấy SOURCE, các document type khác theo movement rules.",
+        "question": "Kết quả gồm mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng kế hoạch và lượng thực hiện theo milli-unit cho từng cặp chứng từ và SKU. Không lọc trạng thái; chưa POSTED thì lượng thực hiện bằng 0, TRANSFER POSTED tính SOURCE một lần, các loại POSTED khác theo movement rules.",
         "q_index": 8,
         "role": "variant",
         "variant_type": "reordering",
@@ -4373,7 +4373,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q09",
-        "question": "Đối chiếu riêng planned quantity và executed quantity theo milli-unit cho từng document × SKU, gồm mọi trạng thái; TRANSFER chỉ tính SOURCE một lần, non-POSTED có executed=0, loại POSTED khác theo movement rules.",
+        "question": "Mỗi chứng từ với từng mặt hàng SKU trong đó dự kiến bao nhiêu và đã thực hiện bao nhiêu milli-unit? Liệt kê riêng mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng dự kiến và lượng đã thực hiện, gồm mọi trạng thái; chưa POSTED có lượng thực hiện 0, TRANSFER lấy SOURCE một lần, các loại POSTED khác theo quy tắc biến động kho.",
         "q_index": 9,
         "role": "variant",
         "variant_type": "mixed",
@@ -4383,7 +4383,7 @@
       },
       {
         "question_id": "WMS-CD-02-Q10",
-        "question": "Trước hết phân nhóm document × SKU trên mọi trạng thái, rồi xuất ID/no/type/status, SKU/unit và hai lượng milli-unit; DRAFT/CANCELLED có executed=0, TRANSFER lấy SOURCE, loại POSTED khác theo rules.",
+        "question": "DRAFT hoặc CANCELLED có lượng đã thực hiện bằng 0; TRANSFER POSTED chỉ tính vế nguồn SOURCE một lần, các loại POSTED khác theo quy tắc biến động kho. Với từng cặp chứng từ kho và SKU ở mọi trạng thái, hiển thị mã chứng từ, số chứng từ, loại, trạng thái, SKU, đơn vị cơ sở, lượng kế hoạch và lượng đã thực hiện riêng theo milli-unit.",
         "q_index": 10,
         "role": "variant",
         "variant_type": "mixed",
@@ -4475,6 +4475,6 @@
       "date": null,
       "rationale": null
     },
-    "wording_revision": "dev-v2"
+    "wording_revision": "dev-v5-paraphrase-audit"
   }
 ]

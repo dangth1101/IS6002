@@ -1,0 +1,103 @@
+{
+  "revision": "dev-v5-paraphrase-audit",
+  "source_revision": "dev-v4-erp-rk02-projection-b",
+  "source_registry_sha256": "460acf73b291071a9a05fcd3a43fbfc986876cf4db9b5342bf074e5ea34fbd3f",
+  "registry_sha256": "76b591117daf6d6f95fca629c7f23d894b2e8f307cb1ffa6266aaf5876755187",
+  "source_review_csv_sha256": {
+    "ERP_DEVELOPMENT_QUESTIONS_55.csv": "8f97405d0bd0116460c74a67f40112474769a917efacce4f6285a3b5bf09ae0c",
+    "WMS_DEVELOPMENT_QUESTIONS_55.csv": "68647c4b6ae13a0db4e653b6b177e683529bee012cf5a275289abd072db79925"
+  },
+  "date": "2026-11-10",
+  "approval": "PENDING",
+  "evaluation_freeze": false,
+  "lineage_note": "Expected-output source_registry_sha256 remains its historical v4 derivation source. Unchanged contracts/SQL/snapshots and preserved execution evidence bind v5 to that evidence. Historical v2/v3/v4 audits are not current wording validation.",
+  "protected_files_sha256": {
+    "benchmark_data/authoring/dev_fixture_expected_outputs.json": "c1fb5180817d972ad3446322a16965e5fc5c54c12cadf3905f945cf8b3177cf7",
+    "benchmark_data/authoring/dev_fixture_validation.json": "5b39dda9b2656332583b2ed3e0d9868d89a9a18d8e42a905ed5de4c949ff7b4d",
+    "benchmark_data/authoring/expected_outputs_dev.json": "38f1e00c520f1b2c4b95b9234a43fe8fa45464c8ef8fd8c54f1158403d3d377d",
+    "benchmark_data/authoring/ground_truth_candidates.sql": "468111d273bcd49ac996bb4d7ba7400dfabaf7f88109fad5d60f0ae1d954e3bb",
+    "benchmark_data/physical/all_test_results.json": "61106d48851a860b544f1569434b03c50937d563ee0a98e0bd245fdb32ae8c1e",
+    "benchmark_data/physical/all_test_results.md": "99a066c6bfc627c37e34981d2ce23bd978a618d844ed8a45714aa6ef66c234c0",
+    "benchmark_data/physical/all_test_results.xml": "97fe139851b6f0e20305d70040160e3a4edc7790d2218fc15d9d3e47ff995769",
+    "benchmark_data/physical/build_manifest.json": "af145fbdaeb49653989007a1f0782b238c34667d37f2e0ca36cc55469ef5f334",
+    "benchmark_data/physical/BUILD_REPORT.md": "a4305377e86205c341a7a0deb0243dfaa846030412ec3583fc0858c5fb555ded",
+    "benchmark_data/physical/erp_sales.sqlite": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+    "benchmark_data/physical/fixture_test_results.json": "e704c3a7581b44bb0254aa55d94f94e16307597321e4d02d06ee912654a33aa3",
+    "benchmark_data/physical/fixture_test_results.md": "2a88c75f00ad74727a0694fac3eb3d160e111ce3238155beb715de380e154296",
+    "benchmark_data/physical/fixture_test_results.xml": "bb5d68d492538bc55c7cb8c93c2a55282c7448ab1e03ee8abeb26e0025f47986",
+    "benchmark_data/physical/schema_erp_sales.sql": "44fe39755eace3128c1a4c1710348fd150fb6cb7c1d1adb437b8f106dc716eea",
+    "benchmark_data/physical/schema_wms_inventory.sql": "690c4a68944ef58ca67cc32f245ed23b4e9ab9a27e99279b8e5d0b9849883307",
+    "benchmark_data/physical/seed_config.json": "bea49fbdd8da1da6ee1884dccea004a4bbfcaa18e2f830d6ae403057c426bbf9",
+    "benchmark_data/physical/validation/erp_sales_validation.json": "33b9e150b6094952ce95e89d63a70eab70b6a59b654f5f4271ef49fc12bd3aae",
+    "benchmark_data/physical/validation/erp_sales_validation.md": "00d3178332a37723681fc9b28b87aedd6ba5f40efdae20a7dac11aa0929b9987",
+    "benchmark_data/physical/validation/wms_inventory_validation.json": "ec63ad114db823f953cfce7a16cf69d9c3124e866e7297485b4459666d6c5512",
+    "benchmark_data/physical/validation/wms_inventory_validation.md": "fcee631aedb865aeda5b17017227e07aa89dffbe2ae9cc5f2bcc862b5a280b55",
+    "benchmark_data/physical/wms_inventory.sqlite": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+    "bird_demo/benchmark/__init__.py": "f2f76d19837a9f113ac45ad90fd0b3d8e73efd08bc871a142a7e056d1d8cbff2",
+    "bird_demo/benchmark/evaluator.py": "4e6ec66446476ed6b29a8bac93ba8cf78dc1ad254a6272628966c5e8c7df3268",
+    "bird_demo/benchmark/metrics.py": "87529e065390334a62535743313f59607194cb4297dca652a3ca82a0bfdbd2dd",
+    "bird_demo/benchmark/registry.py": "d75f8226ef98af30b8467ad3bb12ceb18dcdbe50fde487c18dcf33f8e530db19",
+    "bird_vn_benchmark/__init__.py": "8ae59b7440f5f1fc9b852c307bc4cfc56d8c7718c211ceb4debbe219acb2bf64",
+    "bird_vn_benchmark/intent_oracles.py": "61104de9c854ec2ec45285805e2edaf3829d98daed5687b2411ae37b9ad9e7f8",
+    "bird_vn_benchmark/schema.py": "a1fb60ef88327acfe6eafe873b20d6b119c25eff1255454817d305619d79f000",
+    "bird_vn_benchmark/seed.py": "a8561c7765bb16aaeaea83dd7d252837b7af057e4e469759eabf20c4794db682",
+    "bird_vn_benchmark/validate.py": "06f51c04a0611296e954317dde92338e5cc8fb0be91360eb01829c399afd5375",
+    "docs/benchmark/BENCHMARK_SPEC.md": "9f6d02ea0e2fd64385987e99243c9caa7082cc164597369bf176b46fcb81da50",
+    "docs/benchmark/database_design/COVERAGE_MATRIX.md": "2c96a8586d91d9d3710fd67aeb304cd0ca6e1fd8b8b57a0bb05c9b48fc3bfe00",
+    "docs/benchmark/database_design/ERP_SALES_DESIGN.md": "e8c8558ce9adf36cda00c4a1965e8b81ad39f58341426bad9c8c34457dacccb2",
+    "docs/benchmark/database_design/README.md": "1388a95466826d8598bc2b9d7a3a4d54e6208c0061401769523820b044bc13b9",
+    "docs/benchmark/database_design/STEP_2A_REVIEW.md": "b1321fe2787ae9c6a4597830d332d1e792887d01b8c6d19f36d4f6a8b8dfb68c",
+    "docs/benchmark/database_design/WMS_INVENTORY_DESIGN.md": "a8b6bf0cc7b548fc33ff21c924c5e55c18af6b61ac04c9867315d01d72b96015",
+    "docs/benchmark/DECISION_REVIEW.md": "f9f5b7342f048c2fa82abb06cc24d43729cc1cebea61ebc43ebd86214fe9382e",
+    "docs/benchmark/intent_cards/COVERAGE_AUDIT.md": "f49e980456901985319fb8ba4a8e09ebb1a938fbb2145abd77749b8f2a21b597",
+    "docs/benchmark/intent_cards/INTENT_CARDS_DRAFT.md": "c03446c8dd91e991cd6bd13e16ad737e29865e61482b4d7ca09dc18028838a6f",
+    "docs/benchmark/review/dev_human_approval/DEVELOPMENT_INTENT_SQL_REVIEW_10.csv": "374c038b414d0ef315d0d3de1c76a5656993f638eb30871d96123c94ed87df43"
+  },
+  "protected_content_sha256": {
+    "groups": "ad3a1e6a669916a533b1de120bf7f0241f760593d387fc8199eca8a1dc3cca3c",
+    "question_contracts_and_approvals": "e4ef64ccaf775ec57ffd33a5b97dd08c9af8000a14a69dc1801bfd0493d5231b",
+    "records_except_dev_variant_text": "924a5442da24cd478c009de89c56b1b545833e235c3c56c2823ba8c3adf0fa68",
+    "execution_evidence": "e4b9c1dc03d383241eb2468c7a863d3285d9c8ca089bcecfc94719763bd40bd4",
+    "final_questions": "36abe27e188a6644bed548988f86a918bc69117b232f6565f68855a18dd0c661",
+    "original_questions": "d0acc65b0354b5a3dbd4a725d151ba4dde0b98d0396cb34cee8a076b8a189b16"
+  },
+  "outputs_sha256": {
+    "benchmark_data/authoring/dataset.json": "76b591117daf6d6f95fca629c7f23d894b2e8f307cb1ffa6266aaf5876755187",
+    "benchmark_data/authoring/validation_records.json": "4031ec453b9cbb3d1ef32b4ba31ba869ac0fef38042ff5a41ef30a52405679db",
+    "benchmark_data/authoring/ground_truth_validation.json": "9a87d417f55edc331f14acf4b7028084d3818aaa2e41db7d23f008dbce434e4b",
+    "benchmark_data/authoring/dev_wording_v5_audit.json": "82ee140c3daf1ec9e2ace6e1b6c610db05136d437abd2d790b2e1e9c8bafbc4f",
+    "docs/benchmark/review/dev_human_approval/DEV_V5_PARAPHRASE_AUDIT.csv": "a2fd38fcf83c68a0ec8a495c9499490522e6a0bbb7a9c1964e24ed821b8ac7c8",
+    "docs/benchmark/review/dev_human_approval/DEV_V4_TO_V5_CHANGELOG.csv": "f855daa4c20f0a508df17bae042226e31df033f08f5b966c9dab8c474d105c37",
+    "docs/benchmark/review/dev_human_approval/ERP_DEVELOPMENT_QUESTIONS_55.csv": "98eebaed1c499e1f5884676c1ca6e619615307a436cad7b21fdf8d805f0ebfac",
+    "docs/benchmark/review/dev_human_approval/WMS_DEVELOPMENT_QUESTIONS_55.csv": "c1f0f0abb2a679cae1c774c365478a626f11413e9c7bf1b307072bfdf86189bd",
+    "docs/benchmark/review/dev_human_approval/archive/dev-v4/ERP_DEVELOPMENT_QUESTIONS_55.csv": "8f97405d0bd0116460c74a67f40112474769a917efacce4f6285a3b5bf09ae0c",
+    "docs/benchmark/review/dev_human_approval/archive/dev-v4/WMS_DEVELOPMENT_QUESTIONS_55.csv": "68647c4b6ae13a0db4e653b6b177e683529bee012cf5a275289abd072db79925",
+    "docs/benchmark/review/dev_human_approval/README.md": "056a8bffa5f0a40571df44ba9b729f37201383e322342f90e8a0ca3cc6a6ae8a",
+    "docs/benchmark/review/dev_human_approval/DEV_V5_PARAPHRASE_AUDIT.md": "4fda279ea25b7996e36f14230596e7055536fe2828d579ea6e3decc2de488f73",
+    "docs/benchmark/review/dev_human_approval/DEV_PARAPHRASE_QUALITY_AUDIT.md": "9e089b279e9b3d26c1abec4cfcf1f26ea37823a15118dd430cc77fde626f2977",
+    "docs/benchmark/review/DEVELOPMENT_REVIEW_PACKAGE.md": "960f41bd8bd61901058015fd046e9c27e573a302857eee99dcbe1a4a0800b568",
+    "tests/test_dev_wording_v5.py": "612724c33eafacfac4409d458d6fae351d74394fef301bb399557c365d2a286d"
+  },
+  "authoring_sources_sha256": {
+    "scripts/audit_dev_wording_v5.py": "017bf9d4473b9f55e21d934772acbfbcdf05c46e9fd37e632ed7ac7a274208b8",
+    "scripts/dev_wording_v5_plan.py": "623ba55754fc179930929a487255e8b3e91f847fe29c5775115691e00e4d7821",
+    "scripts/dev_wording_slot_checks.py": "f45bc909741b366ee4d046146c401b5823c5194b45d8845bf55a8e5b692e6b69"
+  },
+  "verification": {
+    "date": "2026-11-10",
+    "registry_and_protected_content": "PASS",
+    "csv_reader": "Workbook.fromCSV; 55 ERP + 55 WMS; Unicode text matches registry; reviewer/decision blank",
+    "repository_tests": {
+      "passed": 80,
+      "failed": 0,
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest -q -p no:cacheprovider --basetemp .pytest-wording-v5-20261110"
+    },
+    "human_semantic_equivalence": "PENDING",
+    "taxonomy_limitations": [
+      "ERP-EF-01-Q08",
+      "WMS-EF-01-Q07"
+    ],
+    "real_llm_api_called": false,
+    "official_evaluation_run": false
+  }
+}

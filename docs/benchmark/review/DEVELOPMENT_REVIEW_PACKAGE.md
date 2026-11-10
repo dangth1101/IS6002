@@ -4,6 +4,8 @@
 **Trạng thái:** Dự thảo cho Benchmark Owner; không có quyết định nào được tự phê duyệt.  
 **Phạm vi:** 10 Development groups (110 Questions). Không mở hoặc dùng 40 Final groups để tuning.
 
+> **Wording hiện hành — 2026-11-10:** registry `dev-v5-paraphrase-audit`; xem [audit v5](dev_human_approval/DEV_V5_PARAPHRASE_AUDIT.md) và [review CSV/hash hiện hành](dev_human_approval/README.md). 82 variants được sửa, 26 câu giữ nguyên (gồm 10 Q00), hai câu giữ lại chờ quyết định taxonomy. Evidence SQL/oracle vẫn 10/10 PASS; không có human approval mới. Các số near-duplicate v2–v4 bên dưới là lịch sử; screening v5 có 6 cặp cùng group, không có cặp giữa Development groups hoặc qua split tại ngưỡng đã ghi.
+
 > **Cập nhật sau quyết định Benchmark Owner 2026-11-09:** nội dung lịch sử ở §2 về lựa chọn semantics cho ERP-RK-02 và WMS-CD-02 đã được thay thế. ERP-RK-02 dùng ranking riêng theo `base_unit` và giữ mọi tie tại hạng 3. WMS-CD-02 gồm mọi document status; non-POSTED có executed=0; TRANSFER dùng SOURCE một lần; document type khác dùng tổng trị tuyệt đối movement theo các synthetic rules đã chốt. Xem Validation Records/evidence mới ở §1; không có human approval nào được tự ghi.
 
 ## Latest validation run after the Owner decisions
@@ -23,11 +25,11 @@
 
 The six temporary expected outputs were written to `dev_fixture_expected_outputs.json` before candidate execution. All six candidate/oracle fixture comparisons pass. Main snapshot outputs were derived before executing candidates; all 10 main comparisons match. The run reports 10 `VALIDATED_BY_AUTOMATION`, while all 10 Validation Records and all 550 Questions remain pending human review. The 40 Final groups remain blocked.
 
-The updated text audit flags 25 token-Jaccard pairs: 9 within the same groups and 16 between Final groups; none cross splits or pair distinct Development groups. Similarity flags remain wording review hints, not semantic approvals. The six Development fixture proposals are closed by temporary evidence; 35 non-Dev fixture proposals remain open in `defect_report.json`.
+The historical text audit at that validation stage flagged 25 token-Jaccard pairs: 9 within the same groups and 16 between Final groups. These are not v5 wording results. The six Development fixture proposals are closed by temporary evidence; 35 non-Dev fixture proposals remain open in `defect_report.json`.
 
 Latest artifacts: [`ground_truth_validation.json`](../../benchmark_data/authoring/ground_truth_validation.json), [`dev_fixture_expected_outputs.json`](../../benchmark_data/authoring/dev_fixture_expected_outputs.json), [`dev_fixture_validation.json`](../../benchmark_data/authoring/dev_fixture_validation.json), and [`validation_records.json`](../../benchmark_data/authoring/validation_records.json).
 
-## Current alignment revision dev-v4 (2026-11-09)
+## Historical alignment revision dev-v4 (2026-11-09)
 
 The earlier 4/6 automation split is **historical only**. Current Development status is 10/10 `VALIDATED_BY_AUTOMATION`; all 10 groups and all 110 questions remain pending human review. Benchmark Owner chose Option B for ERP-RK-02: remove `product_id` from final SELECT, retaining exactly SKU, product name, base unit, sold quantity and rank; per-unit ranking and tie policy are unchanged. Expected and actual row hashes match on the main snapshot and fixtures. Dataset machine statuses match the validation artifact, while Intent/Gold/question review and Owner approval remain pending. The 100 variants retain quota 30/30/20/20. Near-duplicate audit: 19 candidates, none involving Development or crossing splits. See [v4 review package](dev_human_approval/README.md), [wording change log](dev_human_approval/DEV_V2_TO_V3_CHANGELOG.csv), and [quality audit](dev_human_approval/DEV_PARAPHRASE_QUALITY_AUDIT.md).
 
@@ -49,7 +51,7 @@ Artifacts được tạo từ registry và snapshot đã đóng băng. Expected 
 - SQL execution và row hashes: [`benchmark_data/authoring/ground_truth_validation.json`](../../benchmark_data/authoring/ground_truth_validation.json)
 - Per-group Validation Records: [`benchmark_data/authoring/validation_records.json`](../../benchmark_data/authoring/validation_records.json)
 - Coverage/fixture proposals: [`benchmark_data/authoring/defect_report.json`](../../benchmark_data/authoring/defect_report.json)
-- Static SQL, quota, near-duplicate audit: [`benchmark_data/authoring/draft_validation.json`](../../benchmark_data/authoring/draft_validation.json)
+- Historical static SQL/quota audit: [`draft_validation.json`](../../../benchmark_data/authoring/draft_validation.json). Its wording flags are historical; use [v5 audit](dev_human_approval/DEV_V5_PARAPHRASE_AUDIT.md) for current Development wording.
 - Frozen database manifest: [`benchmark_data/physical/build_manifest.json`](../../benchmark_data/physical/build_manifest.json)
 
 DB SHA-256 hiện khớp manifest: ERP `347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b`; WMS `c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5`.

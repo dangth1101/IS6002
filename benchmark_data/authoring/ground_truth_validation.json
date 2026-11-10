@@ -2,7 +2,7 @@
   "artifact_version": 1,
   "created_at_utc": "2026-11-09T14:56:35.441+00:00",
   "expected_outputs_sha256": "38f1e00c520f1b2c4b95b9234a43fe8fa45464c8ef8fd8c54f1158403d3d377d",
-  "validation_records_sha256": "fd53bdca50e1b38bfdea073a66e9d78bdf4b19e0cb3a9a1460e5582e0dd21e29",
+  "validation_records_sha256": "4031ec453b9cbb3d1ef32b4ba31ba869ac0fef38042ff5a41ef30a52405679db",
   "scope": "Development only; SQL candidates compared after expected outputs were frozen",
   "summary": {
     "VALIDATED_BY_AUTOMATION": 10,
@@ -3422,5 +3422,6 @@
       "error": null
     }
   ],
-  "question_wording_revision": "dev-v2; wording changes only; expected row values and SQL execution evidence unchanged"
+  "question_wording_revision": "dev-v5-paraphrase-audit",
+  "wording_lineage": "dev_wording_v5_manifest.json; execution evidence unchanged, not a new SQL run."
 }
