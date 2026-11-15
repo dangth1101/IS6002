@@ -151,6 +151,8 @@ def main() -> None:
     questions = subset_questions()
 
     with st.sidebar:
+        st.page_link("app.py", label="BIRD Original", icon=":material/database:")
+        st.page_link("pages/1_BIRD_VN_Robust_50.py", label="BIRD-VN-Robust-50", icon=":material/language:")
         st.caption("Model")
         st.code(model, language=None)
 

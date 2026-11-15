@@ -67,9 +67,15 @@ uv run python scripts/batch_eval.py --model openai/gpt-3.5-turbo --model openai/
 
 The app lets you pick a Subset Question, asks the LLM live on every Run, and shows the Verdict with both SQLs and their rows.
 
-### BIRD-VN-Robust-50 review/demo page
+### BIRD-VN-Robust-50 research dashboard
 
-The benchmark review page is available from Streamlit's page navigation. It shows Development groups Q0–Q10, draft Intent Card fields, candidate SQL, and saved offline evaluation artifacts. It never calls an LLM. Candidate SQL may be run against the frozen snapshots only by the explicit validation script, after independent Python expected outputs have been saved; a match is not human approval.
+The multipage Streamlit app keeps BIRD Original on the Home page and provides separate BIRD-VN pages for the research dashboard, Development explorer/playground, SBERT and robustness analysis, validation/Human Review, and reports. BIRD-VN reuses the existing OpenAI-compatible client and SQL extraction seam; interactive inference runs only after an explicit button click. SQL demo execution is read-only, limited to one SELECT/WITH statement, capped at 30 seconds and 500 displayed rows. Demo runs are not official replicates and never claim correctness while Ground-truth review is pending.
+
+Final questions remain out of the ordinary explorer/playground. Optional Owner Review access requires a server-side `BIRD_VN_OWNER_TOKEN`; without it, Final content exports are filtered out. This is an application access gate and should be deployed behind authenticated access for a shared or public server. No benchmark decisions are written to the registry; review notes download as separate JSON proposals.
+
+The official collector module implements a three-replicate collector seam, bounded retries for classified transient provider errors, and a separate OpenAI-compatible client with SDK retries disabled. The dashboard keeps official evaluation blocked until the approved/frozen registry, frozen prompt/model/config, tested pipeline, and explicit Owner confirmation gates all pass. It does not launch official evaluation.
+
+Offline authoring and validation commands remain available when their preconditions are met:
 
 ```sh
 uv run python scripts/compile_bird_vn_drafts.py
@@ -77,8 +83,15 @@ uv run python scripts/validate_bird_vn_drafts.py
 uv run python scripts/prepare_bird_vn_expectations.py
 uv run python scripts/run_bird_vn_ground_truth_validation.py
 uv run python scripts/benchmark_offline_smoke.py
+```
+
+Run the app with:
+
+```sh
 uv run streamlit run app.py
 ```
+
+To enable Owner-only Final review on a private deployment, set `BIRD_VN_OWNER_TOKEN` in the server process environment; never commit the token. The default local demo does not expose Final questions in the playground.
 
 Saved model outputs can be evaluated offline without calling a provider:
 

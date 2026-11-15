@@ -45,13 +45,13 @@ def client() -> OpenAI:
     return OpenAI(base_url=env("LLM_BASE_URL"), api_key=env("LLM_API_KEY"), max_retries=3)
 
 
-def complete(prompt: str, model: str) -> Reply:
-    """One live chat call. Raises if it still fails after the client's retries."""
+def complete(prompt: str, model: str, *, temperature: float = 0, max_tokens: int = MAX_TOKENS) -> Reply:
+    """One live chat call. Optional generation controls preserve legacy defaults."""
     response = client().chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],  # no system message
-        temperature=0,  # always sent; OpenRouter drops it for models that don't take it
-        max_tokens=MAX_TOKENS,
+        temperature=temperature,  # always sent; OpenRouter drops it for models that don't take it
+        max_tokens=max_tokens,
     )
     choice = response.choices[0]
     return Reply(text=choice.message.content or "", finish_reason=choice.finish_reason or "")

@@ -1,236 +1,158 @@
-"""Human review screen for BIRD-VN-Robust-50 draft Development groups."""
-
+"""BIRD-VN research dashboard, Development-first and read-only for benchmark sources."""
 from __future__ import annotations
-
-import json
-import hashlib
-import platform
-import sqlite3
-from datetime import datetime, timezone
+import json, os, time
 from pathlib import Path
-
 import streamlit as st
 from openai import OpenAIError
-
-from bird_demo.benchmark.metrics import INFRA_FAILURE, SUCCESS, Observation, metric_summary
-from bird_demo.benchmark.registry import load_registry, registry_hash, sha256_file
-from bird_demo.data import ROOT
+from bird_demo.benchmark.dashboard import (ROOT, REGISTRY_PATH, AUDIT_DIR, read_registry, manifest_status,
+    registry_file_hash, owner_access_granted, visible_groups, load_audit, load_similarity, load_slot_flags,
+    schema_text, prompt_for, read_only_query, run_demo_question)
 from bird_demo.llm import MAX_TOKENS, complete, default_model
 from bird_demo.prompt import extract_sql
-from bird_demo.runner import Rows, SqlError, Timeout, run
+from bird_demo.runner import Rows, SqlError, Timeout
 
-REGISTRY_PATH = ROOT / "benchmark_data/authoring/dataset.json"
-RUNS_DIR = ROOT / "benchmark_data/runs"
+st.set_page_config(page_title="BIRD-VN-Robust-50", page_icon=":material/database:", layout="wide")
+st.title("BIRD-VN-Robust-50")
+st.session_state.setdefault("birdvn_demo_runs", [])
+st.caption("Không gian nghiên cứu · dữ liệu nguồn ở chế độ chỉ đọc · quyết định Human Review không được ghi vào registry")
+try:
+    registry=read_registry(); manifest_ok,revision=manifest_status(); current_hash=registry_file_hash()
+except Exception as exc:
+    st.error(f"Không tải được benchmark registry: {exc}"); st.stop()
+summary,audit_status=load_audit()
+if not manifest_ok: st.error(f"TÀI LIỆU CŨ · {revision}")
+else: st.caption(f"Revision `{revision}` · Registry SHA-256 `{current_hash}` · SBERT `{audit_status}")
+if audit_status=="STALE": st.error("SBERT artifact không khớp registry/question lineage hiện hành; không hiển thị điểm.")
+# Final is excluded from ordinary explorer/playground data selection.
+all_groups=registry["groups"]
+dev_groups=[g for g in all_groups if g["split"]=="development"]
+questions_by_group={gid:sorted([q for q in registry["questions"] if q["group_id"]==gid],key=lambda q:q["q_index"]) for gid in {g["group_id"] for g in dev_groups}}
 
+with st.sidebar:
+    st.page_link("app.py", label="BIRD Original", icon=":material/database:")
+    st.page_link("pages/1_BIRD_VN_Robust_50.py", label="BIRD-VN-Robust-50", icon=":material/language:")
+    st.header("Benchmark status")
+    st.metric("Semantic groups",len(all_groups)); st.metric("Questions",len(registry["questions"]))
+    st.caption(f"Development {len(dev_groups)} nhóm · Final {sum(g['split']=='final' for g in all_groups)} nhóm")
+    st.warning("Nội dung Final bị khóa khỏi luồng demo thông thường.")
 
-def registry_data() -> dict:
-    return load_registry(REGISTRY_PATH, allow_draft=True)
-
-
-def show_result_artifact(group_id: str) -> None:
-    artifacts = sorted(RUNS_DIR.glob("*.json"), key=lambda path: path.stat().st_mtime, reverse=True) if RUNS_DIR.exists() else []
-    if not artifacts:
-        st.info("Chưa có execution artifact. SQL và wording hiện là bản nháp; expected outputs chưa được suy ra độc lập.")
-        return
-    selected = st.selectbox("Execution artifact", artifacts, format_func=lambda path: path.name)
-    payload = json.loads(selected.read_text(encoding="utf-8"))
-    st.caption(f"Run: {payload.get('run_id')} · model: {payload.get('model_id')} · registry SHA-256: {payload.get('registry_sha256')}")
-    group_result = payload.get("group_records", {}).get(group_id)
-    if group_result:
-        st.markdown("**Canonical result recorded for this group**")
-        st.json(group_result)
-    question_results = [item for item in payload.get("question_records", []) if item.get("group_id") == group_id]
-    if question_results:
-        st.markdown("**Question-level outcomes**")
-        st.dataframe([{key: item.get(key) for key in ("question_id", "status", "correct", "error")} for item in question_results], hide_index=True)
-    for split, metrics in payload.get("metrics_by_split", {}).items():
-        if split != "development":
-            continue
-        st.markdown("**Development metrics recorded in this run**")
-        cols = st.columns(4)
-        for col, key, label in zip(cols, ("ex_original", "ex_variants", "rss", "robust_ex_all"), ("EX Original", "EX Variants", "RSS", "Robust EX All")):
-            value = metrics[key]
-            col.metric(label, "N/A" if value["percent"] is None else f"{value['percent']:.1f}%", f"{value['numerator']}/{value['denominator']}")
-    if payload.get("warning"):
-        st.warning(payload["warning"])
-
-
-def show_ground_truth_validation(group_id: str) -> None:
-    expected_path = ROOT / "benchmark_data/authoring/expected_outputs_dev.json"
-    validation_path = ROOT / "benchmark_data/authoring/ground_truth_validation.json"
-    if not expected_path.is_file() or not validation_path.is_file():
-        st.info("Expected output/oracle validation is not available for this group yet.")
-        return
-    expected_doc = json.loads(expected_path.read_text(encoding="utf-8"))
-    validation_doc = json.loads(validation_path.read_text(encoding="utf-8"))
-    expected = next((item for item in expected_doc["expected_outputs"] if item["group_id"] == group_id), None)
-    observed = next((item for item in validation_doc["results"] if item["group_id"] == group_id), None)
-    if not expected or not observed:
-        st.info("This Final group has no executed validation artifact. Final data is not opened in the demo.")
-        return
-    st.subheader("Python oracle and candidate SQL result")
-    st.caption(f"Status: {observed['status']} · Oracle: {expected['oracle_id']} · DB SHA-256: {observed['database_sha256']}")
-    left, right = st.columns(2)
-    headers = [f"column_{index+1}" for index in range(max((len(row) for row in expected["expected_rows"]), default=0))]
+summary_tab, explorer_tab, playground_tab=st.tabs(["Tổng quan","Dataset Explorer","LLM Playground"])
+with summary_tab:
+    st.subheader("Tổng quan benchmark")
+    split_counts={s:sum(g["split"]==s for g in all_groups) for s in ("development","final")}
+    domain_counts={"ERP":sum(g["db_id"]=="erp_sales" for g in all_groups),"WMS":sum(g["db_id"]=="wms_inventory" for g in all_groups)}
+    c=st.columns(4)
+    for col,label,value in zip(c,["C\u01a1 s\u1edf d\u1eef li\u1ec7u","Nh\u00f3m ng\u1eef ngh\u0129a","C\u00e2u h\u1ecfi","Bi\u1ebfn th\u1ec3"],[len(domain_counts),len(all_groups),len(registry["questions"]),sum(q["q_index"]>0 for q in registry["questions"]) ]):col.metric(label,value)
+    left,right=st.columns(2)
     with left:
-        st.markdown(f"**Expected rows ({len(expected['expected_rows'])}) — derived before SQL run**")
-        st.dataframe([dict(zip(headers, row)) for row in expected["expected_rows"]], hide_index=True, use_container_width=True)
+        st.markdown("**Phân bố split**"); st.bar_chart({"Groups":split_counts},horizontal=True,height=150)
+        st.markdown("**Domain**"); st.bar_chart({"Groups":domain_counts},horizontal=True,height=150)
     with right:
-        actual_rows = observed.get("actual_rows")
-        st.markdown(f"**Candidate SQL rows ({len(actual_rows) if actual_rows is not None else 0})**")
-        st.dataframe([dict(zip(headers, row)) for row in (actual_rows or [])], hide_index=True, use_container_width=True)
+        st.markdown("**Human review & ground truth**")
+        pending=sum(g.get("intent_card_status")=="NEEDS_HUMAN_REVIEW" or g.get("ground_truth_review")=="NEEDS_HUMAN_REVIEW" for g in all_groups)
+        st.metric("Nhóm cần Human Review",pending)
+        status_counts={}
+        for g in all_groups: status_counts[g.get("validation_status","UNKNOWN")]=status_counts.get(g.get("validation_status","UNKNOWN"),0)+1
+        st.dataframe([{"Trạng thái":k,"Số nhóm":v} for k,v in status_counts.items()],hide_index=True,use_container_width=True)
+        st.info("Kiểm tra tự động không đồng nghĩa Owner approval. Cả 40 nhóm Final đang BLOCKED vì thiếu expected outputs/oracle độc lập.")
+    st.markdown("**Phân bố taxonomy paraphrase**")
+    taxonomy={}
+    for q in registry["questions"]:
+        if q["q_index"]==0: continue
+        key=(q["split"],q["variant_type"]); taxonomy[key]=taxonomy.get(key,0)+1
+    st.dataframe([{"Split":split,"Variant type":kind,"Số câu":count} for (split,kind),count in sorted(taxonomy.items())],hide_index=True,use_container_width=True)
+    st.markdown("**SBERT semantic similarity**")
+    if audit_status!="CURRENT": st.warning("Không sử dụng điểm từ artifact cũ.")
+    else:
+        dist=summary["distribution"]["q00_to_variant"]["overall"]
+        cols=st.columns(4)
+        cols[0].metric("Cặp Q00–Qi",dist["count"])
+        cols[1].metric("Trung bình cosine",f"{dist['mean']:.3f}")
+        cols[2].metric("Trung vị",f"{dist['median']:.3f}")
+        cols[3].metric("Khoảng giá trị",f"{dist['min']:.3f} – {dist['max']:.3f}")
+        st.caption(f"Model {summary['model_id']} · snapshot {summary['model_revision']} · cosine không phải semantic accuracy.")
+    st.markdown("**Official Evaluation readiness**")
+    st.error("Chưa sẵn sàng · 10 nhóm Development vẫn chờ Owner review; 40 nhóm Final chưa có expected output/oracle độc lập; registry chưa freeze. Official Evaluation đang khóa.")
 
+with explorer_tab:
+    st.subheader("Dataset & Question Explorer · Development")
+    col1,col2,col3=st.columns(3)
+    domain=col1.selectbox("Domain",["Tất cả","ERP","WMS"],key="birdvn_ex_domain")
+    competency=col2.selectbox("Competency",["Tất cả"]+sorted({g["competency"] for g in dev_groups}),key="birdvn_ex_comp")
+    complexity=col3.selectbox("Complexity",["Tất cả"]+sorted({g["complexity"] for g in dev_groups}),key="birdvn_ex_complex")
+    question_type=st.selectbox("Question type",["Tất cả","lexical","syntactic","reordering","mixed"],key="birdvn_ex_qtype")
+    filtered=[g for g in dev_groups if (domain=="Tất cả" or (g["db_id"].startswith(domain.lower()))) and (competency=="Tất cả" or g["competency"]==competency) and (complexity=="Tất cả" or g["complexity"]==complexity)]
+    if not filtered:st.info("Không có nhóm phù hợp.")
+    else:
+        group=st.selectbox("Semantic Group",filtered,format_func=lambda g:f"{g['group_id']} · {g['db_id']} · {g['competency']} · {g['complexity']}",key="birdvn_ex_group")
+        qs=questions_by_group[group["group_id"]]; card=group["card_fields"]
+        st.warning(f"{group['intent_card_status']} · Ground-truth {group['ground_truth_review']} · chưa phải approval")
+        with st.expander("Intent Card · Business Rules · Semantic Slots",expanded=True):
+            st.markdown(f"**Mô tả:** {card['brief']}")
+            st.json({k:card.get(k) for k in ("entity_grain","projection","filters_group_time","aggregation_grouping","null_tie","business_rules") if k in card})
+            st.markdown(f"**Competency:** {group['competency']} · **Complexity:** {group['complexity']}")
+        st.markdown("#### Q00 · câu gốc")
+        st.info(qs[0]["question"])
+        visible_variants=[q for q in qs[1:] if question_type=="Tất cả" or q["variant_type"]==question_type]
+        st.dataframe([{"ID":q["question_id"],"Type":q["variant_type"],"Câu hỏi":q["question"],"Review":q["variant_review"]} for q in visible_variants],hide_index=True,use_container_width=True)
+        sims={}
+        if audit_status=="CURRENT":
+            for row in load_similarity():
+                if row.get("group_id")==group["group_id"]: sims[row.get("question_id")]=row.get("cosine_similarity")
+        st.caption("SBERT Q00–Qi · cosine similarity, không phải phần trăm tương đương ngữ nghĩa.")
+        st.dataframe([{"Question":q["question_id"],"Similarity":sims.get(q["question_id"]),"Variant type":q["variant_type"]} for q in qs[1:]],hide_index=True)
+        with st.expander("Semantic Glossary"):
+            st.json(registry.get("semantic_glossary",{}))
+        st.caption(f"SQL ứng viên · {group['validation_status']} · Hash `{group['canonical_sql_sha256']}`")
+        st.code(group["canonical_sql_draft"],language="sql")
+        st.warning("Ground-truth đang chờ duyệt; không hiển thị predicted correctness hoặc accuracy chính thức.")
 
-def run_reviewed_dev_group(registry: dict, group: dict, questions: list[dict]) -> None:
-    validation_path = ROOT / "benchmark_data/authoring/ground_truth_validation.json"
-    validation_record = None
-    if validation_path.is_file():
-        validation_doc = json.loads(validation_path.read_text(encoding="utf-8"))
-        validation_record = next((item for item in validation_doc.get("results", []) if item["group_id"] == group["group_id"]), None)
-    released = (group.get("intent_card_status") == "APPROVED"
-                and group.get("ground_truth_review") == "VALIDATED"
-                and all(item.get("variant_review") == "ACCEPT" for item in questions)
-                and validation_record is not None
-                and validation_record.get("status") in {"VALIDATED_BY_AUTOMATION", "NEEDS_HUMAN_REVIEW"}
-                and validation_record.get("canonical_sql_sha256") == group.get("canonical_sql_sha256"))
-    if not released or registry.get("evaluation_freeze") is not True:
-        st.info("Model-run control is locked until the Intent Card, canonical SQL, Q0, and Q1–Q10 have actual human approvals recorded.")
-        return
-    try:
-        model_default = default_model()
-    except SystemExit:
-        model_default = ""
-    model_id = st.text_input("Model ID (Development only)", value=model_default, key=f"model-{group['group_id']}")
-    authorize_cost = st.checkbox("I authorize 11 model requests; provider usage may incur cost.", key=f"cost-{group['group_id']}")
-    run_clicked = st.button("Run this Development group", type="primary", disabled=not (authorize_cost and model_id.strip()), key=f"run-{group['group_id']}")
-    if not run_clicked:
-        return
-
-    db_path = ROOT / "benchmark_data/physical" / f"{group['db_id']}.sqlite"
-    schema_path = ROOT / "benchmark_data/physical" / f"schema_{group['db_id']}.sql"
-    ddl = schema_path.read_text(encoding="utf-8")
-    # Check the validated gold first so a stale/broken snapshot costs no model calls.
-    gold_result = run(db_path, group["canonical_sql_draft"])
-    if not isinstance(gold_result, Rows):
-        st.error(f"Canonical SQL no longer executes on the recorded snapshot: {gold_result}. No model calls were made.")
-        return
-
-    observations = {}
-    records = []
-    for question in questions:
-        prompt = (f"{ddl}\n\n-- Benchmark business rules (synthetic): {group['card_fields']['business_rules']}\n"
-                  f"-- Question (Vietnamese): {question['question']}\n"
-                  "-- Use valid SQLite. Return one SELECT or WITH query only.")
-        try:
-            reply = complete(prompt, model_id.strip())
-        except (OpenAIError, SystemExit) as error:
-            records.append({"question_id": question["question_id"], "status": INFRA_FAILURE,
-                            "error": str(error), "prediction_sql": None, "predicted_rows": None})
-            observations[question["question_id"]] = Observation(INFRA_FAILURE)
-            for remaining in questions[question["q_index"] + 1:]:
-                records.append({"question_id": remaining["question_id"], "status": INFRA_FAILURE,
-                                "error": "not attempted after provider failure", "prediction_sql": None, "predicted_rows": None})
-                observations[remaining["question_id"]] = Observation(INFRA_FAILURE)
-            break
-        sql = extract_sql(reply)
-        if sql is None:
-            status, predicted_rows, error = "no_sql", None, "no SQL extracted from model reply"
-            observation = Observation(status, correct=False)
-        else:
-            try:
-                result = run(db_path, sql)
-                if isinstance(result, Rows):
-                    status, predicted_rows, error = SUCCESS, [list(row) for row in result.rows], None
-                    observation = Observation(SUCCESS, result.rows,
-                                              correct=set(map(tuple, result.rows)) == set(map(tuple, gold_result.rows)))
-                elif isinstance(result, Timeout):
-                    status, predicted_rows, error = "timeout", None, f"query exceeded {result.timeout_s:g}s"
-                    observation = Observation(status, correct=False)
-                elif isinstance(result, SqlError):
-                    status, predicted_rows, error = "sql_error", None, result.message
-                    observation = Observation(status, correct=False)
-                else:
-                    status, predicted_rows, error = INFRA_FAILURE, None, "unknown runner result"
-                    observation = Observation(INFRA_FAILURE)
-            except (OSError, sqlite3.Error) as error_value:
-                status, predicted_rows, error = INFRA_FAILURE, None, str(error_value)
-                observation = Observation(INFRA_FAILURE)
-        observations[question["question_id"]] = observation
-        records.append({"question_id": question["question_id"], "status": status,
-                        "correct": observation.is_correct, "prediction_sql": sql,
-                        "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
-                        "predicted_rows": predicted_rows, "error": error, "reply_text": reply.text,
-                        "finish_reason": reply.finish_reason})
-
-    qids = [item["question_id"] for item in questions]
-    summary = metric_summary([group["group_id"]], {group["group_id"]: qids}, observations)
-    manifest = ROOT / "benchmark_data/physical/build_manifest.json"
-    canonical_rows = [list(row) for row in gold_result.rows]
-    artifact = {
-        "artifact_version": 1, "benchmark_version": registry["benchmark_version"],
-        "registry_sha256": registry_hash(registry),
-        "run_id": f"dev-{group['group_id']}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}",
-        "replicate_id": 0, "model_id": model_id.strip(), "split": "development",
-        "execution": {"python": platform.python_version(), "sqlite": sqlite3.sqlite_version,
-                      "timeout_s": 30, "temperature": 0, "max_tokens": MAX_TOKENS,
-                      "read_only": True, "provider_retry_policy": "SDK default; not an official evaluation run"},
-        "created_at_utc": datetime.now(timezone.utc).isoformat(timespec="milliseconds"),
-        "database_artifacts": {group["db_id"]: {"database_sha256": sha256_file(db_path),
-                                                "schema_sha256": sha256_file(schema_path),
-                                                "build_manifest_sha256": sha256_file(manifest)}},
-        "question_records": records,
-        "group_records": {group["group_id"]: {"canonical_sql_sha256": group["canonical_sql_sha256"],
-                                               "canonical_rows": canonical_rows,
-                                               "canonical_rows_sha256": hashlib.sha256(json.dumps(canonical_rows, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()}},
-        "metrics_by_group": summary,
-        "warning": "Single Development group demonstration; not a full benchmark evaluation.",
-    }
-    RUNS_DIR.mkdir(parents=True, exist_ok=True)
-    output = RUNS_DIR / f"{artifact['run_id']}.json"
-    output.write_text(json.dumps(artifact, ensure_ascii=False, indent=2), encoding="utf-8")
-    digest = hashlib.sha256(output.read_bytes()).hexdigest()
-    output.with_suffix(output.suffix + ".sha256").write_text(f"{digest}  {output.name}\n", encoding="ascii")
-    st.success(f"Saved Development demonstration artifact: {output.name}")
-    st.json(summary)
-
-
-def main() -> None:
-    st.set_page_config(page_title="BIRD-VN-Robust-50", layout="wide")
-    st.title("BIRD-VN-Robust-50")
-    st.caption("Intent review and offline run inspection · SQL/questions remain drafts until reviewed")
-    try:
-        registry = registry_data()
-    except (OSError, ValueError, json.JSONDecodeError) as error:
-        st.error(f"Không tải được benchmark registry: {error}")
-        return
-    groups = [group for group in registry["groups"] if group["split"] == "development"]
-    groups_by_id = {group["group_id"]: group for group in groups}
-    selected_id = st.selectbox("Development group", list(groups_by_id), format_func=lambda item: f"{item} · {groups_by_id[item]['db_id']} · {groups_by_id[item]['complexity']}")
-    group = groups_by_id[selected_id]
-    question_rows = sorted((question for question in registry["questions"] if question["group_id"] == selected_id), key=lambda item: item["q_index"])
-
-    st.warning(f"Trạng thái: {group['intent_card_status']} · Ground-truth: {group['ground_truth_review']} · Chưa được Benchmark Owner phê duyệt.")
-    card = group["card_fields"]
-    left, right = st.columns(2)
-    with left:
-        st.subheader("Intent Card")
-        st.write({"Competency": group["competency"], "Complexity": group["complexity"], "Brief": card["brief"],
-                  "Entity/grain": card["entity_grain"], "Filters/group/time": card["filters_group_time"],
-                  "NULL/zero/ties": card["null_tie"], "Business rules": card["business_rules"]})
-    with right:
-        st.subheader("Canonical SQL candidate")
-        st.caption(f"Draft SHA-256: {group['canonical_sql_sha256']} · validation: {group['validation_status']}")
-        st.code(group["canonical_sql_draft"], language="sql", wrap_lines=True)
-        st.caption("Chưa chạy để so với gold: expected output phải được suy ra và lưu trước.")
-
-    st.subheader("Semantic Group · Q0–Q10")
-    st.dataframe([{"ID": question["question_id"], "Index": question["q_index"], "Type": question["variant_type"],
-                   "Wording": question["question"], "Review": question["variant_review"]} for question in question_rows],
-                 hide_index=True, use_container_width=True)
-    st.caption("Tất cả Q1–Q10 cần kiểm tra thủ công từng semantic slot; nhãn tự động không phải ACCEPT.")
-    show_ground_truth_validation(selected_id)
-    run_reviewed_dev_group(registry, group, question_rows)
-    show_result_artifact(selected_id)
-
-
-main()
+with playground_tab:
+    st.subheader("Interactive LLM Playground · chỉ Development")
+    st.caption("Demo chỉ chạy khi người dùng chủ động bấm; không tính là official replicate. Provider có thể tính phí.")
+    group=st.selectbox("Semantic Group",dev_groups,format_func=lambda g:f"{g['group_id']} · {g['db_id']}",key="birdvn_play_group")
+    qs=questions_by_group[group["group_id"]]
+    q=st.selectbox("Question",qs,format_func=lambda q:f"Q{q['q_index']:02d} · {q['variant_type']} · {q['question'][:90]}",key="birdvn_play_question")
+    run_mode=st.radio("Chế độ",["Một câu","Cặp Q00 + Qi","Cả nhóm Q00–Q10"],horizontal=True,key="birdvn_play_mode")
+    try:model_default=default_model()
+    except SystemExit:model_default=""
+    model=st.text_input("Model ID (LLM_MODEL hiện tại)",value=model_default,key="birdvn_play_model")
+    cc1,cc2,cc3=st.columns(3)
+    temperature=cc1.slider("Temperature",0.0,2.0,0.0,0.1,key="birdvn_play_temp")
+    max_tokens=cc2.number_input("Max tokens",min_value=1,max_value=MAX_TOKENS,value=MAX_TOKENS,key="birdvn_play_tokens")
+    db_id=group["db_id"]
+    st.text_area("Schema context",schema_text(db_id),height=180,disabled=True,key="birdvn_play_schema")
+    if run_mode=="Cả nhóm Q00–Q10":confirm=st.checkbox("Xác nhận tối đa 11 lần gọi API cho nhóm này.",key="birdvn_play_confirm")
+    else:confirm=True
+    clicked=st.button("Run LLM",type="primary",disabled=not model.strip() or not confirm,key="birdvn_play_run")
+    if clicked:
+        selected=([q] if run_mode=="Một câu" else [qs[0],q] if run_mode=="Cặp Q00 + Qi" else qs)
+        results=[];progress=st.progress(0,text="Chuẩn bị demo run…")
+        for i,item in enumerate(selected):
+            with st.spinner(f"Đang gọi {model} · {item['question_id']}…"):
+                outcome=run_demo_question(item["question"],db_id,group["card_fields"]["business_rules"],registry.get("semantic_glossary",{}),model.strip(),temperature=float(temperature),max_tokens=int(max_tokens),complete_fn=complete)
+            elapsed=outcome["elapsed_s"]
+            if outcome["error"]:
+                results.append({"question":item,"error":outcome["error"],"elapsed":elapsed})
+                st.error(f"Lỗi gọi LLM cho {item['question_id']}: {outcome['error']}")
+                if len(selected)==11:break
+            else:
+                results.append({"question":item,"sql":outcome["sql"],"reply":outcome["reply"],"elapsed":elapsed,"run_result":outcome["execution"],"prompt":outcome["prompt"]})
+            progress.progress((i+1)/len(selected),text=f"Đã xử lý {i+1}/{len(selected)} câu")
+        st.session_state["birdvn_demo_runs"].append({"run_at":time.time(),"group_id":group["group_id"],"model":model.strip(),"mode":run_mode,"results":results})
+        for item in results:
+            st.markdown(f"#### {item['question']['question_id']}")
+            st.caption(item["question"]["question"])
+            st.metric("LLM response time",f"{item['elapsed']:.2f}s")
+            if item.get("error"):continue
+            if item["sql"]:st.code(item["sql"],language="sql")
+            else:st.warning("Không trích xuất được SELECT/WITH SQL.");st.code(item["reply"].text)
+            outcome=item["run_result"]
+            if isinstance(outcome,dict):
+                result=outcome["result"];st.caption(f"Thực thi thành công · hiển thị {len(result.rows)} dòng · {outcome['elapsed_s']:.2f}s"+(" · đã giới hạn 500 dòng" if outcome["truncated"] else ""))
+                if result.rows:st.dataframe([dict(zip(result.columns,row)) for row in result.rows],hide_index=True,use_container_width=True)
+                else:st.info("Truy vấn thành công, không có dòng kết quả.")
+            elif isinstance(outcome,Timeout):st.error(f"SQL timeout sau {outcome.timeout_s}s")
+            elif isinstance(outcome,SqlError):st.error(f"SQL bị từ chối hoặc gặp lỗi: {outcome.message}")
+            st.warning("Ground-truth PENDING · không so sánh correctness.")
+            with st.expander("Prompt đã gửi"):st.code(item["prompt"])
