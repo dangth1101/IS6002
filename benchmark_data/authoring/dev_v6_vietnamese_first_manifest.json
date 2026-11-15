@@ -1,0 +1,29 @@
+{
+  "revision": "dev-v6-vietnamese-first-integrity-repair",
+  "registry_sha256": "d1c18b53933f5510d965dd6c6e3438d35c49aee315bfe44073caf181d3e1d0df",
+  "files": {
+    "benchmark_data/authoring/dataset.json": "d1c18b53933f5510d965dd6c6e3438d35c49aee315bfe44073caf181d3e1d0df",
+    "docs/benchmark/review/dev_human_approval/DEVELOPMENT_INTENT_SQL_REVIEW_10.csv": "917bcde6418cbe5f32789bc132ac6e6acc6f9eb4c997c80d241c810a6e31420a",
+    "docs/benchmark/review/dev_human_approval/ERP_DEVELOPMENT_QUESTIONS_55.csv": "07ee91e06f836f42c6be3335c3a8f3eada0f39d8e030a95f84a4294c6a9e11c6",
+    "docs/benchmark/review/dev_human_approval/WMS_DEVELOPMENT_QUESTIONS_55.csv": "31714b469a78657c1a0c5b54b04389ac70236e88f2a01b69348aa25e3e1748e1",
+    "docs/benchmark/review/dev_human_approval/DEV_V6_VIETNAMESE_FIRST_CHANGELOG.csv": "a0da4049c492495795a14c025699878fb195dd61c60f8ceb4a19a6fb8b129835",
+    "docs/benchmark/review/dev_human_approval/DEV_V6_VIETNAMESE_FIRST_AUDIT.md": "31caa57da1491753210096ec3f03f5f2f1f83e61098acd794fd665f3e2acc8a6",
+    "docs/benchmark/review/dev_human_approval/README.md": "0ca98bdd566624e5a2c1f5042a55095a5593c3d3cc809ebb8c07b2fd4057cb77",
+    "docs/benchmark/review/dev_human_approval/DEV_V6_GLOSSARY_UNICODE_CHANGELOG.csv": "03dea5e53d1ed9e6640d26b1d0a5db8a34e95c072774489f04078dea3e6bbcd4",
+    "docs/benchmark/review/dev_human_approval/DEV_V6_QUESTION_REVISION_RECONCILIATION.csv": "2bddbcc3d097371f38176aca66f43711cba20e23900b99ed1223ddf184c4d8d9",
+    "docs/benchmark/review/full_semantic_validation_sbert/registry_integrity_resolution.csv": "e63bde391e24a46b5b2122779213d11d7e1ff86cf44001168060c8bdb429b292",
+    "docs/benchmark/review/full_semantic_validation_sbert/summary.json": "f7352f81ccd7471d048937cb84216fb5cbb6bd235f11209a2dce557dff93dab6",
+    "docs/benchmark/review/full_semantic_validation_sbert/README.md": "e99b9526f0912368bea330c52c9996155fa11b513513d26448c455f7fd786680",
+    "docs/benchmark/review/full_semantic_validation_sbert/compute_sbert_similarity.py": "34fc0b0fc2c24bd10c609955961c6e682d03b7e5cc701430938bb26217a5bdf7",
+    "tests/test_dev_wording_v5.py": "c111e160bfe7ea3faf894fd21d6eb5b89ef72652b95706da179e26150b77eb23"
+  },
+  "scope": "Verified repair of 10 Vietnamese semantic glossary entries; Development questions unchanged and reconciled to v5 source; Final validation remains blocked.",
+  "ground_truth": "Canonical SQL, hashes, oracle, expected outputs, fixtures, snapshots and Final content unchanged; human review remains pending.",
+  "offline_validation": {
+    "structural_checks": "PASS (10 Development groups, 110 questions, taxonomy quota, CSV/registry sync, SQL and SQL-hash invariants)",
+    "pytest": "83 passed, 0 failed; 2 evidence-backed v5-pinned assertions updated and regression checks added for Unicode glossary, CSV synchronization and verified question-text lineage."
+  },
+  "previous_revision": "dev-v6-vietnamese-first",
+  "previous_registry_sha256": "dd67137ce93b21f9583134776f87fb3debf7d23113386fa79ef04e1daf6f8a4b",
+  "intermediate_registry_sha256": "f032c617ce3d5b827c32ae9dc78c56abb10d85b5f1129e6d77d28cf841c5f839"
+}

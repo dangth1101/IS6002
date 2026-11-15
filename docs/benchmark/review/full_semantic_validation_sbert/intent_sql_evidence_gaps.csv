@@ -1,0 +1,51 @@
+﻿split,group_id,evidence_status,gap
+development,ERP-EF-01,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,ERP-EF-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-EF-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-EF-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-AG-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-AG-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-AG-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-AG-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-GB-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-GB-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,ERP-GB-03,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,ERP-GB-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-RK-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,ERP-RK-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,ERP-RK-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-JN-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,ERP-JN-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,ERP-JN-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-JN-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-TM-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,ERP-TM-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,ERP-NA-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-NA-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-CD-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,ERP-CD-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,WMS-EF-01,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+development,WMS-EF-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,WMS-EF-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-EF-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-AG-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,WMS-AG-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,WMS-AG-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-AG-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-GB-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-GB-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-GB-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-GB-04,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-RK-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-RK-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-RK-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-JN-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-JN-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-JN-03,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,WMS-JN-04,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.
+final,WMS-TM-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-TM-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-NA-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-NA-02,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+final,WMS-CD-01,BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED,Final expected outputs/execution evidence not recorded; SQL not validated.
+development,WMS-CD-02,VALIDATED_BY_AUTOMATION,Automation evidence recorded but human intent/SQL/fixture approval remains pending. Validation Record intent_card_hash points to prior card wording; current card hash differs. Owner must review current brief and revalidate its mapping.

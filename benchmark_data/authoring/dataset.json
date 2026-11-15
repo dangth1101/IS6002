@@ -29,7 +29,7 @@
         "classification": "Filter / Simple: lọc một entity bằng status",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Liệt kê từng đơn hàng ở trạng thái CONFIRMED, kèm mã đơn, số đơn, mã khách hàng, ngày đặt và trạng thái.",
+        "brief": "Liệt kê các đơn hàng đã được xác nhận, gồm mã định danh đơn hàng, số đơn hàng, mã khách hàng, ngày đặt hàng và trạng thái đơn hàng.",
         "entity_grain": "`sales_orders`; 1 hàng/đơn; order id/no, customer, order_date, status; không measure",
         "filters_group_time": "`CONFIRMED`; không aggregate; không time restriction",
         "null_tie": "Không loại order vì amount=0; empty nếu không có CONFIRMED",
@@ -350,7 +350,7 @@
         "classification": "Group / Moderate: group nullable rep và đếm order",
         "competency": "Group",
         "complexity": "Moderate",
-        "brief": "Với mỗi sales rep có ít nhất một đơn CONFIRMED, cho biết mã sales rep, tên nhân viên nếu có và số đơn CONFIRMED; tạo thêm một nhóm NULL chưa gán khi có đơn CONFIRMED không có sales rep.",
+        "brief": "Với mỗi nhân viên phụ trách bán hàng có ít nhất một đơn đã xác nhận, nêu mã nhân viên, tên nếu có và số đơn đã xác nhận; nếu có đơn đã xác nhận chưa được phân công, tính riêng chúng vào nhóm chưa gán.",
         "entity_grain": "rep id/name (NULL bucket), count confirmed orders",
         "filters_group_time": "Confirmed; GROUP BY `sales_rep_id`, optional employee join",
         "null_tie": "NULL rep là một nhóm “chưa gán”, không biến thành employee; zero group không sinh",
@@ -449,7 +449,7 @@
         "classification": "Ranking / Challenging: unit-partitioned top-k with boundary ties",
         "competency": "Ranking",
         "complexity": "Challenging",
-        "brief": "Trong từng base unit riêng biệt, xếp hạng mỗi SKU theo tổng ordered quantity của các đơn CONFIRMED; trả SKU, tên sản phẩm, base unit, tổng lượng (milli-unit) và hạng, lấy mọi hạng từ 1 đến 3 kể cả đồng hạng ở mốc 3.",
+        "brief": "Xếp hạng SKU theo tổng lượng đặt trong các đơn đã xác nhận, riêng trong từng đơn vị cơ sở; trả SKU, tên sản phẩm, đơn vị cơ sở, tổng lượng theo milli-unit và hạng. Lấy các hạng từ 1 đến 3, gồm mọi SKU đồng hạng tại hạng 3.",
         "entity_grain": "product; 1 hàng/SKU; SKU/name/base_unit, sold quantity milli-unit trong base_unit tương ứng, rank trong unit",
         "filters_group_time": "Chỉ confirmed order lines; SUM quantity theo SKU; RANK PARTITION BY base_unit; không áp dụng bộ lọc thời gian",
         "null_tie": "Mỗi đơn vị được xếp hạng độc lập; zero sold không có line nên không vào cohort; lấy toàn bộ rank <=3, kể cả ties ở cutoff",
@@ -552,7 +552,7 @@
         "classification": "Join / Moderate: order→lines→product, line grain",
         "competency": "Join",
         "complexity": "Moderate",
-        "brief": "Liệt kê từng dòng của mọi đơn CONFIRMED, một dòng cho mỗi order line, gồm số đơn, ngày đặt, SKU, tên sản phẩm, ordered quantity theo milli-unit và line net theo VND.",
+        "brief": "Liệt kê từng dòng hàng của các đơn đã xác nhận, một dòng cho mỗi dòng hàng; gồm số đơn hàng, ngày đặt hàng, SKU, tên sản phẩm, lượng đặt theo milli-unit và giá trị ròng của dòng hàng (VND).",
         "entity_grain": "order line; order no/date, SKU/name, qty milli-unit, line net VND",
         "filters_group_time": "CONFIRMED; no aggregate; date unrestricted",
         "null_tie": "NULL category irrelevant; no order-line absence means no row",
@@ -684,7 +684,7 @@
         "classification": "Time / Moderate: delivery event grouped by local day",
         "competency": "Time",
         "complexity": "Moderate",
-        "brief": "Cho mỗi ngày Việt Nam trong năm 2025 có ít nhất một shipment DELIVERED, trả ngày địa phương và số shipment; dùng delivered_at_utc quy đổi sang Asia/Ho_Chi_Minh, khoảng [2025-01-01, 2026-01-01), không tạo dòng cho ngày không có shipment.",
+        "brief": "Với mỗi ngày theo giờ Việt Nam trong năm 2025 có ít nhất một lần giao hàng, trả ngày giao và số lần giao. Xác định ngày từ thời điểm giao, đổi từ UTC sang Asia/Ho_Chi_Minh; chỉ tính khoảng [2025-01-01, 2026-01-01) và không tạo dòng cho ngày không có lần giao.",
         "entity_grain": "shipment/local day; count shipment ids",
         "filters_group_time": "delivered status, `delivered_at` UTC mapped to `[2025-01-01,2026-01-01)` local; group local date",
         "null_tie": "NULL delivered_at excluded; zero count differs from no shipment group",
@@ -846,7 +846,7 @@
         "classification": "Filter / Simple: lọc document status",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Liệt kê từng inventory document có document_status POSTED, gồm document ID, document number, document type, trạng thái và business date.",
+        "brief": "Liệt kê từng chứng từ kho đã ghi sổ, gồm mã định danh chứng từ, số chứng từ, loại chứng từ, trạng thái và ngày nghiệp vụ.",
         "entity_grain": "inventory_document; 1 row/document; doc no/type/status/time",
         "filters_group_time": "`POSTED`; no aggregate/time cutoff",
         "null_tie": "Draft/cancelled excluded; empty iff no posted docs",
@@ -878,7 +878,7 @@
         "classification": "Filter / Simple: filter product/base unit",
         "competency": "Filter",
         "complexity": "Simple",
-        "brief": "Liệt kê từng product có base_unit KG, gồm product ID, SKU, tên sản phẩm, base unit và category ID (giữ NULL nếu chưa phân loại).",
+        "brief": "Liệt kê từng sản phẩm có đơn vị cơ sở là KG, gồm mã sản phẩm, SKU, tên sản phẩm, đơn vị cơ sở và mã danh mục; giữ mã danh mục là NULL nếu sản phẩm chưa được phân loại.",
         "entity_grain": "product; 1/SKU; SKU/name/base_unit/category",
         "filters_group_time": "unit=KG; no aggregation",
         "null_tie": "NULL category preserved; no quantity sum",
@@ -1007,7 +1007,7 @@
         "classification": "Aggregate / Moderate: aggregate shipment quantity at SKU grain",
         "competency": "Aggregate",
         "complexity": "Moderate",
-        "brief": "Với mỗi product có base_unit KG và phát sinh ít nhất một movement âm thuộc chứng từ SHIPMENT đã POSTED trong toàn bộ lịch sử, trả product ID, SKU, base unit và tổng lượng xuất (milli-KG).",
+        "brief": "Với mỗi sản phẩm có đơn vị cơ sở KG và có ít nhất một lần giảm tồn thuộc chứng từ xuất hàng đã ghi sổ, trả mã sản phẩm, SKU, đơn vị cơ sở và tổng lượng xuất dương (milli-KG) trong toàn bộ lịch sử. Không tính các biến động giảm tồn từ loại chứng từ khác.",
         "entity_grain": "product/base_unit; 1 hàng/SKU; SKU and SUM outbound milli-quantity",
         "filters_group_time": "Posted SHIPMENT movements; `base_unit='KG'`; full stored history, no date restriction",
         "null_tie": "Do not add units; return quantity separate; no movement differs from zero net",
@@ -1432,7 +1432,7 @@
         "classification": "Join / Challenging: transfer pair integrity and warehouse movement",
         "competency": "Join",
         "complexity": "Challenging",
-        "brief": "Liệt kê từng movement leg của mỗi chứng từ TRANSFER POSTED, một dòng mỗi leg; gồm document ID/no, line number, SKU, leg number/role, warehouse nguồn/đích, signed quantity milli-unit và thời điểm movement UTC.",
+        "brief": "Liệt kê từng nhánh biến động kho của mỗi chứng từ chuyển kho đã ghi sổ, một dòng cho mỗi nhánh; gồm mã định danh chứng từ, số chứng từ, số dòng, SKU, số thứ tự và vai trò nhánh, mã kho nguồn và kho đích, lượng biến động có dấu theo milli-unit và thời điểm biến động UTC.",
         "entity_grain": "transfer document/leg; one row/leg; source/target warehouse, product, signed qty, timestamp",
         "filters_group_time": "Posted TRANSFER only; join each leg via source/leg identity; no summing duplicated pair as one leg",
         "null_tie": "Two rows per valid transfer; duplicate-like valid movements remain; missing pair is invariant failure",
@@ -1626,7 +1626,7 @@
         "classification": "Conditional / Moderate: planned vs executed by status/type and document-SKU grain",
         "competency": "Conditional",
         "complexity": "Moderate",
-        "brief": "Với mọi cặp document × SKU, bất kể trạng thái, trả document ID/no/type/status, SKU, base unit, planned quantity và executed quantity theo milli-unit; executed bằng 0 nếu document chưa POSTED, TRANSFER chỉ tính SOURCE leg một lần, loại POSTED khác theo movement rules đã chốt.",
+        "brief": "Với mỗi cặp chứng từ kho và SKU có trong chứng từ, bất kể trạng thái, trả mã định danh chứng từ, số chứng từ, loại chứng từ, trạng thái, SKU, đơn vị cơ sở, lượng theo kế hoạch và lượng đã thực hiện theo milli-unit. Chứng từ chưa ghi sổ có lượng thực hiện bằng 0; chứng từ chuyển kho chỉ tính nhánh nguồn một lần; các loại chứng từ đã ghi sổ khác tính theo quy tắc biến động kho đã chốt.",
         "entity_grain": "document × product; 1 row/document-SKU; document no/type/status, SKU/base_unit, planned milli-unit, executed milli-unit",
         "filters_group_time": "Giữ tất cả status; planned=sum document lines; executed chỉ từ POSTED movement; TRANSFER dùng SOURCE leg một lần; các loại khác dùng tổng ABS movement theo rules đã chốt",
         "null_tie": "DRAFT/CANCELLED executed=0; POSTED thiếu movement là 0 theo synthetic invariant; không nhân planned khi join movement; không cộng khác base_unit",
@@ -1656,9 +1656,10 @@
       "split": "development",
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-EF-01-Q01",
@@ -1674,9 +1675,10 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-EF-01-Q02",
@@ -1692,9 +1694,9 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -1711,9 +1713,10 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Lexical wording refined to reduce near-duplicate similarity and name customer_id explicitly; still needs human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-EF-01-Q04",
@@ -1729,9 +1732,9 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -1748,9 +1751,10 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-EF-01-Q06",
@@ -1766,9 +1770,9 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -1785,9 +1789,9 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -1804,9 +1808,10 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-EF-01-Q09",
@@ -1822,12 +1827,12 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -1844,12 +1849,12 @@
       "canonical_sql": "SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "syntactic",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3449,9 +3454,10 @@
       "split": "development",
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-03-Q01",
@@ -3467,9 +3473,10 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-03-Q02",
@@ -3485,9 +3492,9 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3504,9 +3511,10 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-03-Q04",
@@ -3522,9 +3530,9 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3541,9 +3549,10 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-03-Q06",
@@ -3559,9 +3568,9 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3578,9 +3587,9 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3597,9 +3606,10 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-03-Q09",
@@ -3615,12 +3625,12 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -3637,12 +3647,13 @@
       "canonical_sql": "SELECT o.sales_rep_id, e.full_name, COUNT(o.order_id) AS confirmed_order_count FROM SALES_ORDERS o LEFT JOIN EMPLOYEES e ON e.employee_id=o.sales_rep_id WHERE o.order_status='CONFIRMED' GROUP BY o.sales_rep_id, e.full_name ORDER BY o.sales_rep_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "syntactic",
         "reordering"
       ],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-GB-04-Q00",
@@ -4009,9 +4020,10 @@
       "split": "development",
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-RK-02-Q01",
@@ -4027,9 +4039,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4046,9 +4058,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4065,9 +4077,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4084,9 +4096,10 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-RK-02-Q05",
@@ -4102,9 +4115,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4121,9 +4134,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4140,9 +4153,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4159,9 +4172,9 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4178,12 +4191,12 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4200,12 +4213,12 @@
       "canonical_sql": "WITH sku_qty AS (SELECT p.product_id,p.sku,p.product_name,p.base_unit,SUM(l.ordered_qty_milli) AS sold_qty_milli FROM PRODUCTS p JOIN SALES_ORDER_LINES l ON l.product_id=p.product_id JOIN SALES_ORDERS o ON o.order_id=l.order_id WHERE o.order_status='CONFIRMED' GROUP BY p.product_id,p.sku,p.product_name,p.base_unit), ranked AS (SELECT *,RANK() OVER(PARTITION BY base_unit ORDER BY sold_qty_milli DESC) AS rnk FROM sku_qty) SELECT sku,product_name,base_unit,sold_qty_milli,rnk FROM ranked WHERE rnk<=3 ORDER BY base_unit,rnk,product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4573,9 +4586,10 @@
       "split": "development",
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-JN-02-Q01",
@@ -4591,9 +4605,10 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-JN-02-Q02",
@@ -4609,9 +4624,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4628,9 +4643,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4647,9 +4662,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4666,9 +4681,10 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-JN-02-Q06",
@@ -4684,9 +4700,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4703,9 +4719,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4722,9 +4738,9 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4741,12 +4757,12 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -4763,12 +4779,12 @@
       "canonical_sql": "SELECT o.order_no,o.order_date,p.sku,p.product_name,l.ordered_qty_milli,l.net_vnd FROM SALES_ORDERS o JOIN SALES_ORDER_LINES l ON l.order_id=o.order_id JOIN PRODUCTS p ON p.product_id=l.product_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id,l.line_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5312,9 +5328,10 @@
       "split": "development",
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-TM-02-Q01",
@@ -5330,9 +5347,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5349,9 +5366,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5368,9 +5385,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5387,9 +5404,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5406,9 +5423,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5425,9 +5442,10 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-TM-02-Q07",
@@ -5443,9 +5461,9 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5462,9 +5480,10 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "ERP-TM-02-Q09",
@@ -5480,12 +5499,12 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -5502,12 +5521,12 @@
       "canonical_sql": "SELECT date(delivered_at_utc,'+7 hours') AS delivered_local_date,COUNT(shipment_id) AS delivered_shipment_count FROM SALES_SHIPMENTS WHERE shipment_status='DELIVERED' AND delivered_at_utc >= '2024-12-31T17:00:00.000Z' AND delivered_at_utc < '2025-12-31T17:00:00.000Z' GROUP BY delivered_local_date ORDER BY delivered_local_date",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6227,9 +6246,10 @@
       "split": "development",
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-01-Q01",
@@ -6245,9 +6265,10 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-01-Q02",
@@ -6263,9 +6284,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6282,9 +6303,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6301,9 +6322,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6320,9 +6341,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6339,9 +6360,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6358,9 +6379,10 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-01-Q08",
@@ -6376,9 +6398,9 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6395,12 +6417,12 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6417,12 +6439,12 @@
       "canonical_sql": "SELECT document_id,document_no,document_type,document_status,business_date FROM INVENTORY_DOCUMENTS WHERE document_status='POSTED' ORDER BY document_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6438,9 +6460,10 @@
       "split": "development",
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-02-Q01",
@@ -6456,9 +6479,10 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-02-Q02",
@@ -6474,9 +6498,10 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Hand-authored draft; taxonomy intent is descriptive, semantic equivalence requires human review."
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-EF-02-Q03",
@@ -6492,9 +6517,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6511,9 +6536,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6530,9 +6555,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6549,9 +6574,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6568,9 +6593,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6587,9 +6612,9 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6606,12 +6631,12 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -6628,12 +6653,12 @@
       "canonical_sql": "SELECT product_id,sku,product_name,base_unit,category_id FROM PRODUCTS WHERE base_unit='KG' ORDER BY product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7177,9 +7202,10 @@
       "split": "development",
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-AG-02-Q01",
@@ -7195,9 +7221,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7214,9 +7240,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7233,9 +7259,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7252,9 +7278,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7271,9 +7297,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7290,9 +7316,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7309,9 +7335,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7328,9 +7354,9 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7347,12 +7373,12 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -7369,12 +7395,12 @@
       "canonical_sql": "SELECT p.product_id,p.sku,p.base_unit,SUM(-m.qty_delta_milli) AS shipped_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id WHERE d.document_status='POSTED' AND d.document_type='SHIPMENT' AND p.base_unit='KG' AND m.qty_delta_milli<0 GROUP BY p.product_id,p.sku,p.base_unit ORDER BY p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9502,9 +9528,10 @@
       "split": "development",
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-JN-04-Q01",
@@ -9520,9 +9547,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9539,9 +9566,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9558,9 +9585,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9577,9 +9604,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9596,9 +9623,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9615,9 +9642,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9634,9 +9661,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9653,9 +9680,9 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9672,12 +9699,12 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -9694,12 +9721,12 @@
       "canonical_sql": "SELECT d.document_id,d.document_no,dl.line_no,p.sku,m.movement_leg_no,m.movement_role,src.warehouse_code AS source_warehouse,dst.warehouse_code AS destination_warehouse,m.qty_delta_milli,m.moved_at_utc FROM INVENTORY_DOCUMENTS d JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=dl.product_id JOIN INVENTORY_MOVEMENTS m ON m.document_line_id=dl.document_line_id JOIN LOCATIONS loc ON loc.location_id=m.location_id JOIN WAREHOUSES src ON src.warehouse_id=d.from_warehouse_id JOIN WAREHOUSES dst ON dst.warehouse_id=d.to_warehouse_id WHERE d.document_type='TRANSFER' AND d.document_status='POSTED' ORDER BY d.document_id,dl.line_no,m.movement_leg_no",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10595,9 +10622,10 @@
       "split": "development",
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
-      "semantic_slots_inherited": true,
-      "semantic_review_basis": "Structured slots inherited; wording not human-verified.",
-      "review_notes": "Q0 clarified to state existing card/SQL output semantics; pending Owner review."
+      "semantic_slots_inherited": false,
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
+      "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
       "question_id": "WMS-CD-02-Q01",
@@ -10613,9 +10641,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10632,9 +10660,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10651,9 +10679,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10670,9 +10698,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10689,9 +10717,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10708,9 +10736,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10727,9 +10755,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10746,9 +10774,9 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10765,12 +10793,12 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "syntactic"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     },
     {
@@ -10787,19 +10815,71 @@
       "canonical_sql": "WITH planned AS (SELECT document_id,product_id,SUM(planned_qty_milli) AS planned_qty_milli FROM INVENTORY_DOCUMENT_LINES GROUP BY document_id,product_id), executed AS (SELECT dl.document_id,dl.product_id,SUM(CASE WHEN d.document_type='TRANSFER' THEN CASE WHEN m.movement_role='SOURCE' THEN ABS(m.qty_delta_milli) ELSE 0 END ELSE ABS(m.qty_delta_milli) END) AS executed_qty_milli FROM INVENTORY_MOVEMENTS m JOIN INVENTORY_DOCUMENT_LINES dl ON dl.document_line_id=m.document_line_id JOIN INVENTORY_DOCUMENTS d ON d.document_id=dl.document_id WHERE d.document_status='POSTED' GROUP BY dl.document_id,dl.product_id) SELECT d.document_id,d.document_no,d.document_type,d.document_status,p.sku,p.base_unit,pl.planned_qty_milli,COALESCE(ex.executed_qty_milli,0) AS executed_qty_milli FROM INVENTORY_DOCUMENTS d JOIN planned pl ON pl.document_id=d.document_id JOIN PRODUCTS p ON p.product_id=pl.product_id LEFT JOIN executed ex ON ex.document_id=pl.document_id AND ex.product_id=pl.product_id ORDER BY d.document_id,p.product_id",
       "variant_review": "NEEDS_HUMAN_REVIEW",
       "semantic_slots_inherited": false,
-      "semantic_review_basis": "Codex editorial comparison against locked card/SQL; not human validation.",
+      "semantic_review_basis": "Codex editorial comparison against unchanged locked card/SQL and verified Business Rules; not human validation.",
       "secondary_tags": [
         "lexical",
         "reordering"
       ],
-      "review_notes": "Draft wording revised by Codex; see v5 per-question audit. Human review pending.",
+      "review_notes": "Restored verified UTF-8 v5 wording after detecting character replacement; human review pending.",
       "wording_revision": "dev-v5-paraphrase-audit"
     }
   ],
   "approval_note": "All Intent Cards, SQL candidates, and question wordings remain pending human review; machine validation is not owner approval.",
   "human_review_status": "NEEDS_HUMAN_REVIEW",
   "paraphrase_revision": "dev-v5-paraphrase-audit",
-  "paraphrase_revision_note": "82 variant revisions; 2 Reordering limitations held for Owner. No human approval.",
-  "authoring_revision": "dev-v5-paraphrase-audit",
-  "authoring_revision_note": "Wording-only Development audit; all groups, Q00, Final, SQL and approvals unchanged."
+  "paraphrase_revision_note": "No reproducible, slot-verified v6 question wording source was retained; current 110 Development texts match v5 audit and remain NEEDS_HUMAN_REVIEW.",
+  "authoring_revision": "dev-v6-vietnamese-first-integrity-repair",
+  "authoring_revision_note": "Unicode repair of 10 verified Development glossary mappings; Development question text remains the verified v5 wording pending Owner review.",
+  "semantic_glossary": [
+    {
+      "vi": "Đã xác nhận (đơn hàng)",
+      "technical": "SALES_ORDERS.order_status = CONFIRMED",
+      "basis": "ERP-BR-01: theo mặc định, chỉ đơn hàng có order_status = CONFIRMED được tính."
+    },
+    {
+      "vi": "Đã ghi sổ (chứng từ kho)",
+      "technical": "INVENTORY_DOCUMENTS.document_status = POSTED",
+      "basis": "WMS-BR-01: chỉ chứng từ có document_status = POSTED tạo biến động tồn kho."
+    },
+    {
+      "vi": "Đã giao hàng",
+      "technical": "SALES_SHIPMENTS.shipment_status = DELIVERED",
+      "basis": "ERP-BR-02: shipment được xem là đã giao khi shipment_status = DELIVERED; không suy ra từ trạng thái đơn hàng."
+    },
+    {
+      "vi": "Chưa được phân công nhân viên phụ trách",
+      "technical": "SALES_ORDERS.sales_rep_id IS NULL",
+      "basis": "ERP-GB-03: sales_rep_id có thể NULL; đơn CONFIRMED chưa có người phụ trách được tính vào nhóm chưa gán riêng khi nhóm này tồn tại."
+    },
+    {
+      "vi": "Đơn vị cơ sở",
+      "technical": "PRODUCTS.base_unit",
+      "basis": "WMS-BR-07: không cộng số lượng thuộc các base_unit khác nhau."
+    },
+    {
+      "vi": "Ngày nghiệp vụ",
+      "technical": "INVENTORY_DOCUMENTS.business_date",
+      "basis": "WMS-BR-09: business_date là trường ngày riêng, độc lập với thời điểm hệ thống hoặc sự kiện."
+    },
+    {
+      "vi": "Lượng xuất dương",
+      "technical": "SUM(ABS(qty_delta_milli)) chỉ trên movement âm thuộc SHIPMENT đã POSTED; milli-KG",
+      "basis": "WMS-AG-02 và WMS-BR-02: lượng xuất dương chỉ lấy trị tuyệt đối của biến động âm từ SHIPMENT đã POSTED; loại movement âm thuộc chứng từ khác."
+    },
+    {
+      "vi": "Nhánh nguồn / nhánh đích",
+      "technical": "movement_role = SOURCE / DESTINATION",
+      "basis": "WMS-BR-06: mỗi dòng chuyển kho có một SOURCE âm và một DESTINATION dương, cùng trị tuyệt đối và được ghi nhận nguyên tử."
+    },
+    {
+      "vi": "Lượng theo kế hoạch / lượng đã thực hiện",
+      "technical": "SUM(planned_qty_milli) / executed quantity theo quy tắc WMS-CD-02 đã được Owner chốt",
+      "basis": "WMS-CD-02: chứng từ chưa POSTED có lượng thực hiện bằng 0; TRANSFER chỉ tính SOURCE một lần; các loại POSTED khác theo quy tắc biến động kho tổng hợp đã chốt."
+    },
+    {
+      "vi": "milli-unit",
+      "technical": "integer quantity stored in 0.001 base-unit increments; retain milli-unit in output wording",
+      "basis": "ERP-BR-15 và WMS-BR-14: số lượng lưu dạng integer milli-unit, tương ứng 0,001 đơn vị cơ sở; không đổi đơn vị hoặc trị số đầu ra."
+    }
+  ]
 }

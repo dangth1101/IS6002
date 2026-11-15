@@ -17,14 +17,14 @@
 - [Fixture execution evidence](../../../../benchmark_data/authoring/dev_fixture_validation.json)
 - [Snapshot build manifest](../../../../benchmark_data/physical/build_manifest.json)
 
-## Scope and integrity
+## Historical v5 baseline (superseded)
 
 Registry version: `0.3.0-draft-implementation`. Development: 10 groups, 5 ERP + 5 WMS, 110 questions. Automated SQL/oracle: {'VALIDATED_BY_AUTOMATION': 10, 'NEEDS_HUMAN_REVIEW': 0, 'BLOCKED': 0}. Human approval remains pending for all Development groups and questions. Revision: `dev-v5-paraphrase-audit`.
 
 Status meanings: `dataset.json` `validation_status` records machine validation; `intent_card_status` and `ground_truth_review` remain `NEEDS_HUMAN_REVIEW`. Evaluator release eligibility uses those review fields plus expected-output/freeze gates in `bird_demo/benchmark/registry.py` and `evaluator.py`; the machine artifact does not approve gold SQL.
 
-Registry revision: `dev-v5-paraphrase-audit`
-Registry SHA-256: `76b591117daf6d6f95fca629c7f23d894b2e8f307cb1ffa6266aaf5876755187`
+Historical v5 registry revision: `dev-v5-paraphrase-audit`
+Historical v5 registry SHA-256: `76b591117daf6d6f95fca629c7f23d894b2e8f307cb1ffa6266aaf5876755187`
 Review export SHA-256 (CSV rows verified against the pinned registry revision and validation evidence):
 - `DEVELOPMENT_INTENT_SQL_REVIEW_10.csv`: `374c038b414d0ef315d0d3de1c76a5656993f638eb30871d96123c94ed87df43`
 - `ERP_DEVELOPMENT_QUESTIONS_55.csv`: `98eebaed1c499e1f5884676c1ca6e619615307a436cad7b21fdf8d805f0ebfac`
@@ -105,3 +105,8 @@ After gates: save predictions and run artifacts via `uv run python scripts/bench
 ```
 
 Use a new, disposable `--basetemp` directory when running tests. The audit command is read-only by default; its `--apply` migration accepts only the pinned v4 source and refuses to overwrite v5 review work. Do not rerun historical authoring/export commands during review: they can replace wording, evidence hashes, protocol documentation or blank reviewer fields. Frozen SQLite snapshots must remain unchanged.
+
+
+## Current Vietnamese-first wording revision
+
+Revision `dev-v6-vietnamese-first-integrity-repair`; registry SHA-256 `d1c18b53933f5510d965dd6c6e3438d35c49aee315bfe44073caf181d3e1d0df`. Current review exports: Intent/SQL 10 `917bcde6418cbe5f32789bc132ac6e6acc6f9eb4c997c80d241c810a6e31420a`; ERP questions `07ee91e06f836f42c6be3335c3a8f3eada0f39d8e030a95f84a4294c6a9e11c6`; WMS questions `31714b469a78657c1a0c5b54b04389ac70236e88f2a01b69348aa25e3e1748e1`. The prior registry hash `dd67137ce93b21f9583134776f87fb3debf7d23113386fa79ef04e1daf6f8a4b` was the pre-repair state; `f032c617ce3d5b827c32ae9dc78c56abb10d85b5f1129e6d77d28cf841c5f839` was an intermediate content state before verified question-text restoration. These are content-state differences, not JSON serialization differences. Current manifest records both and the current registry hash. Ten glossary entries were restored from approved Business Rules. Current 110 Development question texts exactly match the verified v5 audit; no trustworthy V6 per-question wording artifact was found, so none were reconstructed. All review remains pending. See [integrity audit](DEV_V6_VIETNAMESE_FIRST_AUDIT.md), [question reconciliation](DEV_V6_QUESTION_REVISION_RECONCILIATION.csv), [glossary changelog](DEV_V6_GLOSSARY_UNICODE_CHANGELOG.csv), and [manifest](../../../../benchmark_data/authoring/dev_v6_vietnamese_first_manifest.json).
