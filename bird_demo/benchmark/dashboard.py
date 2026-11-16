@@ -4,9 +4,10 @@ import csv, hashlib, hmac, json, os, re, sqlite3, time
 from pathlib import Path
 from typing import Any
 from bird_demo.data import ROOT
-from bird_demo.benchmark.registry import load_registry
+from bird_demo.benchmark.registry import load_registry, sha256_file
 from bird_demo.runner import Rows, SqlError, Timeout
 from bird_demo.benchmark.metrics import result_equal
+from bird_demo.benchmark.metrics import INFRA_FAILURE, Observation, metric_summary
 from bird_demo.prompt import extract_sql
 from bird_demo.llm import Reply
 
@@ -57,6 +58,110 @@ def load_table(name):
 def load_json(rel):
     path=ROOT/rel
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def diagnostic_gold(group: dict[str, Any]) -> dict[str, Any]:
+    """Prepare the current Development SQL candidate for a read-only diagnostic run.
+
+    This does not assert that the candidate is Owner-approved ground truth. The page
+    executes it read-only alongside the LLM prediction and labels all resulting scores
+    as diagnostic while human review is pending.
+    """
+    if group.get("split") != "development":
+        raise ValueError("Diagnostic scoring is limited to Development groups.")
+    registry = read_registry()
+    manifest = load_json("benchmark_data/authoring/dev_v6_vietnamese_first_manifest.json")
+    if not manifest or manifest.get("registry_sha256") != registry_file_hash():
+        raise ValueError("Registry data hash does not match the current dataset manifest.")
+    if manifest.get("files", {}).get("benchmark_data/authoring/dataset.json") != registry_file_hash():
+        raise ValueError("Registry file is not pinned by the dataset manifest.")
+    current_group = next((g for g in registry["groups"] if g["group_id"] == group["group_id"]), None)
+    if current_group is None or current_group.get("canonical_sql_sha256") != group.get("canonical_sql_sha256"):
+        raise ValueError("Selected group does not match the current registry.")
+    physical_manifest = load_json("benchmark_data/physical/build_manifest.json")
+    if not physical_manifest:
+        raise ValueError("Physical database manifest is missing.")
+
+    group_id = group["group_id"]
+    canonical_sql = current_group.get("canonical_sql_draft") or current_group.get("canonical_sql")
+    sql_hash = hashlib.sha256((canonical_sql or "").encode("utf-8")).hexdigest()
+    if sql_hash != group.get("canonical_sql_sha256"):
+        raise ValueError("Canonical SQL candidate hash does not match the registry.")
+    db_path = PHYSICAL_DIR / f"{group['db_id']}.sqlite"
+    if not db_path.is_file():
+        raise ValueError("Frozen Development snapshot is missing.")
+    db_hash = sha256_file(db_path)
+    manifest_entry = physical_manifest.get("databases", {}).get(group["db_id"], {}).get("sha256")
+    if not manifest_entry or manifest_entry != db_hash:
+        raise ValueError("Frozen snapshot does not match the physical build manifest.")
+    return {"canonical_sql": canonical_sql, "database_sha256": db_hash,
+            "canonical_sql_sha256": sql_hash,
+            "owner_status": current_group.get("ground_truth_review", "NEEDS_HUMAN_REVIEW")}
+
+
+def score_demo_results(questions: list[dict[str, Any]], results: list[dict[str, Any]], canonical_rows: list[list[Any]]) -> dict[str, Any]:
+    """Score one interactive run against the independently validated canonical output."""
+    ordered = sorted(questions, key=lambda item: item["q_index"])
+    group_ids = {item["group_id"] for item in ordered}
+    if len(group_ids) != 1 or len(ordered) != 11:
+        raise ValueError("Demo scoring requires exactly one complete 11-question Semantic Group.")
+    group_id = next(iter(group_ids))
+    qids = [item["question_id"] for item in ordered]
+    observations = {qid: Observation(INFRA_FAILURE) for qid in qids}
+    run_status: dict[str, str] = {}
+    predicted_rows: dict[str, list[list[Any]] | None] = {}
+    for item in results:
+        question = item.get("question", {})
+        qid = question.get("question_id")
+        if qid not in observations:
+            continue
+        if item.get("error"):
+            status, rows = "infra_error", None
+        else:
+            execution = item.get("run_result")
+            if isinstance(execution, dict):
+                if execution.get("truncated"):
+                    status, rows = "result_truncated", None
+                else:
+                    rows = [list(row) for row in execution["result"].rows]
+                    status = "success"
+            elif isinstance(execution, Timeout):
+                status, rows = "timeout", None
+            elif isinstance(execution, SqlError):
+                status, rows = "sql_error", None
+            elif item.get("reply") is not None and not item.get("sql"):
+                status, rows = "no_sql", None
+            else:
+                status, rows = "infra_error", None
+        run_status[qid] = status
+        predicted_rows[qid] = rows
+        if status == "success":
+            observations[qid] = Observation(status, rows, correct=result_equal(rows, canonical_rows))
+        elif status in {"timeout", "sql_error", "no_sql"}:
+            observations[qid] = Observation(status, correct=False)
+        # Provider/infrastructure errors and display-truncated output stay UNKNOWN.
+
+    qids_by_group = {group_id: qids}
+    summary = metric_summary([group_id], qids_by_group, observations)
+    details = []
+    canonical_set = set(map(tuple, canonical_rows))
+    for question in ordered:
+        qid = question["question_id"]
+        observation = observations[qid]
+        rows = predicted_rows.get(qid)
+        predicted_set = set(map(tuple, rows)) if rows is not None else set()
+        canonical_only = list(canonical_set - predicted_set) if rows is not None else []
+        prediction_only = list(predicted_set - canonical_set) if rows is not None else []
+        details.append({"question_id": qid, "variant_type": question["variant_type"],
+                        "status": run_status.get(qid, "not_run"), "known": observation.outcome_known,
+                        "correct": observation.is_correct,
+                        "row_count": len(rows) if rows is not None else None,
+                        "canonical_only_rows": [list(row) for row in canonical_only[:50]],
+                        "prediction_only_rows": [list(row) for row in prediction_only[:50]],
+                        "canonical_only_count": len(canonical_only),
+                        "prediction_only_count": len(prediction_only)})
+    return {"metrics": summary, "questions": details, "canonical_row_count": len(canonical_rows),
+            "run_question_count": len(results), "scoring_status": "DIAGNOSTIC_ONLY_OWNER_REVIEW_PENDING"}
 
 def read_only_query(db_id: str, sql: str, *, timeout_s: float=DEMO_TIMEOUT_S, max_rows: int=MAX_DISPLAY_ROWS):
     if db_id not in {"erp_sales","wms_inventory"}: return SqlError("Unknown database")
