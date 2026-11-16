@@ -22,7 +22,7 @@ def test_v6_registry_lineage_and_review_exports_are_in_sync():
     registry_path = A / "dataset.json"
     manifest = json.loads((A / "dev_v6_vietnamese_first_manifest.json").read_text(encoding="utf-8"))
     data = read("dataset.json")
-    assert data["authoring_revision"] == manifest["revision"] == "dev-v6-vietnamese-first-integrity-repair"
+    assert data["authoring_revision"] == manifest["revision"] == "dev-v6-erp-ef-01-customer-code-clarification"
     assert hashlib.sha256(registry_path.read_bytes()).hexdigest() == manifest["registry_sha256"]
     assert len(data["groups"]) == 50 and len(data["questions"]) == 550
     development = {q["question_id"]: q for q in data["questions"] if q["split"] == "development"}

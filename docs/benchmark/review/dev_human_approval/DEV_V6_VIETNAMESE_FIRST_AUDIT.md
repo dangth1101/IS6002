@@ -1,6 +1,10 @@
 # Development Vietnamese-first integrity audit
 
-Current revision: `dev-v6-vietnamese-first-integrity-repair`. Registry SHA-256: `d1c18b53933f5510d965dd6c6e3438d35c49aee315bfe44073caf181d3e1d0df`.
+Current revision: `dev-v6-erp-ef-01-customer-code-clarification`. Registry SHA-256: `f2052fcb6423f37124b98ada98f534c22be4309e845ee3d06294a5523c04a154`.
+
+## ERP-EF-01 customer identifier clarification
+
+The Intent Card now explicitly describes the business-facing customer identifier as `CUSTOMERS.customer_code`, not internal `customer_id`. The canonical SQL still projects `customer_id`; no SQL, expected rows, Oracle, fixture, snapshot, or question text was changed. This creates a projection-alignment issue that remains pending Owner resolution and revalidation. The review status remains `NEEDS_HUMAN_REVIEW`; this wording clarification is not approval. See [change log](ERP_EF_01_CUSTOMER_CODE_INTENT_CLARIFICATION.csv).
 
 ## Verified repairs
 

@@ -12,6 +12,48 @@ from bird_demo.prompt import extract_sql
 from bird_demo.runner import Rows, SqlError, Timeout
 
 st.set_page_config(page_title="BIRD-VN-Robust-50", page_icon=":material/database:", layout="wide")
+
+@st.dialog("Chi tiết kết quả theo câu hỏi", width="large")
+def show_run_details(run_record):
+    canonical_execution = run_record.get("canonical_execution")
+    if isinstance(canonical_execution, dict):
+        with st.expander("SQL gốc và kết quả chuẩn", expanded=False):
+            st.code(run_record["canonical_sql"], language="sql")
+            canonical_result = canonical_execution["result"]
+            st.caption(f"{len(canonical_result.rows)} dòng · {', '.join(canonical_result.columns)}")
+            if canonical_result.rows:
+                st.dataframe([dict(zip(canonical_result.columns, row)) for row in canonical_result.rows], hide_index=True, use_container_width=True)
+
+    for item in run_record["results"]:
+        question = item["question"]
+        with st.expander(f"{question['question_id']} · {question['variant_type']}", expanded=False):
+            st.write(question["question"])
+            st.caption(f"Thời gian LLM: {item['elapsed']:.2f}s")
+            if item.get("error"):
+                st.error(item["error"])
+                continue
+            if item.get("sql"):
+                st.code(item["sql"], language="sql")
+            else:
+                st.warning("Không trích xuất được SQL từ phản hồi.")
+                st.code(item["reply"].text)
+            outcome = item.get("run_result")
+            if isinstance(outcome, dict):
+                result = outcome["result"]
+                st.caption(f"{len(result.rows)} dòng · {', '.join(result.columns)} · {outcome['elapsed_s']:.2f}s")
+                if outcome.get("truncated"):
+                    st.warning("Kết quả bị giới hạn hiển thị; không dùng để chấm EX/RSS.")
+                elif result.rows:
+                    st.dataframe([dict(zip(result.columns, row)) for row in result.rows], hide_index=True, use_container_width=True)
+                else:
+                    st.info("Truy vấn thành công, không có dòng kết quả.")
+            elif isinstance(outcome, Timeout):
+                st.error(f"SQL timeout sau {outcome.timeout_s}s")
+            elif isinstance(outcome, SqlError):
+                st.error(f"SQL bị từ chối hoặc gặp lỗi: {outcome.message}")
+            with st.expander("Prompt đã gửi"):
+                st.code(item["prompt"])
+
 st.title("BIRD-VN-Robust-50")
 st.session_state.setdefault("birdvn_demo_runs", [])
 st.caption("Không gian nghiên cứu · dữ liệu nguồn ở chế độ chỉ đọc · quyết định Human Review không được ghi vào registry")
@@ -46,19 +88,19 @@ with summary_tab:
     split_counts={s:sum(g["split"]==s for g in all_groups) for s in ("development","final")}
     domain_counts={"ERP":sum(g["db_id"]=="erp_sales" for g in all_groups),"WMS":sum(g["db_id"]=="wms_inventory" for g in all_groups)}
     c=st.columns(4)
-    for col,label,value in zip(c,["C\u01a1 s\u1edf d\u1eef li\u1ec7u","Nh\u00f3m ng\u1eef ngh\u0129a","C\u00e2u h\u1ecfi","Bi\u1ebfn th\u1ec3"],[len(domain_counts),len(all_groups),len(registry["questions"]),sum(q["q_index"]>0 for q in registry["questions"]) ]):col.metric(label,value)
+    for col,label,value in zip(c,["Cơ sở dữ liệu","Nhóm ngữ nghĩa","Câu hỏi","Biến thể"],[len(domain_counts),len(all_groups),len(registry["questions"]),sum(q["q_index"]>0 for q in registry["questions"]) ]):col.metric(label,value)
     left,right=st.columns(2)
     with left:
         st.markdown("**Phân bố split**"); st.bar_chart({"Groups":split_counts},horizontal=True,height=150)
         st.markdown("**Domain**"); st.bar_chart({"Groups":domain_counts},horizontal=True,height=150)
     with right:
         st.markdown("**Human review & ground truth**")
-        pending=sum(g.get("intent_card_status")=="NEEDS_HUMAN_REVIEW" or g.get("ground_truth_review")=="NEEDS_HUMAN_REVIEW" for g in all_groups)
+        pending=sum(g.get("intent_card_status")=="NEEDS_HUMAN_REVIEW" or g.get("ground_truth_review")=="NEEDS_HUMAN_REVIEW" or g.get("human_review_status")=="NEEDS_HUMAN_REVIEW" for g in all_groups)
         st.metric("Nhóm cần Human Review",pending)
         status_counts={}
         for g in all_groups: status_counts[g.get("validation_status","UNKNOWN")]=status_counts.get(g.get("validation_status","UNKNOWN"),0)+1
         st.dataframe([{"Trạng thái":k,"Số nhóm":v} for k,v in status_counts.items()],hide_index=True,use_container_width=True)
-        st.info("Kiểm tra tự động không đồng nghĩa Owner approval. Cả 40 nhóm Final đang BLOCKED vì thiếu expected outputs/oracle độc lập.")
+        st.info("Kiểm tra tự động không đồng nghĩa Owner approval. 40 nhóm Final vẫn NEEDS_HUMAN_REVIEW; 5 nhóm có blocker Intent/SQL. ERP-EF-01-Q00 vừa sửa câu chữ và đang chờ review.")
     st.markdown("**Phân bố taxonomy paraphrase**")
     taxonomy={}
     for q in registry["questions"]:
@@ -141,6 +183,7 @@ with playground_tab:
     if run_mode=="Cả nhóm Q00–Q10":confirm=st.checkbox("Xác nhận tối đa 11 lần gọi API cho nhóm này.",key="birdvn_play_confirm")
     else:confirm=True
     clicked=st.button("Run LLM",type="primary",disabled=not model.strip() or not confirm,key="birdvn_play_run")
+    fingerprint=(group["group_id"],run_mode,q["question_id"] if run_mode!="Cả nhóm Q00–Q10" else None,model.strip(),float(temperature),int(max_tokens))
     if clicked:
         selected=([q] if run_mode=="Một câu" else [qs[0],q] if run_mode=="Cặp Q00 + Qi" else qs)
         results=[];progress=st.progress(0,text="Chuẩn bị demo run…")
@@ -150,49 +193,29 @@ with playground_tab:
             elapsed=outcome["elapsed_s"]
             if outcome["error"]:
                 results.append({"question":item,"error":outcome["error"],"elapsed":elapsed})
-                st.error(f"Lỗi gọi LLM cho {item['question_id']}: {outcome['error']}")
                 if len(selected)==11:break
             else:
                 results.append({"question":item,"sql":outcome["sql"],"reply":outcome["reply"],"elapsed":elapsed,"run_result":outcome["execution"],"prompt":outcome["prompt"]})
-            progress.progress((i+1)/len(selected),text=f"Đã xử lý {i+1}/{len(selected)} câu")
+            progress.progress((i+1)/len(selected),text="Đã xử lý "+str(i+1)+"/"+str(len(selected))+" câu")
+        progress.empty()
         canonical_execution=read_only_query(db_id,gold_context["canonical_sql"]) if gold_context else None
-        st.session_state["birdvn_demo_runs"].append({"run_at":time.time(),"group_id":group["group_id"],"model":model.strip(),"mode":run_mode,"results":results,"canonical_sql":gold_context["canonical_sql"] if gold_context else None})
-        if gold_context:
-            st.markdown("#### SQL gốc · canonical SQL candidate")
-            st.code(gold_context["canonical_sql"],language="sql")
-            if isinstance(canonical_execution,dict):
-                canonical_result=canonical_execution["result"]
-                st.caption(f"SQL gốc chạy thành công · {len(canonical_result.rows)} dòng · {canonical_execution['elapsed_s']:.2f}s · snapshot `{gold_context['database_sha256'][:12]}…`")
-                if canonical_execution["truncated"]:
-                    st.warning("Kết quả SQL gốc vượt giới hạn hiển thị; không tính EX/RSS để tránh chấm dữ liệu bị cắt.")
-                elif canonical_result.rows:
-                    st.dataframe([dict(zip(canonical_result.columns,row)) for row in canonical_result.rows],hide_index=True,use_container_width=True)
-                else:
-                    st.info("SQL gốc chạy thành công và trả về 0 dòng.")
-            elif isinstance(canonical_execution,Timeout):
-                st.error(f"SQL gốc timeout sau {canonical_execution.timeout_s}s; không tính metric cho lượt này.")
-            elif isinstance(canonical_execution,SqlError):
-                st.error(f"SQL gốc lỗi; không tính metric cho lượt này: {canonical_execution.message}")
-        for item in results:
-            st.markdown(f"#### {item['question']['question_id']}")
-            st.caption(item["question"]["question"])
-            st.metric("LLM response time",f"{item['elapsed']:.2f}s")
-            if item.get("error"):continue
-            if item["sql"]:st.code(item["sql"],language="sql")
-            else:st.warning("Không trích xuất được SELECT/WITH SQL.");st.code(item["reply"].text)
-            outcome=item["run_result"]
-            if isinstance(outcome,dict):
-                result=outcome["result"];st.caption(f"Thực thi thành công · hiển thị {len(result.rows)} dòng · {outcome['elapsed_s']:.2f}s"+(" · đã giới hạn 500 dòng" if outcome["truncated"] else ""))
-                if result.rows:st.dataframe([dict(zip(result.columns,row)) for row in result.rows],hide_index=True,use_container_width=True)
-                else:st.info("Truy vấn thành công, không có dòng kết quả.")
-            elif isinstance(outcome,Timeout):st.error(f"SQL timeout sau {outcome.timeout_s}s")
-            elif isinstance(outcome,SqlError):st.error(f"SQL bị từ chối hoặc gặp lỗi: {outcome.message}")
-            with st.expander("Prompt đã gửi"):st.code(item["prompt"])
-        if gold_context and isinstance(canonical_execution,dict) and not canonical_execution["truncated"]:
+        run_score=None
+        if isinstance(canonical_execution,dict) and not canonical_execution["truncated"]:
             canonical_result=canonical_execution["result"]
-            score=score_demo_results(qs,results,[list(row) for row in canonical_result.rows])
-            metrics=score["metrics"]
-            st.markdown("#### Đối chiếu và metric trong lượt demo này")
+            run_score=score_demo_results(qs,results,[list(row) for row in canonical_result.rows],list(canonical_result.columns))
+        run_record={"run_at":time.time(),"group_id":group["group_id"],"model":model.strip(),"mode":run_mode,
+                    "results":results,"canonical_sql":gold_context["canonical_sql"] if gold_context else None,
+                    "canonical_execution":canonical_execution,"score":run_score,"fingerprint":fingerprint}
+        st.session_state["birdvn_demo_runs"].append({key:run_record[key] for key in ("run_at","group_id","model","mode","results","canonical_sql")})
+        st.session_state["birdvn_demo_last_result"]=run_record
+
+    run_record=st.session_state.get("birdvn_demo_last_result")
+    if run_record and run_record.get("fingerprint")==fingerprint:
+        run_score=run_record.get("score")
+        canonical_execution=run_record.get("canonical_execution")
+        if run_score:
+            metrics=run_score["metrics"]
+            st.markdown("#### Chỉ số lượt chạy")
             metric_columns=st.columns(5)
             for column,label,key in zip(metric_columns,
                 ["EX gốc · Q00","EX variants","EX các câu đã chạy","RSS · cặp Q00–Qi","Robust EX · đủ 11 câu"],
@@ -200,26 +223,41 @@ with playground_tab:
                 rate=metrics[key]
                 value="N/A" if rate["percent"] is None else f"{rate['percent']:.1f}%"
                 column.metric(label,value,help=f"{rate['numerator']}/{rate['denominator']} theo outcome đã xác định trong lượt này")
-            st.caption(f"Đã chạy {score['run_question_count']}/11 câu · {metrics['missing_questions']} câu có outcome hạ tầng/không chạy trong metric. Robust EX cần đủ 11 outcomes xác định trong cùng lượt. SQL error, timeout và no SQL tính là EX=0; lỗi provider/API và kết quả bị cắt dòng là unknown. Không cộng dồn thành replicate.")
+            st.caption(f"Đã chạy {run_score['run_question_count']}/11 câu · {metrics['missing_questions']} câu có outcome hạ tầng/không chạy trong metric. SQL error, timeout và no SQL tính là EX=0; lỗi provider/API và kết quả bị cắt dòng là unknown. Không cộng dồn thành replicate.")
+            st.markdown("#### So sánh ngắn với SQL gốc")
             question_rows=[]
-            for item in score["questions"]:
+            for item in run_score["questions"]:
+                if item["status"]=="not_run":
+                    continue
                 verdict="—" if item["correct"] is None else "Đúng" if item["correct"] else "Sai"
-                question_rows.append({"Question":item["question_id"],"Variant":item["variant_type"],
-                    "Trạng thái":item["status"],"Số dòng":item["row_count"],"EX vs canonical":verdict})
-            st.dataframe(question_rows,hide_index=True,use_container_width=True)
-            for item in score["questions"]:
-                if item["correct"] is False and item["status"]=="success":
-                    with st.expander(f"So sánh dòng · {item['question_id']} · thiếu {item['canonical_only_count']}, dư {item['prediction_only_count']}"):
-                        st.caption("SQL canonical chỉ có (tối đa 50 dòng)")
-                        st.dataframe(item["canonical_only_rows"],hide_index=True,use_container_width=True)
-                        st.caption("SQL dự đoán chỉ có (tối đa 50 dòng)")
-                        st.dataframe(item["prediction_only_rows"],hide_index=True,use_container_width=True)
-            with st.expander("Cơ sở đối chiếu và giới hạn"):
-                st.write(f"Canonical SQL SHA-256: `{gold_context['canonical_sql_sha256']}`")
-                st.write(f"SQLite snapshot SHA-256: `{gold_context['database_sha256']}`")
-                st.write(f"Số dòng SQL candidate gốc: {score['canonical_row_count']} · so sánh theo BIRD set comparator (bỏ thứ tự dòng và duplicate rows).")
-                st.warning("Metric chấm so với canonical SQL candidate chưa được Owner duyệt. Lượt Playground không thay thế 3 replicates, run artifacts đóng băng hoặc official evaluation.")
-        elif gold_context and canonical_execution is not None:
-            st.warning("Có kết quả LLM nhưng không có kết quả đầy đủ từ SQL canonical; không tính EX/RSS cho lượt này.")
-        elif not gold_context:
-            st.warning("Không thể nạp canonical SQL candidate hợp lệ; các kết quả LLM không được gán EX/RSS.")
+                if item["columns_match"] is None:
+                    column_diff="Chưa có kết quả"
+                elif not item["column_differences"]:
+                    column_diff="Khớp"
+                else:
+                    column_diff="; ".join(f"{diff['canonical'] or '-'} → {diff['generated'] or '-'}" for diff in item["column_differences"])
+                question_rows.append({"Câu hỏi":item["question_id"],"Trạng thái":item["status"],
+                    "EX":verdict,"Dòng trả về":item["row_count"],
+                    "Dòng thiếu / dư":f"{item['canonical_only_count']} / {item['prediction_only_count']}",
+                    "Cột chiếu khác":column_diff})
+            st.dataframe(question_rows,hide_index=True,use_container_width=True,height=min(420,40*(len(question_rows)+1)))
+            st.caption("Dòng thiếu/dư là số tuple chỉ có SQL gốc / chỉ có SQL sinh; bỏ qua thứ tự và dòng trùng theo BIRD set comparator. EX so giá trị cột theo vị trí; bảng cũng nêu tên cột chiếu khác.")
+        else:
+            st.warning("Không có kết quả đầy đủ từ SQL gốc; không tính EX/RSS cho lượt này.")
+            status_rows=[]
+            for item in run_record["results"]:
+                outcome=item.get("run_result")
+                row_count=len(outcome["result"].rows) if isinstance(outcome,dict) and not outcome.get("truncated") else None
+                status_rows.append({"Câu hỏi":item["question"]["question_id"],"Trạng thái":"error" if item.get("error") else "success" if isinstance(outcome,dict) else "unknown","Số dòng":row_count})
+            st.dataframe(status_rows,hide_index=True,use_container_width=True)
+
+        if isinstance(canonical_execution,Timeout):
+            st.error(f"SQL gốc timeout sau {canonical_execution.timeout_s}s")
+        elif isinstance(canonical_execution,SqlError):
+            st.error(f"SQL gốc bị từ chối hoặc gặp lỗi: {canonical_execution.message}")
+        elif isinstance(canonical_execution,dict) and canonical_execution.get("truncated"):
+            st.warning("Kết quả SQL gốc vượt giới hạn hiển thị; không tính EX/RSS.")
+        if st.button("Xem chi tiết SQL và kết quả từng câu",key="birdvn_show_run_details"):
+            show_run_details(run_record)
+    elif run_record:
+        st.caption("Kết quả lượt trước đang ẩn vì bạn đã đổi cấu hình demo.")

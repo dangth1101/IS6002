@@ -16,8 +16,8 @@ from typing import Any
 
 def table_rows(db_path: Path, table: str) -> list[dict[str, Any]]:
     allowed = {
-        "erp_sales": {"SALES_ORDERS", "SALES_ORDER_LINES", "SALES_SHIPMENTS", "PRODUCTS", "EMPLOYEES"},
-        "wms_inventory": {"INVENTORY_DOCUMENTS", "INVENTORY_DOCUMENT_LINES", "INVENTORY_MOVEMENTS", "PRODUCTS", "LOCATIONS", "WAREHOUSES"},
+        "erp_sales": {"CUSTOMERS", "SALES_ORDERS", "SALES_ORDER_LINES", "SALES_SHIPMENTS", "PAYMENT_TRANSACTIONS", "SALES_RETURNS", "SALES_RETURN_LINES", "PRODUCTS", "EMPLOYEES"},
+        "wms_inventory": {"CUSTOMERS", "SUPPLIERS", "INVENTORY_DOCUMENTS", "INVENTORY_DOCUMENT_LINES", "INVENTORY_MOVEMENTS", "PRODUCTS", "PRODUCT_CATEGORIES", "LOCATIONS", "WAREHOUSES"},
     }
     # Fixed table names only; there is no user-supplied SQL path here.
     if table not in allowed.get(db_path.stem.removesuffix(".sqlite"), set()):
@@ -37,8 +37,9 @@ def _distinct(rows: list[tuple[Any, ...]]) -> list[list[Any]]:
 
 
 def erp_ef_01(db: Path) -> list[list[Any]]:
-    orders = table_rows(db, "SALES_ORDERS")
-    return _distinct([(o["order_id"], o["order_no"], o["customer_id"], o["order_date"], o["order_status"])
+    orders, customers = table_rows(db, "SALES_ORDERS"), table_rows(db, "CUSTOMERS")
+    customer_code = {c["customer_id"]: c["customer_code"] for c in customers}
+    return _distinct([(o["order_id"], o["order_no"], customer_code[o["customer_id"]], o["order_date"], o["order_status"])
                       for o in orders if o["order_status"] == "CONFIRMED"])
 
 

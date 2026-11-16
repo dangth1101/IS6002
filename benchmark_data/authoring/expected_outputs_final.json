@@ -1,0 +1,5065 @@
+{
+  "artifact_version": 1,
+  "benchmark_version": "0.3.0-draft-implementation",
+  "registry_revision_at_derivation": "dev-v6-erp-ef-01-customer-code-ground-truth",
+  "source_registry_sha256": "c52c503dee2dfc227c768f3ab02c320dc012f5c6e6c3a21d860b71665cbbe022",
+  "source_oracle_sha256": "bb5b3b3b2bdad5c10b34a6395655886621f3b1f12c14e9f34ae5538ebac4d4be",
+  "shared_table_reader_sha256": "d9559aa6234bbc231d389d31ee4a884ccf0754b8c61d104fba76ab17a404f585",
+  "derived_at_utc": "2026-11-16T11:28:18.479+00:00",
+  "scope": "40 Final groups; independent expected outputs only; no approval, tuning, or official evaluation",
+  "expected_outputs": [
+    {
+      "group_id": "ERP-EF-02",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "5a1f7647c870abb1effe920335350f74417be1f454adfb6e8aabbe97d1a04a17",
+      "canonical_sql_sha256_at_derivation": "e8fbb087acc94debfd6eb88d4a019020b2e6bb1d73492fde624705240816deae",
+      "expected_rows": [
+        [
+          11,
+          "SO-00011",
+          1,
+          "2025-04-15",
+          2
+        ],
+        [
+          12,
+          "SO-00012",
+          24,
+          "2025-04-26",
+          3
+        ],
+        [
+          13,
+          "SO-00013",
+          11,
+          "2025-05-07",
+          4
+        ],
+        [
+          14,
+          "SO-00014",
+          12,
+          "2025-05-18",
+          5
+        ],
+        [
+          17,
+          "SO-00017",
+          21,
+          "2025-06-20",
+          3
+        ],
+        [
+          18,
+          "SO-00018",
+          6,
+          "2025-07-01",
+          4
+        ],
+        [
+          19,
+          "SO-00019",
+          15,
+          "2025-07-12",
+          5
+        ],
+        [
+          2,
+          "SO-00002",
+          4,
+          "2025-01-06",
+          3
+        ],
+        [
+          20,
+          "SO-00020",
+          23,
+          "2025-07-23",
+          1
+        ],
+        [
+          23,
+          "SO-00023",
+          16,
+          "2025-08-25",
+          4
+        ],
+        [
+          25,
+          "SO-00025",
+          22,
+          "2025-09-16",
+          1
+        ],
+        [
+          26,
+          "SO-00026",
+          7,
+          "2025-09-27",
+          2
+        ],
+        [
+          29,
+          "SO-00029",
+          10,
+          "2025-10-30",
+          5
+        ],
+        [
+          30,
+          "SO-00030",
+          15,
+          "2025-11-10",
+          1
+        ],
+        [
+          31,
+          "SO-00031",
+          22,
+          "2025-11-21",
+          2
+        ],
+        [
+          43,
+          "SO-00043",
+          2,
+          "2025-01-07",
+          4
+        ],
+        [
+          44,
+          "SO-00044",
+          10,
+          "2025-01-18",
+          5
+        ],
+        [
+          47,
+          "SO-00047",
+          3,
+          "2025-02-20",
+          3
+        ],
+        [
+          49,
+          "SO-00049",
+          5,
+          "2025-03-14",
+          5
+        ],
+        [
+          5,
+          "SO-00005",
+          20,
+          "2025-02-08",
+          1
+        ],
+        [
+          50,
+          "SO-00050",
+          8,
+          "2025-03-25",
+          1
+        ],
+        [
+          53,
+          "SO-00053",
+          5,
+          "2025-04-27",
+          4
+        ],
+        [
+          54,
+          "SO-00054",
+          3,
+          "2025-05-08",
+          5
+        ],
+        [
+          55,
+          "SO-00055",
+          11,
+          "2025-05-19",
+          1
+        ],
+        [
+          59,
+          "SO-00059",
+          12,
+          "2025-07-02",
+          5
+        ],
+        [
+          6,
+          "SO-00006",
+          1,
+          "2025-02-19",
+          2
+        ],
+        [
+          60,
+          "SO-00060",
+          4,
+          "2025-07-13",
+          1
+        ],
+        [
+          61,
+          "SO-00061",
+          21,
+          "2025-07-24",
+          2
+        ],
+        [
+          62,
+          "SO-00062",
+          8,
+          "2025-08-04",
+          3
+        ],
+        [
+          65,
+          "SO-00065",
+          17,
+          "2025-09-06",
+          1
+        ],
+        [
+          66,
+          "SO-00066",
+          17,
+          "2025-09-17",
+          2
+        ],
+        [
+          67,
+          "SO-00067",
+          24,
+          "2025-09-28",
+          3
+        ],
+        [
+          68,
+          "SO-00068",
+          8,
+          "2025-10-09",
+          4
+        ],
+        [
+          7,
+          "SO-00007",
+          21,
+          "2025-03-02",
+          3
+        ],
+        [
+          71,
+          "SO-00071",
+          3,
+          "2025-11-11",
+          2
+        ]
+      ],
+      "expected_rows_sha256": "8a4219ba01b3c9088b1b5f801d27ffdee7520bfca88f73ca7f0badc269841f5f",
+      "row_count_before_set_comparison": 35,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-EF-03",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "ae88580d9b9071c815e8f953c7d5ffc883fb29d9d047f61a7bd2098774e7ce71",
+      "canonical_sql_sha256_at_derivation": "9f6baabd641c53d8bd6d59576f6406cb87297fded324c62dbe31c7e39a0e8ea2",
+      "expected_rows": [
+        [
+          1,
+          "SKU-001",
+          "Máy quét",
+          2,
+          "EA"
+        ],
+        [
+          10,
+          "SKU-010",
+          "Sản phẩm 10",
+          1,
+          "EA"
+        ],
+        [
+          11,
+          "SKU-011",
+          "Sản phẩm 11",
+          2,
+          "KG"
+        ],
+        [
+          2,
+          "SKU-002",
+          "Máy quét",
+          3,
+          "KG"
+        ],
+        [
+          3,
+          "SKU-003",
+          "Sản phẩm 03",
+          4,
+          "L"
+        ],
+        [
+          4,
+          "SKU-004",
+          "Sản phẩm 04",
+          5,
+          "EA"
+        ],
+        [
+          5,
+          "SKU-005",
+          "Sản phẩm 05",
+          1,
+          "KG"
+        ],
+        [
+          6,
+          "SKU-006",
+          "Sản phẩm 06",
+          2,
+          "L"
+        ],
+        [
+          7,
+          "SKU-007",
+          "Sản phẩm 07",
+          3,
+          "EA"
+        ],
+        [
+          8,
+          "SKU-008",
+          "Sản phẩm 08",
+          4,
+          "KG"
+        ],
+        [
+          9,
+          "SKU-009",
+          "Sản phẩm 09",
+          5,
+          "L"
+        ]
+      ],
+      "expected_rows_sha256": "b5b066befe1b1b0a753ec3d5cced56b982eae7386047fad4e291803d4d6d91bb",
+      "row_count_before_set_comparison": 11,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-EF-04",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "a08b14f110fc93ebf34e4832c04b55a7c9c838f322dacbb0dc2765db582bb459",
+      "canonical_sql_sha256_at_derivation": "5fd88b142c9952d2e49c8bdf437c6b7c57d2e8b00de8f85c23029ea02a1173c3",
+      "expected_rows": [],
+      "expected_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "row_count_before_set_comparison": 0,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-AG-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "6b71834344476bf5d694459a7726cdcf4ba525e173567c5278bfac19b8650ec0",
+      "canonical_sql_sha256_at_derivation": "c70a4efd0bdf9bab464d7b12dc3bf61f64e97727dfe80888a5b7ff38e5e2338d",
+      "expected_rows": [
+        [
+          "ENTERPRISE",
+          8
+        ],
+        [
+          "RETAIL",
+          8
+        ],
+        [
+          "SMB",
+          8
+        ]
+      ],
+      "expected_rows_sha256": "55095259f42e0660732cd605bee1ffd774c9c62c3d84ca9c4fb6af5f7f5d2775",
+      "row_count_before_set_comparison": 3,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-AG-02",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "465fd9435424d1c8355b717dd89477215852cbd5deaada8a803f5a460bb6061a",
+      "canonical_sql_sha256_at_derivation": "1fdaac0ebf428048a7bfc3fdf76e5784ba2fa2530252228e40a1d82e3a4c216e",
+      "expected_rows": [
+        [
+          516843250
+        ]
+      ],
+      "expected_rows_sha256": "4b0e01b3a0d0201afd92ef4524e1c060523e32d3349a3c06804d50ed4638fe64",
+      "row_count_before_set_comparison": 1,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-AG-03",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "906c3873e7c40d33122083ae5fedf694432c7d2b62e86cc59cc8e5da631d5977",
+      "canonical_sql_sha256_at_derivation": "9311be77392cdd0b12d5d99776b03893345f1c5f0f4c353add73caa51ee8ae23",
+      "expected_rows": [
+        [
+          12605933
+        ]
+      ],
+      "expected_rows_sha256": "bdadffb5600204a5a93f3cd648421b38b6949a1fa719340dcb17cbadec47b93b",
+      "row_count_before_set_comparison": 1,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-AG-04",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "28a455cb08374305a30620215df6c3cb2a1cdbc4f9b632cc1bd9f3ba759f3e11",
+      "canonical_sql_sha256_at_derivation": "91245e1571c0b547d267154ab87b512c2f5fe6add44395476c2b125fd9446e4c",
+      "expected_rows": [
+        [
+          64098
+        ]
+      ],
+      "expected_rows_sha256": "e860e24e7bf45eea33672a2c93a3595fc0b5b9987b4bf399e9362afb566eeb36",
+      "row_count_before_set_comparison": 1,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-GB-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "fbc505e35c4c5cfa7bb132cd82d1dea24c6fab25c8001f1dc6c5969e9392aa1f",
+      "canonical_sql_sha256_at_derivation": "666ee3aacbc0b6d4efdba695856ad285050c448b22242905f6e5b0cf5e4864e1",
+      "expected_rows": [
+        [
+          "CANCELLED",
+          12
+        ],
+        [
+          "CONFIRMED",
+          48
+        ],
+        [
+          "DRAFT",
+          12
+        ]
+      ],
+      "expected_rows_sha256": "49ab152997eb409deabb87d53ca79b9004fc0cc3b430b027e01f988c7bf61416",
+      "row_count_before_set_comparison": 3,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-GB-02",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "8dcca3ed4f7dfd007c9441fcb7814580575ecea3d4d5860f39b8330e04e86623",
+      "canonical_sql_sha256_at_derivation": "1c04de0c0b42841d6809539c8bbc7e0e3e41b55ad1ea74f1a77a3e01273ce005",
+      "expected_rows": [
+        [
+          1,
+          "Khách hàng 01",
+          16817500
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          47866875
+        ],
+        [
+          11,
+          "Khách hàng 11",
+          19348875
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          39611250
+        ],
+        [
+          13,
+          "Khách hàng 13",
+          0
+        ],
+        [
+          14,
+          "Khách hàng 14",
+          0
+        ],
+        [
+          15,
+          "Khách hàng 15",
+          23137625
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          32056500
+        ],
+        [
+          17,
+          "Khách hàng 17",
+          55517875
+        ],
+        [
+          18,
+          "Khách hàng 18",
+          0
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          10001250
+        ],
+        [
+          2,
+          "Khách hàng 02",
+          16596125
+        ],
+        [
+          20,
+          "Khách hàng 20",
+          15597750
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          26043500
+        ],
+        [
+          22,
+          "Khách hàng 22",
+          27930000
+        ],
+        [
+          23,
+          "Khách hàng 23",
+          21535500
+        ],
+        [
+          24,
+          "Khách hàng 24",
+          14525000
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          44303000
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          62688500
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          31976000
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          34805750
+        ],
+        [
+          7,
+          "Khách hàng 07",
+          17451875
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          34925625
+        ],
+        [
+          9,
+          "Khách hàng 09",
+          0
+        ]
+      ],
+      "expected_rows_sha256": "8a3ce853540801c31094002063f98c8596071165f4901cc1dd02d6acc943f24a",
+      "row_count_before_set_comparison": 24,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-GB-04",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "348ecf9d4904b1129826f488274ce1a1600037663e72682e44b36090a90b852e",
+      "canonical_sql_sha256_at_derivation": "35948f86a7ff413791b5e074b29b1fd278da7e6aab6041e8402948eb5dd792fe",
+      "expected_rows": [
+        [
+          "2025-04",
+          82706750
+        ],
+        [
+          "2025-05",
+          147737625
+        ],
+        [
+          "2025-06",
+          122411625
+        ]
+      ],
+      "expected_rows_sha256": "517ab6aba513d005d9f0da7ba742ff3a1626e364032171fa2abfff9263c7bb25",
+      "row_count_before_set_comparison": 3,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-RK-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "3f02419219a48b42e97a32bd067c80095ca5742cba7bded0de3e55be1932a28e",
+      "canonical_sql_sha256_at_derivation": "d7a63098a307237e1c2a2b98ea237e89408cb014fd6209c066d9e970024ee1a8",
+      "expected_rows": [
+        [
+          12,
+          "Khách hàng 12",
+          39611250,
+          2
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          44303000,
+          1
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          35526750,
+          3
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          31976000,
+          5
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          32355750,
+          4
+        ]
+      ],
+      "expected_rows_sha256": "4d9b0de7243ccb977d96250c167d9c361edc15e261b5f8ac96c0419c6608b354",
+      "row_count_before_set_comparison": 5,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_rk_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-RK-03",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "37f0031b8008adf297bf61ff6e02b64e5364dcaca9e7989f45dc0357a15f90f7",
+      "canonical_sql_sha256_at_derivation": "356cb2ed24d2bbdd934f8ca6dff1c76ea81e429244830f3ece9909a739380764",
+      "expected_rows": [
+        [
+          8,
+          "Khách hàng 08",
+          274980,
+          1
+        ]
+      ],
+      "expected_rows_sha256": "ebd7f48d2e248aa6bf6e1775438b956e828a269b725492b34b5473bdd5bb1452",
+      "row_count_before_set_comparison": 1,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_rk_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-JN-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "198f412bd471eceafe21c066320d72dd87f07b1349acef9b59731b9a9291c96b",
+      "canonical_sql_sha256_at_derivation": "7f91d8607667e2cc1e08262a7fe55f47211a91192436401e2fe399ddb931ea8b",
+      "expected_rows": [
+        [
+          1,
+          "Khách hàng 01",
+          2
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          2
+        ],
+        [
+          11,
+          "Khách hàng 11",
+          3
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          2
+        ],
+        [
+          13,
+          "Khách hàng 13",
+          0
+        ],
+        [
+          14,
+          "Khách hàng 14",
+          0
+        ],
+        [
+          15,
+          "Khách hàng 15",
+          2
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          2
+        ],
+        [
+          17,
+          "Khách hàng 17",
+          4
+        ],
+        [
+          18,
+          "Khách hàng 18",
+          0
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          1
+        ],
+        [
+          2,
+          "Khách hàng 02",
+          2
+        ],
+        [
+          20,
+          "Khách hàng 20",
+          1
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          3
+        ],
+        [
+          22,
+          "Khách hàng 22",
+          2
+        ],
+        [
+          23,
+          "Khách hàng 23",
+          2
+        ],
+        [
+          24,
+          "Khách hàng 24",
+          2
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          3
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          4
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          2
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          4
+        ],
+        [
+          7,
+          "Khách hàng 07",
+          2
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          3
+        ],
+        [
+          9,
+          "Khách hàng 09",
+          0
+        ]
+      ],
+      "expected_rows_sha256": "f1d6e832ef0fd80fd99461a0e1973b9dd5a88cc2f318e8ee466fbd41f3662206",
+      "row_count_before_set_comparison": 24,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-JN-03",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "cfb15951fcecbb2aea725d31c3e9f4a20694e2cb0209071db7835c67584e5b2f",
+      "canonical_sql_sha256_at_derivation": "cfd1f9d78120c7fa78a0a1998ab8c7003c9fcacc44f7cb7c833b285058330809",
+      "expected_rows": [
+        [
+          1,
+          "Khách hàng 01",
+          1,
+          2603125
+        ],
+        [
+          1,
+          "Khách hàng 01",
+          2,
+          6116250
+        ],
+        [
+          1,
+          "Khách hàng 01",
+          4,
+          2848125
+        ],
+        [
+          1,
+          "Khách hàng 01",
+          5,
+          0
+        ],
+        [
+          1,
+          "Khách hàng 01",
+          null,
+          5250000
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          2,
+          4961250
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          4,
+          2388750
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          5,
+          4725000
+        ],
+        [
+          10,
+          "Khách hàng 10",
+          null,
+          8179500
+        ],
+        [
+          11,
+          "Khách hàng 11",
+          1,
+          3018750
+        ],
+        [
+          11,
+          "Khách hàng 11",
+          2,
+          0
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          2,
+          8709750
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          4,
+          4908750
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          5,
+          15309000
+        ],
+        [
+          12,
+          "Khách hàng 12",
+          null,
+          10683750
+        ],
+        [
+          15,
+          "Khách hàng 15",
+          1,
+          1684375
+        ],
+        [
+          15,
+          "Khách hàng 15",
+          2,
+          13475000
+        ],
+        [
+          15,
+          "Khách hàng 15",
+          3,
+          365750
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          2,
+          5775000
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          4,
+          0
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          5,
+          9875250
+        ],
+        [
+          16,
+          "Khách hàng 16",
+          null,
+          14148750
+        ],
+        [
+          17,
+          "Khách hàng 17",
+          1,
+          8728125
+        ],
+        [
+          17,
+          "Khách hàng 17",
+          2,
+          892500
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          2,
+          4725000
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          4,
+          0
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          5,
+          1653750
+        ],
+        [
+          19,
+          "Khách hàng 19",
+          null,
+          3622500
+        ],
+        [
+          2,
+          "Khách hàng 02",
+          1,
+          4655000
+        ],
+        [
+          2,
+          "Khách hàng 02",
+          2,
+          0
+        ],
+        [
+          2,
+          "Khách hàng 02",
+          3,
+          1575000
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          1,
+          9012500
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          2,
+          5139750
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          3,
+          0
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          4,
+          5040000
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          5,
+          6851250
+        ],
+        [
+          21,
+          "Khách hàng 21",
+          null,
+          0
+        ],
+        [
+          22,
+          "Khách hàng 22",
+          1,
+          0
+        ],
+        [
+          22,
+          "Khách hàng 22",
+          2,
+          8758750
+        ],
+        [
+          22,
+          "Khách hàng 22",
+          3,
+          1653750
+        ],
+        [
+          24,
+          "Khách hàng 24",
+          1,
+          875000
+        ],
+        [
+          24,
+          "Khách hàng 24",
+          2,
+          9817500
+        ],
+        [
+          24,
+          "Khách hàng 24",
+          3,
+          0
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          1,
+          13125000
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          2,
+          3652250
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          4,
+          4541250
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          5,
+          3150000
+        ],
+        [
+          3,
+          "Khách hàng 03",
+          null,
+          19834500
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          1,
+          3150000
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          2,
+          14936250
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          4,
+          3790500
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          5,
+          0
+        ],
+        [
+          4,
+          "Khách hàng 04",
+          null,
+          13650000
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          1,
+          1750000
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          2,
+          9555000
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          4,
+          4921000
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          5,
+          0
+        ],
+        [
+          5,
+          "Khách hàng 05",
+          null,
+          15750000
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          1,
+          2450000
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          2,
+          1225000
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          4,
+          5066250
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          5,
+          9450000
+        ],
+        [
+          6,
+          "Khách hàng 06",
+          null,
+          14164500
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          2,
+          1023750
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          4,
+          2294250
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          5,
+          0
+        ],
+        [
+          8,
+          "Khách hàng 08",
+          null,
+          7350000
+        ]
+      ],
+      "expected_rows_sha256": "3e06c82bd7fccfc31c7056d1079fd4488a74a893b8f0c86e013d35328b9b47d1",
+      "row_count_before_set_comparison": 67,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-JN-04",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "6dab743fb1bf6b55d054718cbd31aa22bd4ad934cf7f52cc6d6cb73343d6b6bb",
+      "canonical_sql_sha256_at_derivation": "32513239fe5f1628bfc61bee456cd8df16618c4b2a1175873443e0757aa4777b",
+      "expected_rows": [
+        [
+          1,
+          "Khách hàng 01",
+          3,
+          "SKU-003",
+          3100
+        ],
+        [
+          11,
+          "Khách hàng 11",
+          11,
+          "SKU-011",
+          800
+        ]
+      ],
+      "expected_rows_sha256": "6bd9346ee5c4dfc840f1677bb9b27746fb9e2c0dedc75b3a2d643486670ea0f4",
+      "row_count_before_set_comparison": 2,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-TM-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "80583fe7d495a23ffd4263d191e413a19f0fd12e2e876c5cafbe464131575ce6",
+      "canonical_sql_sha256_at_derivation": "576ffd44010559984fdc0912195ca517348b9a7ca489c1aeccca8f34e5937d27",
+      "expected_rows": [
+        [
+          2,
+          "SO-00002",
+          4,
+          "2025-01-06"
+        ],
+        [
+          43,
+          "SO-00043",
+          2,
+          "2025-01-07"
+        ],
+        [
+          44,
+          "SO-00044",
+          10,
+          "2025-01-18"
+        ],
+        [
+          47,
+          "SO-00047",
+          3,
+          "2025-02-20"
+        ],
+        [
+          48,
+          "SO-00048",
+          6,
+          "2025-03-03"
+        ],
+        [
+          49,
+          "SO-00049",
+          5,
+          "2025-03-14"
+        ],
+        [
+          5,
+          "SO-00005",
+          20,
+          "2025-02-08"
+        ],
+        [
+          50,
+          "SO-00050",
+          8,
+          "2025-03-25"
+        ],
+        [
+          6,
+          "SO-00006",
+          1,
+          "2025-02-19"
+        ],
+        [
+          7,
+          "SO-00007",
+          21,
+          "2025-03-02"
+        ],
+        [
+          8,
+          "SO-00008",
+          23,
+          "2025-03-13"
+        ]
+      ],
+      "expected_rows_sha256": "f5bc0b3b84ea782e0cff156d1e32fd7e1d371f6466e079c0a5e89430b1a53596",
+      "row_count_before_set_comparison": 11,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_tm_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_tm_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-NA-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "26e0e75575b2e0dacc61e6240a090d59a5f747630edee5b235874dcffc1370df",
+      "canonical_sql_sha256_at_derivation": "3f6daca73951416b9b51ce63e78a84801a01dbabdfb139e80247b14e49c8d5c7",
+      "expected_rows": [
+        [
+          13,
+          "Khách hàng 13"
+        ],
+        [
+          14,
+          "Khách hàng 14"
+        ],
+        [
+          18,
+          "Khách hàng 18"
+        ],
+        [
+          9,
+          "Khách hàng 09"
+        ]
+      ],
+      "expected_rows_sha256": "2632f381be0c41cab032eceebcfc7026632881d72a54c79229e8e4fd8114f3f7",
+      "row_count_before_set_comparison": 4,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_na_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-NA-02",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "8ce7460f53cd91688451f9c1ca145a84e11dfbf37eaefb3b3cc439d8a0920f07",
+      "canonical_sql_sha256_at_derivation": "6812fce1d749f3f9b9cc1bbe5b8ce6993d73e9c4acff04200b3aea3beefca9ce",
+      "expected_rows": [
+        [
+          12,
+          "SO-00012",
+          "NO_POSTED_CASH"
+        ],
+        [
+          18,
+          "SO-00018",
+          "NO_POSTED_CASH"
+        ],
+        [
+          24,
+          "SO-00024",
+          "NO_POSTED_CASH"
+        ],
+        [
+          30,
+          "SO-00030",
+          "NO_POSTED_CASH"
+        ],
+        [
+          36,
+          "SO-00036",
+          "NO_POSTED_CASH"
+        ],
+        [
+          42,
+          "SO-00042",
+          "NO_POSTED_CASH"
+        ],
+        [
+          48,
+          "SO-00048",
+          "NO_POSTED_CASH"
+        ],
+        [
+          54,
+          "SO-00054",
+          "NO_POSTED_CASH"
+        ],
+        [
+          6,
+          "SO-00006",
+          "NO_POSTED_CASH"
+        ],
+        [
+          60,
+          "SO-00060",
+          "NO_POSTED_CASH"
+        ],
+        [
+          66,
+          "SO-00066",
+          "NO_POSTED_CASH"
+        ],
+        [
+          72,
+          "SO-00072",
+          "NO_POSTED_CASH"
+        ]
+      ],
+      "expected_rows_sha256": "f1038e31585a7ac7909f6169e121eb2c9df3a8e2247dc5a70b1936f295c93b31",
+      "row_count_before_set_comparison": 12,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_na_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-CD-01",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "de9d0dc124a103e1440b060a13dc795203ef79dc2dc8b80a927ab4682f1722ae",
+      "canonical_sql_sha256_at_derivation": "a9bf817b7a5183b7018ddfb7d3e74ca7210a064fbc1bf8acfdc2153317aae590",
+      "expected_rows": [
+        [
+          "ORDER_VALUE",
+          516843250
+        ],
+        [
+          "RECOGNIZED_REVENUE",
+          352856000
+        ]
+      ],
+      "expected_rows_sha256": "ceb62d8b63cabaa43217ba51e9d75dacf685a52cd6f8f75f2ec459ac61680e2e",
+      "row_count_before_set_comparison": 2,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_cd_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "ERP-CD-02",
+      "split": "final",
+      "database_sha256": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+      "intent_card_sha256": "dfac2ed86a5a7f58c8cec5e99e6ddd20a4a32ae539affa6b66506699f0f55c6c",
+      "canonical_sql_sha256_at_derivation": "a4e2a4a55617db69860c2418201b8490e277cd1d959d276f9a1eadd151aceeca",
+      "expected_rows": [
+        [
+          "BANK_TRANSFER",
+          739956,
+          19000,
+          720956
+        ],
+        [
+          "CARD",
+          403308,
+          0,
+          403308
+        ],
+        [
+          "CASH",
+          363312,
+          0,
+          363312
+        ],
+        [
+          "E_WALLET",
+          819948,
+          0,
+          819948
+        ]
+      ],
+      "expected_rows_sha256": "019da69acade163c606dd3a8c66ace7d901cb5037638caf5b3aae420bdb21694",
+      "row_count_before_set_comparison": 4,
+      "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_cd_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-EF-03",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "2752218f1df1d62be71ea2817efadeba0d6365ba3befa702dc3eccc034a10b31",
+      "canonical_sql_sha256_at_derivation": "d7d75b1d8baeb477715ebcc983bea68474ef3fb88c9bffe998d938a6728aede5",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          10,
+          "W-SKU-010",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          11,
+          "W-SKU-011",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          12,
+          "W-SKU-012",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          13,
+          "W-SKU-013",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          14,
+          "W-SKU-014",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          15,
+          "W-SKU-015",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          16,
+          "W-SKU-016",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          17,
+          "W-SKU-017",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          18,
+          "W-SKU-018",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          19,
+          "W-SKU-001",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          2,
+          "W-SKU-002",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          20,
+          "W-SKU-002",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          21,
+          "W-SKU-003",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          22,
+          "W-SKU-004",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          23,
+          "W-SKU-005",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          24,
+          "W-SKU-006",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          25,
+          "W-SKU-007",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          26,
+          "W-SKU-008",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          27,
+          "W-SKU-009",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          28,
+          "W-SKU-010",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          29,
+          "W-SKU-011",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          3,
+          "W-SKU-003",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          30,
+          "W-SKU-012",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          31,
+          "W-SKU-013",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          32,
+          "W-SKU-014",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          33,
+          "W-SKU-015",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          34,
+          "W-SKU-016",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          35,
+          "W-SKU-017",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          36,
+          "W-SKU-018",
+          "STO",
+          "2025-01-06T09:00:00.000Z",
+          500000
+        ],
+        [
+          37,
+          "W-SKU-001",
+          "STO",
+          "2025-01-09T09:00:00.000Z",
+          10000
+        ],
+        [
+          38,
+          "W-SKU-001",
+          "STO",
+          "2025-01-09T09:00:00.000Z",
+          10000
+        ],
+        [
+          39,
+          "W-SKU-001",
+          "STO",
+          "2025-01-09T09:00:00.000Z",
+          10000
+        ],
+        [
+          4,
+          "W-SKU-004",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          40,
+          "W-SKU-001",
+          "STO",
+          "2025-01-09T09:00:00.000Z",
+          10000
+        ],
+        [
+          41,
+          "W-SKU-001",
+          "STO",
+          "2025-01-20T09:00:00.000Z",
+          -21000
+        ],
+        [
+          42,
+          "W-SKU-001",
+          "STO",
+          "2025-01-20T09:00:00.000Z",
+          21000
+        ],
+        [
+          43,
+          "W-SKU-002",
+          "STO",
+          "2025-01-21T09:00:00.000Z",
+          -22000
+        ],
+        [
+          44,
+          "W-SKU-002",
+          "STO",
+          "2025-01-21T09:00:00.000Z",
+          22000
+        ],
+        [
+          45,
+          "W-SKU-003",
+          "STO",
+          "2025-01-22T09:00:00.000Z",
+          -23000
+        ],
+        [
+          46,
+          "W-SKU-003",
+          "STO",
+          "2025-01-22T09:00:00.000Z",
+          23000
+        ],
+        [
+          47,
+          "W-SKU-004",
+          "STO",
+          "2025-01-23T09:00:00.000Z",
+          -24000
+        ],
+        [
+          48,
+          "W-SKU-004",
+          "STO",
+          "2025-01-23T09:00:00.000Z",
+          24000
+        ],
+        [
+          49,
+          "W-SKU-005",
+          "STO",
+          "2025-01-24T09:00:00.000Z",
+          -25000
+        ],
+        [
+          5,
+          "W-SKU-005",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          50,
+          "W-SKU-005",
+          "STO",
+          "2025-01-24T09:00:00.000Z",
+          25000
+        ],
+        [
+          51,
+          "W-SKU-006",
+          "STO",
+          "2025-01-25T09:00:00.000Z",
+          -26000
+        ],
+        [
+          52,
+          "W-SKU-006",
+          "STO",
+          "2025-01-25T09:00:00.000Z",
+          26000
+        ],
+        [
+          53,
+          "W-SKU-007",
+          "STO",
+          "2025-01-26T09:00:00.000Z",
+          -27000
+        ],
+        [
+          54,
+          "W-SKU-007",
+          "STO",
+          "2025-01-26T09:00:00.000Z",
+          27000
+        ],
+        [
+          55,
+          "W-SKU-008",
+          "STO",
+          "2025-01-27T09:00:00.000Z",
+          -28000
+        ],
+        [
+          56,
+          "W-SKU-008",
+          "STO",
+          "2025-01-27T09:00:00.000Z",
+          28000
+        ],
+        [
+          57,
+          "W-SKU-009",
+          "STO",
+          "2025-01-28T09:00:00.000Z",
+          -29000
+        ],
+        [
+          58,
+          "W-SKU-009",
+          "STO",
+          "2025-01-28T09:00:00.000Z",
+          29000
+        ],
+        [
+          59,
+          "W-SKU-010",
+          "STO",
+          "2025-01-29T09:00:00.000Z",
+          -30000
+        ],
+        [
+          6,
+          "W-SKU-006",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          60,
+          "W-SKU-010",
+          "STO",
+          "2025-01-29T09:00:00.000Z",
+          30000
+        ],
+        [
+          61,
+          "W-SKU-011",
+          "STO",
+          "2025-01-30T09:00:00.000Z",
+          -31000
+        ],
+        [
+          62,
+          "W-SKU-011",
+          "STO",
+          "2025-01-30T09:00:00.000Z",
+          31000
+        ],
+        [
+          63,
+          "W-SKU-012",
+          "STO",
+          "2025-01-31T09:00:00.000Z",
+          -32000
+        ],
+        [
+          64,
+          "W-SKU-012",
+          "STO",
+          "2025-01-31T09:00:00.000Z",
+          32000
+        ],
+        [
+          65,
+          "W-SKU-011",
+          "STO",
+          "2025-02-13T09:00:00.000Z",
+          -15149
+        ],
+        [
+          66,
+          "W-SKU-010",
+          "STO",
+          "2025-02-14T09:00:00.000Z",
+          -15210
+        ],
+        [
+          67,
+          "W-SKU-001",
+          "STO",
+          "2025-02-15T09:00:00.000Z",
+          -15382
+        ],
+        [
+          68,
+          "W-SKU-010",
+          "STO",
+          "2025-02-16T09:00:00.000Z",
+          -15449
+        ],
+        [
+          69,
+          "W-SKU-005",
+          "STO",
+          "2025-02-17T09:00:00.000Z",
+          -15593
+        ],
+        [
+          7,
+          "W-SKU-007",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          70,
+          "W-SKU-001",
+          "STO",
+          "2025-02-18T09:00:00.000Z",
+          -15639
+        ],
+        [
+          71,
+          "W-SKU-008",
+          "STO",
+          "2025-02-19T09:00:00.000Z",
+          -15756
+        ],
+        [
+          72,
+          "W-SKU-009",
+          "STO",
+          "2025-02-20T09:00:00.000Z",
+          -15885
+        ],
+        [
+          73,
+          "W-SKU-007",
+          "STO",
+          "2025-02-21T09:00:00.000Z",
+          -15940
+        ],
+        [
+          74,
+          "W-SKU-003",
+          "STO",
+          "2025-02-22T09:00:00.000Z",
+          -16062
+        ],
+        [
+          75,
+          "W-SKU-008",
+          "STO",
+          "2025-02-23T09:00:00.000Z",
+          -16159
+        ],
+        [
+          76,
+          "W-SKU-002",
+          "STO",
+          "2025-02-24T09:00:00.000Z",
+          -16230
+        ],
+        [
+          77,
+          "W-SKU-007",
+          "STO",
+          "2025-02-25T09:00:00.000Z",
+          -16342
+        ],
+        [
+          78,
+          "W-SKU-009",
+          "STO",
+          "2025-02-26T09:00:00.000Z",
+          -16489
+        ],
+        [
+          79,
+          "W-SKU-001",
+          "STO",
+          "2025-02-27T09:00:00.000Z",
+          -16537
+        ],
+        [
+          8,
+          "W-SKU-008",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          80,
+          "W-SKU-010",
+          "STO",
+          "2025-02-28T09:00:00.000Z",
+          -16656
+        ],
+        [
+          81,
+          "W-SKU-008",
+          "STO",
+          "2025-03-01T09:00:00.000Z",
+          -16752
+        ],
+        [
+          82,
+          "W-SKU-002",
+          "STO",
+          "2025-03-02T09:00:00.000Z",
+          -16891
+        ],
+        [
+          83,
+          "W-SKU-003",
+          "STO",
+          "2025-03-03T09:00:00.000Z",
+          -16916
+        ],
+        [
+          84,
+          "W-SKU-006",
+          "STO",
+          "2025-03-04T09:00:00.000Z",
+          -17059
+        ],
+        [
+          85,
+          "W-SKU-003",
+          "STO",
+          "2025-03-15T09:00:00.000Z",
+          5100
+        ],
+        [
+          86,
+          "W-SKU-004",
+          "STO",
+          "2025-03-16T09:00:00.000Z",
+          5200
+        ],
+        [
+          87,
+          "W-SKU-005",
+          "STO",
+          "2025-03-17T09:00:00.000Z",
+          5300
+        ],
+        [
+          88,
+          "W-SKU-006",
+          "STO",
+          "2025-03-18T09:00:00.000Z",
+          5400
+        ],
+        [
+          89,
+          "W-SKU-018",
+          "STO",
+          "2025-03-24T09:00:00.000Z",
+          1000
+        ],
+        [
+          9,
+          "W-SKU-009",
+          "STO",
+          "2025-01-05T09:00:00.000Z",
+          500000
+        ],
+        [
+          90,
+          "W-SKU-018",
+          "STO",
+          "2025-03-25T09:00:00.000Z",
+          -500
+        ]
+      ],
+      "expected_rows_sha256": "7348957e0a305590c5c69debdceff904aaab7cd91d6314b8fbc7959a7d2b596e",
+      "row_count_before_set_comparison": 90,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ef_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-EF-04",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "c5bd7ec167e81baa0d7a4bd07bcdace9060a00da5ecb59c2df2bea8d568b12f8",
+      "canonical_sql_sha256_at_derivation": "2e98a977c077250a91bcd189732e6f3bfae4af85aff3201842167b060cece974",
+      "expected_rows": [],
+      "expected_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "row_count_before_set_comparison": 0,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ef_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-AG-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "302721e2f9d17cfd66f3abdd8ac056ca45b4c5084f5e58b79617cf2c3b8cf07e",
+      "canonical_sql_sha256_at_derivation": "a83f398e91c5ea7ce73cdc130044edac635101fdc2e87648d20e17d2a7be8bad",
+      "expected_rows": [
+        [
+          6
+        ]
+      ],
+      "expected_rows_sha256": "a9aa85acf18adf4f2e42f1cb876a854cf82b70587922457d888db0e2df100099",
+      "row_count_before_set_comparison": 1,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-AG-03",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "cabac02fdc33107c2cedaf4c757aa3ca529507150d06f9b1d94139fd4a8c07af",
+      "canonical_sql_sha256_at_derivation": "7f939abb284e9b6d0a2c0c5798692136edd84c34523c76d63b02850837ca54e8",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          "EA",
+          496221
+        ],
+        [
+          10,
+          "W-SKU-010",
+          "EA",
+          476343
+        ],
+        [
+          11,
+          "W-SKU-011",
+          "KG",
+          492426
+        ],
+        [
+          12,
+          "W-SKU-012",
+          "L",
+          500000
+        ],
+        [
+          13,
+          "W-SKU-013",
+          "EA",
+          500000
+        ],
+        [
+          14,
+          "W-SKU-014",
+          "KG",
+          500000
+        ],
+        [
+          15,
+          "W-SKU-015",
+          "L",
+          500000
+        ],
+        [
+          16,
+          "W-SKU-016",
+          "EA",
+          500000
+        ],
+        [
+          17,
+          "W-SKU-017",
+          "KG",
+          500000
+        ],
+        [
+          18,
+          "W-SKU-018",
+          "L",
+          500250
+        ],
+        [
+          2,
+          "W-SKU-002",
+          "KG",
+          483440
+        ],
+        [
+          3,
+          "W-SKU-003",
+          "L",
+          486061
+        ],
+        [
+          4,
+          "W-SKU-004",
+          "EA",
+          502600
+        ],
+        [
+          5,
+          "W-SKU-005",
+          "KG",
+          494854
+        ],
+        [
+          6,
+          "W-SKU-006",
+          "L",
+          494171
+        ],
+        [
+          7,
+          "W-SKU-007",
+          "EA",
+          483859
+        ],
+        [
+          8,
+          "W-SKU-008",
+          "KG",
+          475667
+        ],
+        [
+          9,
+          "W-SKU-009",
+          "L",
+          483813
+        ]
+      ],
+      "expected_rows_sha256": "bbee33154a097d4b18bbe4a41dddd1c762a9f14fb5ab5332c27019bed3d9fa90",
+      "row_count_before_set_comparison": 18,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-AG-04",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "bde9a67647aeaddc53fd87a0ff1d9560f1d3f963f72c4f087655fc7733fb018d",
+      "canonical_sql_sha256_at_derivation": "12093451f7b9b21b78c21d899b6c59a277554aaa4e067c8d44ae1c6c831406a4",
+      "expected_rows": [
+        [
+          1,
+          "EA",
+          1,
+          0
+        ],
+        [
+          1,
+          "EA",
+          2,
+          0
+        ],
+        [
+          10,
+          "EA",
+          1,
+          0
+        ],
+        [
+          10,
+          "EA",
+          2,
+          0
+        ],
+        [
+          11,
+          "KG",
+          1,
+          0
+        ],
+        [
+          11,
+          "KG",
+          2,
+          0
+        ],
+        [
+          12,
+          "L",
+          1,
+          0
+        ],
+        [
+          12,
+          "L",
+          2,
+          0
+        ],
+        [
+          13,
+          "EA",
+          1,
+          0
+        ],
+        [
+          13,
+          "EA",
+          2,
+          0
+        ],
+        [
+          14,
+          "KG",
+          1,
+          0
+        ],
+        [
+          14,
+          "KG",
+          2,
+          0
+        ],
+        [
+          15,
+          "L",
+          1,
+          0
+        ],
+        [
+          15,
+          "L",
+          2,
+          0
+        ],
+        [
+          16,
+          "EA",
+          1,
+          0
+        ],
+        [
+          16,
+          "EA",
+          2,
+          0
+        ],
+        [
+          17,
+          "KG",
+          1,
+          0
+        ],
+        [
+          17,
+          "KG",
+          2,
+          0
+        ],
+        [
+          18,
+          "L",
+          1,
+          0
+        ],
+        [
+          18,
+          "L",
+          2,
+          0
+        ],
+        [
+          2,
+          "KG",
+          1,
+          0
+        ],
+        [
+          2,
+          "KG",
+          2,
+          0
+        ],
+        [
+          3,
+          "L",
+          1,
+          0
+        ],
+        [
+          3,
+          "L",
+          2,
+          0
+        ],
+        [
+          4,
+          "EA",
+          1,
+          0
+        ],
+        [
+          4,
+          "EA",
+          2,
+          0
+        ],
+        [
+          5,
+          "KG",
+          1,
+          0
+        ],
+        [
+          5,
+          "KG",
+          2,
+          0
+        ],
+        [
+          6,
+          "L",
+          1,
+          0
+        ],
+        [
+          6,
+          "L",
+          2,
+          0
+        ],
+        [
+          7,
+          "EA",
+          1,
+          0
+        ],
+        [
+          7,
+          "EA",
+          2,
+          0
+        ],
+        [
+          8,
+          "KG",
+          1,
+          0
+        ],
+        [
+          8,
+          "KG",
+          2,
+          0
+        ],
+        [
+          9,
+          "L",
+          1,
+          0
+        ],
+        [
+          9,
+          "L",
+          2,
+          0
+        ]
+      ],
+      "expected_rows_sha256": "35a0442d843aca652e3111935a87b40aef12436ce7a45f5b73e0820946daf584",
+      "row_count_before_set_comparison": 36,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-GB-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "c44f23d85254a0e82247eb32452351ce1d244a6efea3aa2a92c036673fa1cc3a",
+      "canonical_sql_sha256_at_derivation": "7bb58688246f592b9c6cbe5f96034513ad29effcce9f1bf307bd493d64dd2302",
+      "expected_rows": [
+        [
+          "CANCELLED",
+          1
+        ],
+        [
+          "DRAFT",
+          1
+        ],
+        [
+          "POSTED",
+          44
+        ]
+      ],
+      "expected_rows_sha256": "e05b142cc040fd141cde1b03179bd6031bb05dc6954f0b4476ccffaefffe4f92",
+      "row_count_before_set_comparison": 3,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-GB-02",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "79aca05fe5c9caaff88dda3f68b055f401d34e0120ccac25edd9779ab112fd11",
+      "canonical_sql_sha256_at_derivation": "347d0e7c0e55565e2adde6474ccc07042176521bf021cbda8a01fe7cad821aee",
+      "expected_rows": [
+        [
+          "ADJUSTMENT",
+          "L",
+          500
+        ],
+        [
+          "CUSTOMER_RETURN",
+          "EA",
+          5200
+        ],
+        [
+          "CUSTOMER_RETURN",
+          "KG",
+          5300
+        ],
+        [
+          "CUSTOMER_RETURN",
+          "L",
+          10500
+        ],
+        [
+          "RECEIPT",
+          "EA",
+          6040000
+        ],
+        [
+          "RECEIPT",
+          "KG",
+          6000000
+        ],
+        [
+          "RECEIPT",
+          "L",
+          6000000
+        ],
+        [
+          "SHIPMENT",
+          "EA",
+          -127155
+        ],
+        [
+          "SHIPMENT",
+          "KG",
+          -112530
+        ],
+        [
+          "SHIPMENT",
+          "L",
+          -82411
+        ],
+        [
+          "TRANSFER",
+          "EA",
+          0
+        ],
+        [
+          "TRANSFER",
+          "KG",
+          0
+        ],
+        [
+          "TRANSFER",
+          "L",
+          0
+        ]
+      ],
+      "expected_rows_sha256": "ccd1d1d639c24ebef7d4258defe0a7ffff963b13159cfc6fc3f2b7e02baec700",
+      "row_count_before_set_comparison": 13,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-GB-03",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "510081a13e41bded93c9828eab6b8a9a08b7f9b947f283899b188da7f01280d9",
+      "canonical_sql_sha256_at_derivation": "02419e784ba86bc7c3e5bb894e8dc811aabe78e2b53fcd78957cfed838ff4980",
+      "expected_rows": [
+        [
+          1,
+          "Nhà cung cấp 01",
+          5
+        ],
+        [
+          2,
+          "Nhà cung cấp 02",
+          1
+        ],
+        [
+          3,
+          "Nhà cung cấp 03",
+          0
+        ],
+        [
+          4,
+          "Nhà cung cấp 04",
+          0
+        ]
+      ],
+      "expected_rows_sha256": "0ee694a0a6fc31445aa03f2e46c3a09580223e2fd228fc05ceb49f4548cb4af0",
+      "row_count_before_set_comparison": 4,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-GB-04",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "0aa163dc269951fd9c7f332749b5513dc8b009eacea9991c18242d913581e860",
+      "canonical_sql_sha256_at_derivation": "36007f312c1be023bff98d62d0e76201cdd9e98189eb4c18077f88e52d91a3c5",
+      "expected_rows": [
+        [
+          1,
+          "WH-SG",
+          1,
+          "W-SKU-001",
+          "EA",
+          467081
+        ],
+        [
+          1,
+          "WH-SG",
+          10,
+          "W-SKU-010",
+          "EA",
+          470000
+        ],
+        [
+          1,
+          "WH-SG",
+          11,
+          "W-SKU-011",
+          "KG",
+          453851
+        ],
+        [
+          1,
+          "WH-SG",
+          12,
+          "W-SKU-012",
+          "L",
+          468000
+        ],
+        [
+          1,
+          "WH-SG",
+          13,
+          "W-SKU-013",
+          "EA",
+          500000
+        ],
+        [
+          1,
+          "WH-SG",
+          14,
+          "W-SKU-014",
+          "KG",
+          500000
+        ],
+        [
+          1,
+          "WH-SG",
+          15,
+          "W-SKU-015",
+          "L",
+          500000
+        ],
+        [
+          1,
+          "WH-SG",
+          16,
+          "W-SKU-016",
+          "EA",
+          500000
+        ],
+        [
+          1,
+          "WH-SG",
+          17,
+          "W-SKU-017",
+          "KG",
+          500000
+        ],
+        [
+          1,
+          "WH-SG",
+          18,
+          "W-SKU-018",
+          "L",
+          501000
+        ],
+        [
+          1,
+          "WH-SG",
+          2,
+          "W-SKU-002",
+          "KG",
+          478000
+        ],
+        [
+          1,
+          "WH-SG",
+          3,
+          "W-SKU-003",
+          "L",
+          465184
+        ],
+        [
+          1,
+          "WH-SG",
+          4,
+          "W-SKU-004",
+          "EA",
+          476000
+        ],
+        [
+          1,
+          "WH-SG",
+          5,
+          "W-SKU-005",
+          "KG",
+          464707
+        ],
+        [
+          1,
+          "WH-SG",
+          6,
+          "W-SKU-006",
+          "L",
+          474000
+        ],
+        [
+          1,
+          "WH-SG",
+          7,
+          "W-SKU-007",
+          "EA",
+          440718
+        ],
+        [
+          1,
+          "WH-SG",
+          8,
+          "W-SKU-008",
+          "KG",
+          423333
+        ],
+        [
+          1,
+          "WH-SG",
+          9,
+          "W-SKU-009",
+          "L",
+          471000
+        ],
+        [
+          2,
+          "WH-HN",
+          1,
+          "W-SKU-001",
+          "EA",
+          525361
+        ],
+        [
+          2,
+          "WH-HN",
+          10,
+          "W-SKU-010",
+          "EA",
+          482685
+        ],
+        [
+          2,
+          "WH-HN",
+          11,
+          "W-SKU-011",
+          "KG",
+          531000
+        ],
+        [
+          2,
+          "WH-HN",
+          12,
+          "W-SKU-012",
+          "L",
+          532000
+        ],
+        [
+          2,
+          "WH-HN",
+          13,
+          "W-SKU-013",
+          "EA",
+          500000
+        ],
+        [
+          2,
+          "WH-HN",
+          14,
+          "W-SKU-014",
+          "KG",
+          500000
+        ],
+        [
+          2,
+          "WH-HN",
+          15,
+          "W-SKU-015",
+          "L",
+          500000
+        ],
+        [
+          2,
+          "WH-HN",
+          16,
+          "W-SKU-016",
+          "EA",
+          500000
+        ],
+        [
+          2,
+          "WH-HN",
+          17,
+          "W-SKU-017",
+          "KG",
+          500000
+        ],
+        [
+          2,
+          "WH-HN",
+          18,
+          "W-SKU-018",
+          "L",
+          499500
+        ],
+        [
+          2,
+          "WH-HN",
+          2,
+          "W-SKU-002",
+          "KG",
+          488879
+        ],
+        [
+          2,
+          "WH-HN",
+          3,
+          "W-SKU-003",
+          "L",
+          506938
+        ],
+        [
+          2,
+          "WH-HN",
+          4,
+          "W-SKU-004",
+          "EA",
+          529200
+        ],
+        [
+          2,
+          "WH-HN",
+          5,
+          "W-SKU-005",
+          "KG",
+          525000
+        ],
+        [
+          2,
+          "WH-HN",
+          6,
+          "W-SKU-006",
+          "L",
+          514341
+        ],
+        [
+          2,
+          "WH-HN",
+          7,
+          "W-SKU-007",
+          "EA",
+          527000
+        ],
+        [
+          2,
+          "WH-HN",
+          8,
+          "W-SKU-008",
+          "KG",
+          528000
+        ],
+        [
+          2,
+          "WH-HN",
+          9,
+          "W-SKU-009",
+          "L",
+          496626
+        ]
+      ],
+      "expected_rows_sha256": "e274c996c4b4dc7d259466709148174674ed903c66529ad9859cd4c32e005e5d",
+      "row_count_before_set_comparison": 36,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_04",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_04.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "04e3a8e0009b45e6ea4eb65d432e95307cf98a49987836dcf236e48f8eb4c91c",
+      "canonical_sql_sha256_at_derivation": "84df2043b036ea507559e076b62b9614f9f62396a4e43780ef3fe8972f382cfd",
+      "expected_rows": [
+        [
+          13,
+          "W-SKU-013",
+          "Hàng kho 13",
+          "EA",
+          1,
+          500000,
+          1
+        ],
+        [
+          16,
+          "W-SKU-016",
+          "Hàng kho 16",
+          "EA",
+          1,
+          500000,
+          1
+        ]
+      ],
+      "expected_rows_sha256": "5c40bd9e0b322ff85ebd4af0dfd17fac3c571c46ea00e427fa608527d1e4cbd0",
+      "row_count_before_set_comparison": 2,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-02",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "eaa5cba4ddc5b5613670c36e7bb1f4046d790337109922b4f3dbc0f438c785d8",
+      "canonical_sql_sha256_at_derivation": "e7e80ea2038ffca7d7e2f530de168142c5fdf2065a5a5a19d037668619ad2e2b",
+      "expected_rows": [
+        [
+          1,
+          "Nhà cung cấp 01",
+          5,
+          1
+        ],
+        [
+          2,
+          "Nhà cung cấp 02",
+          1,
+          2
+        ]
+      ],
+      "expected_rows_sha256": "ce3ce37172bc72a0ba2bd2fdf4b8a2eeeedc0500716a5b2d0d1ae9b2da87deaa",
+      "row_count_before_set_comparison": 2,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-03",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "67eb21d2ffe98b11c8094ab8b1454f4c9c712b547708fecf17b4899755212eb7",
+      "canonical_sql_sha256_at_derivation": "8db10679164a613676df7dc45656d139a87bfcc9efe6230b7d57cda01d4eaa74",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          "EA",
+          2,
+          "STO",
+          467081,
+          2
+        ],
+        [
+          1,
+          "W-SKU-001",
+          "EA",
+          6,
+          "STO",
+          525361,
+          1
+        ]
+      ],
+      "expected_rows_sha256": "1740c9237cac05af7f9da9165db2085f68bf86b46f0b9039f952725d5b89ed6b",
+      "row_count_before_set_comparison": 2,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-JN-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "c5da07e5a78b6fd3275716f69d282134b336eb995ea073dc42bfd853412643f0",
+      "canonical_sql_sha256_at_derivation": "c8ee37a78f572da8af1d8bdf52a41e14e8f1bd6db67faaafdd945964d7f9dc5b",
+      "expected_rows": [
+        [
+          1,
+          "WD-00001",
+          "2024-11-02",
+          1,
+          "Nhà cung cấp 01"
+        ],
+        [
+          2,
+          "WD-00002",
+          "2024-11-02",
+          2,
+          "Nhà cung cấp 02"
+        ],
+        [
+          3,
+          "WD-00003",
+          "2024-11-09",
+          1,
+          "Nhà cung cấp 01"
+        ],
+        [
+          4,
+          "WD-00004",
+          "2024-11-09",
+          1,
+          "Nhà cung cấp 01"
+        ],
+        [
+          5,
+          "WD-00005",
+          "2024-11-09",
+          1,
+          "Nhà cung cấp 01"
+        ],
+        [
+          6,
+          "WD-00006",
+          "2024-11-09",
+          1,
+          "Nhà cung cấp 01"
+        ]
+      ],
+      "expected_rows_sha256": "d918bec4b9f12160bccd66f8c97b7c301c81175d8a8362eab54685d0d37437a5",
+      "row_count_before_set_comparison": 6,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-JN-02",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "f030d5148991e4e6b07b3018e843a0862f5d85759acb6a4c37290c6a33608510",
+      "canonical_sql_sha256_at_derivation": "e481ed183b4d0e9a136aab1888ac94bd3a6cf39408786947cef9e964ae8ab0e7",
+      "expected_rows": [
+        [
+          "WD-00001",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          10,
+          "W-SKU-010",
+          "Hàng kho 10",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          11,
+          "W-SKU-011",
+          "Hàng kho 11",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          12,
+          "W-SKU-012",
+          "Hàng kho 12",
+          "L",
+          500000
+        ],
+        [
+          "WD-00001",
+          13,
+          "W-SKU-013",
+          "Hàng kho 13",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          14,
+          "W-SKU-014",
+          "Hàng kho 14",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          15,
+          "W-SKU-015",
+          "Hàng kho 15",
+          "L",
+          500000
+        ],
+        [
+          "WD-00001",
+          16,
+          "W-SKU-016",
+          "Hàng kho 16",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          17,
+          "W-SKU-017",
+          "Hàng kho 17",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          18,
+          "W-SKU-018",
+          "Hàng kho 18",
+          "L",
+          500000
+        ],
+        [
+          "WD-00001",
+          2,
+          "W-SKU-002",
+          "Bình nước",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          3,
+          "W-SKU-003",
+          "Hàng kho 03",
+          "L",
+          500000
+        ],
+        [
+          "WD-00001",
+          4,
+          "W-SKU-004",
+          "Hàng kho 04",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          5,
+          "W-SKU-005",
+          "Hàng kho 05",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          6,
+          "W-SKU-006",
+          "Hàng kho 06",
+          "L",
+          500000
+        ],
+        [
+          "WD-00001",
+          7,
+          "W-SKU-007",
+          "Hàng kho 07",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00001",
+          8,
+          "W-SKU-008",
+          "Hàng kho 08",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00001",
+          9,
+          "W-SKU-009",
+          "Hàng kho 09",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          10,
+          "W-SKU-010",
+          "Hàng kho 10",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          11,
+          "W-SKU-011",
+          "Hàng kho 11",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          12,
+          "W-SKU-012",
+          "Hàng kho 12",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          13,
+          "W-SKU-013",
+          "Hàng kho 13",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          14,
+          "W-SKU-014",
+          "Hàng kho 14",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          15,
+          "W-SKU-015",
+          "Hàng kho 15",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          16,
+          "W-SKU-016",
+          "Hàng kho 16",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          17,
+          "W-SKU-017",
+          "Hàng kho 17",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          18,
+          "W-SKU-018",
+          "Hàng kho 18",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          2,
+          "W-SKU-002",
+          "Bình nước",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          3,
+          "W-SKU-003",
+          "Hàng kho 03",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          4,
+          "W-SKU-004",
+          "Hàng kho 04",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          5,
+          "W-SKU-005",
+          "Hàng kho 05",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          6,
+          "W-SKU-006",
+          "Hàng kho 06",
+          "L",
+          500000
+        ],
+        [
+          "WD-00002",
+          7,
+          "W-SKU-007",
+          "Hàng kho 07",
+          "EA",
+          500000
+        ],
+        [
+          "WD-00002",
+          8,
+          "W-SKU-008",
+          "Hàng kho 08",
+          "KG",
+          500000
+        ],
+        [
+          "WD-00002",
+          9,
+          "W-SKU-009",
+          "Hàng kho 09",
+          "L",
+          500000
+        ],
+        [
+          "WD-00003",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          10000
+        ],
+        [
+          "WD-00004",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          10000
+        ],
+        [
+          "WD-00005",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          10000
+        ],
+        [
+          "WD-00006",
+          1,
+          "W-SKU-001",
+          "Bình nước",
+          "EA",
+          10000
+        ]
+      ],
+      "expected_rows_sha256": "b0392681170307c7b3e5057d41d0650e55b52b90678bfef205ff89819a2ed3d2",
+      "row_count_before_set_comparison": 40,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-JN-03",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "6948143c827a3ffbbd797e864cf6f26df7d37722213d2faaaf22557ddd0c62aa",
+      "canonical_sql_sha256_at_derivation": "d7a3e9cc5e78649ae76d6007510d11565870d94d2309a47aaa8e61ee1130c9de",
+      "expected_rows": [
+        [
+          1,
+          "Kho Sài Gòn",
+          "STORAGE",
+          "EA",
+          2853799
+        ],
+        [
+          1,
+          "Kho Sài Gòn",
+          "STORAGE",
+          "KG",
+          2819891
+        ],
+        [
+          1,
+          "Kho Sài Gòn",
+          "STORAGE",
+          "L",
+          2879184
+        ],
+        [
+          2,
+          "Kho Hà Nội",
+          "STORAGE",
+          "EA",
+          3064246
+        ],
+        [
+          2,
+          "Kho Hà Nội",
+          "STORAGE",
+          "KG",
+          3072879
+        ],
+        [
+          2,
+          "Kho Hà Nội",
+          "STORAGE",
+          "L",
+          3049405
+        ]
+      ],
+      "expected_rows_sha256": "5a6f25b7218573a03f2cf042d2bdd800abc29aa11c0789005901a40db2270277",
+      "row_count_before_set_comparison": 6,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_03",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_03.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-TM-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "9cfcaf745a71c166b6028ef3dea9ac71d6598cfa1f95a7547d3703e05c86f154",
+      "canonical_sql_sha256_at_derivation": "fec0dabb2c5a76f362a69dfbf1aa35974e7c94b4dceb5f1ef2a5b0303224f6bc",
+      "expected_rows": [
+        [
+          39,
+          "WD-00039",
+          "CUSTOMER_RETURN",
+          "POSTED",
+          "2025-01-11"
+        ],
+        [
+          40,
+          "WD-00040",
+          "CUSTOMER_RETURN",
+          "POSTED",
+          "2025-01-12"
+        ],
+        [
+          41,
+          "WD-00041",
+          "CUSTOMER_RETURN",
+          "POSTED",
+          "2025-01-13"
+        ],
+        [
+          42,
+          "WD-00042",
+          "CUSTOMER_RETURN",
+          "POSTED",
+          "2025-01-14"
+        ],
+        [
+          43,
+          "WD-00043",
+          "ADJUSTMENT",
+          "POSTED",
+          "2025-01-20"
+        ],
+        [
+          44,
+          "WD-00044",
+          "ADJUSTMENT",
+          "POSTED",
+          "2025-01-21"
+        ]
+      ],
+      "expected_rows_sha256": "1b7a8daa65ab6f1c18e4a9a6a5093d0ab073525ab6e4cb66a6ce6afb1adb9e4f",
+      "row_count_before_set_comparison": 6,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_tm_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-TM-02",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "d0fdb50a6fa4d8ad08b89a32e199dbc765349dab7ae4bc937c00b176c83cb495",
+      "canonical_sql_sha256_at_derivation": "1d64162e4365748b4f9482e4313ce204352739828aa86f710a4036f8707a2529",
+      "expected_rows": [
+        [
+          1,
+          2,
+          467081
+        ],
+        [
+          1,
+          6,
+          525361
+        ],
+        [
+          10,
+          2,
+          470000
+        ],
+        [
+          10,
+          6,
+          482685
+        ],
+        [
+          11,
+          2,
+          453851
+        ],
+        [
+          11,
+          6,
+          531000
+        ],
+        [
+          12,
+          2,
+          468000
+        ],
+        [
+          12,
+          6,
+          532000
+        ],
+        [
+          13,
+          2,
+          500000
+        ],
+        [
+          13,
+          6,
+          500000
+        ],
+        [
+          14,
+          2,
+          500000
+        ],
+        [
+          14,
+          6,
+          500000
+        ],
+        [
+          15,
+          2,
+          500000
+        ],
+        [
+          15,
+          6,
+          500000
+        ],
+        [
+          16,
+          2,
+          500000
+        ],
+        [
+          16,
+          6,
+          500000
+        ],
+        [
+          17,
+          2,
+          500000
+        ],
+        [
+          17,
+          6,
+          500000
+        ],
+        [
+          18,
+          2,
+          501000
+        ],
+        [
+          18,
+          6,
+          499500
+        ],
+        [
+          2,
+          2,
+          478000
+        ],
+        [
+          2,
+          6,
+          488879
+        ],
+        [
+          3,
+          2,
+          465184
+        ],
+        [
+          3,
+          6,
+          506938
+        ],
+        [
+          4,
+          2,
+          476000
+        ],
+        [
+          4,
+          6,
+          529200
+        ],
+        [
+          5,
+          2,
+          464707
+        ],
+        [
+          5,
+          6,
+          525000
+        ],
+        [
+          6,
+          2,
+          474000
+        ],
+        [
+          6,
+          6,
+          514341
+        ],
+        [
+          7,
+          2,
+          440718
+        ],
+        [
+          7,
+          6,
+          527000
+        ],
+        [
+          8,
+          2,
+          423333
+        ],
+        [
+          8,
+          6,
+          528000
+        ],
+        [
+          9,
+          2,
+          471000
+        ],
+        [
+          9,
+          6,
+          496626
+        ]
+      ],
+      "expected_rows_sha256": "1c2c8a438d00a8127b2962b53f5961394ae683abd7653d63f209484151d4b9a8",
+      "row_count_before_set_comparison": 36,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_tm_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-NA-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "3cf761c33d2061d0d006d921952aa01df1047b39945956c8e2f15ea992ef7f73",
+      "canonical_sql_sha256_at_derivation": "0a87321fcb061641ecab19e76f0592f050dfc363e88b37d935b46df5698a45a2",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          3,
+          "PICK"
+        ],
+        [
+          1,
+          "W-SKU-001",
+          7,
+          "PICK"
+        ],
+        [
+          10,
+          "W-SKU-010",
+          3,
+          "PICK"
+        ],
+        [
+          10,
+          "W-SKU-010",
+          7,
+          "PICK"
+        ],
+        [
+          11,
+          "W-SKU-011",
+          3,
+          "PICK"
+        ],
+        [
+          11,
+          "W-SKU-011",
+          7,
+          "PICK"
+        ],
+        [
+          12,
+          "W-SKU-012",
+          3,
+          "PICK"
+        ],
+        [
+          12,
+          "W-SKU-012",
+          7,
+          "PICK"
+        ],
+        [
+          13,
+          "W-SKU-013",
+          3,
+          "PICK"
+        ],
+        [
+          13,
+          "W-SKU-013",
+          7,
+          "PICK"
+        ],
+        [
+          14,
+          "W-SKU-014",
+          3,
+          "PICK"
+        ],
+        [
+          14,
+          "W-SKU-014",
+          7,
+          "PICK"
+        ],
+        [
+          15,
+          "W-SKU-015",
+          3,
+          "PICK"
+        ],
+        [
+          15,
+          "W-SKU-015",
+          7,
+          "PICK"
+        ],
+        [
+          16,
+          "W-SKU-016",
+          3,
+          "PICK"
+        ],
+        [
+          16,
+          "W-SKU-016",
+          7,
+          "PICK"
+        ],
+        [
+          17,
+          "W-SKU-017",
+          3,
+          "PICK"
+        ],
+        [
+          17,
+          "W-SKU-017",
+          7,
+          "PICK"
+        ],
+        [
+          18,
+          "W-SKU-018",
+          3,
+          "PICK"
+        ],
+        [
+          18,
+          "W-SKU-018",
+          7,
+          "PICK"
+        ],
+        [
+          2,
+          "W-SKU-002",
+          3,
+          "PICK"
+        ],
+        [
+          2,
+          "W-SKU-002",
+          7,
+          "PICK"
+        ],
+        [
+          3,
+          "W-SKU-003",
+          3,
+          "PICK"
+        ],
+        [
+          3,
+          "W-SKU-003",
+          7,
+          "PICK"
+        ],
+        [
+          4,
+          "W-SKU-004",
+          3,
+          "PICK"
+        ],
+        [
+          4,
+          "W-SKU-004",
+          7,
+          "PICK"
+        ],
+        [
+          5,
+          "W-SKU-005",
+          3,
+          "PICK"
+        ],
+        [
+          5,
+          "W-SKU-005",
+          7,
+          "PICK"
+        ],
+        [
+          6,
+          "W-SKU-006",
+          3,
+          "PICK"
+        ],
+        [
+          6,
+          "W-SKU-006",
+          7,
+          "PICK"
+        ],
+        [
+          7,
+          "W-SKU-007",
+          3,
+          "PICK"
+        ],
+        [
+          7,
+          "W-SKU-007",
+          7,
+          "PICK"
+        ],
+        [
+          8,
+          "W-SKU-008",
+          3,
+          "PICK"
+        ],
+        [
+          8,
+          "W-SKU-008",
+          7,
+          "PICK"
+        ],
+        [
+          9,
+          "W-SKU-009",
+          3,
+          "PICK"
+        ],
+        [
+          9,
+          "W-SKU-009",
+          7,
+          "PICK"
+        ]
+      ],
+      "expected_rows_sha256": "4706a6917d93e88a158a43a2d19c698a4f25138f63b7302a44be44f1cd0d000b",
+      "row_count_before_set_comparison": 36,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_na_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-NA-02",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "de189b63f5daec199b5116f47487e0a54af427e953fa499c61a6b642c055f6b5",
+      "canonical_sql_sha256_at_derivation": "a691c92d5025ae06b7ffc3756f4d751c85582f4fa44bf36d7b92e21a91901f82",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          1,
+          "W-SKU-001",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          1,
+          "W-SKU-001",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          1,
+          "W-SKU-001",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          1,
+          "W-SKU-001",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          1,
+          "W-SKU-001",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          10,
+          "W-SKU-010",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          11,
+          "W-SKU-011",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          12,
+          "W-SKU-012",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          13,
+          "W-SKU-013",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          14,
+          "W-SKU-014",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          15,
+          "W-SKU-015",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          16,
+          "W-SKU-016",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          17,
+          "W-SKU-017",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          18,
+          "W-SKU-018",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          2,
+          "W-SKU-002",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          3,
+          "W-SKU-003",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          4,
+          "W-SKU-004",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          5,
+          "W-SKU-005",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          6,
+          "W-SKU-006",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          7,
+          "W-SKU-007",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          8,
+          "W-SKU-008",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          1,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          3,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          4,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          5,
+          "RCV",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          7,
+          "PICK",
+          "NO_HISTORY",
+          0
+        ],
+        [
+          9,
+          "W-SKU-009",
+          8,
+          "QTN",
+          "NO_HISTORY",
+          0
+        ]
+      ],
+      "expected_rows_sha256": "1ff1e065e9c2a0b73d9ce7104b6587637ee97483b28ab2e846571111f131e634",
+      "row_count_before_set_comparison": 108,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_02",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_na_02.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-CD-01",
+      "split": "final",
+      "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "intent_card_sha256": "194056a9b11971e7702124ae57734a213b8d6d9ef8382054be2049d42f6bb4a5",
+      "canonical_sql_sha256_at_derivation": "46c8eb30e4f177fe58e2ec92499c8800ad61e255e663a1722bc2875eaea9b056",
+      "expected_rows": [
+        [
+          1,
+          "W-SKU-001",
+          "EA",
+          47558,
+          992442
+        ],
+        [
+          10,
+          "W-SKU-010",
+          "EA",
+          47315,
+          952685
+        ],
+        [
+          11,
+          "W-SKU-011",
+          "KG",
+          15149,
+          984851
+        ],
+        [
+          12,
+          "W-SKU-012",
+          "L",
+          0,
+          1000000
+        ],
+        [
+          13,
+          "W-SKU-013",
+          "EA",
+          0,
+          1000000
+        ],
+        [
+          14,
+          "W-SKU-014",
+          "KG",
+          0,
+          1000000
+        ],
+        [
+          15,
+          "W-SKU-015",
+          "L",
+          0,
+          1000000
+        ],
+        [
+          16,
+          "W-SKU-016",
+          "EA",
+          0,
+          1000000
+        ],
+        [
+          17,
+          "W-SKU-017",
+          "KG",
+          0,
+          1000000
+        ],
+        [
+          18,
+          "W-SKU-018",
+          "L",
+          0,
+          1000500
+        ],
+        [
+          2,
+          "W-SKU-002",
+          "KG",
+          33121,
+          966879
+        ],
+        [
+          3,
+          "W-SKU-003",
+          "L",
+          32978,
+          972122
+        ],
+        [
+          4,
+          "W-SKU-004",
+          "EA",
+          0,
+          1005200
+        ],
+        [
+          5,
+          "W-SKU-005",
+          "KG",
+          15593,
+          989707
+        ],
+        [
+          6,
+          "W-SKU-006",
+          "L",
+          17059,
+          988341
+        ],
+        [
+          7,
+          "W-SKU-007",
+          "EA",
+          32282,
+          967718
+        ],
+        [
+          8,
+          "W-SKU-008",
+          "KG",
+          48667,
+          951333
+        ],
+        [
+          9,
+          "W-SKU-009",
+          "L",
+          32374,
+          967626
+        ]
+      ],
+      "expected_rows_sha256": "ebfa6845dd5e813311edee2c0dc6308971e6721a661fcc9deb2d54ad8988790a",
+      "row_count_before_set_comparison": 18,
+      "oracle_id": "bird_vn_benchmark.final_oracles:wms_cd_01",
+      "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_cd_01.",
+      "derived_before_sql_execution": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    }
+  ]
+}

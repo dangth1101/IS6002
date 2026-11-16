@@ -1,7 +1,7 @@
 {
   "audit_id": "full-semantic-validation-sbert-v1",
-  "registry_revision": "dev-v6-vietnamese-first-integrity-repair",
-  "registry_sha256": "d1c18b53933f5510d965dd6c6e3438d35c49aee315bfe44073caf181d3e1d0df",
+  "registry_revision": "dev-v9-all-q00-natural-vietnamese",
+  "registry_sha256": "7db6e7479127fe55b8137752df861e983829fe59d79377bbf8f02131397a10af",
   "manifest_match": true,
   "groups": 50,
   "questions": 550,
@@ -22,29 +22,35 @@
   "preprocessing": "Raw question strings passed to SentenceTransformer tokenizer; no external lowercasing, punctuation removal, or truncation. Cosine is dot product of L2-normalized embeddings.",
   "sbert_status": "COMPLETED_CPU",
   "dependency_error": null,
-  "cosine_values": "NOT_COMPUTED",
+  "cosine_values": "COMPUTED; all 500 Q00-to-variant pairs use current registry wording",
   "within_group_variant_pairs": 2250,
   "exact_normalized_duplicate_pairs": 0,
   "token_jaccard_candidates_ge_0.72": 36,
   "jaccard_caveat": "Separate lexical overlap heuristic, not SBERT and not a semantic verdict.",
   "ground_truth_status_counts": {
     "('development', 'NEEDS_HUMAN_REVIEW')": 10,
-    "('final', 'BLOCKED')": 40
+    "('final', 'NEEDS_HUMAN_REVIEW')": 35,
+    "('final', 'BLOCKED')": 5
   },
   "human_review_queue_groups": 50,
-  "slot_validation": "All 550 marked NEEDS_HUMAN_REVIEW; no automated semantic PASS/ACCEPT.",
+  "slot_validation": "Development 110 questions explicitly accepted by user; Final 440 questions remain NEEDS_HUMAN_REVIEW. Cosine scores are triage evidence and do not prove semantic equivalence.",
   "source_hashes": {
-    "validation_records.json": "4031ec453b9cbb3d1ef32b4ba31ba869ac0fef38042ff5a41ef30a52405679db",
-    "ground_truth_validation.json": "9a87d417f55edc331f14acf4b7028084d3818aaa2e41db7d23f008dbce434e4b",
-    "expected_outputs_dev.json": "38f1e00c520f1b2c4b95b9234a43fe8fa45464c8ef8fd8c54f1158403d3d377d",
-    "dev_fixture_validation.json": "5b39dda9b2656332583b2ed3e0d9868d89a9a18d8e42a905ed5de4c949ff7b4d"
+    "validation_records.json": "2ce4f2e0cb892be8b97da891316f38525b361a9b86c83fffd7ddaeb038e6ebd8",
+    "ground_truth_validation.json": "c2bb3c2d36e9be9b317200f90ea02a8f24703b94ac922f468c56c7c88e30b735",
+    "expected_outputs_dev.json": "87bc0ed3cc5476792fb86d2a4100a2b656b07cc2a3d78bccff9d3729db2bc500",
+    "dev_fixture_validation.json": "5b39dda9b2656332583b2ed3e0d9868d89a9a18d8e42a905ed5de4c949ff7b4d",
+    "dataset.json": "7db6e7479127fe55b8137752df861e983829fe59d79377bbf8f02131397a10af",
+    "expected_outputs_final.json": "12c0d0cd9346234e49ed7905664fad9456a833c53a0f81104ebd0c40e4f0cab3",
+    "ground_truth_validation_final.json": "f75f2615c692cad67939a71247536a52aae89403493804bd73af0dadace21c60"
   },
   "within_group_exact_normalized_duplicates": 0,
   "token_jaccard_candidates_ge_0_72": 36,
   "registry_hash_matches_manifest": true,
   "group_split_status": {
-    "development_automation_validated": 10,
-    "final_blocked": 40
+    "development_intent_sql_automation_evidence": 10,
+    "development_q00_reopened_for_language_review": 10,
+    "final_independent_outputs_derived_human_review_pending": 35,
+    "final_blocked_intent_sql_alignment": 5
   },
   "fixture_validation_status_counts": {
     "NOT_RECORDED": 44,
@@ -52,25 +58,25 @@
   },
   "oracle_present_counts": {
     "development": 10,
-    "final": 0
+    "final": 40
   },
   "report_artifact_sha256": {
-    "compute_sbert_similarity.py": "34fc0b0fc2c24bd10c609955961c6e682d03b7e5cc701430938bb26217a5bdf7",
-    "ground_truth_validation_audit.csv": "2919fbe005fbaf939413708910bdeadc4128aac5126eaed5c8eb7ec88f8106af",
-    "high_similarity_semantic_risk.csv": "d2dce789d451e1e394cebdebbf521ef97bb5de1e43c013493d1957492dd7dd95",
-    "human_review_queue.csv": "664ea3145542fac05501754a0db38c12f776d9344b3ebfd458556eaf8d7b3c6d",
-    "intent_sql_evidence_gaps.csv": "5a1c594942266d9b132aca5bee44941b1e35e28cca11eb604efbc7472c79c0f1",
-    "jaccard_36_review.csv": "45819e7d5037f935441ff91f490838c9011d90b42c07737b9a0a9735e6eb0088",
-    "q00_variant_similarity.csv": "db4c0ab70a208222e86c0b5b1e5b813259008928ff4e75411876de65df431f99",
-    "README.md": "e99b9526f0912368bea330c52c9996155fa11b513513d26448c455f7fd786680",
+    "compute_sbert_similarity.py": "3f97628819af29b76655a93ee95e1595bcc38c52c5c67a9de28901657456074c",
+    "ground_truth_validation_audit.csv": "fa9312fb709981d442a93a6d34b5def78252bc6e6cdacbeb974f69bd6bc5a643",
+    "high_similarity_semantic_risk.csv": "7d6b779640c0d18f3a4a7b0b86a959dcc574a462502775635b73997f53d2230e",
+    "human_review_queue.csv": "f153211cedc1975538466b77a0c11bc37ec6147390bf2bb219d038fe6363bd68",
+    "intent_sql_evidence_gaps.csv": "e6b6f45e9eb9a3449c5baba94559fec834e9cf87f14419df6eb87fb93978f428",
+    "jaccard_36_review.csv": "ce5f55973bf786dbef01a4ae4148696f6716e5048d231a6fc45c9fc42275b7ff",
+    "q00_variant_similarity.csv": "04ec758e9e1c7416414f67251a4c4f563f1803388f280563e9883dde4217422f",
+    "README.md": "108b44e8163e80b1438d4c5f80570d071a8e2f0d756b18157f288361192d5555",
     "registry_integrity_issues.csv": "de896b983c9a40b677862282ecb7f6e88ca1c9c253a3afb8b417b67b5f1e0524",
     "registry_integrity_resolution.csv": "e63bde391e24a46b5b2122779213d11d7e1ff86cf44001168060c8bdb429b292",
     "semantic_slot_flags.csv": "c426430414bf237c0509fa8bd2c29d54041248a5ab1d74b21f56e19e2642b452",
-    "similarity_low.csv": "a8ebbcc549c530627835766c81ae6aedd48ad7bdbc55a94eb1558c047430a559",
-    "within_group_high_similarity.csv": "afe58177fdf25885ce332a4e62079599e888e56d65b3a4b6c4e8bae8d4722551",
-    "within_group_low_similarity.csv": "2071121cb4ffb780806628d62abc394046fbe5111152e70c84f845853eea57d4",
+    "similarity_low.csv": "6c96f06a07505dc6a05414423b261bdc908fa6289dbf518535c45b0a05490efb",
+    "within_group_high_similarity.csv": "913c954fde5c83ea26ba4511303be6e7a1b7a3710d4fca78b5727ca978c4a272",
+    "within_group_low_similarity.csv": "4bec3b8e07b0cb8587f1ea7875c9278b6d76683ca833aad67d73e2f86fee7324",
     "within_group_variant_overlap.csv": "45d143f84b58a9e591f781d28deb874b488e5c0e925d44403b998d3d9318ec7c",
-    "within_group_variant_similarity.csv": "5fbeaa72dbccca4e78f3a90d9feb0ccc4210e0ed56abd946dcb9ad5b9c9b587a"
+    "within_group_variant_similarity.csv": "294392b6e8c7cf41bed24ab32e61f20401b532b5aa00404d5c64c06c75366b92"
   },
   "huggingface_hub_version": "2.4.0",
   "device": "cpu",
@@ -84,75 +90,75 @@
     "q00_to_variant": {
       "overall": {
         "count": 500,
-        "mean": 0.86014257348,
-        "median": 0.8918507099999999,
-        "stddev_population": 0.11921213632684687,
-        "min": 0.2103547,
-        "p05": 0.593943925,
-        "p25": 0.8286286425,
-        "p75": 0.9375956475,
-        "p95": 0.9685481135,
-        "max": 0.98154557
+        "mean": 0.68852589686,
+        "median": 0.704855915,
+        "stddev_population": 0.12175133073311131,
+        "min": 0.1116203,
+        "p05": 0.476122712,
+        "p25": 0.6259872625,
+        "p75": 0.769995315,
+        "p95": 0.8535677865,
+        "max": 0.95698661
       },
       "split": {
         "development": {
           "count": 100,
-          "mean": 0.8026160826000001,
-          "median": 0.821400195,
-          "stddev_population": 0.09718812527299878,
-          "min": 0.51131946,
-          "p05": 0.593585594,
-          "p25": 0.7567109175,
-          "p75": 0.87517691,
-          "p95": 0.921623132,
-          "max": 0.93646193
+          "mean": 0.7815505591,
+          "median": 0.7842186099999999,
+          "stddev_population": 0.08307056292039865,
+          "min": 0.55839062,
+          "p05": 0.6333636,
+          "p25": 0.721793695,
+          "p75": 0.8394336675,
+          "p95": 0.9105174549999999,
+          "max": 0.95698661
         },
         "final": {
           "count": 400,
-          "mean": 0.8745241962,
-          "median": 0.911958245,
-          "stddev_population": 0.11987025705191123,
-          "min": 0.2103547,
-          "p05": 0.6126343960000001,
-          "p25": 0.8560428775,
-          "p75": 0.9454628125,
-          "p95": 0.970947384,
-          "max": 0.98154557
+          "mean": 0.6652697313,
+          "median": 0.678603415,
+          "stddev_population": 0.11874260979259169,
+          "min": 0.1116203,
+          "p05": 0.452109029,
+          "p25": 0.5984620175,
+          "p75": 0.7482489825,
+          "p95": 0.8172237535,
+          "max": 0.87387073
         }
       },
       "domain": {
         "erp_sales": {
           "count": 250,
-          "mean": 0.8817037712,
-          "median": 0.913975805,
-          "stddev_population": 0.11875676339385267,
-          "min": 0.2103547,
-          "p05": 0.7465628775,
-          "p25": 0.861009465,
-          "p75": 0.947265805,
-          "p95": 0.9743918469999999,
-          "max": 0.98154557
+          "mean": 0.7323847352,
+          "median": 0.74314579,
+          "stddev_population": 0.09737633768706738,
+          "min": 0.3680402,
+          "p05": 0.5665561095,
+          "p25": 0.6723451175,
+          "p75": 0.8030120125,
+          "p95": 0.88398756,
+          "max": 0.95698661
         },
         "wms_inventory": {
           "count": 250,
-          "mean": 0.83858137576,
-          "median": 0.87499502,
-          "stddev_population": 0.11571571867812977,
-          "min": 0.43377295,
-          "p05": 0.5788831325,
-          "p25": 0.788747105,
-          "p75": 0.9273680725,
-          "p95": 0.9625687265,
-          "max": 0.9803642
+          "mean": 0.64466705852,
+          "median": 0.66345438,
+          "stddev_population": 0.12773968266812247,
+          "min": 0.1116203,
+          "p05": 0.389912402,
+          "p25": 0.58193666,
+          "p75": 0.73260385,
+          "p95": 0.8080332094999999,
+          "max": 0.91600466
         }
       }
     },
     "within_group_variants": {
       "overall": {
         "count": 2250,
-        "mean": 0.8739920471288889,
+        "mean": 0.8739920478444444,
         "median": 0.89316532,
-        "stddev_population": 0.08136786305208747,
+        "stddev_population": 0.08136786292279007,
         "min": 0.3418372,
         "p05": 0.7192303175,
         "p25": 0.83628395,
@@ -163,25 +169,25 @@
       "split": {
         "development": {
           "count": 450,
-          "mean": 0.8286531190444445,
+          "mean": 0.8286531217777777,
           "median": 0.84377733,
-          "stddev_population": 0.07929917041777702,
+          "stddev_population": 0.07929916942688492,
           "min": 0.53342336,
-          "p05": 0.6554544985,
-          "p25": 0.7919140450000001,
+          "p05": 0.6554544715,
+          "p25": 0.791914135,
           "p75": 0.8863357425,
-          "p95": 0.926530039,
+          "p95": 0.926530012,
           "max": 0.95265949
         },
         "final": {
           "count": 1800,
-          "mean": 0.88532677915,
+          "mean": 0.8853267793611111,
           "median": 0.904719975,
-          "stddev_population": 0.07785525714356199,
+          "stddev_population": 0.077855257594169,
           "min": 0.3418372,
-          "p05": 0.738699666,
-          "p25": 0.8547800975,
-          "p75": 0.93878141,
+          "p05": 0.738699726,
+          "p25": 0.8547801125,
+          "p75": 0.9387814250000001,
           "p95": 0.970551336,
           "max": 0.98863351
         }
@@ -189,27 +195,27 @@
       "domain": {
         "erp_sales": {
           "count": 1125,
-          "mean": 0.8892778617155556,
+          "mean": 0.8892778621866666,
           "median": 0.90507966,
-          "stddev_population": 0.07201705407388237,
+          "stddev_population": 0.07201705250221313,
           "min": 0.42355773,
           "p05": 0.763344278,
-          "p25": 0.85382229,
+          "p25": 0.85382235,
           "p75": 0.94092166,
           "p95": 0.9732901820000001,
           "max": 0.98863351
         },
         "wms_inventory": {
           "count": 1125,
-          "mean": 0.8587062325422222,
+          "mean": 0.8587062335022223,
           "median": 0.88195491,
-          "stddev_population": 0.08710734723713107,
+          "stddev_population": 0.08710734838076299,
           "min": 0.3418372,
           "p05": 0.689885484,
-          "p25": 0.81383204,
+          "p25": 0.81383198,
           "p75": 0.92007226,
           "p95": 0.9591266139999999,
-          "max": 0.98592842
+          "max": 0.98592836
         }
       }
     }
@@ -217,7 +223,7 @@
   "q00_lowest_100": "similarity_low.csv",
   "q00_high_similarity_threshold": 0.9,
   "high_similarity_threshold_note": "Triage-only reporting threshold; no automatic ACCEPT/REJECT/equivalence decision.",
-  "high_similarity_candidate_count": 235,
+  "high_similarity_candidate_count": 8,
   "jaccard_36_scored": 36,
   "within_group_high_similarity_threshold": 0.9,
   "within_group_high_similarity_candidate_count": 1024,
@@ -278,5 +284,25 @@
       "total": 40
     }
   },
-  "development_ground_truth_limitation": "All 10 machine evidence records predate the revised Vietnamese briefs: intent_card_hash mismatches current card_fields in 10/10 Development records. SQL/oracle artifacts remain unchanged; Owner review and revalidation against the current card are required."
+  "development_ground_truth_limitation": "All 10 machine evidence records predate the revised Vietnamese briefs: intent_card_hash mismatches current card_fields in 10/10 Development records. SQL/oracle artifacts remain unchanged; Owner review and revalidation against the current card are required.",
+  "question_texts_unchanged_since_similarity_run": true,
+  "provenance_note": "Intent Card only: ERP-EF-01 now specifies customer_code rather than internal customer_id. The 550 question strings were unchanged, so existing SBERT values were not recomputed. Card-to-canonical-SQL projection alignment remains pending Owner resolution; SBERT does not verify it.",
+  "human_review_queue_total_groups": 50,
+  "approval_provenance": "../dev_human_approval/USER_APPROVAL_PROVENANCE_2026-11-16.json",
+  "stale_q00_variant_pairs": [
+    "ERP-EF-01-Q01",
+    "ERP-EF-01-Q02",
+    "ERP-EF-01-Q03",
+    "ERP-EF-01-Q04",
+    "ERP-EF-01-Q05",
+    "ERP-EF-01-Q06",
+    "ERP-EF-01-Q07",
+    "ERP-EF-01-Q08",
+    "ERP-EF-01-Q09",
+    "ERP-EF-01-Q10"
+  ],
+  "stale_q00_pair_count": 0,
+  "stale_score_reason": null,
+  "score_distribution_scope": "Current registry wording; all 500 Q00-to-variant pairs recomputed in this run.",
+  "stale_q00_groups": []
 }

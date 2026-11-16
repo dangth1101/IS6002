@@ -1,9 +1,9 @@
 {
   "artifact_version": 1,
   "benchmark_version": "0.3.0-draft-implementation",
-  "derived_at_utc": "2026-11-09T14:56:35.217+00:00",
-  "source_registry_sha256": "460acf73b291071a9a05fcd3a43fbfc986876cf4db9b5342bf074e5ea34fbd3f",
-  "source_oracle_sha256": "61104de9c854ec2ec45285805e2edaf3829d98daed5687b2411ae37b9ad9e7f8",
+  "derived_at_utc": "2026-11-16T11:23:54.543+00:00",
+  "source_registry_sha256": "c52c503dee2dfc227c768f3ab02c320dc012f5c6e6c3a21d860b71665cbbe022",
+  "source_oracle_sha256": "5ce5da297c7051dfd97ebcc7746aab7c9288113249b2008212aeb07e1f6dad1d",
   "scope": "10 proposed Development groups only; not a final or human-approved gold output",
   "expected_outputs": [
     {
@@ -13,341 +13,341 @@
         [
           1,
           "SO-00001",
-          6,
+          "C0006",
           "2024-12-26",
           "CONFIRMED"
         ],
         [
           11,
           "SO-00011",
-          1,
+          "C0001",
           "2025-04-15",
           "CONFIRMED"
         ],
         [
           12,
           "SO-00012",
-          24,
+          "C0024",
           "2025-04-26",
           "CONFIRMED"
         ],
         [
           13,
           "SO-00013",
-          11,
+          "C0011",
           "2025-05-07",
           "CONFIRMED"
         ],
         [
           14,
           "SO-00014",
-          12,
+          "C0012",
           "2025-05-18",
           "CONFIRMED"
         ],
         [
           17,
           "SO-00017",
-          21,
+          "C0021",
           "2025-06-20",
           "CONFIRMED"
         ],
         [
           18,
           "SO-00018",
-          6,
+          "C0006",
           "2025-07-01",
           "CONFIRMED"
         ],
         [
           19,
           "SO-00019",
-          15,
+          "C0015",
           "2025-07-12",
           "CONFIRMED"
         ],
         [
           2,
           "SO-00002",
-          4,
+          "C0004",
           "2025-01-06",
           "CONFIRMED"
         ],
         [
           20,
           "SO-00020",
-          23,
+          "C0023",
           "2025-07-23",
           "CONFIRMED"
         ],
         [
           23,
           "SO-00023",
-          16,
+          "C0016",
           "2025-08-25",
           "CONFIRMED"
         ],
         [
           24,
           "SO-00024",
-          17,
+          "C0017",
           "2025-09-05",
           "CONFIRMED"
         ],
         [
           25,
           "SO-00025",
-          22,
+          "C0022",
           "2025-09-16",
           "CONFIRMED"
         ],
         [
           26,
           "SO-00026",
-          7,
+          "C0007",
           "2025-09-27",
           "CONFIRMED"
         ],
         [
           29,
           "SO-00029",
-          10,
+          "C0010",
           "2025-10-30",
           "CONFIRMED"
         ],
         [
           30,
           "SO-00030",
-          15,
+          "C0015",
           "2025-11-10",
           "CONFIRMED"
         ],
         [
           31,
           "SO-00031",
-          22,
+          "C0022",
           "2025-11-21",
           "CONFIRMED"
         ],
         [
           32,
           "SO-00032",
-          4,
+          "C0004",
           "2025-12-02",
           "CONFIRMED"
         ],
         [
           35,
           "SO-00035",
-          2,
+          "C0002",
           "2026-01-04",
           "CONFIRMED"
         ],
         [
           36,
           "SO-00036",
-          7,
+          "C0007",
           "2026-01-15",
           "CONFIRMED"
         ],
         [
           37,
           "SO-00037",
-          4,
+          "C0004",
           "2026-01-26",
           "CONFIRMED"
         ],
         [
           38,
           "SO-00038",
-          6,
+          "C0006",
           "2026-02-06",
           "CONFIRMED"
         ],
         [
           41,
           "SO-00041",
-          19,
+          "C0019",
           "2024-12-16",
           "CONFIRMED"
         ],
         [
           42,
           "SO-00042",
-          11,
+          "C0011",
           "2024-12-27",
           "CONFIRMED"
         ],
         [
           43,
           "SO-00043",
-          2,
+          "C0002",
           "2025-01-07",
           "CONFIRMED"
         ],
         [
           44,
           "SO-00044",
-          10,
+          "C0010",
           "2025-01-18",
           "CONFIRMED"
         ],
         [
           47,
           "SO-00047",
-          3,
+          "C0003",
           "2025-02-20",
           "CONFIRMED"
         ],
         [
           48,
           "SO-00048",
-          6,
+          "C0006",
           "2025-03-03",
           "CONFIRMED"
         ],
         [
           49,
           "SO-00049",
-          5,
+          "C0005",
           "2025-03-14",
           "CONFIRMED"
         ],
         [
           5,
           "SO-00005",
-          20,
+          "C0020",
           "2025-02-08",
           "CONFIRMED"
         ],
         [
           50,
           "SO-00050",
-          8,
+          "C0008",
           "2025-03-25",
           "CONFIRMED"
         ],
         [
           53,
           "SO-00053",
-          5,
+          "C0005",
           "2025-04-27",
           "CONFIRMED"
         ],
         [
           54,
           "SO-00054",
-          3,
+          "C0003",
           "2025-05-08",
           "CONFIRMED"
         ],
         [
           55,
           "SO-00055",
-          11,
+          "C0011",
           "2025-05-19",
           "CONFIRMED"
         ],
         [
           56,
           "SO-00056",
-          17,
+          "C0017",
           "2025-05-30",
           "CONFIRMED"
         ],
         [
           59,
           "SO-00059",
-          12,
+          "C0012",
           "2025-07-02",
           "CONFIRMED"
         ],
         [
           6,
           "SO-00006",
-          1,
+          "C0001",
           "2025-02-19",
           "CONFIRMED"
         ],
         [
           60,
           "SO-00060",
-          4,
+          "C0004",
           "2025-07-13",
           "CONFIRMED"
         ],
         [
           61,
           "SO-00061",
-          21,
+          "C0021",
           "2025-07-24",
           "CONFIRMED"
         ],
         [
           62,
           "SO-00062",
-          8,
+          "C0008",
           "2025-08-04",
           "CONFIRMED"
         ],
         [
           65,
           "SO-00065",
-          17,
+          "C0017",
           "2025-09-06",
           "CONFIRMED"
         ],
         [
           66,
           "SO-00066",
-          17,
+          "C0017",
           "2025-09-17",
           "CONFIRMED"
         ],
         [
           67,
           "SO-00067",
-          24,
+          "C0024",
           "2025-09-28",
           "CONFIRMED"
         ],
         [
           68,
           "SO-00068",
-          8,
+          "C0008",
           "2025-10-09",
           "CONFIRMED"
         ],
         [
           7,
           "SO-00007",
-          21,
+          "C0021",
           "2025-03-02",
           "CONFIRMED"
         ],
         [
           71,
           "SO-00071",
-          3,
+          "C0003",
           "2025-11-11",
           "CONFIRMED"
         ],
         [
           72,
           "SO-00072",
-          16,
+          "C0016",
           "2025-11-22",
           "CONFIRMED"
         ],
         [
           8,
           "SO-00008",
-          23,
+          "C0023",
           "2025-03-13",
           "CONFIRMED"
         ]
       ],
-      "expected_rows_sha256": "165353952f6cf23171dfa81682016e7d7681ad8486f1488783792d9c476addb1",
+      "expected_rows_sha256": "263d2cba628de8be6f8131cb7f3ea6b8fe118a321db0c2cb0dd8a78cb8922061",
       "row_count_before_set_comparison": 48,
       "oracle_id": "bird_vn_benchmark.intent_oracles:erp_ef_01",
       "oracle_method": "Scan SALES_ORDERS; retain CONFIRMED and project order identifiers/customer/date/status. Candidate SQL is not imported or executed by the oracle.",

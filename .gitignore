@@ -10,6 +10,9 @@ data/
 __pycache__/
 *.pyc
 .venv/
+.venv-playwright/
+.playwright-browsers/
+.uv-cache/
 .streamlit/secrets.toml
 
 # LLM reply cache

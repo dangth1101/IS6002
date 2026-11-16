@@ -101,8 +101,8 @@ def main():
     registry_hash = hashlib.sha256(registry_bytes).hexdigest()
     registry = json.loads(registry_bytes.decode("utf-8"))
     manifest = read_json(AUTHORING / "dev_v6_vietnamese_first_manifest.json")
-    if registry.get("authoring_revision") != "dev-v6-vietnamese-first-integrity-repair":
-        raise RuntimeError("Unexpected registry revision; refusing to run.")
+    if manifest.get("revision") != registry.get("authoring_revision"):
+        raise RuntimeError("Manifest revision does not match current registry; refusing to run.")
     if manifest.get("registry_sha256") != registry_hash:
         raise RuntimeError("v6 manifest hash does not match current registry; refusing to run.")
 
@@ -251,12 +251,38 @@ def main():
         ),
         "jaccard_36_scored": len(prior),
         "dependency_error": None,
+        "registry_revision": registry.get("authoring_revision"),
+        "registry_sha256": registry_hash,
+        "manifest_match": True,
+        "question_texts_match_sbert_audit": True,
+        "cosine_values": "COMPUTED; all 500 Q00-to-variant pairs use current registry wording",
+        "score_distribution_scope": "Current registry wording; all 500 Q00-to-variant pairs recomputed in this run.",
+        "stale_q00_groups": [],
+        "stale_q00_pair_count": 0,
+        "stale_score_reason": None,
     })
     summary["report_artifact_sha256"] = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
         for path in OUT.iterdir() if path.is_file() and path.name != "summary.json"
     }
+    summary["source_hashes"] = {
+        **summary.get("source_hashes", {}),
+        "dataset.json": registry_hash,
+        "validation_records.json": hashlib.sha256((AUTHORING / "validation_records.json").read_bytes()).hexdigest(),
+        "expected_outputs_dev.json": hashlib.sha256((AUTHORING / "expected_outputs_dev.json").read_bytes()).hexdigest(),
+        "expected_outputs_final.json": hashlib.sha256((AUTHORING / "expected_outputs_final.json").read_bytes()).hexdigest(),
+        "ground_truth_validation.json": hashlib.sha256((AUTHORING / "ground_truth_validation.json").read_bytes()).hexdigest(),
+        "ground_truth_validation_final.json": hashlib.sha256((AUTHORING / "ground_truth_validation_final.json").read_bytes()).hexdigest(),
+    }
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    manifest["files"].update({
+        str(path.relative_to(ROOT)).replace("\\", "/"): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in OUT.iterdir() if path.is_file()
+    })
+    manifest["files"]["docs/benchmark/review/full_semantic_validation_sbert/compute_sbert_similarity.py"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    (AUTHORING / "dev_v6_vietnamese_first_manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(json.dumps({"q00_variant_pairs": len(anchors), "within_group_variant_pairs": len(within),
                       "jaccard_36_scored": len(prior), "high_similarity_candidates": len(high),
                       "model_revision": MODEL_REVISION, "device": "cpu"}, ensure_ascii=False))

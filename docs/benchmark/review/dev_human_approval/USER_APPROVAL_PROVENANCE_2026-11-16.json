@@ -1,0 +1,54 @@
+{
+  "recorded_at_utc": "2026-11-16T11:35:37.295676+00:00",
+  "reviewer": "User (explicit conversation instruction)",
+  "source": "Explicit user instruction in conversation; no approval was inferred from automation.",
+  "development": {
+    "groups_approved": 10,
+    "questions_approved": 110,
+    "decision": "APPROVE",
+    "provenance": {
+      "reviewer": "User (explicit conversation instruction)",
+      "decision_date": "2026-11-16",
+      "decision": "APPROVE",
+      "scope": "All 10 Development Intent/SQL groups and all 110 Development questions in the current review room, after ERP-EF-01 SQL and expected outputs were aligned to customer_code.",
+      "source": "Explicit user instruction in conversation; no approval was inferred from automation."
+    },
+    "question_texts_modified": false,
+    "ERP-EF-01_resolution": "Canonical SQL and expected output now use CUSTOMERS.customer_code."
+  },
+  "final": {
+    "groups_with_independent_expected_outputs": 40,
+    "human_review_status": "NEEDS_HUMAN_REVIEW",
+    "blocked_alignment_groups": [
+      "WMS-AG-04",
+      "WMS-RK-01",
+      "WMS-RK-02",
+      "WMS-RK-03",
+      "WMS-CD-01"
+    ],
+    "approval": false,
+    "reason": "Adding expected outputs is not human approval; Final evidence and alignment review remain incomplete."
+  },
+  "registry_sha256_after_decisions": "2466651638651c6027e00934190fd376ad9c988763c40fda3af447518e8730a5",
+  "official_evaluation_freeze": false,
+  "current_review_state": {
+    "development_groups_with_intent_sql_approval": 10,
+    "development_questions_still_accepted": 100,
+    "development_questions_reopened": 10,
+    "reopened_question_ids": [
+      "ERP-EF-01-Q00",
+      "ERP-GB-03-Q00",
+      "ERP-JN-02-Q00",
+      "ERP-RK-02-Q00",
+      "ERP-TM-02-Q00",
+      "WMS-AG-02-Q00",
+      "WMS-CD-02-Q00",
+      "WMS-EF-01-Q00",
+      "WMS-EF-02-Q00",
+      "WMS-JN-04-Q00"
+    ],
+    "reason": "User requested a natural-Vietnamese review of original questions; revised anchors await confirmation.",
+    "previous_q00_approvals": "Historical decisions retained; current wording changes are not treated as approved."
+  },
+  "registry_sha256_after_wording_revision": "7db6e7479127fe55b8137752df861e983829fe59d79377bbf8f02131397a10af"
+}

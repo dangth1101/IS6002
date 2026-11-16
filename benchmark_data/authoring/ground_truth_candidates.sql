@@ -1,7 +1,7 @@
 -- DRAFT ONLY: SQL candidates are not owner-approved; see validation artifacts for machine checks.
 
 -- ERP-EF-01 | erp_sales | Simple | VALIDATED_BY_AUTOMATION
-SELECT order_id, order_no, customer_id, order_date, order_status FROM SALES_ORDERS WHERE order_status='CONFIRMED' ORDER BY order_id;
+SELECT o.order_id,o.order_no,c.customer_code,o.order_date,o.order_status FROM SALES_ORDERS o JOIN CUSTOMERS c ON c.customer_id=o.customer_id WHERE o.order_status='CONFIRMED' ORDER BY o.order_id;
 
 -- ERP-EF-02 | erp_sales | Simple | BLOCKED_EXPECTED_OUTPUT_NOT_DERIVED
 SELECT order_id, order_no, customer_id, order_date, sales_rep_id FROM SALES_ORDERS WHERE order_status='CONFIRMED' AND order_date >= '2025-01-01' AND order_date < '2026-01-01' AND sales_rep_id IS NOT NULL ORDER BY order_id;

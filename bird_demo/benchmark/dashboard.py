@@ -99,8 +99,8 @@ def diagnostic_gold(group: dict[str, Any]) -> dict[str, Any]:
             "owner_status": current_group.get("ground_truth_review", "NEEDS_HUMAN_REVIEW")}
 
 
-def score_demo_results(questions: list[dict[str, Any]], results: list[dict[str, Any]], canonical_rows: list[list[Any]]) -> dict[str, Any]:
-    """Score one interactive run against the independently validated canonical output."""
+def score_demo_results(questions: list[dict[str, Any]], results: list[dict[str, Any]], canonical_rows: list[list[Any]], canonical_columns: list[str] | None = None) -> dict[str, Any]:
+    """Score one interactive run against canonical rows and report output-schema differences."""
     ordered = sorted(questions, key=lambda item: item["q_index"])
     group_ids = {item["group_id"] for item in ordered}
     if len(group_ids) != 1 or len(ordered) != 11:
@@ -110,31 +110,33 @@ def score_demo_results(questions: list[dict[str, Any]], results: list[dict[str, 
     observations = {qid: Observation(INFRA_FAILURE) for qid in qids}
     run_status: dict[str, str] = {}
     predicted_rows: dict[str, list[list[Any]] | None] = {}
+    predicted_columns: dict[str, list[str] | None] = {}
     for item in results:
         question = item.get("question", {})
         qid = question.get("question_id")
         if qid not in observations:
             continue
         if item.get("error"):
-            status, rows = "infra_error", None
+            status, rows, columns = "infra_error", None, None
         else:
             execution = item.get("run_result")
             if isinstance(execution, dict):
                 if execution.get("truncated"):
-                    status, rows = "result_truncated", None
+                    status, rows, columns = "result_truncated", None, None
                 else:
-                    rows = [list(row) for row in execution["result"].rows]
-                    status = "success"
+                    result = execution["result"]
+                    rows, columns, status = [list(row) for row in result.rows], list(result.columns), "success"
             elif isinstance(execution, Timeout):
-                status, rows = "timeout", None
+                status, rows, columns = "timeout", None, None
             elif isinstance(execution, SqlError):
-                status, rows = "sql_error", None
+                status, rows, columns = "sql_error", None, None
             elif item.get("reply") is not None and not item.get("sql"):
-                status, rows = "no_sql", None
+                status, rows, columns = "no_sql", None, None
             else:
-                status, rows = "infra_error", None
+                status, rows, columns = "infra_error", None, None
         run_status[qid] = status
         predicted_rows[qid] = rows
+        predicted_columns[qid] = columns
         if status == "success":
             observations[qid] = Observation(status, rows, correct=result_equal(rows, canonical_rows))
         elif status in {"timeout", "sql_error", "no_sql"}:
@@ -145,22 +147,37 @@ def score_demo_results(questions: list[dict[str, Any]], results: list[dict[str, 
     summary = metric_summary([group_id], qids_by_group, observations)
     details = []
     canonical_set = set(map(tuple, canonical_rows))
+    canonical_columns = list(canonical_columns or [])
     for question in ordered:
         qid = question["question_id"]
         observation = observations[qid]
         rows = predicted_rows.get(qid)
+        columns = predicted_columns.get(qid)
         predicted_set = set(map(tuple, rows)) if rows is not None else set()
         canonical_only = list(canonical_set - predicted_set) if rows is not None else []
         prediction_only = list(predicted_set - canonical_set) if rows is not None else []
+        column_differences = []
+        if columns is not None:
+            for index in range(max(len(canonical_columns), len(columns))):
+                gold_name = canonical_columns[index] if index < len(canonical_columns) else None
+                generated_name = columns[index] if index < len(columns) else None
+                if gold_name != generated_name:
+                    column_differences.append({"position": index + 1, "canonical": gold_name, "generated": generated_name})
         details.append({"question_id": qid, "variant_type": question["variant_type"],
                         "status": run_status.get(qid, "not_run"), "known": observation.outcome_known,
                         "correct": observation.is_correct,
                         "row_count": len(rows) if rows is not None else None,
+                        "canonical_row_count": len(canonical_rows),
+                        "columns_match": columns == canonical_columns if columns is not None else None,
+                        "canonical_columns": canonical_columns,
+                        "generated_columns": columns,
+                        "column_differences": column_differences,
                         "canonical_only_rows": [list(row) for row in canonical_only[:50]],
                         "prediction_only_rows": [list(row) for row in prediction_only[:50]],
                         "canonical_only_count": len(canonical_only),
                         "prediction_only_count": len(prediction_only)})
     return {"metrics": summary, "questions": details, "canonical_row_count": len(canonical_rows),
+            "canonical_columns": canonical_columns,
             "run_question_count": len(results), "scoring_status": "DIAGNOSTIC_ONLY_OWNER_REVIEW_PENDING"}
 
 def read_only_query(db_id: str, sql: str, *, timeout_s: float=DEMO_TIMEOUT_S, max_rows: int=MAX_DISPLAY_ROWS):

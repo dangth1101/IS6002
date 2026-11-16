@@ -25,8 +25,10 @@ with t1:
         st.markdown("#### Intent Card");st.json(group["card_fields"])
         st.markdown("#### Canonical SQL candidate");st.code(group["canonical_sql_draft"],language="sql")
     else:st.info("Final SQL, Intent and question details are not displayed without Owner access.")
-    validation=load_json("benchmark_data/authoring/ground_truth_validation.json") or {}
-    expected=load_json("benchmark_data/authoring/expected_outputs_dev.json") or {}
+    validation_path = "benchmark_data/authoring/ground_truth_validation.json" if split == "development" else "benchmark_data/authoring/ground_truth_validation_final.json"
+    validation=load_json(validation_path) or {}
+    expected_path = "benchmark_data/authoring/expected_outputs_dev.json" if split == "development" else "benchmark_data/authoring/expected_outputs_final.json"
+    expected=load_json(expected_path) or {}
     result=next((r for r in validation.get("results",[]) if r.get("group_id")==selected),None)
     exp=next((r for r in expected.get("expected_outputs",[]) if r.get("group_id")==selected),None)
     if result:st.markdown("#### Execution evidence");st.json(result)
@@ -37,7 +39,7 @@ with t2:
     st.subheader("Owner review queue")
     queue=load_table("human_review_queue.csv"); gaps=load_table("intent_sql_evidence_gaps.csv")
     st.dataframe(queue,hide_index=True,use_container_width=True)
-    st.caption("Mọi quyết định đang chờ. Ghi chú tại đây chỉ xuất thành review proposal; registry không đổi.")
+    st.caption("10 nhóm Development và 110 câu hỏi đã được duyệt theo quyết định có provenance. 40 nhóm Final vẫn NEEDS_HUMAN_REVIEW; expected outputs độc lập không đồng nghĩa với approval. Trang này chỉ đọc trạng thái đã ghi.")
     dev_groups=[g for g in registry["groups"] if g["split"]=="development"]
     group=st.selectbox("Nhóm cần review",dev_groups,format_func=lambda g:g["group_id"],key="birdvn_review_group")
     with st.form("birdvn_review_note"):
