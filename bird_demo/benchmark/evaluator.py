@@ -51,6 +51,7 @@ def evaluate_saved_predictions(
     replicate_id: int = 0,
     timeout_s: float = 30.0,
     allow_draft: bool = False,
+    evaluation_split: str | None = None,
 ) -> dict[str, Any]:
     """Run each prediction read-only, compare to canonical SQL, and save provenance.
 
@@ -58,6 +59,19 @@ def evaluate_saved_predictions(
     "status": "infra_error" (optional)}]}. No model client is imported or invoked.
     """
     registry = load_registry(registry_path, allow_draft=allow_draft)
+    source_registry_sha256 = registry_hash(registry)
+    if evaluation_split is not None:
+        if evaluation_split not in {"development", "final"}:
+            raise ValueError("evaluation_split must be 'development', 'final', or None")
+        selected_groups = [group for group in registry["groups"] if group["split"] == evaluation_split]
+        selected_group_ids = {group["group_id"] for group in selected_groups}
+        registry = {
+            **registry,
+            "groups": selected_groups,
+            "questions": [question for question in registry["questions"] if question["group_id"] in selected_group_ids],
+        }
+        if not selected_groups:
+            raise ValueError(f"The frozen registry has no groups in split {evaluation_split!r}")
     physical_manifest = repository_root / "benchmark_data" / "physical" / "build_manifest.json"
     if allow_draft and physical_manifest.exists():
         pending_gold = [group["group_id"] for group in registry["groups"]
@@ -199,7 +213,8 @@ def evaluate_saved_predictions(
     artifact = {
         "artifact_version": 1,
         "benchmark_version": registry.get("benchmark_version"),
-        "registry_sha256": registry_hash(registry),
+        "registry_sha256": source_registry_sha256,
+        "evaluation_split": evaluation_split or "all",
         "run_id": run_id,
         "replicate_id": replicate_id,
         "model_id": model_id,

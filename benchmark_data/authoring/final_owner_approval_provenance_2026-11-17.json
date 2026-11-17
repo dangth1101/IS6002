@@ -1,0 +1,17 @@
+{
+  "approver_role": "Benchmark Owner",
+  "decision_date": "2026-11-17",
+  "decision": "APPROVE",
+  "scope": "All 40 Final Semantic Groups, their 40 Intent Cards, 40 canonical SQL candidates, expected outputs, and all 440 Questions (Q00-Q10), based on the Owner statement that they reviewed and accepted them.",
+  "source": "Explicit user message in this conversation: \"Mình đã xem xét và chấp nhận. Bạn hãy duyệt giúp mình nhé\" following the request to review the 40 Final groups.",
+  "rationale": "The Benchmark Owner explicitly states they reviewed and accepted the Final groups. The decision is recorded as Owner approval; automation evidence remains a separate status.",
+  "acknowledged_limitations": [
+    "The known Q01/Q02 wording pattern shares a common request core after removing framing language; this accepted limitation is retained and does not count as evidence that the variants are strongly distinct.",
+    "Fixture evidence remains at its recorded per-group status; Owner approval does not convert NOT_RECORDED or missing fixture evidence into a fixture PASS.",
+    "Approval does not freeze the registry, authorize official evaluation, or change the approved experimental protocol."
+  ],
+  "question_texts_modified": false,
+  "sql_oracle_or_expected_outputs_modified": false,
+  "database_snapshots_modified": false,
+  "official_evaluation_authorized": false
+}

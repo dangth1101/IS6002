@@ -1,11 +1,11 @@
 {
   "artifact_version": 1,
   "benchmark_version": "0.3.0-draft-implementation",
-  "registry_revision_at_derivation": "dev-v6-erp-ef-01-customer-code-ground-truth",
-  "source_registry_sha256": "c52c503dee2dfc227c768f3ab02c320dc012f5c6e6c3a21d860b71665cbbe022",
-  "source_oracle_sha256": "bb5b3b3b2bdad5c10b34a6395655886621f3b1f12c14e9f34ae5538ebac4d4be",
+  "registry_revision_at_derivation": "dev-v9-all-q00-natural-vietnamese",
+  "source_registry_sha256": "7195310551c277a938a3211538f7f4c64088cdeff72fbaf1e0e93c4b0c0141da",
+  "source_oracle_sha256": "f4d10dd6ca3a28614c380e93c583115f213bd6d0f750740b0128511c1e6c10c1",
   "shared_table_reader_sha256": "d9559aa6234bbc231d389d31ee4a884ccf0754b8c61d104fba76ab17a404f585",
-  "derived_at_utc": "2026-11-16T11:28:18.479+00:00",
+  "derived_at_utc": "2026-11-17T02:20:36.238+00:00",
   "scope": "40 Final groups; independent expected outputs only; no approval, tuning, or official evaluation",
   "expected_outputs": [
     {
@@ -266,7 +266,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-EF-03",
@@ -358,7 +358,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-EF-04",
@@ -372,7 +372,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ef_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-AG-01",
@@ -399,7 +399,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-AG-02",
@@ -417,7 +417,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-AG-03",
@@ -435,7 +435,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-AG-04",
@@ -453,7 +453,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_ag_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-GB-01",
@@ -480,7 +480,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-GB-02",
@@ -615,7 +615,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-GB-04",
@@ -642,7 +642,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_gb_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-RK-01",
@@ -687,7 +687,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_rk_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-RK-03",
@@ -708,7 +708,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_rk_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-JN-01",
@@ -843,7 +843,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-JN-03",
@@ -1260,7 +1260,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-JN-04",
@@ -1289,7 +1289,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_jn_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-TM-01",
@@ -1370,7 +1370,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_tm_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_tm_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-NA-01",
@@ -1401,7 +1401,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_na_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-NA-02",
@@ -1476,7 +1476,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_na_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-CD-01",
@@ -1499,7 +1499,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_cd_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "ERP-CD-02",
@@ -1538,7 +1538,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.erp_cd_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-EF-03",
@@ -2183,7 +2183,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ef_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-EF-04",
@@ -2197,7 +2197,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ef_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-AG-01",
@@ -2215,7 +2215,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-AG-03",
@@ -2338,14 +2338,14 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-AG-04",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "intent_card_sha256": "bde9a67647aeaddc53fd87a0ff1d9560f1d3f963f72c4f087655fc7733fb018d",
-      "canonical_sql_sha256_at_derivation": "12093451f7b9b21b78c21d899b6c59a277554aaa4e067c8d44ae1c6c831406a4",
+      "intent_card_sha256": "98ff59751a0fe005ddd7967b5d00ca042f99ba2e2ac5afffa320a6450c173f8e",
+      "canonical_sql_sha256_at_derivation": "509871ec722ae2de24e5b9575402b56000d3dceb2e6e2bdc6fb1f34d6cbced47",
       "expected_rows": [
         [
           1,
@@ -2569,7 +2569,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_ag_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-GB-01",
@@ -2596,7 +2596,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-GB-02",
@@ -2676,7 +2676,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-GB-03",
@@ -2711,7 +2711,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-GB-04",
@@ -3014,14 +3014,14 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_04",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_gb_04.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-RK-01",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "intent_card_sha256": "04e3a8e0009b45e6ea4eb65d432e95307cf98a49987836dcf236e48f8eb4c91c",
-      "canonical_sql_sha256_at_derivation": "84df2043b036ea507559e076b62b9614f9f62396a4e43780ef3fe8972f382cfd",
+      "intent_card_sha256": "f94e5dcac242ebf9b1eda88b11f4be5836d7d14fe38518827d77ee09f7741f37",
+      "canonical_sql_sha256_at_derivation": "9c53f6dfc822e961309a156f31e034fced96bb8ff995c0b3b0845250cb31f01d",
       "expected_rows": [
         [
           13,
@@ -3047,14 +3047,14 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-RK-02",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "intent_card_sha256": "eaa5cba4ddc5b5613670c36e7bb1f4046d790337109922b4f3dbc0f438c785d8",
-      "canonical_sql_sha256_at_derivation": "e7e80ea2038ffca7d7e2f530de168142c5fdf2065a5a5a19d037668619ad2e2b",
+      "intent_card_sha256": "ff56893717c62fda4be4e6e75001f17d715daec06ff5e7bae5cf45af0ab75c2e",
+      "canonical_sql_sha256_at_derivation": "f2094dc20535ae4847ba5fe3e023c3523490c7dfba18d718fc78b8dfffa31bcc",
       "expected_rows": [
         [
           1,
@@ -3074,14 +3074,14 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-RK-03",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "intent_card_sha256": "67eb21d2ffe98b11c8094ab8b1454f4c9c712b547708fecf17b4899755212eb7",
-      "canonical_sql_sha256_at_derivation": "8db10679164a613676df7dc45656d139a87bfcc9efe6230b7d57cda01d4eaa74",
+      "intent_card_sha256": "6dc5f97f2e6073da38fd84e582872e0d99d1215f53bf97811894591a22e04e73",
+      "canonical_sql_sha256_at_derivation": "ab5c68a0bb5b9f0d06f48f4ef7accff6db43d23acb65951ca40e659b13ed2bfe",
       "expected_rows": [
         [
           1,
@@ -3107,7 +3107,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_rk_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-JN-01",
@@ -3164,7 +3164,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-JN-02",
@@ -3499,7 +3499,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-JN-03",
@@ -3556,7 +3556,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_03",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_jn_03.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-TM-01",
@@ -3613,7 +3613,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_tm_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-TM-02",
@@ -3808,7 +3808,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_tm_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-NA-01",
@@ -4039,7 +4039,7 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_na_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-NA-02",
@@ -4918,148 +4918,85 @@
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_02",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_na_02.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     },
     {
       "group_id": "WMS-CD-01",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "intent_card_sha256": "194056a9b11971e7702124ae57734a213b8d6d9ef8382054be2049d42f6bb4a5",
-      "canonical_sql_sha256_at_derivation": "46c8eb30e4f177fe58e2ec92499c8800ad61e255e663a1722bc2875eaea9b056",
+      "intent_card_sha256": "361bed54b6d4fdc08bc31a13c873a6b849f1bbb68b90f79609d7f74eaaf649ff",
+      "canonical_sql_sha256_at_derivation": "47c33713aa8d5325c181a786d8c693b55c9e355effaa681a067f019c1ca2bac0",
       "expected_rows": [
         [
           1,
           "W-SKU-001",
           "EA",
           47558,
-          992442
+          -47558
         ],
         [
           10,
           "W-SKU-010",
           "EA",
           47315,
-          952685
+          -47315
         ],
         [
           11,
           "W-SKU-011",
           "KG",
           15149,
-          984851
-        ],
-        [
-          12,
-          "W-SKU-012",
-          "L",
-          0,
-          1000000
-        ],
-        [
-          13,
-          "W-SKU-013",
-          "EA",
-          0,
-          1000000
-        ],
-        [
-          14,
-          "W-SKU-014",
-          "KG",
-          0,
-          1000000
-        ],
-        [
-          15,
-          "W-SKU-015",
-          "L",
-          0,
-          1000000
-        ],
-        [
-          16,
-          "W-SKU-016",
-          "EA",
-          0,
-          1000000
-        ],
-        [
-          17,
-          "W-SKU-017",
-          "KG",
-          0,
-          1000000
-        ],
-        [
-          18,
-          "W-SKU-018",
-          "L",
-          0,
-          1000500
+          -15149
         ],
         [
           2,
           "W-SKU-002",
           "KG",
-          33121,
-          966879
+          16230,
+          -16230
         ],
         [
           3,
           "W-SKU-003",
           "L",
-          32978,
-          972122
-        ],
-        [
-          4,
-          "W-SKU-004",
-          "EA",
-          0,
-          1005200
+          16062,
+          -16062
         ],
         [
           5,
           "W-SKU-005",
           "KG",
           15593,
-          989707
-        ],
-        [
-          6,
-          "W-SKU-006",
-          "L",
-          17059,
-          988341
+          -15593
         ],
         [
           7,
           "W-SKU-007",
           "EA",
           32282,
-          967718
+          -32282
         ],
         [
           8,
           "W-SKU-008",
           "KG",
-          48667,
-          951333
+          31915,
+          -31915
         ],
         [
           9,
           "W-SKU-009",
           "L",
           32374,
-          967626
+          -32374
         ]
       ],
-      "expected_rows_sha256": "ebfa6845dd5e813311edee2c0dc6308971e6721a661fcc9deb2d54ad8988790a",
-      "row_count_before_set_comparison": 18,
+      "expected_rows_sha256": "cac975baf68cd24159c1f4652e9f3d77f46ed92cf3c10496ce39ff323be74bef",
+      "row_count_before_set_comparison": 9,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_cd_01",
       "oracle_method": "Independent Python table scan implementing the recorded Final Intent Card; candidate SQL was not imported, parsed, or executed. See bird_vn_benchmark.final_oracles.wms_cd_01.",
       "derived_before_sql_execution": true,
-      "human_review_status": "NEEDS_HUMAN_REVIEW"
+      "human_review_status": "APPROVED"
     }
   ]
 }

@@ -18,6 +18,7 @@ def main() -> None:
     parser.add_argument("--run-id", default="offline")
     parser.add_argument("--replicate", type=int, default=0)
     parser.add_argument("--timeout", type=float, default=30.0)
+    parser.add_argument("--split", choices=("development", "final"), help="Evaluate one predeclared split from the frozen full registry")
     parser.add_argument("--allow-draft", action="store_true", help="For offline smoke tests only; output is not empirical")
     args = parser.parse_args()
     artifact = evaluate_saved_predictions(
@@ -30,6 +31,7 @@ def main() -> None:
         replicate_id=args.replicate,
         timeout_s=args.timeout,
         allow_draft=args.allow_draft,
+        evaluation_split=args.split,
     )
     print(f"Saved {len(artifact['question_records'])} question records to {args.output}")
     for split, metrics in artifact["metrics_by_split"].items():

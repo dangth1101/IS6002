@@ -1,8 +1,10 @@
 """SBERT and paraphrase robustness analysis from verified artifacts and actual demo runs."""
 import streamlit as st
+from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
 from bird_demo.benchmark.dashboard import read_registry, load_audit, load_similarity, load_table, manifest_status
 from bird_demo.benchmark.dashboard import q00_pair_stability
 st.set_page_config(page_title="BIRD-VN Analysis",page_icon=":material/analytics:",layout="wide")
+hide_secondary_bird_vn_pages()
 st.title("Phân tích · Paraphrase robustness & SBERT")
 registry=read_registry();summary,status=load_audit();manifest_ok,manifest=manifest_status()
 if status!="CURRENT":st.error("SBERT artifact is STALE. Cosine scores are suppressed until source lineage is refreshed.")

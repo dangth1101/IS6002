@@ -1,5 +1,11 @@
 import pytest
 from bird_demo.benchmark.official import (OfficialGate,TransientInfrastructureError, PermanentProviderError, collect_one, collect_three_replicates, execute_official_sql, OFFICIAL_SQL_TIMEOUT_S)
+import hashlib
+import json
+from pathlib import Path
+from bird_demo.benchmark.release import release_readiness
+
+ROOT = Path(__file__).resolve().parents[1]
 
 def ready_gate(): return OfficialGate(True,True,True,True)
 def test_official_gate_blocks_before_provider_call():
@@ -37,3 +43,31 @@ def test_official_sql_timeout_is_fixed_and_never_retried():
     assert out["status"]=="timeout" and calls==[30.0] and out["attempts"]==1
     empty=execute_official_sql(Path("db.sqlite"),None,runner=fake_runner)
     assert empty["status"]=="no_sql" and len(calls)==1
+
+
+def test_frozen_final_release_binds_three_replicate_offline_integration():
+    base = ROOT / "benchmark_data/official"
+    frozen = json.loads((base / "frozen_registry_manifest.json").read_text(encoding="utf-8"))
+    config = json.loads((base / "frozen_config.json").read_text(encoding="utf-8"))
+    smoke = json.loads((base / "implementation_validation.json").read_text(encoding="utf-8"))
+    assert frozen["status"] == "FROZEN_FOR_FINAL_EVALUATION"
+    readiness = release_readiness(ROOT)
+    assert readiness["registry_ready"] and readiness["config_ready"] and readiness["freeze_integrity_ready"]
+    assert readiness["d8_ready"] and readiness["d9_ready"] and readiness["d13_ready"]
+    assert readiness["official_run_authorized"] is False
+    assert readiness["ready_for_official_run"] is False
+    assert frozen["official_api_calls_authorized"] is False
+    assert config["evaluation_split"] == "final" and config["replicates"] == 3
+    assert config["official_api_calls_authorized"] is False
+    assert smoke["validation_type"] == "OFFLINE_MOCK_IMPLEMENTATION_SMOKE"
+    assert smoke["empirical_result"] is False and smoke["api_called"] is False
+    assert smoke["replicate_count"] == 3
+    assert smoke["questions_per_replicate"] == 440
+    assert smoke["prediction_records_total"] == 1320
+    assert all(run["execution_records"] == 440 and run["all_results_match_canonical"]
+               and (ROOT / run["artifact_path"]).is_file()
+               and hashlib.sha256((ROOT / run["artifact_path"]).read_bytes()).hexdigest() == run["artifact_sha256"]
+               for run in smoke["runs"])
+    for relative_path, expected_hash in frozen["integrity_files_sha256"].items():
+        actual_hash = hashlib.sha256((ROOT / relative_path).read_bytes()).hexdigest()
+        assert actual_hash == expected_hash, relative_path

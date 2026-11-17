@@ -2,7 +2,10 @@
 import csv, io, json, time
 import streamlit as st
 from bird_demo.benchmark.dashboard import read_registry, load_table, load_json, ROOT, owner_access_granted
+from bird_demo.benchmark.release import release_readiness
+from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
 st.set_page_config(page_title="BIRD-VN Validation & Review",page_icon=":material/analytics:",layout="wide")
+hide_secondary_bird_vn_pages()
 st.title("Validation & Human Review")
 registry=read_registry(); evidence=load_table("ground_truth_validation_audit.csv");groups={g["group_id"]:g for g in registry["groups"]}
 with st.sidebar:
@@ -55,11 +58,54 @@ with t2:
 with t3:
     st.error("Official Evaluation chưa sẵn sàng")
     try:
-        from bird_demo.benchmark.registry import load_registry
-        load_registry(ROOT/"benchmark_data/authoring/dataset.json",allow_draft=False)
+        from bird_demo.benchmark.registry import load_registry, registry_hash, sha256_file
+        frozen_registry=load_registry(ROOT/"benchmark_data/authoring/dataset.json",allow_draft=False)
         registry_ready=True
     except (OSError,ValueError,KeyError): registry_ready=False
-    config_ready=(ROOT/"benchmark_data/official/frozen_config.json").is_file()
-    gates=[("Dataset & SQL approved / registry frozen",registry_ready,"Release registry validation passed" if registry_ready else "Registry remains draft/unfrozen; approval or expected-output gates remain"),("Frozen prompt/model/config",config_ready,"Frozen configuration found" if config_ready else "No frozen evaluation configuration artifact"),("D8 fixed 30-second SQL timeout",False,"Read-only 30-second SQL runner is unit tested; full official integration remains unverified"),("D9 exactly three complete replicates",False,"Three-replicate collector is unit tested; release/config gates block execution"),("D13 transient-only retry cap and attempt audit",False,"Retries classified transient infrastructure failures only, at most three attempts with bounded backoff; end-to-end integration unverified"),("Owner run confirmation",False,"No official run authorization; this UI does not launch official evaluation")]
+    config_path=ROOT/"benchmark_data/official/frozen_config.json"
+    integration_path=ROOT/"benchmark_data/official/implementation_validation.json"
+    config_ready=config_path.is_file()
+    frozen_config=load_json("benchmark_data/official/frozen_config.json") or {}
+    implementation=load_json("benchmark_data/official/implementation_validation.json") or {}
+    freeze_manifest=load_json("benchmark_data/official/frozen_registry_manifest.json") or {}
+    try:
+        config_hash_matches=implementation.get("config_sha256")==sha256_file(config_path)
+        registry_hash_matches=implementation.get("registry_canonical_sha256")==registry_hash(frozen_registry)
+        config_registry_matches=frozen_config.get("registry_canonical_sha256")==registry_hash(frozen_registry)
+        freeze_integrity_matches=(freeze_manifest.get("registry_canonical_sha256")==registry_hash(frozen_registry)
+            and freeze_manifest.get("frozen_config_sha256")==sha256_file(config_path)
+            and bool(freeze_manifest.get("integrity_files_sha256"))
+            and all((ROOT/rel).is_file() and sha256_file(ROOT/rel)==digest
+                    for rel,digest in freeze_manifest.get("integrity_files_sha256",{}).items()))
+    except (NameError,OSError,ValueError):
+        config_hash_matches=False; registry_hash_matches=False; config_registry_matches=False; freeze_integrity_matches=False
+    smoke_valid=(implementation.get("validation_type")=="OFFLINE_MOCK_IMPLEMENTATION_SMOKE"
+        and implementation.get("empirical_result") is False
+        and implementation.get("api_called") is False
+        and implementation.get("replicate_count")==3
+        and implementation.get("questions_per_replicate")==440
+        and implementation.get("prediction_records_total")==1320
+        and len(implementation.get("runs",[]))==3
+        and all(run.get("prediction_records")==440 and run.get("execution_records")==440
+                and run.get("all_sql_executed") and run.get("all_results_match_canonical")
+                for run in implementation.get("runs",[])))
+    integration_ready=bool(registry_ready and config_ready and config_hash_matches and registry_hash_matches
+        and config_registry_matches and freeze_integrity_matches and smoke_valid)
+    protocol=implementation.get("protocol_checks",{})
+    d8_ready=bool(integration_ready and frozen_config.get("sql_execution_timeout_seconds")==30
+        and protocol.get("D8_sql_timeout_seconds")==30 and protocol.get("D8_timeout_outcome_not_retried"))
+    d9_ready=bool(integration_ready and frozen_config.get("replicates")==3
+        and protocol.get("D9_three_complete_replicates"))
+    d13_ready=bool(integration_ready and frozen_config.get("maximum_infrastructure_retries")==2
+        and frozen_config.get("retry_only_transient_infrastructure_errors") is True
+        and protocol.get("D13_transient_only_retry_cap_tested_by_unit_suite"))
+    verified=release_readiness(ROOT)
+    registry_ready=verified["registry_ready"]
+    config_ready=verified["config_ready"]
+    integration_ready=verified["freeze_integrity_ready"]
+    d8_ready=verified["d8_ready"]
+    d9_ready=verified["d9_ready"]
+    d13_ready=verified["d13_ready"]
+    gates=[("Dataset & SQL approved / registry frozen",registry_ready,"Release registry validation passed" if registry_ready else "Registry approval, integrity or expected-output gate failed"),("Frozen prompt/model/config",config_ready and config_hash_matches,"Frozen configuration hash is bound to the implementation check" if config_ready and config_hash_matches else "Missing frozen configuration or its hash does not match the recorded check"),("D8 fixed 30-second SQL timeout",d8_ready,"Mock Final pipeline verified; SQL execution timeout is 30 seconds and timeout is not retried" if d8_ready else "D8 integration evidence missing, stale or inconsistent"),("D9 exactly three complete replicates",d9_ready,"Offline mock completed 3 replicates × 440 Final questions; not an empirical result" if d9_ready else "Three-replicate integration evidence missing, stale or inconsistent"),("D13 transient-only retry cap and attempt audit",d13_ready,"Retry policy is capped at two transient infrastructure retries; verified by protocol tests" if d13_ready else "D13 implementation evidence missing or inconsistent"),("Owner run confirmation / API authorization",False,"Configuration freeze and mock validation do not authorize paid provider calls")]
     for label,ready,reason in gates: (st.success if ready else st.warning)(f"{'READY' if ready else 'BLOCKED'} · {label} — {reason}")
-    st.caption("No button can start official evaluation in this draft application. Do not treat demo runs as official replicates.")
+    st.caption("Offline mock evidence verifies implementation wiring only. Official Evaluation remains locked until the Benchmark Owner separately authorizes the real model run and associated cost.")

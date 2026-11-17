@@ -50,14 +50,14 @@
 | WMS-AG-01 | 6 posted receipts and 1 draft receipt | Status/type contrast | Multi-line receipt to detect inflated COUNT | NEEDS FIXTURE |
 | WMS-AG-02 | 20 posted shipments; signed movements; KG cohort exists | Temp copy thêm negative adjustment và transfer trên KG SKU để kiểm tra type filter | `dev_fixture_validation.json`: decoys excluded, candidate/oracle exact-set PASS | SUPPORTED |
 | WMS-AG-03 | On-hand validator reports 36 positive product-location balances; no zero-with-history | Positive balance cohort present | Zero-with-history and no-history location; confirm AVG inclusion denominator | NEEDS FIXTURE |
-| WMS-AG-04 | Schema supports balances by product-location; current positive balances | Grain exists | Fractional rational mean fixture; zero/history vs no-history | NEEDS FIXTURE |
+| WMS-AG-04 | Main snapshot cutoff is explicit; temporary-copy exact/after-cutoff checks PASS | Schema supports balances by product-location | Fractional-mean and zero-history counterexample fixture still needed | NEEDS FIXTURE |
 | WMS-GB-01 | 46 documents with multiple statuses | Status grouping supported | Ensure count document PK vs rows | NEEDS FIXTURE |
 | WMS-GB-02 | 57 positive and 33 negative movement rows; types and units varied | Sign/type/unit present | Net-zero same group, avoid adding different units | NEEDS FIXTURE |
 | WMS-GB-03 | Supplier receipt counts 5,1,0,0 | Parent no-child groups present | Multi-line docs to catch line-counting | NEEDS FIXTURE |
 | WMS-GB-04 | 2 warehouses, movements with transfers | Cross-warehouse aggregation possible | Same timestamp `posted_seq`, transfer legs, multi-location rollup and unit split | NEEDS FIXTURE |
-| WMS-RK-01 | WH-SG EA max tie: product 13 and 16 at 500000 milli-units | Actual tie at max | Ranking comparator must include both; non-EA competitor fixture if scope changes | SUPPORTED |
-| WMS-RK-02 | Supplier posted receipt counts 5,1,0,0 | Supplier cohort and zero counts | Tie at top-3 boundary | NEEDS FIXTURE |
-| WMS-RK-03 | 8 locations; current picking/quarantine have no movement | Location dimension present | Third-place tie, zero-with-history; clarify eligibility of STORAGE only | NEEDS FIXTURE |
+| WMS-RK-01 | WH-SG EA max tie: product 13 and 16 at 500000; cutoff boundary fixture PASS | Actual maximum tie and time cutoff both exercised | No known blocking fixture for current card | SUPPORTED |
+| WMS-RK-02 | Supplier posted receipt counts 5,1,0,0; temp supplier with zero receipts excluded | Count distinct posted receipt docs; no zero-count supplier returned | Rank-3 tie fixture still needed | NEEDS FIXTURE |
+| WMS-RK-03 | Cutoff boundary fixture PASS on temporary copy | SKU and STORAGE location balances available | Third-place tie and zero-with-history fixtures still needed | NEEDS FIXTURE |
 | WMS-JN-01 | Six posted receipts have supplier relationship | FK path and status present | Ensure no line join duplicates | SUPPORTED |
 | WMS-JN-02 | 80 document lines and product FK path | Line/product path populated | Fixture planned quantity deliberately differs from posted movement | NEEDS FIXTURE |
 | WMS-JN-03 | 90 movements with location and warehouse links | Path is populated | Transfer paired legs and aggregation without unit/fanout issues | NEEDS FIXTURE |
@@ -66,7 +66,7 @@
 | WMS-TM-02 | UTC event timestamps Jan–Mar 2025; 4 documents share timestamp with posted_seq | Same-time sequence is represented | Exact cutoff and atomic transfer batch evidence | NEEDS FIXTURE |
 | WMS-NA-01 | Products exist; no movement at PICKING locations | Anti-join at location scope yields many rows, unlike global no-movement | Add a picking movement collision to prove location scope; confirm active-location filter | NEEDS FIXTURE |
 | WMS-NA-02 | No zero-with-history balances; all 36 recorded balances positive | Schema can represent aggregates but snapshot lacks zero case | Add zero-with-history and no-history pair; otherwise cannot validate distinction | NEEDS FIXTURE |
-| WMS-CD-01 | 20 posted shipments + other movement types | Conditional type measures can differ | Same product/unit with shipment and non-shipment; pending/cancelled decoy | NEEDS FIXTURE |
+| WMS-CD-01 | Half-open Feb-2025 window boundary fixtures PASS on temporary copy | Snapshot contains movement records in period | Same-product mixed receipt/shipment/adjustment and non-posted decoys still need fixture validation | NEEDS FIXTURE |
 | WMS-CD-02 | 80 lines/90 movements; 2 non-posted docs retain planned rows; transfer source/destination legs | Temp copy covers DRAFT/CANCELLED zero execution and POSTED RECEIPT/SHIPMENT/ADJUSTMENT/CUSTOMER_RETURN/TRANSFER invariants | `dev_fixture_validation.json`: statuses, planned/executed and source-only transfer assertions PASS | SUPPORTED |
 
 ## Near-duplicate review and split leakage

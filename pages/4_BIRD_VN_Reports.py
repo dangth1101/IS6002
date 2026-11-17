@@ -3,7 +3,9 @@ import csv, io, json
 from bird_demo.benchmark.dashboard import owner_access_granted
 import streamlit as st
 from bird_demo.benchmark.dashboard import read_registry, load_table, ROOT, visible_run_artifact
+from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
 st.set_page_config(page_title="BIRD-VN Reports",page_icon=":material/analytics:",layout="wide")
+hide_secondary_bird_vn_pages()
 st.title("Reports & Run History")
 st.caption("Dashboard không tạo kết quả giả. Demo Run chỉ lưu trong session và không phải official replicate.")
 registry=read_registry();runs=st.session_state.get("birdvn_demo_runs",[])

@@ -1,0 +1,21 @@
+{
+  "approver_role": "Benchmark Owner",
+  "decision_date": "2026-11-17",
+  "decision": "ACCEPT",
+  "scope": "Wording review only for the current Q00 original question in each of the 10 Development groups.",
+  "source": "Explicit user instruction in this conversation: the Benchmark Owner reviewed the 10 Development Q00 questions and asked to record ACCEPT.",
+  "rationale": "Records the Owner's direct wording decision. Existing Intent Card, SQL, expected-output and Q01-Q10 decisions retain their separate prior provenance.",
+  "question_ids": [
+    "ERP-EF-01-Q00",
+    "ERP-GB-03-Q00",
+    "ERP-JN-02-Q00",
+    "ERP-RK-02-Q00",
+    "ERP-TM-02-Q00",
+    "WMS-AG-02-Q00",
+    "WMS-CD-02-Q00",
+    "WMS-EF-01-Q00",
+    "WMS-EF-02-Q00",
+    "WMS-JN-04-Q00"
+  ],
+  "registry_revision_before_decision": "dev-v9-all-q00-natural-vietnamese"
+}

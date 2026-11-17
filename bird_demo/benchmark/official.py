@@ -45,7 +45,10 @@ def collect_one(question: dict, prompt: str, model_id: str, config: dict, provid
 
 def openai_official_provider(prompt: str, model_id: str, config: dict) -> str:
     """OpenAI-compatible provider adapter with SDK retries disabled for D13 accounting."""
-    client=OpenAI(base_url=env("LLM_BASE_URL"),api_key=env("LLM_API_KEY"),max_retries=0)
+    timeout=float(config.get("provider_request_timeout_seconds",60))
+    if timeout <= 0:
+        raise ValueError("provider_request_timeout_seconds must be positive")
+    client=OpenAI(base_url=env("LLM_BASE_URL"),api_key=env("LLM_API_KEY"),max_retries=0,timeout=timeout)
     try:
         response=client.chat.completions.create(model=model_id,messages=[{"role":"user","content":prompt}],temperature=config.get("temperature",0),max_tokens=config.get("max_tokens",1024))
     except (APIConnectionError,APITimeoutError,RateLimitError,InternalServerError) as exc:

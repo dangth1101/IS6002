@@ -347,7 +347,7 @@ def wms_ag_04(db: Path) -> list[list[Any]]:
     for m in moves:
         line = line_by_id[m["document_line_id"]]
         doc = doc_by_id[line["document_id"]]
-        if doc["document_status"] == "POSTED" and doc["posted_at_utc"] < cutoff:
+        if doc["document_status"] == "POSTED" and m["moved_at_utc"] < cutoff:
             product, location = product_by_id[line["product_id"]], location_by_id[m["location_id"]]
             balances[(product["product_id"], product["base_unit"], location["warehouse_id"], location["location_id"])] += m["qty_delta_milli"]
     groups: dict[tuple[int, str, int], list[int]] = defaultdict(list)
@@ -420,7 +420,7 @@ def wms_rk_01(db: Path) -> list[list[Any]]:
         line = line_by_id[m["document_line_id"]]
         doc = doc_by_id[line["document_id"]]
         product, location = product_by_id[line["product_id"]], location_by_id[m["location_id"]]
-        if (doc["document_status"] == "POSTED" and doc["posted_at_utc"] < cutoff
+        if (doc["document_status"] == "POSTED" and m["moved_at_utc"] < cutoff
                 and product["base_unit"] == "EA" and location["warehouse_id"] == warehouse_id):
             totals[product["product_id"]] += m["qty_delta_milli"]
     if not totals:
@@ -450,7 +450,7 @@ def wms_rk_03(db: Path) -> list[list[Any]]:
         doc = doc_by_id[line["document_id"]]
         location = location_by_id[m["location_id"]]
         if (line["product_id"] == product["product_id"] and doc["document_status"] == "POSTED"
-                and doc["posted_at_utc"] < cutoff and location["location_type"] == "STORAGE"):
+                and m["moved_at_utc"] < cutoff and location["location_type"] == "STORAGE"):
             totals[m["location_id"]] += m["qty_delta_milli"]
     base = [(product["product_id"], product["sku"], product["base_unit"], lid, location_by_id[lid]["location_code"], qty)
             for lid, qty in totals.items()]
@@ -550,10 +550,11 @@ def wms_cd_01(db: Path) -> list[list[Any]]:
     doc_by_id = {x["document_id"]: x for x in docs}
     product_by_id = {x["product_id"]: x for x in products}
     totals: dict[tuple[int, str, str], list[int]] = defaultdict(lambda: [0, 0])
+    start, end = "2025-02-01T00:00:00.000Z", "2025-03-01T00:00:00.000Z"
     for m in moves:
         line = line_by_id[m["document_line_id"]]
         doc = doc_by_id[line["document_id"]]
-        if doc["document_status"] != "POSTED":
+        if (doc["document_status"] != "POSTED" or not start <= m["moved_at_utc"] < end):
             continue
         product = product_by_id[line["product_id"]]
         bucket = totals[(product["product_id"], product["sku"], product["base_unit"])]

@@ -16,6 +16,7 @@ from bird_demo.llm import MAX_TOKENS, Reply, complete, default_model
 from bird_demo.prompt import build_prompt, extract_sql
 from bird_demo.runner import RunResult, Rows, SqlError, Timeout, run
 from bird_demo.scoring import ScoredRun, Verdict, score
+from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
 
 MAX_ROWS_SHOWN = 1_000
 
@@ -147,6 +148,7 @@ def unscored_run(db_id: str, question: str, evidence: str | None, model: str) ->
 
 def main() -> None:
     st.set_page_config(page_title="BIRD text-to-SQL demo", layout="wide")
+    hide_secondary_bird_vn_pages()
     model = default_model()
     questions = subset_questions()
 

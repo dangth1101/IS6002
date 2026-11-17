@@ -1,0 +1,40 @@
+{
+  "config_version": 1,
+  "frozen_on": "2026-11-17",
+  "model_id": "openai/gpt-4.1",
+  "provider": "OpenAI-compatible API",
+  "provider_endpoint_host": "openrouter.ai",
+  "provider_endpoint_sha256": "76ef4ad6f0c8a4ae66efb13875c107cee40c78997a212353d379acfbb2f45591",
+  "provider_request_timeout_seconds": 60,
+  "temperature": 0,
+  "max_tokens": 1024,
+  "seed": null,
+  "seed_note": "Not set; provider support is not assumed.",
+  "replicates": 3,
+  "sql_execution_timeout_seconds": 30,
+  "initial_attempts": 1,
+  "maximum_infrastructure_retries": 2,
+  "retry_only_transient_infrastructure_errors": true,
+  "sdk_retries": 0,
+  "prompt_builder_sha256": "cafa46edb863d02743ec3183c059f6c6fa9b41df8574a27cfa816b040df05fc6",
+  "evaluation_code_sha256": {
+    "collector": "ff709426f18839271a5cc54bb167c63ab3c771c3b4f779a108aada223035f69e",
+    "offline_evaluator": "b0544a733554763073656e7a5667a77299697b2729a4fc054730bcf83c1ae39d",
+    "metrics": "87529e065390334a62535743313f59607194cb4297dca652a3ca82a0bfdbd2dd",
+    "sql_runner": "7c72b43385585aa62a16ef220d4ae3652dfde01d4008ac446a28073a2552ddc2"
+  },
+  "schema_sha256": {
+    "erp_sales": "44fe39755eace3128c1a4c1710348fd150fb6cb7c1d1adb437b8f106dc716eea",
+    "wms_inventory": "690c4a68944ef58ca67cc32f245ed23b4e9ab9a27e99279b8e5d0b9849883307"
+  },
+  "registry_canonical_sha256": "523f03b2a84bceed841d9ffd64dc98507a8e03940a772f6ba76ce0d1cec8e6d8",
+  "registry_file_sha256": "3c634d7163e8f487589926c1c8ea92a2c2094cc1a7a6c43fbe687fda22f14f0f",
+  "database_sha256": {
+    "erp_sales": "347c0e7b663d74c740c6b1fba4a2b89a6ca21beeb4148bd8bff41ed3a4ca888b",
+    "wms_inventory": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5"
+  },
+  "evaluation_split": "final",
+  "final_questions_per_replicate": 440,
+  "official_api_calls_authorized": false,
+  "authorization_note": "Configuration freeze only. Live provider calls require separate explicit cost/run authorization."
+}

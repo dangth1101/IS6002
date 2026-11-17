@@ -17,6 +17,13 @@ PHYSICAL_DIR = ROOT / "benchmark_data/physical"
 MAX_DISPLAY_ROWS = 500
 DEMO_TIMEOUT_S = 30
 
+# The benchmark manifest pins research inputs/evidence, not Streamlit presentation code.
+UI_ARTIFACTS = {"app.py"}
+
+def is_ui_artifact(rel: str) -> bool:
+    normalized = rel.replace("\\", "/")
+    return normalized in UI_ARTIFACTS or normalized.startswith("pages/")
+
 def read_registry(): return load_registry(REGISTRY_PATH, allow_draft=True)
 def registry_file_hash(): return hashlib.sha256(REGISTRY_PATH.read_bytes()).hexdigest()
 def manifest_status():
@@ -25,6 +32,8 @@ def manifest_status():
     manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("registry_sha256") != registry_file_hash(): return False, "Hash registry không khớp manifest"
     for rel,digest in manifest.get("files",{}).items():
+        if is_ui_artifact(rel):
+            continue
         path=ROOT/rel
         if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=digest: return False, f"Artifact lệch manifest: {rel}"
     return True, manifest.get("revision", "unknown")
@@ -283,4 +292,7 @@ def compare_demo_q00_variants(results: list[dict[str,Any]], *, expected_variant_
 def q00_pair_stability(results: list[dict[str,Any]]) -> list[dict[str,Any]]:
     """Backward-compatible known Q00?Qi pair outcomes for analysis views."""
     comparison=compare_demo_q00_variants(results)
-    return [{"Pair":f"{p['question_id']} vs Q00","Rows stable":p["stable"]} for p in comparison["pairs"] if p["known"]]
+    q00_id=next((item.get("question",{}).get("question_id") for item in results
+                 if item.get("question",{}).get("q_index")==0), "Q00")
+    return [{"Pair":f"{q00_id} vs {p['question_id']}","Rows stable":p["stable"]}
+            for p in comparison["pairs"] if p["known"]]

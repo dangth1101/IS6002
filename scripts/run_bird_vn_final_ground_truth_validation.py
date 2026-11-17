@@ -53,16 +53,6 @@ def main() -> None:
             actual_rows, actual_columns, actual_hash = None, None, None
             matches, status, error = None, "BLOCKED_UNKNOWN_RUNNER_RESULT", "Unknown SQL runner result."
         issues = []
-        if gid == "WMS-AG-04":
-            issues.append("Intent Card requires balances as of 2025-04-01 UTC, but canonical SQL has no posted_at_utc cutoff.")
-        elif gid in {"WMS-RK-01", "WMS-RK-03"}:
-            issues.append("Intent Card requires an as-of snapshot cutoff, but canonical SQL has no posted_at_utc cutoff.")
-        elif gid == "WMS-RK-02":
-            issues.append("Intent Card excludes suppliers with zero receipts, but canonical SQL starts from all suppliers and can include zero-count rows.")
-        elif gid == "WMS-CD-01":
-            issues.append("Intent Card mentions a fixed time window but records no boundaries; canonical SQL has no time predicate.")
-        if issues and status == "NEEDS_HUMAN_REVIEW":
-            status = "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW"
         results.append({
             "group_id": gid,
             "split": "final",

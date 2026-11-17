@@ -1,0 +1,49 @@
+{
+  "validation_type": "OFFLINE_MOCK_IMPLEMENTATION_SMOKE",
+  "empirical_result": false,
+  "api_called": false,
+  "registry_canonical_sha256": "523f03b2a84bceed841d9ffd64dc98507a8e03940a772f6ba76ce0d1cec8e6d8",
+  "config_sha256": "f46ed8a94074b37b52b440d69d7ca0d4d762edaaee63f6c82dda2ad9e3c19e96",
+  "split": "final",
+  "replicate_count": 3,
+  "questions_per_replicate": 440,
+  "prediction_records_total": 1320,
+  "runs": [
+    {
+      "replicate_id": 1,
+      "prediction_records": 440,
+      "execution_records": 440,
+      "all_sql_executed": true,
+      "all_results_match_canonical": true,
+      "artifact_path": "benchmark_data/official/validation/offline_mock_final_replicates/replicate_1.json",
+      "artifact_sha256": "eec74fb7dd36f7fadfc35603ee93c199c6421778158cbde4b8f81f5d1cd9b897"
+    },
+    {
+      "replicate_id": 2,
+      "prediction_records": 440,
+      "execution_records": 440,
+      "all_sql_executed": true,
+      "all_results_match_canonical": true,
+      "artifact_path": "benchmark_data/official/validation/offline_mock_final_replicates/replicate_2.json",
+      "artifact_sha256": "783666db7d74b97406a3db1b228b0133dd066b975b3925a74697602fed1ff48b"
+    },
+    {
+      "replicate_id": 3,
+      "prediction_records": 440,
+      "execution_records": 440,
+      "all_sql_executed": true,
+      "all_results_match_canonical": true,
+      "artifact_path": "benchmark_data/official/validation/offline_mock_final_replicates/replicate_3.json",
+      "artifact_sha256": "abe4b3a8d107898d7106450a8a99695f67cc050eec2a8c92b1f66f7c9c58b780"
+    }
+  ],
+  "protocol_checks": {
+    "D8_sql_timeout_seconds": 30,
+    "D8_timeout_outcome_not_retried": true,
+    "D9_three_complete_replicates": true,
+    "D13_transient_only_retry_cap_tested_by_unit_suite": true,
+    "retries_counted_as_replicates": false
+  },
+  "validated_at_utc": "2026-11-17T05:02:30+00:00",
+  "notes": "Canonical SQL was supplied by a local mock provider. These checks prove integration wiring only, not model accuracy or official benchmark results."
+}

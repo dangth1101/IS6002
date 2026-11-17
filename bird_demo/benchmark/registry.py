@@ -111,5 +111,8 @@ def load_registry(path: Path, *, allow_draft: bool = False) -> dict[str, Any]:
 
 
 def registry_hash(registry: dict[str, Any]) -> str:
-    payload = json.dumps(registry, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    # dataset_hash pins this canonical digest; exclude that field to avoid a
+    # self-referential hash while retaining evaluation_freeze in the digest.
+    hashable = {key: value for key, value in registry.items() if key != "dataset_hash"}
+    payload = json.dumps(hashable, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()

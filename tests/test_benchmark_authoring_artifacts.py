@@ -9,13 +9,21 @@ from bird_vn_benchmark.intent_oracles import DEV_ORACLES
 AUTHORING = ROOT / "benchmark_data/authoring"
 
 
-def test_draft_registry_has_quota_split_and_no_auto_approvals():
+def test_registry_has_quota_split_and_explicit_owner_review_states():
     registry = load_registry(AUTHORING / "dataset.json", allow_draft=True)
     assert len(registry["groups"]) == 50
     assert len(registry["questions"]) == 550
     assert sum(group["split"] == "development" for group in registry["groups"]) == 10
-    assert all(group["ground_truth_review"] == "NEEDS_HUMAN_REVIEW" for group in registry["groups"])
-    assert all(question["variant_review"] == "NEEDS_HUMAN_REVIEW" for question in registry["questions"])
+    development = [group for group in registry["groups"] if group["split"] == "development"]
+    final = [group for group in registry["groups"] if group["split"] == "final"]
+    assert all(group["intent_card_status"] == "APPROVED" for group in development + final)
+    assert all(group["ground_truth_review"] == "VALIDATED" for group in development + final)
+    assert all(group["human_review_status"] == "APPROVED_BY_OWNER" for group in development)
+    assert all(group["human_review_status"] == "APPROVED" for group in final)
+    assert all(question["variant_review"] == "ACCEPT"
+               for question in registry["questions"] if question["split"] == "development")
+    assert all(question["variant_review"] == "ACCEPT"
+               for question in registry["questions"] if question["split"] == "final")
 
 
 def test_draft_sql_static_check_never_executes_result_rows():
@@ -38,8 +46,8 @@ def test_open_fixture_defects_and_dev_oracle_coverage_are_explicit():
     registry_groups = {group["group_id"]: group for group in registry["groups"]}
     for group_id, machine in main_results.items():
         assert registry_groups[group_id]["validation_status"] == machine["status"]
-        assert registry_groups[group_id]["ground_truth_review"] == "NEEDS_HUMAN_REVIEW"
-        assert registry_groups[group_id]["intent_card_status"] == "NEEDS_HUMAN_REVIEW"
+        assert registry_groups[group_id]["ground_truth_review"] == "VALIDATED"
+        assert registry_groups[group_id]["intent_card_status"] == "APPROVED"
     assert all(main_results["ERP-RK-02"]["business_rule_checks"].values())
     assert all(len(row) == 5 for row in main_results["ERP-RK-02"]["actual_rows"])
     assert all(len(row) == 5 for row in next(x for x in expected["expected_outputs"] if x["group_id"] == "ERP-RK-02")["expected_rows"])
@@ -47,9 +55,13 @@ def test_open_fixture_defects_and_dev_oracle_coverage_are_explicit():
     assert registry_groups["ERP-RK-02"]["projection_alignment_decision"]["option"] == "B"
     assert registry_groups["ERP-RK-02"]["projection_alignment_decision"]["status"] == "RESOLVED_BY_BENCHMARK_OWNER"
     assert all(main_results["WMS-CD-02"]["business_rule_checks"].values())
-    assert all(record["human_review_status"] == "NEEDS_HUMAN_REVIEW"
-               and record["owner_approval"]["status"] == "PENDING"
-               for record in validation_records if record["group_id"] in DEV_ORACLES)
+    for record in (item for item in validation_records if item["group_id"] in DEV_ORACLES):
+        assert record["human_review_status"] == "APPROVED_BY_OWNER"
+        assert record["approval_provenance"]["decision"] == "APPROVE"
+        assert all(item["review_status"] == "ACCEPT"
+                   for item in record["question_reviews"])
+        q00 = next(item for item in record["question_reviews"] if item["q_index"] == 0)
+        assert q00["review_decision_provenance"]["decision"] == "ACCEPT"
 
 
 def test_dev_fixture_expected_outputs_precede_sql_and_all_six_fixtures_pass():

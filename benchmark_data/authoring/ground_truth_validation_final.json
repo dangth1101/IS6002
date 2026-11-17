@@ -1,13 +1,11 @@
 {
   "artifact_version": 1,
-  "created_at_utc": "2026-11-16T11:28:20.009+00:00",
-  "registry_sha256": "c52c503dee2dfc227c768f3ab02c320dc012f5c6e6c3a21d860b71665cbbe022",
-  "expected_outputs_sha256": "12c0d0cd9346234e49ed7905664fad9456a833c53a0f81104ebd0c40e4f0cab3",
+  "created_at_utc": "2026-11-17T02:20:36.704+00:00",
+  "registry_sha256": "7195310551c277a938a3211538f7f4c64088cdeff72fbaf1e0e93c4b0c0141da",
+  "expected_outputs_sha256": "bd043b88934f2c6afe6288b4f486249228f6c92ab5c73b2da629ebc2141f7ed2",
   "scope": "Offline Final candidate comparison against frozen independent Python outputs; no LLM evaluation or approval",
   "summary": {
-    "NEEDS_HUMAN_REVIEW": 35,
-    "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW": 4,
-    "BLOCKED_SQL_OR_INTENT_MISMATCH": 1
+    "APPROVED_BY_OWNER": 40
   },
   "results": [
     {
@@ -30,11 +28,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-EF-03",
@@ -56,11 +57,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-EF-04",
@@ -82,11 +86,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ef_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-AG-01",
@@ -105,11 +112,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-AG-02",
@@ -127,11 +137,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-AG-03",
@@ -149,11 +162,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-AG-04",
@@ -171,11 +187,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_ag_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-GB-01",
@@ -194,11 +213,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-GB-02",
@@ -218,11 +240,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-GB-04",
@@ -241,11 +266,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_gb_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-RK-01",
@@ -266,11 +294,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-RK-03",
@@ -291,11 +322,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_rk_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-JN-01",
@@ -315,11 +349,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-JN-03",
@@ -340,11 +377,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-JN-04",
@@ -366,11 +406,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_jn_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-TM-01",
@@ -391,11 +434,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_tm_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-NA-01",
@@ -414,11 +460,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-NA-02",
@@ -438,11 +487,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_na_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-CD-01",
@@ -461,11 +513,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "ERP-CD-02",
@@ -486,11 +541,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:erp_cd_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-EF-03",
@@ -512,11 +570,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-EF-04",
@@ -538,11 +599,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ef_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-AG-01",
@@ -560,11 +624,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-AG-03",
@@ -585,17 +652,20 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-AG-04",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "12093451f7b9b21b78c21d899b6c59a277554aaa4e067c8d44ae1c6c831406a4",
+      "canonical_sql_sha256": "509871ec722ae2de24e5b9575402b56000d3dceb2e6e2bdc6fb1f34d6cbced47",
       "expected_rows_sha256": "35a0442d843aca652e3111935a87b40aef12436ce7a45f5b73e0820946daf584",
       "actual_rows_sha256": "35a0442d843aca652e3111935a87b40aef12436ce7a45f5b73e0820946daf584",
       "expected_row_count": 36,
@@ -610,13 +680,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_ag_04",
-      "status": "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
-      "known_intent_sql_issues": [
-        "Intent Card requires balances as of 2025-04-01 UTC, but canonical SQL has no posted_at_utc cutoff."
-      ],
-      "fixture_status": "NOT_RECORDED"
+      "human_review_status": "APPROVED",
+      "known_intent_sql_issues": [],
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-GB-01",
@@ -635,11 +706,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-GB-02",
@@ -659,11 +733,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-GB-03",
@@ -683,11 +760,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-GB-04",
@@ -710,17 +790,20 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_gb_04",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-RK-01",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "84df2043b036ea507559e076b62b9614f9f62396a4e43780ef3fe8972f382cfd",
+      "canonical_sql_sha256": "9c53f6dfc822e961309a156f31e034fced96bb8ff995c0b3b0845250cb31f01d",
       "expected_rows_sha256": "5c40bd9e0b322ff85ebd4af0dfd17fac3c571c46ea00e427fa608527d1e4cbd0",
       "actual_rows_sha256": "5c40bd9e0b322ff85ebd4af0dfd17fac3c571c46ea00e427fa608527d1e4cbd0",
       "expected_row_count": 2,
@@ -738,23 +821,24 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_01",
-      "status": "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
-      "known_intent_sql_issues": [
-        "Intent Card requires an as-of snapshot cutoff, but canonical SQL has no posted_at_utc cutoff."
-      ],
-      "fixture_status": "NOT_RECORDED"
+      "human_review_status": "APPROVED",
+      "known_intent_sql_issues": [],
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-RK-02",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "e7e80ea2038ffca7d7e2f530de168142c5fdf2065a5a5a19d037668619ad2e2b",
+      "canonical_sql_sha256": "f2094dc20535ae4847ba5fe3e023c3523490c7dfba18d718fc78b8dfffa31bcc",
       "expected_rows_sha256": "ce3ce37172bc72a0ba2bd2fdf4b8a2eeeedc0500716a5b2d0d1ae9b2da87deaa",
-      "actual_rows_sha256": "962976fe85c5370f5d577459de15b63ed74b7a475e716ee347d8448216703396",
+      "actual_rows_sha256": "ce3ce37172bc72a0ba2bd2fdf4b8a2eeeedc0500716a5b2d0d1ae9b2da87deaa",
       "expected_row_count": 2,
-      "actual_row_count": 4,
+      "actual_row_count": 2,
       "expected_columns_count": 4,
       "actual_columns": [
         "supplier_id",
@@ -762,22 +846,23 @@
         "receipt_count",
         "rnk"
       ],
-      "rows_match_set_comparator": false,
+      "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_02",
-      "status": "BLOCKED_SQL_OR_INTENT_MISMATCH",
-      "error": "Candidate SQL output differs from the frozen independent Python oracle.",
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
-      "known_intent_sql_issues": [
-        "Intent Card excludes suppliers with zero receipts, but canonical SQL starts from all suppliers and can include zero-count rows."
-      ],
-      "fixture_status": "NOT_RECORDED"
+      "status": "APPROVED_BY_OWNER",
+      "error": null,
+      "human_review_status": "APPROVED",
+      "known_intent_sql_issues": [],
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-RK-03",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "8db10679164a613676df7dc45656d139a87bfcc9efe6230b7d57cda01d4eaa74",
+      "canonical_sql_sha256": "ab5c68a0bb5b9f0d06f48f4ef7accff6db43d23acb65951ca40e659b13ed2bfe",
       "expected_rows_sha256": "1740c9237cac05af7f9da9165db2085f68bf86b46f0b9039f952725d5b89ed6b",
       "actual_rows_sha256": "1740c9237cac05af7f9da9165db2085f68bf86b46f0b9039f952725d5b89ed6b",
       "expected_row_count": 2,
@@ -795,13 +880,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_rk_03",
-      "status": "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
-      "known_intent_sql_issues": [
-        "Intent Card requires an as-of snapshot cutoff, but canonical SQL has no posted_at_utc cutoff."
-      ],
-      "fixture_status": "NOT_RECORDED"
+      "human_review_status": "APPROVED",
+      "known_intent_sql_issues": [],
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-JN-01",
@@ -823,11 +909,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-JN-02",
@@ -850,11 +939,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-JN-03",
@@ -876,11 +968,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_jn_03",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-TM-01",
@@ -902,11 +997,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-TM-02",
@@ -926,11 +1024,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_tm_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-NA-01",
@@ -951,11 +1052,14 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_01",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-NA-02",
@@ -978,21 +1082,24 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_na_02",
-      "status": "NEEDS_HUMAN_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
+      "human_review_status": "APPROVED",
       "known_intent_sql_issues": [],
-      "fixture_status": "NOT_RECORDED"
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     },
     {
       "group_id": "WMS-CD-01",
       "split": "final",
       "database_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
-      "canonical_sql_sha256": "46c8eb30e4f177fe58e2ec92499c8800ad61e255e663a1722bc2875eaea9b056",
-      "expected_rows_sha256": "ebfa6845dd5e813311edee2c0dc6308971e6721a661fcc9deb2d54ad8988790a",
-      "actual_rows_sha256": "ebfa6845dd5e813311edee2c0dc6308971e6721a661fcc9deb2d54ad8988790a",
-      "expected_row_count": 18,
-      "actual_row_count": 18,
+      "canonical_sql_sha256": "47c33713aa8d5325c181a786d8c693b55c9e355effaa681a067f019c1ca2bac0",
+      "expected_rows_sha256": "cac975baf68cd24159c1f4652e9f3d77f46ed92cf3c10496ce39ff323be74bef",
+      "actual_rows_sha256": "cac975baf68cd24159c1f4652e9f3d77f46ed92cf3c10496ce39ff323be74bef",
+      "expected_row_count": 9,
+      "actual_row_count": 9,
       "expected_columns_count": 5,
       "actual_columns": [
         "product_id",
@@ -1004,13 +1111,21 @@
       "rows_match_set_comparator": true,
       "candidate_sql_executed": true,
       "oracle_id": "bird_vn_benchmark.final_oracles:wms_cd_01",
-      "status": "BLOCKED_INTENT_SQL_ALIGNMENT_REVIEW",
+      "status": "APPROVED_BY_OWNER",
       "error": null,
-      "human_review_status": "NEEDS_HUMAN_REVIEW",
-      "known_intent_sql_issues": [
-        "Intent Card mentions a fixed time window but records no boundaries; canonical SQL has no time predicate."
-      ],
-      "fixture_status": "NOT_RECORDED"
+      "human_review_status": "APPROVED",
+      "known_intent_sql_issues": [],
+      "fixture_status": "NOT_RECORDED",
+      "machine_validation_status": "VALIDATED_BY_AUTOMATION",
+      "owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+      "known_review_limitation": "Q01/Q02 common framing pattern accepted by Owner; this does not establish strong paraphrase diversity."
     }
-  ]
+  ],
+  "machine_validation_summary": {
+    "VALIDATED_BY_AUTOMATION": 40,
+    "execution_and_set_comparison_match": 40
+  },
+  "human_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
+  "approval_recorded_at_utc": "2026-11-17T02:28:49.609032+00:00",
+  "approval_registry_sha256": "281fa89f2908757503c48ae5303a7982537ed4c516d063b11a68f5f77a2777f5"
 }

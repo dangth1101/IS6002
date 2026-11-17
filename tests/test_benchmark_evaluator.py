@@ -55,26 +55,22 @@ def test_offline_evaluator_records_run_hashes_and_metrics(tmp_path):
     assert output.with_suffix(output.suffix + ".sha256").is_file()
 
 
-def test_frozen_snapshot_blocks_draft_gold_execution_before_loading_predictions():
+def test_owner_approved_frozen_registry_passes_release_gate_before_prediction_loading():
     registry = ROOT / "benchmark_data/authoring/dataset.json"
-    try:
-        load_registry(registry)
-    except ValueError as error:
-        assert "unreviewed" in str(error)
-    else:
-        raise AssertionError("unreviewed dataset must not pass the release gate")
+    frozen = load_registry(registry)
+    assert frozen["evaluation_freeze"] is True
+    assert len(frozen["groups"]) == 50 and len(frozen["questions"]) == 550
     try:
         evaluate_saved_predictions(
             repository_root=ROOT,
             registry_path=registry,
             predictions_path=ROOT / "does-not-exist.json",
             output_path=ROOT / "benchmark_data/runs/should-not-exist.json",
-            allow_draft=True,
         )
-    except ValueError as error:
-        assert "Refusing to execute draft canonical SQL" in str(error)
+    except FileNotFoundError:
+        pass
     else:
-        raise AssertionError("draft ground-truth execution on frozen snapshots must be blocked")
+        raise AssertionError("missing prediction artifact must fail before evaluation")
 
 
 def test_canonical_sql_error_blocks_evaluation_instead_of_counting_as_model_outcome(tmp_path):

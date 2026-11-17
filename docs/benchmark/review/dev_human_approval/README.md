@@ -1,11 +1,7 @@
-# Development Human Review Record
+# Trạng thái kiểm duyệt Development và Final
 
-Current revision: `dev-v9-all-q00-natural-vietnamese`.
+Ngày 2026-11-16, Benchmark Owner đã duyệt 10 nhóm Intent/SQL Development và 100 câu biến thể. Sau đó, câu gốc Q00 được chỉnh sửa nên cả 10 câu Q00 cần được review lại. Bảng review riêng nằm tại `DEVELOPMENT_Q00_FINAL_REVIEW_10.csv`.
 
-The user previously approved the Development Intent/SQL records and 110 question rows. After the user requested a natural-language review of all Q0 anchors, every Development Q0 is now back in `NEEDS_HUMAN_REVIEW`; the other 100 Development questions retain their prior `ACCEPT` decisions. The prior decisions are retained in the approval provenance log, while revised wording is not treated as approved.
+Ngày 2026-11-17, Benchmark Owner đã duyệt 40 nhóm Final và 440 câu hỏi. Provenance tại `benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json`; trạng thái theo nhóm và câu hỏi đã đồng bộ trong registry và Validation Records.
 
-Across all 50 groups, 49 Q0 anchors were reworded in natural Vietnamese. SQL, expected outputs, fixtures and SQLite snapshots were not changed by this wording review. ERP-EF-01 SQL and expected output continue to use `CUSTOMERS.customer_code`.
-
-The 40 Final groups have independent expected-output artifacts and read-only SQL comparison evidence, but remain under Human Review. Five Final groups have recorded Intent/SQL alignment blockers. Official evaluation remains disabled.
-
-Key records: `DEVELOPMENT_INTENT_SQL_REVIEW_10.csv`, `ERP_DEVELOPMENT_QUESTIONS_55.csv`, `WMS_DEVELOPMENT_QUESTIONS_55.csv`, `USER_APPROVAL_PROVENANCE_2026-11-16.json`, `../../../../benchmark_data/authoring/dataset.json`, `../../../../benchmark_data/authoring/expected_outputs_dev.json`, `../../../../benchmark_data/authoring/expected_outputs_final.json`, and `../../../../benchmark_data/authoring/ground_truth_validation_final.json`.
+Phê duyệt Final không đóng băng registry và không cho phép chạy Official Evaluation. D12 vẫn PROPOSED; chưa có tệp cấu hình model/prompt được đóng băng và các cổng phát hành chưa qua kiểm tra. Chưa gọi LLM API tính phí hoặc chạy đánh giá chính thức.

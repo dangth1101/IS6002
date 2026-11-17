@@ -6,7 +6,7 @@
 | Mẫu annotation | ANNOTATION_REVIEW_TEMPLATE.md v0.3.0 — Draft |
 | Review | 0.3.0 — bổ sung phê duyệt D8, D9, D13 ngày 2026-11-10 |
 | Ngày | 2026-11-10 (bổ sung; phê duyệt cũ giữ nguyên ngày) |
-| Trạng thái quyết định | D1–D7, D10, D11 APPROVED ngày 2026-11-09; D8, D9, D13 APPROVED ngày 2026-11-10; D12, D14 PROPOSED |
+| Trạng thái quyết định | D1–D7, D10, D11 APPROVED ngày 2026-11-09; D8, D9, D13 APPROVED ngày 2026-11-10; D12 APPROVED ngày 2026-11-17; D14 PROPOSED |
 
 ## 1. Quy mô và tính nhất quán cần duyệt
 
@@ -63,7 +63,7 @@ Repeated runs: exactly 3 complete replicates per model/config. Pair Q0/Qi within
 
 ## 4. Decision Record D1–D14
 
-Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D8, D9, D13 ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Simulation rules R-01–R-11 được chấp nhận cho logic design, không phải chuẩn ngành. D4 chỉ phê duyệt định hướng hai SQLite DB.
+Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D8, D9, D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 vẫn PROPOSED. Simulation rules R-01–R-11 được chấp nhận cho logic design, không phải chuẩn ngành. D4 chỉ phê duyệt định hướng hai SQLite DB.
 
 | ID | Giá trị khuyến nghị | Lý do | Quyết định | Người quyết định | Ngày | Rationale thực tế / deviation |
 |---|---|---|---|---|---|---|
@@ -78,7 +78,7 @@ Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D
 | D9 | Đúng 3 replicates đầy đủ cho mỗi model/config; ghép cặp trong cùng replicate; báo từng replicate và mean/SD/range | Đo sampling variability, tránh chọn run tốt nhất hoặc gộp outcome phụ thuộc; Development có 3 × 110 = 330 predictions/model/config. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Ba lần chạy đầy đủ là bắt buộc; mỗi câu xuất hiện một lần trong replicate 1/2/3, giữ cùng model/config hash. |
 | D10 | Một Benchmark Owner single-human validation; AI/Codex hỗ trợ critique/oracle; công bố không có independent human annotation | Phù hợp nguồn lực đồ án; nêu rõ common-method bias, không đo inter-annotator agreement. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận một người thực hiện và chịu trách nhiệm human review/final approval; Codex/LLM chỉ hỗ trợ kỹ thuật, không được tính là annotator độc lập hoặc double-blind review. |
 | D11 | Competency quota §6; complexity ERP 8/12/5 và WMS 8/12/5; mỗi group 3 Lexical/3 Syntactic/2 Reordering/2 Mixed | Khóa coverage và complexity mỗi database trước authoring. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận tổng 16/24/10 và phân bổ 8/12/5 cho mỗi DB; mapping từng intent theo rubric complexity. |
-| D12 | Giữ 0.x pilot; Final giữ kín nếu khả thi, nếu không công khai exposure | Tránh gọi nhầm tập đã tune là blind. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
+| D12 | Giữ 0.x pilot; Final giữ kín nếu khả thi, nếu không công khai exposure | Tránh gọi nhầm tập đã tune là blind. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-17 | Owner đồng ý giữ benchmark ở mức pilot 0.x; bảo vệ Final nếu có thể, nếu đã bị lộ thì ghi rõ exposure/leakage. Phê duyệt này không tự cấp phép gọi API hoặc công bố kết quả. |
 | D13 | Một initial attempt + tối đa 2 retries có bounded backoff, chỉ cho lỗi hạ tầng tạm thời; giữ nguyên request/config | Tách sự cố hệ thống khỏi lỗi model/SQL; retry không tính là replicate. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Không retry SQL error/timeout, malformed/missing SQL trong phản hồi hợp lệ hoặc kết quả model sai. Hết retry cap thì giữ UNKNOWN/missingness và báo denominator. |
 | D14 | Gọi là pilot, không tuyên bố “first”/novelty tuyệt đối trước literature review | Không vượt quá bằng chứng hiện tại. | ☐ APPROVE ☐ REVISE ☐ REJECT | | | |
 
@@ -95,4 +95,30 @@ Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D
 
 Benchmark Owner xác nhận R-01–R-11 và nghiệm thu logic design ngày 2026-11-09; chi tiết, rationale và phạm vi được lưu trong [STEP_2A_REVIEW.md](database_design/STEP_2A_REVIEW.md). Đây là acceptance của design artifacts, không phải nghiệm thu physical database hay kết quả validator.
 
-Physical schema/seed, invariant validator, reproducibility check và edge-case fixtures được theo dõi tại [physical database README](physical_database/README.md), cùng build manifest và validation hashes. Benchmark Owner xác nhận nghiệm thu Bước 2B riêng ngày 2026-11-09. Intent Cards, SQL candidates và Questions hiện là drafts; chưa human-approved. D8/D9/D13 were approved 2026-11-10; the collector/evaluator implementation, human approvals, registry/model-config freeze, and cost authorization remain prerequisites for official evaluation; D12 trước phát hành/chia sẻ Final; D14 trước báo cáo novelty.
+Physical schema/seed, invariant validator, reproducibility check và edge-case fixtures được nghiệm thu riêng. Intent Cards, SQL candidates và Questions đã được Owner phê duyệt theo provenance trong registry/Validation Records. D8/D9/D13 đã được duyệt và bộ kiểm tra offline mock đã xác minh ba lượt × 440 câu Final. Registry/cấu hình đã đóng băng; Official Evaluation thật vẫn cần xác nhận riêng về chi phí và lượt gọi API. D14 vẫn PROPOSED.
+
+
+## Cập nhật trạng thái duyệt của Benchmark Owner — 2026-11-17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Ghi nhận bổ sung ngày 2026-11-17
+
+Benchmark Owner đã chấp nhận riêng wording của 10 câu Q00 Development; bằng chứng tại `benchmark_data/authoring/dev_q00_owner_approval_provenance_2026-11-17.json`. D12 được APPROVED ngày 2026-11-17. D14 vẫn PROPOSED. Approval không đồng nghĩa với cho phép gọi API trả phí.

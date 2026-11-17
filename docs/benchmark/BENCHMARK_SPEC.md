@@ -3,14 +3,14 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | Phiên bản | **0.3.0** |
-| Trạng thái | **Draft — D1–D11 và D13 APPROVED; D12 và D14 PROPOSED** |
+| Trạng thái | **Draft — D1–D11 và D13 APPROVED; D12 APPROVED ngày 2026-11-17; D14 PROPOSED** |
 | Ngày | 2026-11-09 |
 | DBMS | SQLite |
 | Quy mô đề xuất | 550 Questions; 50 Semantic Groups/Intent; 50 canonical SQL |
 | Split đề xuất | Development: 10 groups/110 Questions; Final: 40 groups/440 Questions |
 | Phạm vi tài liệu | Đặc tả Bước 1; Bước 2B đã tạo physical DB/seed; chưa có benchmark Questions hoặc canonical SQL |
 
-Đây vẫn là đặc tả Draft, chưa phải benchmark đã phát hành. Benchmark Owner phê duyệt D1–D7, D10, D11 ngày 2026-11-09; D8, D9, D13 ngày 2026-11-10. D12 và D14 còn PROPOSED. Ví dụ nghiệp vụ chỉ minh họa phương pháp, không phải item benchmark.
+Đây vẫn là đặc tả Draft, chưa phải benchmark đã phát hành. Benchmark Owner phê duyệt D1–D7, D10, D11 ngày 2026-11-09; D8, D9, D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 còn PROPOSED. Ví dụ nghiệp vụ chỉ minh họa phương pháp, không phải item benchmark.
 
 **Ghi chú phiên bản 0.3.0:** quy mô đề xuất tăng lên 50 Semantic Groups, mỗi group gồm 1 original + 10 variants; cập nhật split, taxonomy, metrics và single-human validation. Các quyết định D1–D7, D10, D11 được ghi nhận APPROVED ngày 2026-11-09; trạng thái Draft vẫn giữ nguyên cho đến khi hoàn tất các quyết định và nghiệm thu benchmark.
 
@@ -330,7 +330,7 @@ Chỉ hai database không đủ đo generalization sang domain/schema khác. M�
 
 ## 15. Decision Record — D1–D14
 
-D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9 và D13 được phê duyệt ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Status và rationale được ghi tại Decision Review; phê duyệt này không bao gồm các quyết định khác.
+D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8, D9 và D13 được phê duyệt ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 vẫn PROPOSED. Status và rationale được ghi tại Decision Review; phê duyệt này không bao gồm các quyết định khác.
 
 | Decision ID | Recommended value | Status | Decision owner / approver | Date | Rationale (confirm or replace at decision) |
 |---|---|---|---|---|---|
@@ -345,7 +345,7 @@ D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8,
 | D9 | Đúng 3 replicates đầy đủ/model/config; ghép theo replicate_id 1/2/3; báo từng replicate và mean/SD/range | APPROVED | Benchmark Owner | 2026-11-10 | Development có 330 predictions/model/config; không gộp run hoặc chọn best run. |
 | D10 | Một Benchmark Owner thực hiện single-human validation; AI/Codex hỗ trợ critique/oracle; công khai không có independent human annotation | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận quy trình một người; AI/Codex chỉ hỗ trợ kiểm tra kỹ thuật, không được tính là annotator độc lập hay double-blind review; công bố common-method bias. |
 | D11 | Competency quota §6 (8/8/8/6/8/4/4/4); complexity ERP 8/12/5, WMS 8/12/5; mỗi group 3 Lexical, 3 Syntactic, 2 Reordering, 2 Mixed | APPROVED | Benchmark Owner | 2026-11-09 | Khóa coverage theo database, competency và taxonomy trước authoring; mọi biến thể vẫn phải qua semantic-slot review. |
-| D12 | 0.x pilot; Final giữ kín khi khả thi, nếu không ghi exposure/leakage | PROPOSED | — | — | Chốt release/access trước tune/final evaluation. |
+| D12 | 0.x pilot; Final giữ kín khi khả thi, nếu không ghi exposure/leakage | APPROVED | Benchmark Owner | 2026-11-17 | Giữ đúng mức tuyên bố pilot; ghi rõ nếu Final đã bị lộ. |
 | D13 | Một initial attempt + tối đa 2 bounded-backoff retries chỉ cho lỗi hạ tầng tạm thời; giữ request/config; cluster theo Semantic Group | APPROVED | Benchmark Owner | 2026-11-10 | Không retry SQL error/timeout, malformed/missing SQL trong phản hồi hợp lệ hoặc kết quả sai. Retry không phải replicate; lưu attempts, error categories, UNKNOWN và denominators. |
 | D14 | Gọi là pilot, không tuyên bố “first” hoặc novelty tuyệt đối | PROPOSED | — | — | Cần literature review trước novelty claim. |
 
@@ -402,9 +402,9 @@ D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8,
 
 ## 18. Trạng thái Bước 2A và điều kiện cho các bước tiếp theo
 
-D1–D7, D10 và D11 được phê duyệt ngày 2026-11-09; D8, D9 và D13 ngày 2026-11-10. D12 và D14 vẫn PROPOSED. Các phê duyệt không vượt ra ngoài quyết định đã nêu.
+D1–D7, D10 và D11 được phê duyệt ngày 2026-11-09; D8, D9 và D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 vẫn PROPOSED. Các phê duyệt không vượt ra ngoài quyết định đã nêu.
 
-D4 ban đầu phê duyệt định hướng hai database. Benchmark Owner xác nhận riêng các synthetic rules R-01–R-11 cho thiết kế logic; đây không phải chuẩn ngành. Bước 2A được nghiệm thu ngày 2026-11-09; physical database được xác nhận riêng ngày 2026-11-09. Intent Cards, 50 SQL candidates và 550 wording drafts vẫn chờ human review. D8/D9/D13 đã phê duyệt nhưng vẫn cần hoàn tất implementation, human approval, registry/model-config freeze và cost authorization trước official evaluation. D12 vẫn cần trước khi phát hành Final; D14 trước khi tuyên bố novelty.
+D4 phê duyệt định hướng hai database; simulation rules R-01–R-11 được chốt cho thiết kế logic và không phải chuẩn ngành. Bước 2A và 2B đã nghiệm thu theo provenance riêng. Benchmark Owner đã duyệt 40 Final groups, 440 Final questions và 10 Development Q00 hiện hành; các quyết định được lưu trong registry/Validation Records. Registry và cấu hình chạy đã đóng băng. Kiểm tra mock offline xác minh đủ 3 × 440 câu Final, không gọi API. Official Evaluation thật vẫn cần xác nhận riêng về chi phí/lượt gọi; D14 vẫn PROPOSED.
 ## Phụ lục A. Phân loại phương pháp
 
 - **Kế thừa BIRD:** database-grounded task, schema/data context, Evidence khi cần, kiểm tra SQL validity và text/knowledge/SQL alignment, execution-based EX.
@@ -412,3 +412,31 @@ D4 ban đầu phê duyệt định hướng hai database. Benchmark Owner xác n
 - **Đề xuất IS6002:** pilot tiếng Việt, ERP/WMS, 50 Semantic Groups × 11 Questions, RSS/CA/Robust EX/PRA và single-human validation có AI hỗ trợ. Cách làm này không tương đương independent/double-blind annotation; công bố rõ common-method bias và không đo inter-annotator agreement. Các metric mở rộng cần được trình bày là đề xuất của nhóm và không tuyên bố độc quyền nếu chưa rà soát literature.
 
 **Bước 1 dừng tại đặc tả này.** Chưa tạo Questions, database, seed data hoặc SQL benchmark; không sửa Python source và không gọi LLM API.
+
+
+## Trạng thái triển khai và kiểm duyệt hiện tại — 2026-11-17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Cập nhật trạng thái ngày 2026-11-17
+
+Benchmark Owner đã chấp nhận wording cho 10 câu Q00 Development và phê duyệt D12. D14 vẫn PROPOSED. Cấu hình chạy được đóng băng riêng; việc đóng băng không cấp phép gọi API hoặc công bố kết quả.

@@ -1,0 +1,88 @@
+{
+  "artifact_version": 1,
+  "created_by": "scripts/validate_wms_final_alignment_fixtures.py",
+  "scope": "Temporary-copy boundary and zero-receipt checks; frozen snapshots unchanged; automated evidence only",
+  "groups": [
+    {
+      "group_id": "WMS-AG-04",
+      "status": "PASS",
+      "snapshot_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "temporary_db_sha256": "840b31cdfa8f93c0c0f843e94bfdd3776ff78013bcc01b4997515e27ebbf80c5",
+      "mutations": [
+        "posted movement exactly at cutoff; must be excluded",
+        "posted movement 1ms after cutoff; must be excluded"
+      ],
+      "expected_row_count": 36,
+      "actual_row_count": 36,
+      "expected_rows_sha256": "35a0442d843aca652e3111935a87b40aef12436ce7a45f5b73e0820946daf584",
+      "actual_rows_sha256": "35a0442d843aca652e3111935a87b40aef12436ce7a45f5b73e0820946daf584",
+      "rows_match_set_comparator": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-01",
+      "status": "PASS",
+      "snapshot_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "temporary_db_sha256": "cb465222837ed7007fbdcda9962a540506586590e1465a9f92d4edb7688f0433",
+      "mutations": [
+        "posted movement exactly at cutoff; must be excluded",
+        "posted movement 1ms after cutoff; must be excluded"
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_rows_sha256": "5c40bd9e0b322ff85ebd4af0dfd17fac3c571c46ea00e427fa608527d1e4cbd0",
+      "actual_rows_sha256": "5c40bd9e0b322ff85ebd4af0dfd17fac3c571c46ea00e427fa608527d1e4cbd0",
+      "rows_match_set_comparator": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-02",
+      "status": "PASS",
+      "snapshot_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "temporary_db_sha256": "02d0750ffecf7c6259334896f2af7871846057a1ba8d4b65a8e0a508b8e48685",
+      "mutations": [
+        "supplier 5 with no posted receipts"
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_rows_sha256": "ce3ce37172bc72a0ba2bd2fdf4b8a2eeeedc0500716a5b2d0d1ae9b2da87deaa",
+      "actual_rows_sha256": "ce3ce37172bc72a0ba2bd2fdf4b8a2eeeedc0500716a5b2d0d1ae9b2da87deaa",
+      "rows_match_set_comparator": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-RK-03",
+      "status": "PASS",
+      "snapshot_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "temporary_db_sha256": "5fd8a54dd649546c837c9ecbd55cd152549c82facf170f777d93c2f6914903be",
+      "mutations": [
+        "posted movement exactly at cutoff; must be excluded",
+        "posted movement 1ms after cutoff; must be excluded"
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_rows_sha256": "1740c9237cac05af7f9da9165db2085f68bf86b46f0b9039f952725d5b89ed6b",
+      "actual_rows_sha256": "1740c9237cac05af7f9da9165db2085f68bf86b46f0b9039f952725d5b89ed6b",
+      "rows_match_set_comparator": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    },
+    {
+      "group_id": "WMS-CD-01",
+      "status": "PASS",
+      "snapshot_sha256": "c55c41e8755dccd1e0d77aaaf86b0dcf2895b75ae8a8d5b1891774e26cf589d5",
+      "temporary_db_sha256": "91514b7771004271a9ee51dd0fa6b4825c68da92ce1c4949b8185aa81cf0b773",
+      "mutations": [
+        "receipt BEFORE-START at 2025-01-31T23:59:59.999Z",
+        "receipt AT-START at 2025-02-01T00:00:00.000Z",
+        "receipt BEFORE-END at 2025-02-28T23:59:59.999Z",
+        "receipt AT-END at 2025-03-01T00:00:00.000Z"
+      ],
+      "expected_row_count": 9,
+      "actual_row_count": 9,
+      "expected_rows_sha256": "7bbecc895a8ffcc65436587352f122072f132944e82450bd72cb8f3bd2e52a82",
+      "actual_rows_sha256": "7bbecc895a8ffcc65436587352f122072f132944e82450bd72cb8f3bd2e52a82",
+      "rows_match_set_comparator": true,
+      "human_review_status": "NEEDS_HUMAN_REVIEW"
+    }
+  ]
+}
