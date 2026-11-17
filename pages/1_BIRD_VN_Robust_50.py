@@ -9,7 +9,7 @@ from bird_demo.benchmark.dashboard import (ROOT, REGISTRY_PATH, AUDIT_DIR, read_
     schema_text, prompt_for, read_only_query, run_demo_question, diagnostic_gold, score_demo_results)
 from bird_demo.benchmark.release import release_readiness
 from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
-from bird_demo.llm import MAX_TOKENS, complete, default_model
+from bird_demo.llm import MAX_TOKENS, complete, model_choices
 from bird_demo.prompt import extract_sql
 from bird_demo.runner import Rows, SqlError, Timeout
 
@@ -40,6 +40,17 @@ def show_run_details(run_record):
             else:
                 st.warning("Không trích xuất được SQL từ phản hồi.")
                 st.code(item["reply"].text)
+            reply = item.get("reply")
+            reasoning = getattr(reply, "reasoning", "")
+            full_reply = reply.text.strip() if reply is not None and item.get("sql") else ""
+            if reasoning or full_reply:
+                with st.expander("Suy luận của mô hình"):
+                    if reasoning:
+                        st.caption("Reasoning tokens do mô hình trả về")
+                        st.markdown(reasoning)
+                    if full_reply:
+                        st.caption("Toàn bộ phản hồi (SQL được trích xuất từ đây)")
+                        st.markdown(full_reply)
             outcome = item.get("run_result")
             if isinstance(outcome, dict):
                 result = outcome["result"]
@@ -66,7 +77,7 @@ except Exception as exc:
     st.error(f"Không tải được benchmark registry: {exc}"); st.stop()
 summary,audit_status=load_audit()
 if not manifest_ok:
-    if revision == "Registry hash mismatch":
+    if revision == "Hash registry không khớp manifest":
         st.error(f"Registry hash không khớp manifest · {revision}")
     else:
         st.warning(f"Một audit/report artifact lệch manifest · {revision}. Playground vẫn tự kiểm tra riêng hash registry, SQL và SQLite trước khi chấm.")
@@ -226,9 +237,7 @@ with playground_tab:
     except Exception as exc:
         gold_context_error=str(exc)
         st.warning(f"Chưa thể chấm diagnostic cho nhóm này: {gold_context_error}")
-    try:model_default=default_model()
-    except SystemExit:model_default=""
-    model=st.text_input("Model ID (LLM_MODEL hiện tại)",value=model_default,key="birdvn_play_model")
+    model=st.selectbox("Model",model_choices(),key="birdvn_play_model",accept_new_options=True,help="Model ID trên OpenRouter. Mặc định là LLM_MODEL; có thể gõ ID khác.") or ""
     cc1,cc2,cc3=st.columns(3)
     temperature=cc1.slider("Temperature",0.0,2.0,0.0,0.1,key="birdvn_play_temp")
     max_tokens=cc2.number_input("Max tokens",min_value=1,max_value=MAX_TOKENS,value=MAX_TOKENS,key="birdvn_play_tokens")

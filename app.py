@@ -12,7 +12,7 @@ import streamlit as st
 from openai import OpenAIError
 
 from bird_demo.data import DB_IDS, db_path, load_subset_questions
-from bird_demo.llm import MAX_TOKENS, Reply, complete, default_model
+from bird_demo.llm import MAX_TOKENS, Reply, complete, model_choices
 from bird_demo.prompt import build_prompt, extract_sql
 from bird_demo.runner import RunResult, Rows, SqlError, Timeout, run
 from bird_demo.scoring import ScoredRun, Verdict, score
@@ -80,6 +80,22 @@ def show_predicted(predicted_sql: str | None, reply: Reply, result: RunResult | 
             show_rows(rows)
 
 
+def show_reasoning(reply: Reply, *, include_reply: bool) -> None:
+    """The model's reasoning: reasoning tokens (if returned) and its step-by-step reply."""
+    # getattr: a server started before Reply gained `reasoning` keeps the old class
+    # loaded (Streamlit reloads app.py, not bird_demo), so don't assume the field.
+    reasoning = getattr(reply, "reasoning", "")
+    if not reasoning and not (include_reply and reply.text.strip()):
+        return
+    with st.expander("Reasoning"):
+        if reasoning:
+            st.caption("Reasoning tokens returned by the model")
+            st.markdown(reasoning)
+        if include_reply and reply.text.strip():
+            st.caption("Full reply (step-by-step answer the SQL was extracted from)")
+            st.markdown(reply.text)
+
+
 def show_banner(scored: ScoredRun, reply: Reply) -> None:
     if reply.finish_reason == "length":  # extract_sql gives no SQL for these, so it's No SQL in reply
         reason = f"Reply cut off at {MAX_TOKENS} tokens"
@@ -119,6 +135,7 @@ def scored_run(q: dict, use_evidence: bool, model: str) -> None:
         left, right, _ = st.columns([1, 1, 2])
         left.metric("Rows only in Predicted", scored.only_in_predicted)
         right.metric("Rows only in Ground-truth", scored.only_in_ground_truth)
+    show_reasoning(reply, include_reply=predicted_sql is not None)
     show_prompt(prompt)
 
     left, right = st.columns(2)
@@ -142,6 +159,7 @@ def unscored_run(db_id: str, question: str, evidence: str | None, model: str) ->
             result = run(db_path(db_id), predicted_sql)
 
     st.info("No Ground-truth SQL, so no EX verdict.")
+    show_reasoning(reply, include_reply=predicted_sql is not None)
     show_prompt(prompt)
     show_predicted(predicted_sql, reply, result)
 
@@ -149,14 +167,15 @@ def unscored_run(db_id: str, question: str, evidence: str | None, model: str) ->
 def main() -> None:
     st.set_page_config(page_title="BIRD text-to-SQL demo", layout="wide")
     hide_secondary_bird_vn_pages()
-    model = default_model()
     questions = subset_questions()
 
     with st.sidebar:
         st.page_link("app.py", label="BIRD Original", icon=":material/database:")
         st.page_link("pages/1_BIRD_VN_Robust_50.py", label="BIRD-VN-Robust-50", icon=":material/language:")
-        st.caption("Model")
-        st.code(model, language=None)
+        model = st.selectbox(
+            "Model", model_choices(), key="model", accept_new_options=True,
+            help="OpenRouter model id. Defaults to LLM_MODEL; type to use any other id.",
+        )
 
     st.title("BIRD text-to-SQL")
     # key + on_change="rerun" make .open say which tab is showing; that tab decides the run type.
