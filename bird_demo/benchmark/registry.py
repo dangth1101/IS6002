@@ -20,6 +20,27 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def file_matches_sha256(path: Path, expected: str | None) -> bool:
+    """True when ``path`` matches a pinned SHA-256, ignoring LF/CRLF line endings.
+
+    Pins may be recorded on a Windows checkout (``core.autocrlf``) while git stores LF,
+    so a text file is accepted when its LF or CRLF form matches. Binary files (any NUL
+    byte) must match exactly.
+    """
+    if not expected or not path.is_file():
+        return False
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() == expected:
+        return True
+    if b"\0" in data:
+        return False
+    lf = data.replace(b"\r\n", b"\n")
+    return expected in {
+        hashlib.sha256(lf).hexdigest(),
+        hashlib.sha256(lf.replace(b"\n", b"\r\n")).hexdigest(),
+    }
+
+
 def load_registry(path: Path, *, allow_draft: bool = False) -> dict[str, Any]:
     registry = json.loads(path.read_text(encoding="utf-8"))
     if registry.get("format_version") != 1:

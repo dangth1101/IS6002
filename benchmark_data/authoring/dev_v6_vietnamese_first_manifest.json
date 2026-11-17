@@ -11,7 +11,7 @@
     "benchmark_data/authoring/validation_records.json": "f7e0f6c6d28ef7ec4508dfcc9a553a207c88b3ffe2ece6f401895d0bf8268997",
     "benchmark_data/authoring/wms_final_alignment_fixture_validation.json": "32c0ba226a62f961e8037bf1b5281b6206fa9ffe0b42d317fc52e67f05f8f4fe",
     "bird_vn_benchmark/final_oracles.py": "f4d10dd6ca3a28614c380e93c583115f213bd6d0f750740b0128511c1e6c10c1",
-    "docs/benchmark/business/OWNER_REVIEW_RECORD.md": "1896677e33d75bb9ad0531613feed3b461533b3f38f715a1d8ec2c084306d106",
+    "docs/benchmark/business/OWNER_REVIEW_RECORD.md": "4b92dff319cbcb50e0f0391c48136ee0e2ae2535c0da1e664b9d65e0bada5209",
     "docs/benchmark/intent_cards/COVERAGE_AUDIT.md": "692283e1835be90c858a039a844ca409c2fb6e1e08e0970fc61319ce54374c1b",
     "docs/benchmark/intent_cards/INTENT_CARDS_DRAFT.md": "833a43081104ba86ec51b99a1b66581d4329a3287ec371ef923e0dd399b1baca",
     "docs/benchmark/review/dev_human_approval/DEVELOPMENT_INTENT_SQL_REVIEW_10.csv": "5d876f6fcdab64539fd0cd389454704daea07a6927511afac11f7af6c5fa4a4a",
@@ -57,10 +57,10 @@
     "docs/benchmark/review/dev_human_approval/DEVELOPMENT_Q00_FINAL_REVIEW_10.csv": "1b600a674042332f361312789da569c6d0a3ed594670f6befe029ee56c6282e7",
     "docs/benchmark/BENCHMARK_SPEC.md": "48c71a14fb44ccadd79f835d5e403697290d9d02588c6322a8fb0ce320187466",
     "docs/benchmark/DECISION_REVIEW.md": "c4ca0cff7ade69bd52e7d24c21525fc2cd3f2323989ddfb48cb8fa4caca9e8da",
-    "scripts/record_final_owner_approval.py": "ac71e9921fa76eca1f477cde08d2fad97dca0d99d885a30379285b656284ac5c",
+    "scripts/record_final_owner_approval.py": "f48edb7431f63ceb7d680caed55e65e929603a2e3aa93f5319168136322d7593",
     "benchmark_data/authoring/dev_q00_owner_approval_provenance_2026-11-17.json": "881f0dc11dc7644e1b84ee8c2121d1c34df50fb4d53f478448e061aeb2df5e9d",
     "tests/test_benchmark_authoring_artifacts.py": "94b8da2031ee1b88dddb61a47234cfa58e81df19c8ead52de7a4d0031e459054",
-    "tests/test_bird_vn_official.py": "831fb490b25908d6b05d7949089690f8be516899ca16bd3a23906bf95a9fe97a"
+    "tests/test_bird_vn_official.py": "886c046ffd0a28cc1e03b0f1293fcb34790ab7c2938194f6be9cf6eee54e953c"
   },
   "scope": "Current BIRD-VN-Robust-50 registry; Benchmark Owner approval recorded for all 40 Final groups and 440 questions. Question strings and technical evidence are unchanged.",
   "ground_truth": "Final owner approval is separately recorded from automation. All 40 candidate SQL runs match the independently derived expected outputs by the recorded set comparator; recorded fixture statuses remain unchanged.",

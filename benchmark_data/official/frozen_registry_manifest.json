@@ -7,7 +7,7 @@
   "registry_canonical_sha256": "523f03b2a84bceed841d9ffd64dc98507a8e03940a772f6ba76ce0d1cec8e6d8",
   "registry_file_sha256": "3c634d7163e8f487589926c1c8ea92a2c2094cc1a7a6c43fbe687fda22f14f0f",
   "authoring_manifest_revision": "dev-v9-all-q00-natural-vietnamese",
-  "authoring_manifest_sha256": "b42329f8cc0b8f77f0c9bb7afe5b2e01c7f09ab88f17dc86919649c1bf1687c1",
+  "authoring_manifest_sha256": "ce9a8a6cf9766597fb15255b06b3c2914b65ee0835bad03ce5efd1eaf6dd9c54",
   "frozen_config_sha256": "f46ed8a94074b37b52b440d69d7ca0d4d762edaaee63f6c82dda2ad9e3c19e96",
   "development_q00_approval_artifact": "benchmark_data/authoring/dev_q00_owner_approval_provenance_2026-11-17.json",
   "final_approval_artifact": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",

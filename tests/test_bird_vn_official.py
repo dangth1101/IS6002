@@ -3,6 +3,7 @@ from bird_demo.benchmark.official import (OfficialGate,TransientInfrastructureEr
 import hashlib
 import json
 from pathlib import Path
+from bird_demo.benchmark.registry import file_matches_sha256
 from bird_demo.benchmark.release import release_readiness
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,9 +66,7 @@ def test_frozen_final_release_binds_three_replicate_offline_integration():
     assert smoke["questions_per_replicate"] == 440
     assert smoke["prediction_records_total"] == 1320
     assert all(run["execution_records"] == 440 and run["all_results_match_canonical"]
-               and (ROOT / run["artifact_path"]).is_file()
-               and hashlib.sha256((ROOT / run["artifact_path"]).read_bytes()).hexdigest() == run["artifact_sha256"]
+               and file_matches_sha256(ROOT / run["artifact_path"], run["artifact_sha256"])
                for run in smoke["runs"])
     for relative_path, expected_hash in frozen["integrity_files_sha256"].items():
-        actual_hash = hashlib.sha256((ROOT / relative_path).read_bytes()).hexdigest()
-        assert actual_hash == expected_hash, relative_path
+        assert file_matches_sha256(ROOT / relative_path, expected_hash), relative_path

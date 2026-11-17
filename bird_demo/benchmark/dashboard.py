@@ -4,7 +4,7 @@ import csv, hashlib, hmac, json, os, re, sqlite3, time
 from pathlib import Path
 from typing import Any
 from bird_demo.data import ROOT
-from bird_demo.benchmark.registry import load_registry, sha256_file
+from bird_demo.benchmark.registry import file_matches_sha256, load_registry, sha256_file
 from bird_demo.runner import Rows, SqlError, Timeout
 from bird_demo.benchmark.metrics import result_equal
 from bird_demo.benchmark.metrics import INFRA_FAILURE, Observation, metric_summary
@@ -34,8 +34,7 @@ def manifest_status():
     for rel,digest in manifest.get("files",{}).items():
         if is_ui_artifact(rel):
             continue
-        path=ROOT/rel
-        if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=digest: return False, f"Artifact lệch manifest: {rel}"
+        if not file_matches_sha256(ROOT/rel,digest): return False, f"Artifact lệch manifest: {rel}"
     return True, manifest.get("revision", "unknown")
 def owner_access_granted(token: str | None) -> bool:
     expected=os.environ.get("BIRD_VN_OWNER_TOKEN")
@@ -51,7 +50,7 @@ def load_audit():
     lineage_ok=bool(rows) and all(current_questions.get(r["question_id"])==r["variant_text"] and current_questions.get(r["group_id"]+"-Q00")==r["original_q0"] for r in rows)
     question_count=len(current_questions)==550 and len(rows)==500
     artifact_hashes=summary.get("report_artifact_sha256",{})
-    artifacts_ok=bool(artifact_hashes) and all((AUDIT_DIR/name).is_file() and hashlib.sha256((AUDIT_DIR/name).read_bytes()).hexdigest()==digest for name,digest in artifact_hashes.items())
+    artifacts_ok=bool(artifact_hashes) and all(file_matches_sha256(AUDIT_DIR/name,digest) for name,digest in artifact_hashes.items())
     status="CURRENT" if summary.get("registry_sha256")==current and manifest_ok and summary.get("question_texts_match_sbert_audit") and lineage_ok and question_count and artifacts_ok else "STALE"
     return summary,status
 

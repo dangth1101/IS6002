@@ -93,3 +93,18 @@ def test_demo_stability_uses_q00_variant_pairs_only():
     pairs=q00_pair_stability(rows)
     assert pairs==[{"Pair":"G-Q00 vs G-Q01","Rows stable":True},{"Pair":"G-Q00 vs G-Q02","Rows stable":False}]
     assert q00_pair_stability(rows[1:])==[]
+
+
+def test_pinned_hash_ignores_line_endings_but_not_content(tmp_path):
+    import hashlib
+    from bird_demo.benchmark.registry import file_matches_sha256
+    sha = lambda b: hashlib.sha256(b).hexdigest()
+    text = tmp_path / "artifact.json"
+    text.write_bytes(b'{\n  "a": 1\n}\n')
+    assert file_matches_sha256(text, sha(b'{\n  "a": 1\n}\n'))
+    assert file_matches_sha256(text, sha(b'{\r\n  "a": 1\r\n}\r\n'))  # pinned on a Windows checkout
+    assert not file_matches_sha256(text, sha(b'{\n  "a": 2\n}\n'))
+    assert not file_matches_sha256(tmp_path / "missing.json", sha(b""))
+    binary = tmp_path / "db.sqlite"
+    binary.write_bytes(b"\0\r\n")
+    assert not file_matches_sha256(binary, sha(b"\0\n"))

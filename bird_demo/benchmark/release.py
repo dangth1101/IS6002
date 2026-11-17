@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .registry import load_registry, registry_hash, sha256_file
+from .registry import file_matches_sha256, load_registry, registry_hash, sha256_file
 from .dashboard import manifest_status
 
 
@@ -42,7 +42,7 @@ def release_readiness(repository_root: Path) -> dict[str, Any]:
         config_hash = sha256_file(config_path)
         integrity_files = freeze.get("integrity_files_sha256", {})
         integrity_ok = bool(integrity_files) and all(
-            (root / relative).is_file() and sha256_file(root / relative) == digest
+            file_matches_sha256(root / relative, digest)
             for relative, digest in integrity_files.items()
         )
         registry_ok = (
@@ -82,8 +82,7 @@ def release_readiness(repository_root: Path) -> dict[str, Any]:
                 and run.get("execution_records") == 440
                 and run.get("all_sql_executed") is True
                 and run.get("all_results_match_canonical") is True
-                and (root / run.get("artifact_path", "")).is_file()
-                and sha256_file(root / run["artifact_path"]) == run.get("artifact_sha256")
+                and file_matches_sha256(root / run.get("artifact_path", ""), run.get("artifact_sha256"))
                 for run in integration.get("runs", [])
             )
         )
