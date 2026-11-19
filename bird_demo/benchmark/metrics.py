@@ -20,6 +20,8 @@ class Observation:
     status: str
     rows: Sequence[Sequence[Any]] | None = None
     correct: bool | None = None
+    comparison_rows: Sequence[Sequence[Any]] | None = None
+    projection_valid: bool | None = None
 
     def __post_init__(self) -> None:
         if self.status not in KNOWN_STATUSES:
@@ -58,7 +60,11 @@ class Rate:
 
 
 def result_equal(left: Sequence[Sequence[Any]], right: Sequence[Sequence[Any]]) -> bool:
-    """BIRD-compatible set comparison: ignore row order and duplicates, preserve tuple column order."""
+    """Compare canonicalized result tuples using BIRD-compatible set semantics.
+
+    Callers using the named-field comparator must first align columns to the
+    canonical field order. This function then ignores row order and duplicates.
+    """
     if any(len(row) != len(left[0]) for row in left[1:]) or any(len(row) != len(right[0]) for row in right[1:]):
         raise ValueError("Rows in a result set must have a consistent number of columns")
     if left and right and len(left[0]) != len(right[0]):
@@ -113,7 +119,12 @@ def metric_summary(
             stable = (
                 q0.status == SUCCESS
                 and qi.status == SUCCESS
-                and result_equal(q0.rows or [], qi.rows or [])
+                and q0.projection_valid is not False
+                and qi.projection_valid is not False
+                and result_equal(
+                    q0.comparison_rows if q0.comparison_rows is not None else (q0.rows or []),
+                    qi.comparison_rows if qi.comparison_rows is not None else (qi.rows or []),
+                )
             )
             rss_numerator += int(stable)
             gr_n += int(stable)

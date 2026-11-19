@@ -2,11 +2,13 @@
 
 | Thuộc tính | Giá trị |
 |---|---|
-| Đặc tả | BENCHMARK_SPEC.md v0.3.0 — Draft |
-| Mẫu annotation | ANNOTATION_REVIEW_TEMPLATE.md v0.3.0 — Draft |
-| Review | 0.3.0 — bổ sung phê duyệt D8, D9, D13 ngày 2026-11-10 |
-| Ngày | 2026-11-10 (bổ sung; phê duyệt cũ giữ nguyên ngày) |
-| Trạng thái quyết định | D1–D7, D10, D11 APPROVED ngày 2026-11-09; D8, D9, D13 APPROVED ngày 2026-11-10; D12 APPROVED ngày 2026-11-17; D14 PROPOSED |
+| Đặc tả | BENCHMARK_SPEC.md v0.4.0 — Draft |
+| Mẫu annotation | ANNOTATION_REVIEW_TEMPLATE.md v0.4.0 — Draft |
+| Review | 0.4.0 — sửa comparator D7 ngày 2026-11-18; các quyết định D8, D9, D13 đã ghi nhận từ 2026-11-10 |
+| Ngày | 2026-11-18 |
+| Trạng thái quyết định | D1–D6, D10, D11 APPROVED ngày 2026-11-09; D7 comparator sửa đổi APPROVED ngày 2026-11-18; D8, D9, D13 APPROVED ngày 2026-11-10; D12 APPROVED ngày 2026-11-17; D14 PROPOSED |
+
+D7 ban đầu ngày 2026-11-09 được thay thế riêng ở phần comparator; phê duyệt sửa đổi ngày 2026-11-18 áp dụng cho named-fields-order-insensitive-v1 và không tự duyệt các hợp đồng trường của 50 group.
 
 ## 1. Quy mô và tính nhất quán cần duyệt
 
@@ -39,7 +41,7 @@ Với G=50, Q0 là original, Qi là variant, i=1..10. y[g,i]=1 nếu prediction 
 | EX Original | 100 × correct Q0 / K_o (50 nếu đủ) | 50 questions |
 | EX Variants | 100 × correct variants / K_v (500 nếu đủ) | 500 questions |
 | EX Overall | 100 × correct questions / K_a (550 nếu đủ) | 550 questions |
-| RSS | 100 × stable eligible Q0–Qi pairs / M_RSS (≤500) | Chỉ khi cả hai SQL chạy và result sets bằng nhau; same wrong result can yield 1 |
+| RSS | 100 × cặp Q00–Qi có SQL thành công, projection hợp lệ theo cùng field contract và kết quả sau căn cột bằng nhau / M_RSS (≤500) | Projection thiếu/thừa/trùng hoặc không rõ tên trường cho điểm 0; cùng kết quả sai vẫn có thể đạt RSS=1 nếu hợp đồng hợp lệ |
 | CA | 100 × pairs có cùng y / M_CA (≤500) | Cả hai sai cũng được tính agreement |
 | Robust EX (All) | 100 × groups có đủ 11 outcomes và cả 11 đúng / K_G (≤50) | Model failure làm group fail |
 | Pairwise Robust Accuracy | 100 × pairs có Q0 và Qi đều đúng / M_PRA (≤500) | 500 Q0–Qi pairs; shared Q0 làm cặp phụ thuộc nhau |
@@ -63,7 +65,7 @@ Repeated runs: exactly 3 complete replicates per model/config. Pair Q0/Qi within
 
 ## 4. Decision Record D1–D14
 
-Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D8, D9, D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 vẫn PROPOSED. Simulation rules R-01–R-11 được chấp nhận cho logic design, không phải chuẩn ngành. D4 chỉ phê duyệt định hướng hai SQLite DB.
+Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D8, D9, D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 vẫn PROPOSED. Simulation rules R-01–R-11 được chấp nhận cho logic design, không phải chuẩn ngành. D4 chỉ phê duyệt định hướng hai SQLite DB. D7 về comparator được sửa đổi và phê duyệt lại ngày 2026-11-18. D7 về comparator được sửa đổi và phê duyệt lại ngày 2026-11-18.
 
 | ID | Giá trị khuyến nghị | Lý do | Quyết định | Người quyết định | Ngày | Rationale thực tế / deviation |
 |---|---|---|---|---|---|---|
@@ -73,7 +75,7 @@ Benchmark Owner đã phê duyệt D1–D7, D10, D11 ngày 2026-11-09, sau đó D
 | D4 | Định hướng hai SQLite DB; tài liệu nghiệp vụ được xác minh trước annotation | Schema phải có nghĩa nghiệp vụ rõ và tái lập. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | D4 phê duyệt hướng thiết kế. Business Rules/Glossary synthetic được Benchmark Owner chấp nhận cho logic design theo R-01–R-11; không phải chuẩn ngành. |
 | D5 | Schema context/Evidence giống nhau cho 11 questions trong cùng group | Cô lập tác động wording; các câu trong group phải nhận cùng thông tin nền. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận giữ schema, glossary/context và Evidence giống nhau giữa Q0–Q10 trong cùng group; chỉ wording câu hỏi được thay đổi. |
 | D6 | Chính xác 2 empty-result intents: 1 ERP + 1 WMS | Bao gồm empty có chủ đích ở cả hai DB; quota nhỏ giúp kiểm soát false-empty match bằng fixtures. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Benchmark Owner chốt quota từ khoảng 2–3 thành đúng 2 intent, một cho mỗi DB; fixture phải kiểm tra false-empty collision. |
-| D7 | BIRD-compatible set EX/RSS; EX_bag diagnostic; primary EX không chấm row order; mỗi ranking Intent Card chốt tie policy | Bảo toàn comparator tương thích; ranking semantics phải nêu deterministic tie-break hoặc include ties. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Set comparator so result membership, không xác minh output order; mỗi intent ranking ghi quy tắc đồng hạng rõ ràng. |
+| D7 | EX contract-aware: kiểm tra đúng tập trường theo Intent; căn cột theo tên, không yêu cầu thứ tự; chỉ nhận alias khai báo riêng; sau đó so set các dòng, bỏ qua thứ tự dòng và duplicate rows | Giữ nghĩa trường và projection rõ ràng nhưng không phạt riêng thứ tự cột; bảo toàn set semantics ở cấp dòng | APPROVED (sửa đổi) | Benchmark Owner | 2026-11-18 | Thay comparator D7 ngày 2026-11-09. Đây là mở rộng IS6002 trên phép so tập dòng của BIRD; kết quả comparator cũ/mới báo riêng. Mỗi field contract cần được duyệt và hash riêng. |
 | D8 | SQL execution timeout cố định 30 giây cho mỗi truy vấn benchmark | Giữ giới hạn thống nhất, tránh truy vấn treo. SQL timeout không được retry. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Owner chốt 30 giây/query; evaluator cần ghi SQL status, elapsed time và error category. SQL timeout là model outcome, không phải lỗi hạ tầng có thể retry. |
 | D9 | Đúng 3 replicates đầy đủ cho mỗi model/config; ghép cặp trong cùng replicate; báo từng replicate và mean/SD/range | Đo sampling variability, tránh chọn run tốt nhất hoặc gộp outcome phụ thuộc; Development có 3 × 110 = 330 predictions/model/config. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-10 | Ba lần chạy đầy đủ là bắt buộc; mỗi câu xuất hiện một lần trong replicate 1/2/3, giữ cùng model/config hash. |
 | D10 | Một Benchmark Owner single-human validation; AI/Codex hỗ trợ critique/oracle; công bố không có independent human annotation | Phù hợp nguồn lực đồ án; nêu rõ common-method bias, không đo inter-annotator agreement. | ☒ APPROVE ☐ REVISE ☐ REJECT | Benchmark Owner | 2026-11-09 | Chấp nhận một người thực hiện và chịu trách nhiệm human review/final approval; Codex/LLM chỉ hỗ trợ kỹ thuật, không được tính là annotator độc lập hoặc double-blind review. |

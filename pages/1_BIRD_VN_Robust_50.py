@@ -6,7 +6,8 @@ import streamlit as st
 from openai import OpenAIError
 from bird_demo.benchmark.dashboard import (ROOT, REGISTRY_PATH, AUDIT_DIR, read_registry, manifest_status,
     registry_file_hash, owner_access_granted, visible_groups, load_audit, load_similarity, load_slot_flags,
-    schema_text, prompt_for, read_only_query, run_demo_question, diagnostic_gold, score_demo_results)
+    schema_text, prompt_for, read_only_query, run_demo_question, diagnostic_gold, score_demo_results,
+    export_demo_run, output_contract_for)
 from bird_demo.benchmark.release import release_readiness
 from bird_demo.benchmark.navigation import hide_secondary_bird_vn_pages
 from bird_demo.llm import MAX_TOKENS, complete, model_choices
@@ -18,6 +19,15 @@ hide_secondary_bird_vn_pages()
 
 @st.dialog("Chi tiết kết quả theo câu hỏi", width="large")
 def show_run_details(run_record):
+    run_stamp=time.strftime("%Y%m%d_%H%M%S",time.localtime(run_record.get("run_at",time.time())))
+    st.download_button(
+        "Tải toàn bộ kết quả lượt chạy (.json)",
+        data=export_demo_run(run_record),
+        file_name=f"bird_vn_{run_record.get('group_id','run')}_{run_stamp}.json",
+        mime="application/json",
+        key=f"birdvn_download_run_{run_record.get('group_id','run')}_{run_stamp}",
+        help="Bao gồm prompt, phản hồi và suy luận model trả về, SQL, trạng thái thực thi và toàn bộ dòng kết quả.",
+    )
     canonical_execution = run_record.get("canonical_execution")
     if isinstance(canonical_execution, dict):
         with st.expander("SQL gốc và kết quả chuẩn", expanded=False):
@@ -242,7 +252,35 @@ with playground_tab:
     temperature=cc1.slider("Temperature",0.0,2.0,0.0,0.1,key="birdvn_play_temp")
     max_tokens=cc2.number_input("Max tokens",min_value=1,max_value=MAX_TOKENS,value=MAX_TOKENS,key="birdvn_play_tokens")
     db_id=group["db_id"]
+    try:
+        output_contract=output_contract_for(group)
+        st.caption(f"Các trường đầu ra được suy ra từ projection của SQL chuẩn và gửi kèm từng câu hỏi. Trạng thái rà soát: {output_contract['owner_review_status']}.")
+        if output_contract["unresolved_fields"]:
+            st.warning("Chưa có mô tả chuẩn cho các trường: " + ", ".join(output_contract["unresolved_fields"]) + ". Kết quả chỉ mang tính chẩn đoán cho tới khi bổ sung và rà soát.")
+    except Exception as exc:
+        output_contract=None
+        st.warning(f"Chưa tạo được hợp đồng trường đầu ra: {exc}")
     st.text_area("Schema context",schema_text(db_id),height=180,disabled=True,key="birdvn_play_schema")
+    if run_mode=="Cặp Q00 + Qi":
+        preview_questions=[qs[0],q]
+    elif run_mode=="Cả nhóm Q00–Q10":
+        preview_questions=qs
+    else:
+        preview_questions=[q]
+    with st.expander("Xem prompt sẽ gửi về LLM",expanded=False):
+        prompt_question=st.selectbox(
+            "Câu hỏi trong prompt",
+            preview_questions,
+            format_func=lambda item:f"{item['question_id']} · {item['question']}",
+            key=f"birdvn_prompt_preview_question_{group['group_id']}_{run_mode}",
+        )
+        st.text_area(
+            "Prompt đầy đủ",
+            prompt_for(prompt_question["question"],db_id,group["card_fields"]["business_rules"],registry.get("semantic_glossary",{}),output_contract=output_contract),
+            height=360,
+            disabled=True,
+            key=f"birdvn_prompt_preview_text_{group['group_id']}_{prompt_question['question_id']}",
+        )
     if run_mode=="Cả nhóm Q00–Q10":confirm=st.checkbox("Xác nhận tối đa 11 lần gọi API cho nhóm này.",key="birdvn_play_confirm")
     else:confirm=True
     clicked=st.button("Run LLM",type="primary",disabled=final_group or not model.strip() or not confirm,key="birdvn_play_run")
@@ -252,10 +290,10 @@ with playground_tab:
         results=[];progress=st.progress(0,text="Chuẩn bị demo run…")
         for i,item in enumerate(selected):
             with st.spinner(f"Đang gọi {model} · {item['question_id']}…"):
-                outcome=run_demo_question(item["question"],db_id,group["card_fields"]["business_rules"],registry.get("semantic_glossary",{}),model.strip(),temperature=float(temperature),max_tokens=int(max_tokens),complete_fn=complete)
+                outcome=run_demo_question(item["question"],db_id,group["card_fields"]["business_rules"],registry.get("semantic_glossary",{}),model.strip(),temperature=float(temperature),max_tokens=int(max_tokens),complete_fn=complete,output_contract=output_contract)
             elapsed=outcome["elapsed_s"]
             if outcome["error"]:
-                results.append({"question":item,"error":outcome["error"],"elapsed":elapsed})
+                results.append({"question":item,"error":outcome["error"],"elapsed":elapsed,"prompt":outcome["prompt"]})
                 if len(selected)==11:break
             else:
                 results.append({"question":item,"sql":outcome["sql"],"reply":outcome["reply"],"elapsed":elapsed,"run_result":outcome["execution"],"prompt":outcome["prompt"]})
@@ -265,11 +303,12 @@ with playground_tab:
         run_score=None
         if isinstance(canonical_execution,dict) and not canonical_execution["truncated"]:
             canonical_result=canonical_execution["result"]
-            run_score=score_demo_results(qs,results,[list(row) for row in canonical_result.rows],list(canonical_result.columns))
-        run_record={"run_at":time.time(),"group_id":group["group_id"],"model":model.strip(),"mode":run_mode,
+            run_score=score_demo_results(qs,results,[list(row) for row in canonical_result.rows],list(canonical_result.columns),output_contract=output_contract)
+        run_record={"run_at":time.time(),"group_id":group["group_id"],"db_id":db_id,"model":model.strip(),"mode":run_mode,
+                    "temperature":float(temperature),"max_tokens":int(max_tokens),"output_contract":output_contract,
                     "results":results,"canonical_sql":gold_context["canonical_sql"] if gold_context else None,
                     "canonical_execution":canonical_execution,"score":run_score,"fingerprint":fingerprint}
-        st.session_state["birdvn_demo_runs"].append({key:run_record[key] for key in ("run_at","group_id","model","mode","results","canonical_sql")})
+        st.session_state["birdvn_demo_runs"].append({key:run_record[key] for key in ("run_at","group_id","model","mode","results","canonical_sql","output_contract")})
         st.session_state["birdvn_demo_last_result"]=run_record
 
     run_record=st.session_state.get("birdvn_demo_last_result")
@@ -287,6 +326,7 @@ with playground_tab:
                 value="N/A" if rate["percent"] is None else f"{rate['percent']:.1f}%"
                 column.metric(label,value,help=f"{rate['numerator']}/{rate['denominator']} theo outcome đã xác định trong lượt này")
             st.caption(f"Đã chạy {run_score['run_question_count']}/11 câu · {metrics['missing_questions']} câu có outcome hạ tầng/không chạy trong metric. SQL error, timeout và no SQL tính là EX=0; lỗi provider/API và kết quả bị cắt dòng là unknown. Không cộng dồn thành replicate.")
+            st.caption("EX đối chiếu tên trường theo hợp đồng đầu ra; không phụ thuộc thứ tự cột. Thiếu, thừa, trùng hoặc không nhận diện được trường sẽ tính là sai. Alias chỉ được chấp nhận khi đã khai báo riêng cho Intent. So sánh các dòng vẫn theo set semantics: bỏ qua thứ tự dòng và số lần lặp.")
             st.markdown("#### So sánh ngắn với SQL gốc")
             question_rows=[]
             for item in run_score["questions"]:
@@ -297,11 +337,20 @@ with playground_tab:
                     column_diff="Chưa có kết quả"
                 elif not item["column_differences"]:
                     column_diff="Khớp"
+                    if item.get("aliases_applied"):
+                        column_diff += " · alias được khai báo"
+                    elif item.get("column_order_match") is False:
+                        column_diff += " · thứ tự khác, được bỏ qua"
                 else:
-                    column_diff="; ".join(f"{diff['canonical'] or '-'} → {diff['generated'] or '-'}" for diff in item["column_differences"])
+                    column_diff="; ".join(
+                        f"thiếu {diff['canonical']}" if diff.get("kind")=="missing"
+                        else f"thừa {diff['generated']}" if diff.get("kind")=="extra"
+                        else f"trùng trường {diff['canonical']}" if diff.get("kind")=="duplicate"
+                        else f"{diff['canonical'] or '-'} → {diff['generated'] or '-'}"
+                        for diff in item["column_differences"])
                 question_rows.append({"Câu hỏi":item["question_id"],"Trạng thái":item["status"],
                     "EX":verdict,"Dòng trả về":item["row_count"],
-                    "Cột chiếu khác":column_diff})
+                    "Projection":column_diff})
             st.dataframe(question_rows,hide_index=True,use_container_width=True,height=min(420,40*(len(question_rows)+1)))
         else:
             st.warning("Không có kết quả đầy đủ từ SQL gốc; không tính EX/RSS cho lượt này.")

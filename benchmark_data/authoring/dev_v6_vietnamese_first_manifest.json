@@ -55,12 +55,17 @@
     "scripts/validate_wms_final_alignment_fixtures.py": "4c6ae499ddc569701045921bf2b9901ed3dec37beccecc9d7a4a1c018360b180",
     "tests/test_dev_wording_v5.py": "f7e6f709c5bbb20d303a8666eed9c7d3d7568f4a0b99e08a095afbdc52528c53",
     "docs/benchmark/review/dev_human_approval/DEVELOPMENT_Q00_FINAL_REVIEW_10.csv": "1b600a674042332f361312789da569c6d0a3ed594670f6befe029ee56c6282e7",
-    "docs/benchmark/BENCHMARK_SPEC.md": "48c71a14fb44ccadd79f835d5e403697290d9d02588c6322a8fb0ce320187466",
-    "docs/benchmark/DECISION_REVIEW.md": "c4ca0cff7ade69bd52e7d24c21525fc2cd3f2323989ddfb48cb8fa4caca9e8da",
+    "docs/benchmark/BENCHMARK_SPEC.md": "5ab4ad56189466f38b4024c4a85a4d4c64fa8e89bf505530edff98334b163830",
+    "docs/benchmark/DECISION_REVIEW.md": "0cf5d2a78396ef41e6dfc10118f79f05b3a8099e1469b37c38b03d4829751a14",
     "scripts/record_final_owner_approval.py": "f48edb7431f63ceb7d680caed55e65e929603a2e3aa93f5319168136322d7593",
     "benchmark_data/authoring/dev_q00_owner_approval_provenance_2026-11-17.json": "881f0dc11dc7644e1b84ee8c2121d1c34df50fb4d53f478448e061aeb2df5e9d",
     "tests/test_benchmark_authoring_artifacts.py": "94b8da2031ee1b88dddb61a47234cfa58e81df19c8ead52de7a4d0031e459054",
-    "tests/test_bird_vn_official.py": "886c046ffd0a28cc1e03b0f1293fcb34790ab7c2938194f6be9cf6eee54e953c"
+    "tests/test_bird_vn_official.py": "886c046ffd0a28cc1e03b0f1293fcb34790ab7c2938194f6be9cf6eee54e953c",
+    "docs/benchmark/ANNOTATION_REVIEW_TEMPLATE.md": "b3de09b39fb741387c57f1dd2f846b05e62eb6047fd550f19d4d812b21c7a4f4",
+    "bird_demo/benchmark/field_contracts.py": "560bb8758ad644628c5a308cdd4a2d166c857a9c4d8d760291c8f17ab1e1dc1f",
+    "bird_demo/benchmark/metrics.py": "a7813d197936cdd999d775021e3b5134cf557a9ba9bd5e427a01175fb75851fc",
+    "bird_demo/benchmark/evaluator.py": "ff768eab8a0832fafd74209ae3648a1215a7e952e0949b6bc14f99f966e8022f",
+    "bird_demo/benchmark/official.py": "c09b3f6d43c6bd5577a4fbf3fcd66ce7c8e98d7f6b602655b23cce38c6d2e48b"
   },
   "scope": "Current BIRD-VN-Robust-50 registry; Benchmark Owner approval recorded for all 40 Final groups and 440 questions. Question strings and technical evidence are unchanged.",
   "ground_truth": "Final owner approval is separately recorded from automation. All 40 candidate SQL runs match the independently derived expected outputs by the recorded set comparator; recorded fixture statuses remain unchanged.",
@@ -76,5 +81,9 @@
   "registry_authoring_revision": "dev-v9-all-q00-natural-vietnamese",
   "evidence_revision": "final-owner-approval-2026-11-17",
   "final_owner_approval_provenance": "benchmark_data/authoring/final_owner_approval_provenance_2026-11-17.json",
-  "official_evaluation_authorized": false
+  "official_evaluation_authorized": false,
+  "evaluation_protocol_revision": "bird-vn-ex-contract-aware-0.4.0",
+  "comparator_version": "named-fields-order-insensitive-v1",
+  "field_contract_version": "field-contract-v1",
+  "evaluation_protocol_version": "0.4.0"
 }

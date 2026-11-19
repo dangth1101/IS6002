@@ -55,7 +55,7 @@ else:
         with st.expander(f"Demo {ri} · {run['group_id']} · {run['model']} · {run['mode']}"):
             successful=[x for x in run["results"] if x.get("sql") and isinstance(x.get("run_result"),dict)]
             st.caption(f"Đã thực thi {len(successful)}/{len(run['results'])} · Ground-truth chưa được duyệt: không tính correctness/EX.")
-            pairs=q00_pair_stability(run["results"])
+            pairs=q00_pair_stability(run["results"],run.get("output_contract"))
             if pairs:
                 stable=sum(p["Rows stable"] for p in pairs)
                 st.metric("RSS (các cặp Q00–Qi đã chạy)",f"{stable}/{len(pairs)}",help="Result stability; does not imply correctness")

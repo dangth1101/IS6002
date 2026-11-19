@@ -2,17 +2,17 @@
 
 | Thuộc tính | Giá trị |
 |---|---|
-| Phiên bản | **0.3.0** |
-| Trạng thái | **Draft — D1–D11 và D13 APPROVED; D12 APPROVED ngày 2026-11-17; D14 PROPOSED** |
-| Ngày | 2026-11-09 |
+| Phiên bản | **0.4.0** |
+| Trạng thái | **Draft — D1–D7, D10, D11, D12, D8, D9, D13 APPROVED; D14 PROPOSED** |
+| Ngày | 2026-11-18 |
 | DBMS | SQLite |
 | Quy mô đề xuất | 550 Questions; 50 Semantic Groups/Intent; 50 canonical SQL |
 | Split đề xuất | Development: 10 groups/110 Questions; Final: 40 groups/440 Questions |
-| Phạm vi tài liệu | Đặc tả Bước 1; Bước 2B đã tạo physical DB/seed; chưa có benchmark Questions hoặc canonical SQL |
+| Phạm vi tài liệu | Đặc tả benchmark v0.4.0 Draft cho 50 Intent/550 Questions; bộ dữ liệu và SQL hiện có có trạng thái review riêng trong registry/Validation Records |
 
-Đây vẫn là đặc tả Draft, chưa phải benchmark đã phát hành. Benchmark Owner phê duyệt D1–D7, D10, D11 ngày 2026-11-09; D8, D9, D13 ngày 2026-11-10. D12 APPROVED ngày 2026-11-17; D14 còn PROPOSED. Ví dụ nghiệp vụ chỉ minh họa phương pháp, không phải item benchmark.
+Đây vẫn là đặc tả Draft, chưa phải benchmark đã phát hành. D1–D7, D10, D11, D12, D8, D9, D13 đã được phê duyệt theo Decision Review; riêng comparator D7 được sửa đổi ngày 2026-11-18. D14 còn PROPOSED. Việc duyệt comparator không tự duyệt các hợp đồng trường của 50 group.
 
-**Ghi chú phiên bản 0.3.0:** quy mô đề xuất tăng lên 50 Semantic Groups, mỗi group gồm 1 original + 10 variants; cập nhật split, taxonomy, metrics và single-human validation. Các quyết định D1–D7, D10, D11 được ghi nhận APPROVED ngày 2026-11-09; trạng thái Draft vẫn giữ nguyên cho đến khi hoàn tất các quyết định và nghiệm thu benchmark.
+**Ghi chú phiên bản 0.4.0:** bổ sung comparator contract-aware: căn kết quả theo tên trường, bỏ qua thứ tự cột, yêu cầu đúng projection và mô tả trường trong prompt. D7 được Benchmark Owner xác nhận lại ngày 2026-11-18; thay đổi này tạo protocol version mới. Official Evaluation cần cấu hình đóng băng mới và duyệt đủ 50 hợp đồng trường.
 
 ## 1. Research Problem và Research Questions
 
@@ -60,7 +60,7 @@ BIRD paper: Li et al., *Can LLM Already Serve as A Database Interface? A BIg Ben
 | Chức năng | Source và symbol | Có thể tái sử dụng / giới hạn |
 |---|---|---|
 | Nạp schema và câu hỏi | `bird_demo/data.py`: `load_subset_questions()`, `load_ddl()` | Cách introspect SQLite/schema; chưa có registry hai DB, snapshot hash hoặc group split. |
-| Tạo prompt | `bird_demo/prompt.py`: `build_prompt()` | Prompt/schema context; phải version hóa và giữ giống nhau trong cả group. |
+| Tạo prompt | BIRD Original: `bird_demo/prompt.py::build_prompt()`; BIRD-VN: `bird_demo/benchmark/official.py::make_bird_vn_prompt_builder()` gọi `dashboard.py::prompt_for()` | Prompt BIRD-VN gồm schema, business rules, glossary, phân biệt các cặp ID/code/no dễ nhầm, output field contract và câu hỏi. Hash prompt từng câu; giữ cùng contract và cấu hình trong Q00–Q10. |
 | Thực thi SQL | `bird_demo/runner.py`: `run()` | Read-only SQLite, trả Rows/SqlError/Timeout; timeout hiện tại 30 giây. |
 | Chấm từng câu | `bird_demo/scoring.py`: `score()` | EX kiểu set trên tuple rows; cần đối chiếu chính thức và chưa hỗ trợ group metrics. |
 | Tổng hợp EX | `bird_demo/report.py`: `ex()` | Denominator gồm cả No SQL; chưa có Result Stability/Robust EX. |
@@ -170,107 +170,114 @@ Mỗi một trong 10 variants tương đương với Q0 nếu với mọi state 
 - Nếu còn mơ hồ sau kiểm tra, sửa wording hoặc loại pair; không tăng độ chắc chắn chỉ vì AI đồng ý.
 - Chỉ release group khi Q0 và cả 10 variants đều được chấp nhận hoặc đã được thay bằng variant mới có record review; không tính variant REVISE/REJECT vào 550.
 
+### Output Field Contract trong prompt
+
+Mỗi prompt BIRD-VN gồm: lược đồ SQLite, quy tắc nghiệp vụ, glossary, giải thích các cặp trường dễ nhầm và hợp đồng trường đầu ra của Intent. Hợp đồng nêu đúng tên cột SQL cần trả về và ý nghĩa; ví dụ `customer_id` là ID nội bộ còn `customer_code` là mã nghiệp vụ, `product_id` khác `sku`, `order_id` khác `order_no`, `sales_rep_id` tham chiếu `employee_id` chứ không phải `employee_code`. Model được yêu cầu trả đúng các trường trong contract, không thiếu hoặc thêm trường. Cùng một contract được gửi cho cả Q00–Q10.
+
+Hợp đồng hiện được tạo từ projection SQL chuẩn và từ điển mô tả trường, nên chỉ là hướng dẫn dự thảo cho tới khi người phụ trách đối chiếu với Intent Card và duyệt. Không gửi expected rows, đáp án SQL hoặc fixture values trong prompt. Prompt hash bao gồm template, từ điển thuật ngữ, logic tạo contract và mã mô tả trường. Mọi thay đổi tạo run/version mới.
+
 ## 10. EX, Result Stability, Correctness Agreement và Robust EX
 
-Có G=50 Semantic Groups; mỗi group có Q0 và Q1–Q10. y[g,i]=1 khi SQL prediction thực thi thành công và set(predicted_rows)=set(canonical_rows); SQL error, timeout hoặc no SQL có y[g,i]=0. Infrastructure failure chưa khôi phục là unknown, không phải y=0. P[g,i] là tuple rows trả về nếu SQL chạy thành công.
+Bản 0.4.0 bổ sung **hợp đồng trường đầu ra** cho từng Semantic Group. Hợp đồng gồm tên từng cột cần trả về, ý nghĩa nghiệp vụ và các bí danh được cho phép riêng. Cùng một hợp đồng được gửi cho Q00–Q10. Hợp đồng hiện được suy ra từ projection của SQL chuẩn và từ điển trường; trạng thái mặc định là dự thảo, chưa được Benchmark Owner duyệt.
 
-### Execution Accuracy
+Quy tắc căn chỉnh kết quả:
 
-K_o = số Q0 có outcome xác định; K_v = số variants có outcome xác định; K_a = tổng số Questions có outcome xác định. Nếu không có unrecoverable infrastructure failures thì K_o=50, K_v=500, K_a=550.
+1. Tên cột được so sau khi bỏ khoảng trắng đầu/cuối và không phân biệt chữ hoa/thường.
+2. Thứ tự cột không bắt buộc. Kết quả được sắp lại theo thứ tự chuẩn của hợp đồng trước khi so giá trị.
+3. Bí danh chỉ được chấp nhận nếu được khai báo rõ cho đúng Intent. Không tự suy đoán rằng hai tên bất kỳ có cùng nghĩa.
+4. Thiếu cột, cột thừa, tên cột trùng, tên không nhận diện được, thiếu metadata tên cột hoặc số giá trị trong dòng không khớp số cột đều làm projection không hợp lệ.
+5. Khi projection hợp lệ, so các dòng theo set semantics: bỏ qua thứ tự dòng và số lần lặp của dòng. Không tự ép kiểu, làm tròn hay đổi NULL.
 
-~~~text
-EX_Original = 100 * sum_g(y[g,0]) / K_o
-EX_Variants = 100 * sum_g sum_i=1..10(y[g,i]) / K_v
-EX_Overall  = 100 * sum_g sum_i=0..10(y[g,i]) / K_a
-~~~
+Gọi C_g là hợp đồng đầu ra của group g. y[g,i]=1 khi SQL chạy thành công, projection hợp lệ theo C_g và tập dòng sau khi căn cột bằng kết quả SQL chuẩn; các trường hợp còn lại có y[g,i]=0. Lỗi hạ tầng không khôi phục được là UNKNOWN, không phải 0.
 
-Báo tử số/mẫu số; mặc định 50, 500, 550. Infrastructure questions không khôi phục được bị loại khỏi denominator phù hợp và phải báo missing count. SQL error, timeout và no SQL là model outcomes, vẫn ở mẫu số với y=0. Nếu một denominator bằng 0 thì metric tương ứng là N/A, không gán 0%. EX so executed result với gold theo comparator BIRD-compatible.
+### Execution Accuracy (EX)
 
-### Result Stability Score (RSS) — metric mở rộng IS6002
-
-Với mỗi Original–Variant pair Q0–Qi (i=1..10), pair đủ điều kiện nếu cả hai có model outcome xác định. C là set-based result comparator ở §11.
+K_o là số Q00 có outcome xác định; K_v là số biến thể có outcome xác định; K_a là tổng số câu có outcome xác định.
 
 ~~~text
-s[g,i] = 1 nếu hai SQL chạy thành công và C(P[g,0], P[g,i]) = equal; ngược lại s[g,i] = 0
-M_RSS  = số pair có hai outcome xác định (tối đa 500)
-RSS    = 100 * sum_g sum_i=1..10(s[g,i]) / M_RSS
+EX_Original = 100 × số Q00 có y=1 / K_o
+EX_Variants = 100 × số Q01–Q10 có y=1 / K_v
+EX_Overall  = 100 × số câu Q00–Q10 có y=1 / K_a
 ~~~
 
-SQL error, timeout hoặc no SQL là outcome xác định và cho s=0. Nếu có unrecoverable infrastructure failure, pair là unknown và bị loại sau fixed retries. Hai SQL cùng trả về kết quả sai vẫn có thể cho s=1. RSS đo consistency output, không đo correctness hay semantic equivalence. Nếu M_RSS=0 thì RSS là N/A.
+Mẫu số tối đa lần lượt là 50, 500 và 550. Lỗi SQL, timeout, không sinh SQL, projection không hợp lệ vẫn là outcome của mô hình và có điểm 0. Lỗi hạ tầng còn UNKNOWN sau retries được loại khỏi mẫu số phù hợp và phải báo số lượng bị thiếu. Mẫu số bằng 0 thì hiển thị N/A.
 
-Per-group descriptive score: M_g = số variants trong group có pair outcome xác định; RSS_g = 100 × sum_i s[g,i] / M_g nếu M_g>0, ngược lại N/A. Overall RSS là micro-average trên mọi eligible pair như công thức trên; báo phân phối RSS_g để thấy khác biệt giữa groups.
+EX phiên bản này dùng phép so sánh kết quả dạng tập của BIRD sau bước kiểm tra/căn chỉnh hợp đồng trường đầu ra do IS6002 bổ sung. Vì bước hợp đồng làm thay đổi tiêu chí đúng, EX 0.4.0 không được so trực tiếp với EX của comparator cũ.
 
-### Correctness Agreement (CA) — metric phụ
+### Result Stability Score (RSS)
+
+Với từng cặp Q00–Q_i (i=1..10), kết quả ổn định chỉ khi cả hai SQL chạy thành công, cả hai projection đều hợp lệ theo cùng C_g, và hai tập dòng sau khi căn cột bằng nhau.
 
 ~~~text
-M_CA = số Original–Variant pairs có cả hai correctness outcomes xác định (cùng eligibility với RSS)
-CA   = 100 * sum_g sum_i=1..10(I(y[g,0] = y[g,i])) / M_CA
+s[g,i] = 1 khi hai điều kiện trên cùng đúng; nếu không thì s[g,i] = 0
+M_RSS = số cặp có hai outcome xác định (tối đa 500)
+RSS = 100 × tổng s[g,i] / M_RSS
 ~~~
 
-Cả hai sai cho CA pair=1; SQL error/timeout/no SQL có y=0 và vẫn tham gia CA. CA không đo result consistency. Nếu M_CA=0 thì CA là N/A.
+Hai SQL cùng trả một kết quả sai vẫn có thể có RSS=1 nếu projection hợp lệ. Nếu một SQL thành công nhưng thiếu/thừa/trùng cột thì cặp có RSS=0. Lỗi SQL, timeout hoặc không sinh SQL là outcome xác định và cho RSS=0. Pair có lỗi hạ tầng chưa khôi phục được là UNKNOWN và bị loại khỏi mẫu số. Nếu M_RSS=0 thì RSS là N/A.
 
-### Robust EX (All) — metric mở rộng IS6002
+### Correctness Agreement (CA)
+
+CA là metric phụ đo hai câu trong cặp cùng đúng hoặc cùng sai; không đo kết quả SQL có nhất quán hay không.
 
 ~~~text
-K_G = số group có đủ 11 outcomes xác định (mặc định 50)
-RobustEX_All = 100 * count(groups where all y[g,0..10] = 1) / K_G
+M_CA = số cặp Q00–Q_i có hai correctness outcome xác định
+CA = 100 × số cặp có cùng trạng thái đúng/sai / M_CA
 ~~~
 
-Group đạt nếu cả 11 Questions đều đúng. Một error/timeout/no SQL làm y=0 và group fail; unrecoverable infrastructure failure làm group incomplete, loại khỏi K_G và được báo riêng. Nếu K_G=0 thì RobustEX_All là N/A.
+Hai câu cùng sai, kể cả cùng lỗi SQL, có thể làm CA=1. Không dùng CA thay cho RSS hoặc EX.
 
-### Pairwise Robust Accuracy (PRA) — metric mở rộng IS6002
+### Robust EX (All) và Pairwise Robust Accuracy
 
 ~~~text
-M_PRA = số Original–Variant pairs có hai outcomes xác định (tối đa 500)
-PRA   = 100 * sum_g sum_i=1..10(I(y[g,0]=1 AND y[g,i]=1)) / M_PRA
+K_G = số group có đủ 11 outcome xác định (tối đa 50)
+RobustEX_All = 100 × số group mà cả Q00–Q10 đều có y=1 / K_G
+
+M_PRA = số cặp Q00–Q_i có hai outcome xác định (tối đa 500)
+PRA = 100 × số cặp mà cả Q00 và Q_i đều có y=1 / M_PRA
 ~~~
 
-PRA là tỷ lệ đúng trên các Q0–Qi pairs, không phải trên 550 Questions. Một Q0 xuất hiện trong 10 pairs nên các pair phụ thuộc nhau. Nếu M_PRA=0 thì PRA là N/A.
+Lỗi SQL, timeout, không sinh SQL hoặc projection sai làm câu đó sai; group không đạt Robust EX nếu có ít nhất một câu sai. Lỗi hạ tầng chưa khôi phục khiến group chưa đầy đủ và bị loại khỏi K_G, đồng thời phải báo riêng. Q00 xuất hiện trong 10 cặp nên các cặp có phụ thuộc; không xem 500 cặp là quan sát độc lập.
 
-### Truth table
+### Bảng phân biệt metric
 
-| Q0 vs gold | Qi vs gold | Prediction results bằng nhau? | EX Q0/Qi | RSS pair | CA pair | PRA pair | Robust EX (All) |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Đúng | Đúng | Có | 1 / 1 | 1 | 1 | 1 | Có thể đạt nếu Q1–Q10 đều đúng |
-| Sai | Sai | Có | 0 / 0 | 1 | 1 | 0 | 0 |
-| Sai | Sai | Không | 0 / 0 | 0 | 1 | 0 | 0 |
-| Đúng | Sai | Không | 1 / 0 | 0 | 0 | 0 | 0 |
-| Đúng | Qi SQL error/timeout/no SQL | Không xét | 1 / 0 | 0 | 0 | 0 | 0 |
-| Q0 error/timeout/no SQL | Qi error/timeout/no SQL | Không xét | 0 / 0 | 0 | 1 | 0 | 0 |
-| Q0 error/timeout/no SQL | Qi đúng/sai | Không xét | 0 / y_i | 0 | so y=0 với y_i | 0 | 0 |
-| Có infrastructure failure chưa khôi phục | Bất kỳ | Không xác định | Không tính pair | Không xác định | Không xác định | Không xác định | Group incomplete |
+| Tình huống | EX của từng câu | RSS cặp | CA cặp | Robust EX |
+|---|---:|---:|---:|---:|
+| Q00 và Q_i đúng, cùng projection và cùng kết quả | 1, 1 | 1 | 1 | Có thể đạt nếu 11 câu đều đúng |
+| Hai SQL trả cùng dữ liệu sai, projection đều hợp lệ | 0, 0 | 1 | 1 | Không đạt |
+| Dữ liệu bằng nhau nhưng một SQL trả thêm cột | 0 cho câu sai projection | 0 | Tùy correctness của cặp | Không đạt |
+| Cột giống nhau nhưng thứ tự cột khác | Theo dữ liệu sau khi căn cột | Có thể là 1 | Theo correctness | Không bị trượt chỉ vì thứ tự |
+| Một SQL lỗi/timeout/không sinh SQL | 0 | 0 cho cặp liên quan | So trạng thái đúng/sai nếu outcome xác định | Không đạt |
+| Lỗi hạ tầng chưa khôi phục | Không xác định | Không tính cặp liên quan | Không tính cặp liên quan | Group incomplete |
 
-Ví dụ: Q0 và Qi đều chạy, cùng trả empty result nhưng gold không rỗng → EX của cả hai là 0; RSS=1, CA=1, PRA=0 và Robust EX (All)=0. Vì EX và RSS dùng cùng comparator với gold, nếu một prediction đúng và prediction kia sai thì result sets không thể bằng nhau.
+## 11. SQL Comparator và các trường hợp biên
 
-### Repeated runs và suy luận thống kê
+Comparator phiên bản **named-fields-order-insensitive-v1** có hai bước. Bước đầu xác minh projection theo hợp đồng của Intent; bước sau căn cột hợp lệ vào thứ tự chuẩn rồi dùng so sánh tập dòng. Phần so tập dòng giữ semantics BIRD: không xét thứ tự dòng và bỏ qua số dòng trùng. Kiểm tra projection theo tên và ý nghĩa trường là phần mở rộng riêng của IS6002, vì vậy không gọi toàn bộ comparator mới là evaluator EX nguyên bản của BIRD.
 
-Chạy đúng 3 replicates đầy đủ cho mỗi model/config: Development có 3 × 110 = 330 prediction records/model/config. Ghép Q0 với Q1–Q10 trong cùng group và replicate_id (1, 2, 3). Tính metrics riêng từng replicate, sau đó báo mean, population SD, range và raw counts; không gộp outputs hoặc chọn best run. Giữ nguyên model/config hash giữa các lần chạy.
-
-Đơn vị cluster cho bootstrap/CI là Semantic Group (50 clusters), không phải 550 Questions hay 500 pairs độc lập. Các variants trong group và pairs dùng chung Q0 nên tương quan. Báo eligible groups/pairs và infrastructure missingness; suy luận vẫn exploratory.
-## 11. SQL Comparator, giới hạn EX và test cases
-
-### Comparator tương thích BIRD và IS6002
-
-Đã đối chiếu evaluator chính thức BIRD Mini-Dev hiện hành: `evaluation/evaluation_ex.py:calculate_ex()` dùng `set(predicted_res) == set(ground_truth_res)`; `execute_model()` chuyển exception và timeout thành điểm 0, timeout mặc định 30 giây; `evaluation_utils.py:execute_sql()` lấy rows bằng `fetchall()` và evaluator không so column names. Source IS6002 `bird_demo/scoring.py:score()` cũng dùng set trên rows; `bird_demo/runner.py:run()` thực thi read-only với deadline và phân loại SQL error/timeout; `bird_demo/report.py:ex()` giữ No SQL trong denominator. Vì vậy set comparison dưới đây tương thích với evaluator BIRD đã xem ở [evaluation_ex.py](https://github.com/bird-bench/mini_dev/blob/main/evaluation/evaluation_ex.py) và [evaluation_utils.py](https://github.com/bird-bench/mini_dev/blob/main/evaluation/evaluation_utils.py). Khi công bố benchmark, nhóm vẫn cần pin commit hash của evaluator để bảo đảm tái lập.
-
-Comparator đề xuất cho EX: `set(predicted_rows) == set(gold_rows)`, với row là tuple có thứ tự cột. Comparator đề xuất cho RSS cũng dùng set equality giữa hai prediction thành công. Không normalize, cast hay round values ngoài quy tắc đã freeze.
-
-| Trường hợp | Hành vi của set comparator | Test case nghiệm thu |
+| Trường hợp | Quy tắc | Kết quả mong đợi |
 |---|---|---|
-| Row order | Bỏ qua thứ tự dòng | `[(1,), (2,)]` và `[(2,), (1,)]` → equal |
-| Duplicate rows | Bỏ multiplicity | `[(1,), (1,)]` và `[(1,)]` → equal; bag diagnostic phải mismatch |
-| Column names/aliases | Không so tên cột; chỉ so tuple values | Cùng rows, tên cột `id` và `customer_id` → EX match |
-| Column order/arity | So tuple position/value; tên cột không giúp nhận diện semantic column | `[(1, 'A')]` và `[('A', 1)]` → mismatch; test khác tên nhưng cùng values vẫn match |
-| Data types | Không có normalization; Python value equality | `('1',)` vs `(1,)` → mismatch; `(1,)` vs `(1.0,)` có thể equal trong Python, cần ghi caveat/test |
-| NULL | SQLite NULL thành Python `None`; so theo value | `(None,)` vs `(None,)` → equal; `None` vs `0` → mismatch |
-| Empty result | Hai tập rỗng equal, bất kể column metadata | `[]` vs `[]` → match; kiểm tra false-empty collision |
-| ORDER BY/ranking | Row order không được chấm; top-k membership vẫn chấm nếu tập rows khác | Cùng top-k rows theo thứ tự khác → match; thay một member top-k → mismatch |
-| SQL error/timeout/no SQL | Không có result để match; correctness=0; RSS=0 | Mỗi trạng thái prediction riêng phải ra 0, vẫn trong denominator |
-| Ground-truth error/timeout | Benchmark item không hợp lệ | Không chấm model; dừng release/evaluation cho item và ghi defect |
+| Thứ tự dòng khác | Bỏ qua thứ tự dòng | Cùng tập dòng thì bằng |
+| Dòng trùng lặp | Set semantics bỏ số lần lặp, tương thích comparator BIRD | `[(1,), (1,)]` và `[(1,)]` bằng; đây là giới hạn đã biết |
+| Thứ tự cột khác | Căn cột theo tên trường chuẩn trước khi so | Cùng giá trị theo tên trường thì bằng |
+| Tên cột khác nhưng bí danh đã khai báo cho Intent | Ánh xạ bí danh sang trường chuẩn | Có thể bằng; artifact phải ghi bí danh đã dùng |
+| Tên cột khác, không có bí danh | Không đoán ý nghĩa theo giá trị | Projection sai, EX=0 |
+| Thiếu cột | Projection sai | EX=0, RSS của cặp liên quan bằng 0 |
+| Có cột thừa | Projection sai | EX=0, RSS của cặp liên quan bằng 0 |
+| Tên cột trùng hoặc nhiều tên cùng ánh xạ vào một trường | Projection mơ hồ/sai | EX=0 |
+| Sai số cột trong dòng hoặc thiếu metadata tên cột | Không thể căn chỉnh đáng tin cậy | Projection sai; ghi lỗi comparator |
+| Kiểu dữ liệu | Không tự ép kiểu hay làm tròn | Chuỗi `'1'` khác số `1`; hành vi tương đương số nguyên/số thực theo kiểu giá trị Python/SQLite được ghi nhận |
+| NULL | Giữ nguyên `None` sau khi đọc SQLite | NULL bằng NULL; NULL khác 0 |
+| Kết quả rỗng | Vẫn kiểm tra tên và số cột dù không có dòng | Hai kết quả rỗng chỉ bằng khi cả projection đều hợp lệ |
+| Ranking/top-k | Không xét thứ tự dòng; kiểm tra tập thành viên và cột hạng nếu Intent yêu cầu | Thiếu cột hạng hoặc sai thành viên là sai; thứ tự hiển thị không được chấm |
+| SQL error/timeout/no SQL | Outcome xác định, không có kết quả hợp lệ | EX=0; RSS=0 cho cặp liên quan |
+| Lỗi hạ tầng | UNKNOWN sau retries theo D13 | Loại khỏi denominator tương ứng, báo missingness |
+| SQL chuẩn lỗi/timeout | Lỗi benchmark | Chặn đánh giá item; sửa theo version policy trước khi chạy |
 
-Set comparator có thể nhận nhầm câu trả lời thiếu duplicate; cũng không chấm thứ tự output, tên cột, hoặc metadata khi result rỗng. Ranking chỉ có ý nghĩa về membership nếu protocol không yêu cầu vị trí xếp hạng; nếu thứ tự nghiệp vụ là một phần intent thì pilot phải định nghĩa output order và metric ordered riêng trước freeze, không diễn giải set EX như đã chấm thứ tự.
+Các ví dụ cần giữ trong kiểm tra comparator: (1) cùng dữ liệu nhưng đổi thứ tự cột phải đạt sau căn chỉnh; (2) cùng giá trị nhưng tên trường sai phải trượt; (3) thêm cột phải trượt; (4) bỏ một cột phải trượt; (5) tên bí danh được khai báo phải được ghi nhận và căn chỉnh; (6) kết quả rỗng phải kiểm tra cả metadata cột; (7) duplicate rows vẫn được bỏ qua theo set semantics; (8) NULL, chuỗi/số, ranking ties và SQL error phải có kết quả xác định như bảng trên.
 
-Đề xuất báo set-based EX để tương thích với pipeline/BIRD-style; có thể báo thêm EX_bag dùng multiset/Counter làm diagnostic. EX_bag, RSS, CA và Robust EX là các mở rộng/diagnostic IS6002, không được gộp tên với EX BIRD. Không sửa evaluator tại bước đặc tả này.
+Hợp đồng trường được sinh từ projection của SQL chuẩn và FIELD_MEANINGS. Mọi hợp đồng có hash riêng. Tên trường không có mô tả, mô tả sai, hay bất đồng với Intent phải chuyển thành NEEDS_FIELD_REVIEW; không được xem hash hoặc việc SQL chuẩn chạy thành công là bằng chứng Owner đã duyệt hợp đồng. Đánh giá chính thức cần lưu trạng thái, người duyệt, ngày, lý do và hash hợp đồng được duyệt cho đủ 50 group.
+
+Thay đổi comparator này là thay đổi protocol và mã chấm điểm. Kết quả theo comparator cũ và mới phải báo riêng; không tính lại hoặc diễn giải lại kết quả cũ như thể dùng comparator mới. Frozen config, prompt hash, code hash, comparator version và output-contract hashes phải khớp trước khi mở Official Evaluation.
 
 ## 12. SQL error, timeout, kết quả rỗng và trạng thái không xác định
 
@@ -302,11 +309,12 @@ D8 chốt SQL execution timeout là 30 giây/query cho mọi model/question. Ghi
 - Pin model snapshot/provider, decoding parameters, system/user prompt, tool settings, D13 retry policy, seed nếu được hỗ trợ và model/config hash. Theo dõi provider/network timeout riêng với SQL execution timeout D8.
 - Giữ mọi đầu vào trên giống nhau cho 11 Questions trong group, chỉ thay wording. Ghi thứ tự chạy; randomize/cân bằng thứ tự 550 Questions bằng seed cố định trước run.
 - Chạy đúng 3 replicates đầy đủ cho mỗi model/config. Mỗi Development replicate gồm đủ 110 Questions; lưu replicate_id=1/2/3, question_id, group_id, model/config hash và attempt records. Chỉ ghép Q0–Qi trong cùng group và replicate. Báo từng replicate cùng mean/SD/range; không chọn best run.
+- Tạo toàn bộ prompt từ registry, schema, glossary, business rules và field contracts trước replicate đầu tiên; dùng nguyên văn cùng prompt cho cả ba replicates và retries. Lưu SHA-256 prompt trong từng prediction record để phát hiện prompt thay đổi.
 - Không thay schema, glossary hoặc prompt giữa các 11 wordings; nếu điều chỉnh thì chạy lại group và tạo run/version mới.
 
 ### Lưu kết quả
 
-**Per-question record** tối thiểu: benchmark/version, split, group_id, question_id, role (Q0/Q1–Q10), transformation label, DB/hash, question, model snapshot/provider, config/prompt hash, replicate/attempt/timestamp, raw response, extracted SQL, status (success/sql_error/timeout/no_sql/infra_error), executed rows/column metadata, gold verdict, duration, error details đã làm sạch, retry/cache metadata.
+**Per-question record** tối thiểu: benchmark/version, split, group_id, question_id, role (Q0/Q1–Q10), transformation label, DB/hash, question, model snapshot/provider, config/prompt hash, prompt SHA-256, replicate/attempt/timestamp, raw response, extracted SQL, status (success/sql_error/timeout/no_sql/infra_error), executed rows/column metadata, gold verdict, duration, error details đã làm sạch, retry/cache metadata.
 
 **Per-group record** tối thiểu: 11 question run IDs, correctness Q0–Q10, per-variant RSS/CA/PRA pair outcomes, group RSS mean, RobustEX_All, 2x2 correctness counts, status ACCEPT/revise/reject của variants, missing/infra status và replicate IDs. Giữ raw results theo quyền truy cập; aggregate phải truy nguyên được.
 
@@ -340,7 +348,7 @@ D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8,
 | D4 | Định hướng hai SQLite DB; Business Rules/Glossary được kiểm tra trong Bước 2A | APPROVED (định hướng) | Benchmark Owner | 2026-11-09 | Sau đó, các synthetic rules R-01…R-11 được xác nhận riêng cho logic design ngày 2026-11-09; không phải chuẩn ngành. |
 | D5 | Schema context/Evidence giống nhau cho mọi 11 Questions trong group | APPROVED | Benchmark Owner | 2026-11-09 | Giữ dữ liệu và thông tin nền giống nhau giữa Q0–Q10 trong cùng group để cô lập wording variation. |
 | D6 | Chính xác 2 empty-result intents: 1 ERP và 1 WMS | APPROVED | Benchmark Owner | 2026-11-09 | Giữ một trường hợp empty có chủ đích cho mỗi database; mỗi intent cần fixture/counterexample kiểm tra false match. |
-| D7 | BIRD-compatible set EX; EX_bag là diagnostic; EX không kiểm tra row order. Mỗi ranking Intent Card chốt deterministic tie-break hoặc include all ties | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận set-based comparator chính; semantics ties được định nghĩa theo intent và cần test riêng. |
+| D7 | EX contract-aware: kiểm tra đúng tập trường theo Intent; căn cột theo tên và bỏ qua thứ tự cột; chỉ chấp nhận alias khai báo riêng; sau đó dùng set comparison cho các dòng, bỏ qua thứ tự dòng và duplicate rows | Giữ ý nghĩa projection rõ ràng mà không đánh lỗi chỉ vì thứ tự cột; duy trì set semantics cho kết quả | APPROVED (sửa đổi) | Benchmark Owner | 2026-11-18 | Thay comparator D7 ngày 2026-11-09. EX mới là mở rộng IS6002 từ phép so set rows của BIRD; không so trực tiếp kết quả cũ. Cần hash và human review cho từng field contract. |
 | D8 | SQL execution timeout cố định 30 giây/query; ghi status, elapsed time, error category; không retry SQL timeout | APPROVED | Benchmark Owner | 2026-11-10 | Cùng giới hạn cho mọi câu; SQL timeout là model outcome, không phải lỗi hạ tầng được retry. |
 | D9 | Đúng 3 replicates đầy đủ/model/config; ghép theo replicate_id 1/2/3; báo từng replicate và mean/SD/range | APPROVED | Benchmark Owner | 2026-11-10 | Development có 330 predictions/model/config; không gộp run hoặc chọn best run. |
 | D10 | Một Benchmark Owner thực hiện single-human validation; AI/Codex hỗ trợ critique/oracle; công khai không có independent human annotation | APPROVED | Benchmark Owner | 2026-11-09 | Chấp nhận quy trình một người; AI/Codex chỉ hỗ trợ kiểm tra kỹ thuật, không được tính là annotator độc lập hay double-blind review; công bố common-method bias. |
@@ -391,7 +399,7 @@ D1–D7, D10 và D11 được Benchmark Owner phê duyệt ngày 2026-11-09; D8,
 | 550 Questions / 500 pairs bị coi là độc lập | Sai số chuẩn thấp giả tạo, kết luận quá mạnh | Cluster bootstrap theo 50 Semantic Groups; báo group-level counts. |
 | Pair không tương đương/ambiguous | Đo lỗi annotation như lỗi model | Intent slots, tài liệu nghiệp vụ, counterexample; Domain Owner review nếu có; công khai self-validation khi không có. |
 | Gold sai hoặc snapshot-specific | EX sai lệch | Expected outputs ghi trước SQL execution, manual review, alternative oracle/fixtures, hashes; nêu single-human bias. |
-| Set comparator bỏ duplicate/order/metadata | Một số lỗi không bị bắt | Báo caveat; EX_bag diagnostic; kiểm tra ranking policy. |
+| Set semantics bỏ duplicate và bỏ qua thứ tự dòng; hợp đồng đầu ra có thể được mô tả sai | Có thể bỏ sót lỗi multiplicity hoặc chấm sai nếu field contract không khớp Intent | Công khai giới hạn set comparison; review và hash riêng từng contract; kiểm tra ranking policy. Không tuyên bố EX_bag đã được tính nếu chưa triển khai metric đó. |
 | Empty outputs quá nhiều | Collision giả giữa query sai | Empty quota có chủ đích và fixtures đối kháng. |
 | Model/provider drift hoặc stochasticity | Khó tái lập và quy nguyên nhân | Pin snapshot/config; repeats theo protocol. |
 | Leakage từ Final/schema/template | Điểm không phản ánh generalization | Group/cluster split, giữ kín khi khả thi, ghi exposure. |

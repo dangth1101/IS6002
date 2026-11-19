@@ -2,14 +2,39 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Any
+import hashlib
 import time
 from openai import OpenAI, APIConnectionError, APITimeoutError, RateLimitError, InternalServerError
 from bird_demo.llm import env
 from bird_demo.runner import run, Rows, SqlError, Timeout
+from bird_demo.benchmark.dashboard import output_contract_for, prompt_for
 
 OFFICIAL_SQL_TIMEOUT_S=30.0
 REPLICATE_IDS=(1,2,3)
 MAX_TRANSIENT_ATTEMPTS=3  # initial attempt plus at most two retries
+
+
+def make_bird_vn_prompt_builder(registry: dict) -> Callable[[dict], str]:
+    """Build the same contract-aware prompt for every Q in a Semantic Group."""
+    groups = {group["group_id"]: group for group in registry["groups"]}
+    glossary = registry.get("semantic_glossary", {})
+
+    def build(question: dict) -> str:
+        group = groups.get(question.get("group_id"))
+        if group is None:
+            raise ValueError(f"Unknown Semantic Group for {question.get('question_id')!r}")
+        if question.get("db_id") != group.get("db_id"):
+            raise ValueError(f"Database mismatch for {question.get('question_id')!r}")
+        contract = output_contract_for(group)
+        return prompt_for(
+            question["question"],
+            question["db_id"],
+            group["card_fields"]["business_rules"],
+            glossary,
+            output_contract=contract,
+        )
+
+    return build
 
 class TransientInfrastructureError(RuntimeError): """Provider/network failure eligible for bounded retry."""
 class PermanentProviderError(RuntimeError): """Bad request/auth/config failure; never retry."""
@@ -28,19 +53,20 @@ class OfficialGate:
 
 def collect_one(question: dict, prompt: str, model_id: str, config: dict, provider: Callable, *, sleep_fn: Callable=time.sleep):
     attempts=[]
+    prompt_sha256=hashlib.sha256(prompt.encode("utf-8")).hexdigest()
     for attempt in range(1,MAX_TRANSIENT_ATTEMPTS+1):
         try:
             text=provider(prompt,model_id,config)
             attempts.append({"attempt":attempt,"status":"RESPONSE_RECEIVED","error":None})
-            return {"question_id":question["question_id"],"status":"RESPONSE_RECEIVED","response":text,"attempts":attempts}
+            return {"question_id":question["question_id"],"status":"RESPONSE_RECEIVED","response":text,"prompt_sha256":prompt_sha256,"attempts":attempts}
         except TransientInfrastructureError as exc:
             attempts.append({"attempt":attempt,"status":"TRANSIENT_INFRA_ERROR","error":str(exc)})
             if attempt==MAX_TRANSIENT_ATTEMPTS:
-                return {"question_id":question["question_id"],"status":"UNKNOWN","response":None,"attempts":attempts}
+                return {"question_id":question["question_id"],"status":"UNKNOWN","response":None,"prompt_sha256":prompt_sha256,"attempts":attempts}
             sleep_fn(min(2 ** (attempt-1),4))
         except Exception as exc:
             attempts.append({"attempt":attempt,"status":"PERMANENT_OR_UNCLASSIFIED_ERROR","error":str(exc)})
-            return {"question_id":question["question_id"],"status":"UNKNOWN","response":None,"attempts":attempts}
+            return {"question_id":question["question_id"],"status":"UNKNOWN","response":None,"prompt_sha256":prompt_sha256,"attempts":attempts}
     raise AssertionError("unreachable")
 
 def openai_official_provider(prompt: str, model_id: str, config: dict) -> str:
@@ -65,11 +91,12 @@ def collect_three_replicates(questions: list[dict], model_id: str, config: dict,
     if not questions:raise ValueError("Official run requires a non-empty frozen question set")
     ids=[q.get("question_id") for q in questions]
     if any(not qid for qid in ids) or len(ids)!=len(set(ids)):raise ValueError("Question IDs must be present and unique")
+    prompts = {question["question_id"]: prompt_builder(question) for question in questions}
     replicates=[]
     for replicate_id in REPLICATE_IDS:
         records=[]
         for question in questions:
-            prompt=prompt_builder(question)
+            prompt=prompts[question["question_id"]]
             result=collect_one(question,prompt,model_id,config,provider)
             records.append({"replicate_id":replicate_id,**result})
         if [r["question_id"] for r in records]!=ids:raise RuntimeError("Incomplete replicate question coverage")

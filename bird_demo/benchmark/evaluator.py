@@ -14,7 +14,16 @@ from bird_demo.runner import Rows, SqlError, Timeout, run
 from bird_demo.llm import Reply
 from bird_demo.prompt import extract_sql
 
-from .metrics import INFRA_FAILURE, SUCCESS, Observation, metric_summary, result_equal
+from .metrics import INFRA_FAILURE, SUCCESS, Observation, metric_summary
+from .field_contracts import (
+    COMPARATOR_VERSION,
+    CONTRACT_VERSION,
+    EVALUATION_PROTOCOL_VERSION,
+    GROUP_COLUMN_ALIASES,
+    bind_output_contract,
+    compare_named_results,
+    make_output_contract,
+)
 from .registry import load_registry, registry_hash, sha256_file
 
 
@@ -24,20 +33,20 @@ def _db_path(root: Path, db_id: str) -> Path:
     return root / "benchmark_data" / "physical" / f"{db_id}.sqlite"
 
 
-def _run(path: Path, sql: str | None, timeout_s: float) -> tuple[str, list[list[Any]] | None, str | None]:
+def _run(path: Path, sql: str | None, timeout_s: float) -> tuple[str, list[list[Any]] | None, list[str] | None, str | None]:
     if sql is None or not sql.strip():
-        return "no_sql", None, "no SQL supplied"
+        return "no_sql", None, None, "no SQL supplied"
     try:
         result = run(path, sql, timeout_s=timeout_s)
     except (OSError, sqlite3.Error) as error:
-        return INFRA_FAILURE, None, str(error)
+        return INFRA_FAILURE, None, None, str(error)
     if isinstance(result, Timeout):
-        return "timeout", None, f"query exceeded {result.timeout_s:g}s"
+        return "timeout", None, None, f"query exceeded {result.timeout_s:g}s"
     if isinstance(result, SqlError):
-        return "sql_error", None, result.message
+        return "sql_error", None, None, result.message
     if isinstance(result, Rows):
-        return SUCCESS, [list(row) for row in result.rows], None
-    return INFRA_FAILURE, None, f"unknown runner result {type(result).__name__}"
+        return SUCCESS, [list(row) for row in result.rows], list(result.columns), None
+    return INFRA_FAILURE, None, None, f"unknown runner result {type(result).__name__}"
 
 
 def evaluate_saved_predictions(
@@ -105,7 +114,7 @@ def evaluate_saved_predictions(
     observations: dict[str, Observation] = {}
     records: list[dict[str, Any]] = []
     database_meta: dict[str, dict[str, str]] = {}
-    gold_cache: dict[str, tuple[str, list[list[Any]] | None, str | None, str | None]] = {}
+    gold_cache: dict[str, tuple[str, list[list[Any]] | None, list[str] | None, str | None, str | None]] = {}
     group_results: dict[str, dict[str, Any]] = {}
     for question in registry["questions"]:
         qid = question["question_id"]
@@ -135,7 +144,7 @@ def evaluate_saved_predictions(
                 }
         if group_id not in gold_cache:
             if not path.is_file():
-                gold_cache[group_id] = (INFRA_FAILURE, None, f"missing database: {path.name}", None)
+                gold_cache[group_id] = (INFRA_FAILURE, None, None, f"missing database: {path.name}", None)
                 group_results[group_id] = {"canonical_sql_sha256": question.get("canonical_sql_sha256"),
                                            "status": INFRA_FAILURE, "canonical_rows": None,
                                            "canonical_rows_sha256": None,
@@ -146,7 +155,7 @@ def evaluate_saved_predictions(
                 recorded_sql_hash = group_map[group_id].get("canonical_sql_sha256")
                 if recorded_sql_hash and recorded_sql_hash != actual_sql_hash:
                     raise ValueError(f"Canonical SQL hash mismatch for {group_id}")
-                gold_status, gold_rows, gold_error = _run(path, sql_text, timeout_s)
+                gold_status, gold_rows, gold_columns, gold_error = _run(path, sql_text, timeout_s)
                 if gold_status not in (SUCCESS, INFRA_FAILURE):
                     raise ValueError(f"Canonical SQL for {group_id} failed ({gold_status}): {gold_error}")
                 # EX is only meaningful when the reviewed canonical query returns
@@ -159,25 +168,41 @@ def evaluate_saved_predictions(
                     rows_hash = hashlib.sha256(json.dumps(gold_rows, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
                 else:
                     rows_hash = None
-                gold_cache[group_id] = (gold_status, gold_rows, gold_error, rows_hash)
+                gold_cache[group_id] = (gold_status, gold_rows, gold_columns, gold_error, rows_hash)
                 group_results[group_id] = {"canonical_sql_sha256": sql_hash, "status": gold_status,
-                                           "canonical_rows": gold_rows, "canonical_rows_sha256": rows_hash,
+                                           "canonical_rows": gold_rows, "canonical_columns": gold_columns,
+                                           "canonical_rows_sha256": rows_hash,
+                                           "output_field_contract": bind_output_contract(
+                                               make_output_contract(
+                                                   group_id, gold_columns or [], group_map[group_id].get("card_fields")
+                                               ),
+                                               group_map[group_id],
+                                           ),
                                            "error": gold_error}
-        gold_status, gold_rows, gold_error, _ = gold_cache[group_id]
+        gold_status, gold_rows, gold_columns, gold_error, _ = gold_cache[group_id]
+        comparison = None
         if gold_status != SUCCESS:
-            outcome, rows, error = INFRA_FAILURE, None, f"canonical SQL failed ({gold_status}): {gold_error}"
+            outcome, rows, columns, error = INFRA_FAILURE, None, None, f"canonical SQL failed ({gold_status}): {gold_error}"
         else:
             supplied = prediction_map[qid]
             if supplied.get("status") == INFRA_FAILURE:
-                outcome, rows, error = INFRA_FAILURE, None, supplied.get("error", "mock infrastructure failure")
+                outcome, rows, columns, error = INFRA_FAILURE, None, None, supplied.get("error", "mock infrastructure failure")
             else:
-                outcome, rows, error = _run(path, supplied.get("sql"), timeout_s)
+                outcome, rows, columns, error = _run(path, supplied.get("sql"), timeout_s)
                 if outcome == SUCCESS:
-                    correct = result_equal(rows or [], gold_rows or [])
+                    comparison = compare_named_results(
+                        rows or [], columns, gold_rows or [], gold_columns or [],
+                        GROUP_COLUMN_ALIASES.get(group_id, {}),
+                    )
+                    correct = comparison["correct"]
                 else:
                     correct = False if outcome != INFRA_FAILURE else None
         if outcome == SUCCESS:
-            observations[qid] = Observation(outcome, rows, correct)
+            observations[qid] = Observation(
+                outcome, rows, correct,
+                comparison_rows=comparison.get("normalized_rows") if comparison else None,
+                projection_valid=comparison.get("projection_valid") if comparison else None,
+            )
         elif outcome == INFRA_FAILURE:
             observations[qid] = Observation(outcome)
         else:
@@ -191,8 +216,17 @@ def evaluate_saved_predictions(
             "status": outcome,
             "correct": observations[qid].is_correct,
             "canonical_status": gold_status,
-            "canonical_rows_sha256": gold_cache[group_id][3],
+            "canonical_rows_sha256": gold_cache[group_id][4],
+            "canonical_columns": gold_columns,
             "predicted_rows": rows,
+            "predicted_columns": columns,
+            "projection_status": comparison.get("projection_status") if comparison else None,
+            "projection_valid": comparison.get("projection_valid") if comparison else None,
+            "projection_missing": comparison.get("projection_missing", []) if comparison else [],
+            "projection_extra": comparison.get("projection_extra", []) if comparison else [],
+            "projection_duplicate_fields": comparison.get("projection_duplicate_fields", []) if comparison else [],
+            "aliases_applied": comparison.get("aliases_applied", []) if comparison else [],
+            "column_order_match": comparison.get("column_order_match") if comparison else None,
             "error": error,
             "prediction_sql": prediction_map[qid].get("sql"),
         })
@@ -211,7 +245,10 @@ def evaluate_saved_predictions(
         splits[split] = metric_summary(group_ids, qids, selected)
 
     artifact = {
-        "artifact_version": 1,
+        "artifact_version": 2,
+        "evaluation_protocol_version": EVALUATION_PROTOCOL_VERSION,
+        "comparator_version": COMPARATOR_VERSION,
+        "field_contract_version": CONTRACT_VERSION,
         "benchmark_version": registry.get("benchmark_version"),
         "registry_sha256": source_registry_sha256,
         "evaluation_split": evaluation_split or "all",

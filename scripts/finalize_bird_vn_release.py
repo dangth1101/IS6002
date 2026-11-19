@@ -11,7 +11,6 @@ import hashlib
 import json
 import os
 import tempfile
-import inspect
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -20,7 +19,8 @@ from bird_demo.benchmark.official import OfficialGate, collect_three_replicates
 from bird_demo.benchmark.registry import load_registry, registry_hash, sha256_file
 from bird_demo.benchmark.evaluator import evaluate_saved_predictions
 from bird_demo.data import ROOT
-from bird_demo.benchmark.dashboard import schema_text, prompt_for
+from bird_demo.benchmark.dashboard import prompt_contract_sha256, output_contract_for
+from bird_demo.benchmark.field_contracts import COMPARATOR_VERSION, CONTRACT_VERSION, EVALUATION_PROTOCOL_VERSION
 
 
 DATE = "2026-11-17"
@@ -229,8 +229,30 @@ def freeze_config(registry: dict) -> dict:
     endpoint_fingerprint = digest_bytes(base_url.encode("utf-8"))
     physical_root = ROOT / "benchmark_data/physical"
     schema_hashes = {name: sha256_file(physical_root / f"schema_{name}.sql") for name in ("erp_sales", "wms_inventory")}
+    output_contracts = {group["group_id"]: output_contract_for(group) for group in registry["groups"]}
+    output_contracts_sha256 = digest_bytes(json.dumps(
+        {group_id: contract["contract_sha256"] for group_id, contract in sorted(output_contracts.items())},
+        sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8"))
+    output_contracts_owner_reviewed = (
+        len(registry.get("groups", [])) == 50
+        and all(
+            (review := group.get("output_contract_review", {})).get("status") == "APPROVED"
+            and bool(review.get("reviewer"))
+            and bool(review.get("approved_on"))
+            and bool(review.get("rationale"))
+            and review.get("contract_sha256") == output_contracts[group["group_id"]]["contract_sha256"]
+            and not output_contracts[group["group_id"]]["unresolved_fields"]
+            for group in registry.get("groups", [])
+        )
+    )
     config = {
-        "config_version": 1,
+        "config_version": 2,
+        "evaluation_protocol_version": EVALUATION_PROTOCOL_VERSION,
+        "comparator_version": COMPARATOR_VERSION,
+        "field_contract_version": CONTRACT_VERSION,
+        "output_contracts_owner_reviewed": output_contracts_owner_reviewed,
+        "output_contracts_sha256": output_contracts_sha256,
         "frozen_on": DATE,
         "model_id": model_id,
         "provider": "OpenAI-compatible API",
@@ -247,12 +269,13 @@ def freeze_config(registry: dict) -> dict:
         "maximum_infrastructure_retries": 2,
         "retry_only_transient_infrastructure_errors": True,
         "sdk_retries": 0,
-        "prompt_builder_sha256": digest_bytes((inspect.getsource(schema_text) + inspect.getsource(prompt_for)).encode("utf-8")),
+        "prompt_builder_sha256": prompt_contract_sha256(),
         "evaluation_code_sha256": {
             "collector": sha256_file(ROOT / "bird_demo/benchmark/official.py"),
             "offline_evaluator": sha256_file(ROOT / "bird_demo/benchmark/evaluator.py"),
             "metrics": sha256_file(ROOT / "bird_demo/benchmark/metrics.py"),
             "sql_runner": sha256_file(ROOT / "bird_demo/runner.py"),
+            "field_contracts": sha256_file(ROOT / "bird_demo/benchmark/field_contracts.py"),
         },
         "schema_sha256": schema_hashes,
         "registry_canonical_sha256": registry_hash(registry),

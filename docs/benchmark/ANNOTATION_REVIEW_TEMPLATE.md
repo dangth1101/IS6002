@@ -1,6 +1,6 @@
 # BIRD-VN-Robust-50 — Group Validation Record
 
-**Mẫu v0.3.0 Draft.** Tạo đúng một Validation Record cho mỗi Semantic Group/ground-truth (50 records). Một group có Q0 + Q1–Q10; tất cả dùng chung một canonical SQL. Đây là single-human validation; AI/oracle không phải annotator độc lập.
+**Mẫu v0.4.0 Draft.** Tạo đúng một Validation Record cho mỗi Semantic Group/ground-truth (50 records). Một group có Q0 + Q1–Q10; tất cả dùng chung một canonical SQL. Đây là single-human validation; AI/oracle không phải annotator độc lập.
 
 ## 1. Định danh và Intent Card
 
@@ -23,7 +23,22 @@
 
 Domain Owner confirmation (nếu có); nếu không có, ghi self-validation và nguồn business rules:
 
-## 2. Ground-truth SQL validation
+## 2. Kiểm duyệt hợp đồng trường đầu ra
+
+Hợp đồng đầu ra được suy ra từ projection của SQL chuẩn và từ điển mô tả trường. Đây là artifact riêng với việc duyệt SQL. Không đánh dấu duyệt chỉ vì SQL chạy được.
+
+| Trường | Giá trị |
+|---|---|
+| Phiên bản hợp đồng / SHA-256 | |
+| Tập tên cột chuẩn và ý nghĩa đã đối chiếu với Intent | |
+| Alias được cho phép riêng (nếu có) | |
+| Thiếu/thừa/trùng cột, khác tên hoặc thiếu mô tả | |
+| Người rà soát / ngày / rationale | |
+| Quyết định | PENDING / APPROVED / REVISE |
+
+Để APPROVED, ghi `output_contract_review` trong group registry gồm `status`, `reviewer`, `approved_on`, `rationale`, `contract_sha256`. Hash phải khớp hợp đồng hiện hành. Sửa Intent, SQL projection, mô tả trường, alias hoặc code sinh hợp đồng làm hash đổi và cần review lại.
+
+## 3. Ground-truth SQL validation
 
 Canonical SQL source: HUMAN / CODEX-ASSISTED / OTHER  
 SQL artifact/hash/date:  
@@ -54,7 +69,7 @@ Artifact/hash, nguồn và cách độc lập triển khai; nếu NONE, ghi lý 
 SQLite/Python/runner version, timeout/resources, DB hash, execution date:  
 Execution artifact paths/hashes và open defect:
 
-## 3. Semantic review của 10 variants
+## 4. Semantic review của 10 variants
 
 Q0 ID/text:  
 Mỗi Q1–Q10 cần được kiểm tra rõ các slots: entity, output grain, projection, filters, grouping, aggregation, time boundaries, units, NULL/absence và business assumptions. Ghi PASS/FAIL và ACCEPT/REVISE/REJECT riêng; chỉ ACCEPT variants sau review mới được tính vào release.
@@ -74,7 +89,7 @@ Mỗi Q1–Q10 cần được kiểm tra rõ các slots: entity, output grain, p
 
 Status: **ACCEPT / REVISE / REJECT**. Mọi REVISE phải có revised text/version và được review lại. Không phát hành nếu còn trạng thái ngoài ACCEPT.
 
-## 4. AI-assisted challenge log
+## 5. AI-assisted challenge log
 
 Tool/model/version/date và prompt/log reference:  
 
@@ -84,7 +99,7 @@ Tool/model/version/date và prompt/log reference:
 
 AI output, multiple calls và alternative oracle không tạo independent human annotation, reviewer consensus hoặc inter-annotator agreement.
 
-## 5. Kết luận, provenance và release gate
+## 6. Kết luận, provenance và release gate
 
 Ground-truth status: **VALIDATED / BLOCKED**  
 Q0–Q10 semantic review: **10/10 ACCEPT? YES / NO**  

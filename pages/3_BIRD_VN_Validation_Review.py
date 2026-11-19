@@ -107,5 +107,11 @@ with t3:
     d9_ready=verified["d9_ready"]
     d13_ready=verified["d13_ready"]
     gates=[("Dataset & SQL approved / registry frozen",registry_ready,"Release registry validation passed" if registry_ready else "Registry approval, integrity or expected-output gate failed"),("Frozen prompt/model/config",config_ready and config_hash_matches,"Frozen configuration hash is bound to the implementation check" if config_ready and config_hash_matches else "Missing frozen configuration or its hash does not match the recorded check"),("D8 fixed 30-second SQL timeout",d8_ready,"Mock Final pipeline verified; SQL execution timeout is 30 seconds and timeout is not retried" if d8_ready else "D8 integration evidence missing, stale or inconsistent"),("D9 exactly three complete replicates",d9_ready,"Offline mock completed 3 replicates × 440 Final questions; not an empirical result" if d9_ready else "Three-replicate integration evidence missing, stale or inconsistent"),("D13 transient-only retry cap and attempt audit",d13_ready,"Retry policy is capped at two transient infrastructure retries; verified by protocol tests" if d13_ready else "D13 implementation evidence missing or inconsistent"),("Owner run confirmation / API authorization",False,"Configuration freeze and mock validation do not authorize paid provider calls")]
+    gates.extend([
+        ("Prompt/evaluator/comparator khớp bản đóng băng", verified["implementation_current"],
+         "Mã hiện tại khớp hash đã đóng băng" if verified["implementation_current"] else "Comparator hoặc prompt đã đổi; cần đóng băng cấu hình mới và kiểm tra tích hợp ngoại tuyến lại"),
+        ("Đủ 50 hợp đồng trường đã được duyệt", verified["output_contracts_reviewed"],
+         "Hash và provenance của 50 hợp đồng đều khớp" if verified["output_contracts_reviewed"] else "Còn hợp đồng trường chưa có bản duyệt khớp hash"),
+    ])
     for label,ready,reason in gates: (st.success if ready else st.warning)(f"{'READY' if ready else 'BLOCKED'} · {label} — {reason}")
     st.caption("Offline mock evidence verifies implementation wiring only. Official Evaluation remains locked until the Benchmark Owner separately authorizes the real model run and associated cost.")
